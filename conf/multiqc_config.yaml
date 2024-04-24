@@ -1,0 +1,26 @@
+title: "Pipeline report"
+subtitle: "Best-practice workflow for EDIT_IN_conf_multiqc_config.yaml"
+custom_logo: "pipelinelogo.png"
+custom_logo_title: "Pipeline title here"
+custom_logo_url: "http://www.github.com/marchoeppner"
+skip_versions_section: true
+
+extra_fn_clean_exts:
+    - _R1
+    - _R2
+    - _duplicate_metrics.txt
+    - .pass
+
+report_comment: >
+    This report has been generated automatically by EDIT_IN_conf_multiqc_config.yaml.
+    For help interpreting the outputs, please see: https://github.com/marchoeppner/update_url
+report_header_info:
+    - Contact E-mail: "you@gmail.com"
+    - Application Type: "EDIT_IN_conf_multiqc_config.yaml"
+
+top_modules:
+    - 'general_stats'
+
+report_section_order:
+    software_versions:
+        order: -1001

@@ -1,0 +1,15 @@
+{
+    "cSpell.words": [
+        "cpus",
+        "Javadoc",
+        "marchoeppner",
+        "multiqc",
+        "nextflow",
+        "outdir",
+        "pipefail",
+        "pipelinelogo",
+        "println",
+        "slurm",
+        "subworkflow"
+    ]
+}
