@@ -9,7 +9,7 @@ process VSEARCH_USEARCH_GLOBAL {
         'quay.io/biocontainers/vsearch:2.27.0--h6a68c12_0' }"
 
     input:
-    tuple val(meta),path(db),path(fastq)
+    tuple val(meta), path(db), path(fastq)
 
     output:
     tuple val(meta), path('*.tsv'), emit: tab

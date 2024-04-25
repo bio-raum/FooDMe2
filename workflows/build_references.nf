@@ -22,11 +22,10 @@ workflow BUILD_REFERENCES {
         uncompressed: !ir.toString().contains('.zip') && !r.toString().contains('.gz')
     }.set { ch_branched_files }
 
-    /* 
+    /*
     MIDORI Blast databases are zipped, so we unzip them
     */
     UNZIP(
         ch_branched_files.zipped
     )
-
-}
+    }

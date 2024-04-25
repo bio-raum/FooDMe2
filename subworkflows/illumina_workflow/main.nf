@@ -78,4 +78,4 @@ workflow ILLUMINA_WORKFLOW {
     otus        = VSEARCH_WORKFLOW.out.otus
     versions    = ch_versions
     qc          = multiqc_files
-}
+    }

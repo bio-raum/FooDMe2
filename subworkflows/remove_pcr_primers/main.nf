@@ -15,7 +15,6 @@ workflow REMOVE_PCR_PRIMERS {
     main:
     // Allow use of cutadapt if need be
     if (params.cutadapt) {
-
         // Disambiguate degenerate primer sequences
         PRIMER_DISAMBIGUATE(
             ch_primers

@@ -20,7 +20,7 @@ workflow INPUT_CHECK {
 def fastq_channel(LinkedHashMap row) {
     meta = [:]
     meta.sample_id    = row.sample
-    meta.platform     = row.platform ? row.platform : "ILLUMINA"
+    meta.platform     = row.platform ? row.platform : 'ILLUMINA'
     meta.single_end   = true
 
     valid_platforms = [ 'ILLUMINA', 'NANOPORE', 'PACBIO']

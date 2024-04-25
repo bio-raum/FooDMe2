@@ -9,7 +9,7 @@ include { VSEARCH_CLUSTER_SIZE  }       from './../../modules/vsearch/cluster_si
 include { VSEARCH_CLUSTER_UNOISE }      from './../../modules/vsearch/unoise'
 include { VSEARCH_UCHIME_DENOVO }       from './../../modules/vsearch/uchime/denovo'
 
-/* 
+/*
 Set default channels
 */
 ch_versions = Channel.from([])
@@ -82,5 +82,4 @@ workflow VSEARCH_WORKFLOW {
     versions = ch_versions
     otus = VSEARCH_CLUSTER_SIZE.out.fasta
     qc = ch_qc_files
-
-}
+    }

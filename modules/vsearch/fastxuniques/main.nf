@@ -3,7 +3,7 @@ process VSEARCH_FASTXUNIQUES {
 
     label 'short_serial'
 
-    conda '${moduleDir}/environment.yml'
+    conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/vsearch:2.27.0--h6a68c12_0' :
         'quay.io/biocontainers/vsearch:2.27.0--h6a68c12_0' }"

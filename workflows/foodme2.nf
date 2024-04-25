@@ -18,7 +18,7 @@ Set default channels and values
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
 gene        = null
 
-/* 
+/*
 Primer sets are either pre-configured or can be supplied by user,
 preferably as Ptrimmer config, or as fasta for cutadapt.
 */
@@ -46,11 +46,11 @@ The taxonomy database for this gene
 if (params.reference_base && gene) {
     // We retrieve the database folder and attach a rudimentary meta hash
     Channel.fromPath(params.references.genes[gene].blast_db, checkIfExists: true).map { db ->
-        [[id: gene],db]
+        [[id: gene], db]
     }.set { ch_blast_db }
 } else if (gene) {
     ch_blast_db_zip         = Channel.fromPath(file(params.references.genes[gene].blast_url)).collect()
-}
+    }
 
 /*
 Setting default channels
@@ -108,4 +108,4 @@ workflow FOODME2 {
 
     emit:
     qc = MULTIQC.out.html
-}
+    }

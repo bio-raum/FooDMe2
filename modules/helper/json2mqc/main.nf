@@ -17,7 +17,7 @@ process JSON2MQC {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: params.run_name
-    
+
     result = prefix + '.taxonomy_by_sample_mqc.json'
 
     """

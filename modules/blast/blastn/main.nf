@@ -4,7 +4,7 @@ process BLAST_BLASTN {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/blast:2.14.1--pl5321h6f7f691_0':
+        'https://depot.galaxyproject.org/singularity/blast:2.14.1--pl5321h6f7f691_0' :
         'quay.io/biocontainers/blast:2.14.1--pl5321h6f7f691_0' }"
 
     input:
@@ -13,7 +13,7 @@ process BLAST_BLASTN {
 
     output:
     tuple val(meta), path('*.txt'), emit: txt
-    path "versions.yml"           , emit: versions
+    path 'versions.yml'           , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -41,5 +41,4 @@ process BLAST_BLASTN {
         blast: \$(blastn -version 2>&1 | sed 's/^.*blastn: //; s/ .*\$//')
     END_VERSIONS
     """
-
 }

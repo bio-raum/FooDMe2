@@ -4,7 +4,7 @@ process BLAST_MAKEBLASTDB {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/blast:2.15.0--pl5321h6f7f691_1':
+        'https://depot.galaxyproject.org/singularity/blast:2.15.0--pl5321h6f7f691_1' :
         'quay.io/biocontainers/blast:2.15.0--pl5321h6f7f691_1' }"
 
     input:
@@ -12,7 +12,7 @@ process BLAST_MAKEBLASTDB {
 
     output:
     tuple val(meta), path("${meta.id}"), emit: db
-    path "versions.yml"                , emit: versions
+    path 'versions.yml'                , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -20,7 +20,7 @@ process BLAST_MAKEBLASTDB {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def is_compressed = fasta.getExtension() == "gz" ? true : false
+    def is_compressed = fasta.getExtension() == 'gz' ? true : false
     def fasta_name = is_compressed ? fasta.getBaseName() : fasta
     """
     if [ "${is_compressed}" == "true" ]; then
@@ -38,5 +38,4 @@ process BLAST_MAKEBLASTDB {
         blast: \$(blastn -version 2>&1 | sed 's/^.*blastn: //; s/ .*\$//')
     END_VERSIONS
     """
-
 }

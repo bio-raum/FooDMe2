@@ -19,7 +19,12 @@ class WorkflowPipeline {
             log.info 'No local taxonomy reference specified - downloading on-the-fly instead...'
             log.info 'Consider installing the reference(s) as specified in our documentation!'
         }
-        if (!params.build_references) {
+        if (params.build_references) {
+            if (params.build_references && !params.reference_base) {
+                log.info 'Requested to build references without specifying the --reference_base'
+                System.exit(1)
+            }
+        } else {
             if (params.primer_set && !params.primers.keySet().contains(params.primer_set)) {
                 log.info "The primer set ${params.primer_set} is not currently configured."
                 System.exit(1)
@@ -37,12 +42,7 @@ class WorkflowPipeline {
                 System.exit(1)
             }
             if (params.primers_fa && !params.cutadapt) {
-                log.info "Provided primer information as Fasta file - this requires the option --cutadapt as well"
-                System.exit(1)
-            }
-        } else {
-            if (params.build_references && !params.reference_base) {
-                log.info "Requested to build references without specifying the --reference_base"
+                log.info 'Provided primer information as Fasta file - this requires the option --cutadapt as well'
                 System.exit(1)
             }
         }

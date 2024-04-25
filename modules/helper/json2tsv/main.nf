@@ -17,7 +17,7 @@ process JSON2TSV {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
-    
+
     result = prefix + '.taxonomy_by_sample.tsv'
 
     """

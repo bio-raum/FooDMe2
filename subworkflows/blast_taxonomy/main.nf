@@ -2,7 +2,6 @@ include { BLAST_BLASTN }    from './../../modules/blast/blastn'
 
 ch_versions = Channel.from([])
 workflow BLAST_TAXONOMY {
-
     take:
     otus
     blast_db
@@ -18,5 +17,4 @@ workflow BLAST_TAXONOMY {
     emit:
     results = BLAST_BLASTN.out.txt
     versions = ch_versions
-    
 }

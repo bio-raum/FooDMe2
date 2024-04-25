@@ -8,7 +8,7 @@ process BLAST_FILTER_BITSCORE {
         'quay.io/biocontainers/bioinfokit:2.1.3--pyh7cba7a3_0' }"
 
     input:
-    tuple val(meta),path(report),val(bit_diff)
+    tuple val(meta), path(report), val(bit_diff)
 
     output:
     path(report_filtered)   , emit: tsv
@@ -16,10 +16,10 @@ process BLAST_FILTER_BITSCORE {
 
     script:
     def args = task.ext.args ?: ''
-    report_filtered = meta.sample_id + ".blast.filtered.tsv"
-    
+    report_filtered = meta.sample_id + '.blast.filtered.tsv'
+
     """
-    filter_blast.py
+    filter_blast.py $args
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         perl: \$(perl --version  | head -n2 | tail -n1 | sed -e "s/.*(//" -e "s/).*//")
