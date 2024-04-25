@@ -3,8 +3,6 @@ process GUNZIP {
 
     label 'medium_serial'
 
-    publishDir "${params.outdir}/${meta.target}/${meta.tool}", mode: 'copy'
-
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/ubuntu:20.04' :

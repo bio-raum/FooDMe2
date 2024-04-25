@@ -1,8 +1,8 @@
-title: "Pipeline report"
-subtitle: "Best-practice workflow for EDIT_IN_conf_multiqc_config.yaml"
+title: "FooDMe2 pipeline report"
+subtitle: "Taxonomic profiling of eukaryote species from food and seed materials."
 custom_logo: "pipelinelogo.png"
-custom_logo_title: "Pipeline title here"
-custom_logo_url: "http://www.github.com/marchoeppner"
+custom_logo_title: "bio-raum/FooDMe2"
+custom_logo_url: "http://www.github.com/bio-raum/FooDMe2"
 skip_versions_section: true
 
 extra_fn_clean_exts:
@@ -12,11 +12,11 @@ extra_fn_clean_exts:
     - .pass
 
 report_comment: >
-    This report has been generated automatically by EDIT_IN_conf_multiqc_config.yaml.
-    For help interpreting the outputs, please see: https://github.com/marchoeppner/update_url
+    This report has been generated automatically by bio-raum/FooDMe2.
+    For help interpreting the outputs, please see: https://github.com/bio-raum/FooDMe2
 report_header_info:
-    - Contact E-mail: "you@gmail.com"
-    - Application Type: "EDIT_IN_conf_multiqc_config.yaml"
+    - Contact E-mail: "mphoeppner@gmail.com"
+    - Application Type: "Taxonomic profiling from amplicons"
 
 top_modules:
     - 'general_stats'

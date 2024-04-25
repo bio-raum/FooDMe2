@@ -2,16 +2,16 @@
 
 nextflow.enable.dsl = 2
 
-// TODO: Update this block with a description and the name of the pipeline
+//
 /**
 ===============================
-Pipeline
+FooDMe2 Pipeline
 ===============================
 
-This Pipeline performs ....
+This Pipeline performs taxonomic profiling of eukaryotes from mitochondrial amplicon data - for example in food safety analysis.
 
 ### Homepage / git
-git@github.com:marchoeppner/pipeline.git
+git@github.com:bio-raum/foodme2.git
 
 **/
 
@@ -24,22 +24,39 @@ run_name = (params.run_name == false) ? "${workflow.sessionId}" : "${params.run_
 
 WorkflowMain.initialise(workflow, params, log)
 
-// TODO: Rename this and the file under lib/ to something matching this pipeline (e.g. WorkflowAmplicons)
 WorkflowPipeline.initialise(params, log)
 
-// TODO: Rename this to something matching this pipeline, e.g. "AMPLICONS"
-include { MAIN } from './workflows/main'
+include { FOODME2 }            from './workflows/foodme2'
+include { BUILD_REFERENCES }    from './workflows/build_references'
 
 multiqc_report = Channel.from([])
 
 workflow {
-    // TODO: Rename to something matching this pipeline (see above)
-    MAIN()
-
-    multiqc_report = multiqc_report.mix(MAIN.out.qc).toList()
+    if (params.build_references) {
+        BUILD_REFERENCES()
+    } else {
+        FOODME2()
+        multiqc_report = multiqc_report.mix(FOODME2.out.qc).toList()
+    }
 }
 
 workflow.onComplete {
+    if (params.primer_set) {
+        summary['PrimerSet'] = params.primer_set
+    }
+    if (params.primers_txt) {
+        summary['CustomPrimerSet'] = params.primers_txt
+    }
+    if (params.primers_fa) {
+        summary['PrimerFasta'] = params.primers_fa
+    }
+    if (params.cutadapt) {
+        summary['PrimerTrimmer'] = 'Cutadapt'
+    } else {
+        summary['PrimerTrimmer'] = 'Ptrimmer'
+    }
+    summary['Input'] = params.input
+
     hline = '========================================='
     log.info hline
     log.info "Duration: $workflow.duration"
@@ -98,14 +115,12 @@ workflow.onComplete {
             if (workflow.success && !params.skip_multiqc) {
                 mqcReport = multiqc_report.getVal()
                 if (mqcReport.getClass() == ArrayList) {
-                    // TODO: Update name of pipeline
-                    log.warn "[Pipeline] Found multiple reports from process 'multiqc', will use only one"
+                    log.warn "[FooDMe2] Found multiple reports from process 'multiqc', will use only one"
                     mqcReport = mqcReport[0]
                 }
             }
         } catch (all) {
-            // TODO: Update name of pipeline
-            log.warn '[PipelineName] Could not attach MultiQC report to summary email'
+            log.warn '[FooDMe2] Could not attach MultiQC report to summary email'
         }
 
         smailFields = [ email: params.email, subject: subject, emailText: emailText,

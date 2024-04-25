@@ -1,4 +1,8 @@
-# Pipeline
+# Eutaxpro Pipeline
+
+This pipeline performs processing of mitochondrial amplicon data to profile the composition of eukaryotic taxa. 
+
+Typical applications are in the analysis of food products, animal feed or seed materials. 
 
 ## Documentation 
 

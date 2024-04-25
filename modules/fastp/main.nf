@@ -1,4 +1,6 @@
 process FASTP {
+    tag "${meta.sample_id}"
+
     label 'short_parallel'
 
     conda "${moduleDir}/environment.yml"
@@ -17,14 +19,14 @@ process FASTP {
     script:
 
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: r1.getBaseName()
+    def prefix = task.ext.prefix ?: reads[0].getBaseName()
+
+    r1 = reads[0]
 
     suffix = '_trimmed.fastq.gz'
 
     json = prefix + '.fastp.json'
     html = prefix + '.fastp.html'
-
-    r1 = reads[0]
 
     if (meta.single_end) {
         r1_trim = r1.getBaseName() + suffix
@@ -45,7 +47,7 @@ process FASTP {
         r1_trim = r1.getBaseName() + suffix
         r2_trim = r2.getBaseName() + suffix
         """
-        fastp -c --in1 ${r1} --in2 ${r2} \
+        fastp --in1 ${r1} --in2 ${r2} \
         --out1 $r1_trim \
         --out2 $r2_trim \
         --detect_adapter_for_pe \

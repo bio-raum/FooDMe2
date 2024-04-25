@@ -1,0 +1,7 @@
+name: vsearch_fastxuniques
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::vsearch=2.27.0
