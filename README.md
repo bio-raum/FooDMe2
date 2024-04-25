@@ -1,4 +1,4 @@
-# Eutaxpro Pipeline
+# FooDMe 2
 
 This pipeline performs processing of mitochondrial amplicon data to profile the composition of eukaryotic taxa. 
 

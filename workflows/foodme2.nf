@@ -44,6 +44,7 @@ ch_blast_db = Channel.from([])
 The taxonomy database for this gene
 */
 if (params.reference_base && gene) {
+    // We retrieve the database folder and attach a rudimentary meta hash
     Channel.fromPath(params.references.genes[gene].blast_db, checkIfExists: true).map { db ->
         [[id: gene],db]
     }.set { ch_blast_db }
