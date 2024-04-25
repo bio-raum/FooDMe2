@@ -5,6 +5,7 @@ Import modules
 include { INPUT_CHECK }                 from './../modules/input_check'
 include { MULTIQC }                     from './../modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
+include { UNZIP }                       from './../modules/unzip'
 
 /*
 Import sub workflows
@@ -40,6 +41,8 @@ if (params.primer_set) {
 }
 
 ch_blast_db = Channel.from([])
+ch_blast_db_zip = Channel.from([])
+
 /*
 The taxonomy database for this gene
 */
@@ -49,8 +52,10 @@ if (params.reference_base && gene) {
         [[id: gene], db]
     }.set { ch_blast_db }
 } else if (gene) {
-    ch_blast_db_zip         = Channel.fromPath(file(params.references.genes[gene].blast_url)).collect()
-    }
+    Channel.fromPath(file(params.references.genes[gene].blast_url)).map { f ->
+        [ [id: gene], f]
+    }.set { ch_blast_db_zip }
+}
 
 /*
 Setting default channels
@@ -61,6 +66,14 @@ ch_otus                 = Channel.from([])
 
 workflow FOODME2 {
     main:
+
+    /*
+    If no reference is given, download on the fly and unpack
+    */
+    UNZIP(
+        ch_blast_db_zip
+    )
+    ch_blast_db = ch_blast_db.mix(UNZIP.out.unzip)
 
     INPUT_CHECK(samplesheet)
 

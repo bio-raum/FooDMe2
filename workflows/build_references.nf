@@ -1,4 +1,4 @@
-include { UNZIP }                   from './../modules/unzip'
+include { UNZIP as UNZIP_REFERENCES } from './../modules/unzip'
 
 genes = params.references.genes.keySet()
 
@@ -25,7 +25,7 @@ workflow BUILD_REFERENCES {
     /*
     MIDORI Blast databases are zipped, so we unzip them
     */
-    UNZIP(
+    UNZIP_REFERENCES(
         ch_branched_files.zipped
     )
     }

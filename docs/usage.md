@@ -60,13 +60,13 @@ The `-r` option specifies a github [release tag](https://github.com/bio-raum/Foo
 
 ## Options
 
-### `--input samples.csv` [default = null]
+### `--input samples.tsv` [default = null]
 
-This pipeline expects a CSV-formatted sample sheet to properly pull various meta data through the processes. The required format looks as follows:
+This pipeline expects a TSV-formatted sample sheet to properly pull various meta data through the processes. The required format looks as follows:
 
-```CSV
-sample_id,platform,R1,R2
-S100,ILLUMINA,/home/marc/projects/gaba/data/S100_R1.fastq.gz,/home/marc/projects/gaba/data/S100_R2.fastq.gz
+```TSV
+sample  platform    fq1 fq2
+S100    ILLUMINA    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
 ```
 
 If the pipeline sees more than one set of reads for a given sample ID, it will concatenate them automatically at the appropriate time. 
@@ -78,7 +78,7 @@ Allowed platforms are:
 * PACBIO (expecting Pacbio CCS reads in fastq format)
 * TORRENT (expecting single-end IonTorrent reads in fastq format)
 
-Note that only Illumina processing is currently enabled - the rest is "coming eventually". 
+Note that only Illumina processing is currently enabled - the rest is "coming eventually". The column "platform" is thus optional - if it is not given, "ILLUMINA" is assumed as the default.
 
 ### `--primer_set ` [default = null]
 

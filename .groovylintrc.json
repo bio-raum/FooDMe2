@@ -17,6 +17,7 @@
         "convention.NoDef": "off",
         "design.ImplementationAsType": "off",
         "unnecessary.UnnecessaryPublicModifier": "off",
-        "unnecessary.DuplicateStringLiteral": "off"
+        "unnecessary.DuplicateStringLiteral": "off",
+        "basic.DeadCode": "off"
     }
 }
