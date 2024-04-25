@@ -40,7 +40,7 @@ if (params.primer_set) {
     gene                    = params.gene.toLowerCase()
 }
 
-ch_blast_db = Channel.from([])
+ch_blast_db     = Channel.from([])
 ch_blast_db_zip = Channel.from([])
 
 /*
@@ -51,6 +51,7 @@ if (params.reference_base && gene) {
     Channel.fromPath(params.references.genes[gene].blast_db, checkIfExists: true).map { db ->
         [[id: gene], db]
     }.set { ch_blast_db }
+    // else we download the matching version and unpack it on the flye
 } else if (gene) {
     Channel.fromPath(file(params.references.genes[gene].blast_url)).map { f ->
         [ [id: gene], f]
@@ -60,9 +61,9 @@ if (params.reference_base && gene) {
 /*
 Setting default channels
 */
-ch_versions             = Channel.from([])
-multiqc_files           = Channel.from([])
-ch_otus                 = Channel.from([])
+ch_versions     = Channel.from([])
+multiqc_files   = Channel.from([])
+ch_otus         = Channel.from([])
 
 workflow FOODME2 {
     main:
@@ -77,7 +78,10 @@ workflow FOODME2 {
 
     INPUT_CHECK(samplesheet)
 
-    // Branch input reads by sequencing technology
+    /*
+    Branch input reads by sequencing technology so we can decide which data
+    to process witch which workflow
+    */
     INPUT_CHECK.out.reads.branch { m, r ->
         illumina: m.platform == 'ILLUMINA'
         torrent: m.platform = 'TORRENT'
@@ -121,4 +125,4 @@ workflow FOODME2 {
 
     emit:
     qc = MULTIQC.out.html
-    }
+}

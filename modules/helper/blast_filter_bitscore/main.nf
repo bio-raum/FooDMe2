@@ -8,21 +8,22 @@ process BLAST_FILTER_BITSCORE {
         'quay.io/biocontainers/bioinfokit:2.1.3--pyh7cba7a3_0' }"
 
     input:
-    tuple val(meta), path(report), val(bit_diff)
+    tuple val(meta), path(report)
 
     output:
-    path(report_filtered)   , emit: tsv
+    path('*.filtered.tsv')   , emit: tsv
     path 'versions.yml'     , emit: versions
 
     script:
     def args = task.ext.args ?: ''
-    report_filtered = meta.sample_id + '.blast.filtered.tsv'
+    def prefix = task.ext.prefix ?: report.getSimpleName()
 
     """
-    filter_blast.py $args
+    filter_blast.py --report $report --output ${prefix}.filtered.tsv $args
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        perl: \$(perl --version  | head -n2 | tail -n1 | sed -e "s/.*(//" -e "s/).*//")
+        python: \$(python --version  | sed -e "s/Python //")
     END_VERSIONS
     """
 }

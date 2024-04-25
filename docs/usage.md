@@ -8,7 +8,7 @@ This is not a full release. Please note that some things may not work as intende
 
 [Options](#options)
 
-[Specialist options](#specialist-options)
+[Expert options](#expert-options)
 
 [Using Cutadapt](#using-cutadapt-instead-of-ptrimmer)
 
@@ -144,9 +144,18 @@ This option can be ommitted to trigger an on-the-fly temporary installation in t
 
 The location where the results are stored. Usually this will be `results`in the location from where you run the nextflow process. However, this option also accepts any other path in your file system(s). 
 
-## Specialist options
+## Expert options
 
 Only change these if you have a good reason to do so. 
+
+### `--disable_low_complexity [default = false]`
+By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs. 
+
+```bash
+nextflow run bio-ram/FooDMe2 -profile singularity \\
+--input samples.tsv \\
+--disable_low_complexity ...
+```
 
 ### `--vsearch_min_cov` [ default = 5 ]
 The minimum amount of coverage required for an OTU to be created from the read data. 

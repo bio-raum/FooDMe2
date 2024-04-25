@@ -61,3 +61,5 @@ while (my $seq = $seqin->next_seq) {
         $seqout->write_seq($uniqueseq);
     }
 }
+
+exit 0;

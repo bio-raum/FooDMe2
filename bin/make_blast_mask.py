@@ -32,6 +32,6 @@ def main(taxid_file, parent, output, taxonomy):
 
 if __name__ == '__main__':
     main(snakemake.input['taxlist'],
-         snakemake.params["taxid"],
-         snakemake.output['mask'],
-         snakemake.input['tax'])
+        snakemake.params["taxid"],
+        snakemake.output['mask'],
+        snakemake.input['tax'])

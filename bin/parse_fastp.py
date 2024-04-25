@@ -40,5 +40,5 @@ def main(injson, inhtml, outtsv):
 
 if __name__ == '__main__':
     main(snakemake.input['json'],
-         snakemake.input['html'],
-         snakemake.output['tsv'])
+        snakemake.input['html'],
+        snakemake.output['tsv'])
