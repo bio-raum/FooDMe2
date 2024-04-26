@@ -1,15 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# Script to prune taxonomic assignments
 
-
+import argparse
 import sys
-
-
-sys.stderr = open(snakemake.log[0], "w")
-
-
 import taxidTools as txd
-
 
 def main(nodes, lineage, taxid, out):
     tax = txd.Taxonomy.from_taxdump(nodes, lineage)
@@ -19,6 +14,6 @@ def main(nodes, lineage, taxid, out):
 
 if __name__ == '__main__':
     main(snakemake.params['nodes'],
-         snakemake.params['rankedlineage'],
-         snakemake.params['taxid'],
-         snakemake.output['tax'])
+        snakemake.params['rankedlineage'],
+        snakemake.params['taxid'],
+        snakemake.output['tax'])
