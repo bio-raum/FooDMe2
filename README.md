@@ -1,10 +1,10 @@
 # FooDMe 2
 
-This pipeline performs processing of mitochondrial amplicon data to profile the composition of eukaryotic taxa. 
+This pipeline performs processing of mitochondrial amplicon data to profile the composition of eukaryotic taxa.
 
-Typical applications are in the analysis of food products, animal feed or seed materials. 
+Typical applications are in the analysis of food products, animal feed or seed materials.
 
-## Documentation 
+## Documentation
 
 1. [What happens in this pipeline?](docs/pipeline.md)
 2. [Installation and configuration](docs/installation.md)

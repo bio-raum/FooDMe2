@@ -80,7 +80,7 @@ Allowed platforms are:
 
 Note that only Illumina processing is currently enabled - the rest is "coming eventually". The column "platform" is thus optional - if it is not given, "ILLUMINA" is assumed as the default.
 
-### `--primer_set ` [default = null]
+### `--primer_set` [default = null]
 
 The name of the pre-configured primer set to use for read clipping. More sets will be added over time
 
@@ -90,7 +90,7 @@ Available options:
 
 Alternatively, you can specify your own primers as described in the following.
 
-### `--primers_txt ` [ default = null ]
+### `--primers_txt` [ default = null ]
 
 If you wish to use a set of primers not already configured for this pipeline, you can provide it with this option. You will also have to specify which mitochondrial gene this primer set is targeting using the `--gene` option described elsewhere.
 
@@ -102,7 +102,8 @@ Briefly, the file is a simple text format with each row representing one pair of
 FORWARD_PRIMER_SEQ  REVERSE_PRIMER_SEQ  EXPECTED_PRODUCT_SIZE   NAME_OF_PRIMER
 ```
 
-Note that the columns are tab-separated. The expected product size should be roughly correct, but doesn't need to accurate to the base. The primer sequences should represent the exact primer binding sequence. If you use primers with overhanging ends for e.g., downstream ligation, these overhanging ends must not be part of the sequence listed here. Also note that Ptrimmer does not understand degenerate primer sequences. If this is an issue, please use [Cutadapt](#using-cutadapt-instead-of-ptrimmer) instead of Ptrimmer.
+Note that the columns are tab-separated. The expected product size should be roughly correct, but doesn't need to accurate to the base. The primer sequences should represent the exact primer binding sequence.
+If you use primers with overhanging ends for e.g., downstream ligation, these overhanging ends must not be part of the sequence listed here. Also note that Ptrimmer does not understand degenerate primer sequences. If this is an issue, please use [Cutadapt](#using-cutadapt-instead-of-ptrimmer) instead of Ptrimmer.
 
 ### `--gene` [default = null]
 
@@ -161,7 +162,8 @@ nextflow run bio-ram/FooDMe2 -profile singularity \\
 The minimum amount of coverage required for an OTU to be created from the read data.
 
 ### `--vsearch_cluster_id` [ default = 98 ]
-The percentage similarity for ASUs to be collapsed into OTUs. If you set this to 100, ASUs will not be collapsed at all, which will generate a higher resolution call set at the cost of added noise. In turn, setting this value too low may collapse separate species into "hybrid" OTUs. The default of 98 seems to work quite well for our data, but will occasionally fragment individual taxa into multiple OTUs if sequencing error rate is high. For the TSV output, OTUs with identical taxonimic assignments will be counted as one, whereas the JSON output leaves this step to the user.
+The percentage similarity for ASUs to be collapsed into OTUs. If you set this to 100, ASUs will not be collapsed at all, which will generate a higher resolution call set at the cost of added noise. In turn, setting this value too low may collapse separate species into "hybrid" OTUs.
+The default of 98 seems to work quite well for our data, but will occasionally fragment individual taxa into multiple OTUs if sequencing error rate is high. For the TSV output, OTUs with identical taxonimic assignments will be counted as one, whereas the JSON output leaves this step to the user.
 
 ## Using Cutadapt instead of Ptrimmer
 
@@ -198,17 +200,17 @@ nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
 
 This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.
 
-#### `--cutadapt` [ default = false ]
+### `--cutadapt` [ default = false ]
 
 Use Cutadapt instead of Ptrimmer.
 
-#### `--cutadapt_trim_3p` [ default = false ]
+### `--cutadapt_trim_3p` [ default = false ]
 Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect.
 
-#### `--cutadapt_options` [ default = "" ]
+### `--cutadapt_options` [ default = "" ]
 Any additional options you feel should be passed to Cutadapt. Use at your own risk.
 
-#### `--primers_fa` [ default = null ]
+### `--primers_fa` [ default = null ]
 Your primer sequences in FASTA format. There is no need to provide reverse-complemented sequences here if you wish to use `--cutadapt_trim_3p`, since the pipeline will do that automatically. If the primers in this file contain degenerate bases, the pipeline will automatically disambiguate them.
 
 This option requires that you also specify a valid gene name (see above) so that the pipeline knows which database to use for taxonomic profiling.

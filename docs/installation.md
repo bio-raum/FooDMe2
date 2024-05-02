@@ -27,7 +27,7 @@ The pipeline comes with simple pre-set profiles for all of these as described [h
 
 This pipeline requires locally stored references from the [Midori](https://www.reference-midori.info/) project. To build these, do:
 
-```
+```bash
 nextflow run bio-raum/FooDMe2 -profile singularity \\
 --build_references \\
 --run_name build_refs \\
@@ -38,7 +38,8 @@ where `/path/to/references` could be something like `/data/pipelines/references`
 
 If you do not have singularity on your system, you can also specify docker, podman or conda for software provisioning - see the [usage information](usage.md).
 
-The path specified with `--reference_base` can then be given to the pipeline during normal execution as `--reference_base` (unless you already have set it as part of your site-specific config file). Please note that the build process will create a pipeline-specific subfolder (`FooDMe2`) that must not be given as part of the `--reference_base` argument. Euktaxpro is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself.
+The path specified with `--reference_base` can then be given to the pipeline during normal execution as `--reference_base` (unless you already have set it as part of your site-specific config file).
+Please note that the build process will create a pipeline-specific subfolder (`FooDMe2`) that must not be given as part of the `--reference_base` argument. Euktaxpro is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself.
 
 ## Site-specific config file
 

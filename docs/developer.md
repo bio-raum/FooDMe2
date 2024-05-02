@@ -44,7 +44,7 @@ the `--help` command line option can be found in lib/WorkflowMain.groovy. Likewi
 
 By design, modules should provide software as either conda environment or container. See existing modules for how that can be achieved.
 
-```
+```bash
 conda 'bioconda::multiqc=1.19'
 container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
     'https://depot.galaxyproject.org/singularity/multiqc:1.19--pyhdfd78af_0' :
@@ -53,9 +53,11 @@ container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity
 
 What does this do? Basically, if conda is enabled as software provider, the specified package will be installed into a process-specific environment. Else, a container is pulled - where the source depends on whether you run Docker (native Docker image) or e.g. Singularity (dedicated singularity image).
 
-We normally use Bioconda as the source for software packages; either directly via conda or through containers that are built directly from Bioconda. You'll note that each Bioconda package lists the matching Biocontainer link. For convenience, it is recommended to provide links to the native Biocontainer Docker container as well as the singularity version hosted by the Galaxy team under [https://depot.galaxyproject.org/singularity/](https://depot.galaxyproject.org/singularity/).
+We normally use Bioconda as the source for software packages; either directly via conda or through containers that are built directly from Bioconda. You'll note that each Bioconda package lists the matching Biocontainer link.
+For convenience, it is recommended to provide links to the native Biocontainer Docker container as well as the singularity version hosted by the Galaxy team under [https://depot.galaxyproject.org/singularity/](https://depot.galaxyproject.org/singularity/).
 
-There are two situations where this approach will not work (directly). One is the use of multiple software packages in one pipeline process. While this can be done for conda-based provisioning by simply providing the name of multiple packages, it does not work for pre-built containers. Instead, you need a so-called "mulled" container; which are built from two or more Bioconda packages - described [here](https://github.com/BioContainers/multi-package-containers). Sometimes you can be lucky and find existing mulled containers that do what you need. Else - see the description above.
+There are two situations where this approach will not work (directly). One is the use of multiple software packages in one pipeline process. While this can be done for conda-based provisioning by simply providing the name of multiple packages, it does not work for pre-built containers.
+Instead, you need a so-called "mulled" container; which are built from two or more Bioconda packages - described [here](https://github.com/BioContainers/multi-package-containers). Sometimes you can be lucky and find existing mulled containers that do what you need. Else - see the description above.
 
 If mulling containers is not an option, you can also refer to github actions and have the pipeline built its own mulled container. For that, see the section about Docker below.
 
@@ -65,13 +67,16 @@ Github supports the automatic execution of specific tasks on code branches, such
 
 ### Docker containers
 
-In order to automatically push Docker containers, you must add your docker username and API token as secrets to your repository (DOCKERHUB_USERNAME and DOCKERHUB_TOKEN). Secrets can be created under Settings/Secrets and Variables/Actions. Of course, you also need to have an account on Dockerhub and generate a permanent token.  The relevant workflow actions are included in `dot_github/workflows`. These will read the `Dockerfile` from the root of this repository, import environment.yml (if you wish to install conda packages into the container), build the whole thing and push the container to an appropriate dockerhub repository
+In order to automatically push Docker containers, you must add your docker username and API token as secrets to your repository (DOCKERHUB_USERNAME and DOCKERHUB_TOKEN). Secrets can be created under Settings/Secrets and Variables/Actions.
+Of course, you also need to have an account on Dockerhub and generate a permanent token.  The relevant workflow actions are included in `dot_github/workflows`.
+These will read the `Dockerfile` from the root of this repository, import environment.yml (if you wish to install conda packages into the container), build the whole thing and push the container to an appropriate dockerhub repository
 
 ### Linting
 
-Nextflow does not have a dedicated linting tool. However, since most of nextflow is actually Groovy, the groovy linting suite works just fine, I find. Linting is set up as an automatic workflow for every push to the TEMPLATE and dev branch as well as pull requests. You may wish to run this stand-alone also, before you commit your code. I would strongly recommend setting this up in a [conda](https://github.com/conda-forge/miniforge) environment, but it should also work on your *nix system directly (albeit with some minor pitfalls re: java version).
+Nextflow does not have a dedicated linting tool. However, since most of nextflow is actually Groovy, the groovy linting suite works just fine, I find. Linting is set up as an automatic workflow for every push to the TEMPLATE and dev branch as well as pull requests.
+You may wish to run this stand-alone also, before you commit your code. I would strongly recommend setting this up in a [conda](https://github.com/conda-forge/miniforge) environment, but it should also work on your *nix system directly (albeit with some minor pitfalls re: java version).
 
-```
+```bash
 conda create -n nf-lint nodejs openjdk=17.0.10
 conda activate nf-lint
 npm install -g npm-groovy-lint
@@ -79,7 +84,7 @@ npm install -g npm-groovy-lint
 
 In your pipeline directory, you can check all the files in one go as follows:
 
-```
+```bash
 npm-groovy-lint
 ```
 
@@ -91,19 +96,19 @@ Make sure that the local linting produces *no* messages (info, warning, error) o
 
 1. Create a new repository and use this template
 
-![](../images/github_template.png)
+![template](../images/github_template.png)
 
 2. Checkout the new repository
 
 After checking out the repo, create a branch "dev" as well as "main"
 
-```
+```bash
 git branch dev
 git branch main
 ```
 With these branches created, switch to the dev branch and start developing.
 
-```
+```bash
 git checkout dev
 ```
 
@@ -131,11 +136,13 @@ git checkout dev
 
 It is very much recommended to implement a simple test suite for your pipeline.
 
-A default test profile is already included with this code base - you simply have to update the inputs. These inputs should consist of a highly reduced data set that can be processes in a very short amount of time. An example would be short read data from a small section of the genome only (which you could, for example, extract from a BAM file using coordinates). You get the idea. We try to keep test data in a [shared repository](https://github.com/marchoeppner/nf-testdata) - you might find something you can use in there, or you could add your own data set. Remember, git has a hard-limit of 50MB for individual files.
+A default test profile is already included with this code base - you simply have to update the inputs.
+These inputs should consist of a highly reduced data set that can be processes in a very short amount of time. An example would be short read data from a small section of the genome only (which you could, for example, extract from a BAM file using coordinates).
+You get the idea. We try to keep test data in a [shared repository](https://github.com/marchoeppner/nf-testdata) - you might find something you can use in there, or you could add your own data set. Remember, git has a hard-limit of 50MB for individual files.
 
 To run the test, the syntax would be:
 
-```
+```bash
 nextflow run my/pipeline -profile standard,test
 ```
 
@@ -143,4 +150,4 @@ Here, standard refers to the default site configuration ('standard') - change it
 
 ## Sending report emails
 
-This template is set up to send the final QC report via Email (--email you@gmail.com). This requires for sendmail to be configured on the executing node/computer.
+This template is set up to send the final QC report via Email (`--email you@email.com`). This requires for sendmail to be configured on the executing node/computer.
