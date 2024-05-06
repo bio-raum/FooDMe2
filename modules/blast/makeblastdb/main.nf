@@ -1,5 +1,5 @@
 process BLAST_MAKEBLASTDB {
-    tag "$meta.id"
+    tag "$meta.sample_id"
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
@@ -19,7 +19,7 @@ process BLAST_MAKEBLASTDB {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def prefix = task.ext.prefix ?: "${meta.sample_id}"
     def is_compressed = fasta.getExtension() == 'gz' ? true : false
     def fasta_name = is_compressed ? fasta.getBaseName() : fasta
     """

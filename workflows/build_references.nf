@@ -1,6 +1,11 @@
-include { UNZIP as UNZIP_REFERENCES } from './../modules/unzip'
+include { UNZIP as UNZIP_REFERENCES }   from './../modules/unzip'
+include { HELPER_FORMAT_MIDORI }        from './../modules/helper/format_midori'
+include { BLAST_MAKEBLASTDB }           from './../modules/blast/makeblastdb'
 
-genes = params.references.genes.keySet()
+genes   = params.references.genes.keySet()
+
+taxdb   = Channel.fromPath(params.references.taxonomy.taxdb)
+taxdump = Channel.fromPath(params.references.taxonomy.taxdump)
 
 midori_files = []
 
@@ -28,4 +33,14 @@ workflow BUILD_REFERENCES {
     UNZIP_REFERENCES(
         ch_branched_files.zipped
     )
-    }
+
+    ch_fasta_files = ch_branched_files.uncompressed.mix(UNZIP_REFERENCES.unzip)
+
+    HELPER_FORMAT_MIDORI(
+        ch_fasta_files
+    )
+
+    BLAST_MAKEBLASTDB(
+        HELPER_FORMAT_MIDORI.out.fasta
+    )
+}

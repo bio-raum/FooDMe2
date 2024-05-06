@@ -1,0 +1,7 @@
+name: format_midori
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - conda-forge::sed=4.7
