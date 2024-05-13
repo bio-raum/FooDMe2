@@ -17,6 +17,6 @@ Version 1.3.3, doi: 10.1186/s12859-019-2854-x, [PubMed](https://pubmed.ncbi.nlm.
 ## References
 
 **Midori**
-References used by this pipeline are obtained from the [Midori](https://www.reference-midori.info/) database, based on GenBank release 2023-12-17. 
+References used by this pipeline are obtained from the [Midori](https://www.reference-midori.info/) database, based on GenBank release 2023-12-17.
 
 Version 2023-12, 17, doi: 10.1093/bioinformatics/bty454, [Pubmed](https://pubmed.ncbi.nlm.nih.gov/29878054/)
