@@ -1,5 +1,5 @@
 include { BLAST_BLASTN }            from './../../modules/blast/blastn'
-include { BLAST_FILTER_BITSCORE }   from './../../modules/helper/blast_filter_bitscore'   
+include { BLAST_FILTER_BITSCORE }   from './../../modules/helper/blast_filter_bitscore'
 
 ch_versions = Channel.from([])
 

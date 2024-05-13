@@ -51,12 +51,12 @@ if (params.reference_base && gene) {
     Channel.fromPath(params.references.genes[gene].blast_db, checkIfExists: true).map { db ->
         [[id: gene], db]
     }.set { ch_blast_db }
-    // else we download the matching version and unpack it on the flye
+// else we download the matching version and unpack it on the flye
 } else if (gene) {
     Channel.fromPath(file(params.references.genes[gene].blast_url)).map { f ->
         [ [id: gene], f]
     }.set { ch_blast_db_zip }
-}
+    }
 
 /*
 Setting default channels
@@ -80,7 +80,7 @@ workflow FOODME2 {
 
     /*
     Branch input reads by sequencing technology so we can decide which data
-    to process witch which workflow
+    to process with which workflow
     */
     INPUT_CHECK.out.reads.branch { m, r ->
         illumina: m.platform == 'ILLUMINA'
@@ -125,4 +125,4 @@ workflow FOODME2 {
 
     emit:
     qc = MULTIQC.out.html
-}
+    }

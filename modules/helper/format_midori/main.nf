@@ -1,5 +1,5 @@
-process FILTER_MIDORI {
-    tag "${meta.sample_id}"
+process HELPER_FORMAT_MIDORI {
+    tag "${meta.id  }"
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
@@ -11,13 +11,11 @@ process FILTER_MIDORI {
     tuple val(meta), path(fa, stageAs: 'midori/')
 
     output:
-    path('*.clean.fasta')    , emit: fasta
-    path 'versions.yml'      , emit: versions
+    tuple val(meta), path(clean), emit: fasta
+    path 'versions.yml'             , emit: versions
 
     script:
-    def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: meta.sample_id
-    clean = fa.getName()
+    clean = fa.getName().split('/')[-1]
     """
     cut -d '#' -f1 $fa \\
         | tr -d '<' \\
@@ -27,7 +25,7 @@ process FILTER_MIDORI {
         | cut -d ',' -f1,2 \\
         | tr ',' '_' \\
         > $clean
-        
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         cut: \$(echo \$(cut --version 2>&1) | head -n1 | sed 's/^.*coreutils) //')

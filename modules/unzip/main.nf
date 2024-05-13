@@ -11,7 +11,7 @@ process UNZIP {
     tuple val(meta), path(zipped)
 
     output:
-    tuple val(meta), path(prefix), emit: unzip
+    tuple val(meta), path(unzipped), emit: unzip
     path("versions.yml"), emit: versions
 
     script:
@@ -19,7 +19,7 @@ process UNZIP {
     prefix = meta.id
 
     """
-    unzip -d ${prefix} $zipped
+    unzip -c -qq $zipped > $unzipped
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
