@@ -7,7 +7,7 @@ import taxidTools as txd
 from collections import Counter, defaultdict
 
 
-parser=argparse.ArgumentParser(description="Script options")
+parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--blast", help="Path to BLAST report. SeqID and Taxid should come first and sixth repsectively")
 parser.add_argument("--taxonomy", help="A JSON Taxonomy exported by taxidTool")
 parser.add_argument("--min_consensus", help="Consensus level in the ]0.5,1] interval")

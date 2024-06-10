@@ -6,7 +6,7 @@ import argparse
 from Bio import SeqIO
 
 
-parser=argparse.ArgumentParser(description="Script options")
+parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--fasta")
 parser.add_argument("--output")
 args = parser.parse_args()
@@ -38,7 +38,7 @@ def main(fasta, output):
         record.id = clean
         record.description = clean
 
-        SeqIO.write(record,results, "fasta")
+        SeqIO.write(record, results, "fasta")
 
     results.close()
     taxmap.close()
