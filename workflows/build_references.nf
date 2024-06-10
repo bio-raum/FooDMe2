@@ -49,11 +49,17 @@ workflow BUILD_REFERENCES {
 
     ch_fasta_files = ch_branched_files.uncompressed.mix(UNZIP_REFERENCES.out.unzip)
 
+    /*
+    Clean FASTA header in Midori files
+    */
     HELPER_FORMAT_MIDORI(
         ch_fasta_files
     )
 
+    /*
+    Create the Blast database with taxonomy
+    */
     BLAST_MAKEBLASTDB(
-        HELPER_FORMAT_MIDORI.out.fasta
+        HELPER_FORMAT_MIDORI.out.midori
     )
-    }
+}
