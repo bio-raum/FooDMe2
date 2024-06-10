@@ -40,7 +40,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_BASH: true
-          VALIDATE_GROOVY: false
           VALIDATE_JSON: true
           VALIDATE_MARKDOWN: true
           VALIDATE_PERL: true
