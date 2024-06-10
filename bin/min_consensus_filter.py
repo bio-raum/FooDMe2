@@ -12,6 +12,7 @@ parser.add_argument("--blast", help="Path to BLAST report. SeqID and Taxid shoul
 parser.add_argument("--taxonomy", help="A JSON Taxonomy exported by taxidTool")
 parser.add_argument("--min_consensus", help="Consensus level in the ]0.5,1] interval")
 parser.add_argument("--output", help="Path to output table")
+args = parser.parse_args()
 
 
 def parse_blast(blast_file):
@@ -93,7 +94,7 @@ def main(blast_report, taxonomy, min_consensus, output):
                          for k, v in Counter(taxid_list).items()]
                 sorted_freqs = sorted(freqs, reverse=True)
 
-                names = "; ".join([f"{f} ({round(n,2)})"
+                names = "; ".join([f"{f} ({round(n, 2)})"
                                    for (n, f) in sorted_freqs])
                 out.write(f"{queryID}\t{name}\t{rank}\t{taxid}\t{names}\n")
 

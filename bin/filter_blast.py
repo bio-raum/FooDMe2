@@ -7,7 +7,7 @@ from os import stat
 import pandas as pd
 
 
-parser=argparse.ArgumentParser(description="Script options")
+parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--report", help="path to BLAST report")
 parser.add_argument("--output", help="Path to output table")
 parser.add_argument("--bit_diff", type=int, default=4,
@@ -32,12 +32,12 @@ def main(report, output, bit_diff):
     ]
 
     if stat(report).st_size == 0:
-        with open(output,"w") as fout:
+        with open(output, "w") as fout:
             fout.write(
                 str.join(header)
             )
     else:
-        df = pd.read_csv(report, sep="\t", names = header )
+        df = pd.read_csv(report, sep="\t", names=header)
         if df.empty:
             df.to_csv(output, sep="\t", header=True, index=False)
         else:
