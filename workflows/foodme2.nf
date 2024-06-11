@@ -43,6 +43,8 @@ if (params.primer_set) {
 ch_blast_db     = Channel.from([])
 ch_blast_db_zip = Channel.from([])
 
+
+
 /*
 The taxonomy database for this gene
 */
@@ -51,12 +53,15 @@ if (params.reference_base && gene) {
     Channel.fromPath(params.references.genes[gene].blast_db, checkIfExists: true).map { db ->
         [[id: gene], db]
     }.set { ch_blast_db }
-// else we download the matching version and unpack it on the flye
-} else if (gene) {
-    Channel.fromPath(file(params.references.genes[gene].blast_url)).map { f ->
-        [ [id: gene], f]
-    }.set { ch_blast_db_zip }
-    }
+}
+
+
+tax_nodes           = params.references.taxonomy.nodes
+tax_rankedlineage   = params.references.taxonomy.rankedlineage
+tax_merged          = params.references.taxonomy.merged
+
+ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage ])
+
 
 /*
 Setting default channels
@@ -67,14 +72,6 @@ ch_otus         = Channel.from([])
 
 workflow FOODME2 {
     main:
-
-    /*
-    If no reference is given, download on the fly and unpack
-    */
-    UNZIP(
-        ch_blast_db_zip
-    )
-    ch_blast_db = ch_blast_db.mix(UNZIP.out.unzip)
 
     INPUT_CHECK(samplesheet)
 
@@ -108,7 +105,8 @@ workflow FOODME2 {
     */
     BLAST_TAXONOMY(
         ch_otus,
-        ch_blast_db.collect()
+        ch_blast_db.collect(),
+        ch_tax_files
     )
     ch_versions = ch_versions.mix(BLAST_TAXONOMY.out.versions)
 

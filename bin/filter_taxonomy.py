@@ -16,14 +16,13 @@ args = parser.parse_args()
 
 
 def main(nodes, lineage, taxid, out):
-    tax = txd.read_ncbi(nodes, lineage)
+    tax = txd.load_ncbi(nodes, lineage)
     tax.prune(taxid)
     tax.write(out)
 
 
 if __name__ == '__main__':
-    main(args.node,
+    main(args.nodes,
          args.rankedlineage,
-         args.merged,
          args.taxid,
          args.json)

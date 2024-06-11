@@ -14,7 +14,6 @@ parser.add_argument("--bit_diff", type=int, default=4,
                     help="Maximum bitscore difference to best hit to keep a hit")
 args = parser.parse_args()
 
-
 def main(report, output, bit_diff):
     str = "\t"
     header = [

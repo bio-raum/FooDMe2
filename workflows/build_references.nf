@@ -2,15 +2,16 @@ include { UNZIP as UNZIP_REFERENCES }   from './../modules/unzip'
 include { GUNZIP as GUNZIP_TAXONOMY }   from './../modules/gunzip'
 include { HELPER_FORMAT_MIDORI }        from './../modules/helper/format_midori'
 include { BLAST_MAKEBLASTDB }           from './../modules/blast/makeblastdb'
+include { UNTAR as UNTAR_TAXONOMY }     from './../modules/untar'
 
 genes   = params.references.genes.keySet()
 
-taxdb   = Channel.fromPath(params.references.taxonomy.taxdb)
-taxdump = Channel.fromPath(params.references.taxonomy.taxdump)
+taxdb   = Channel.fromPath(params.references.taxonomy.taxdb_url)
+taxdump = Channel.fromPath(params.references.taxonomy.taxdump_url)
 
 taxdb.mix(taxdump).map { f ->
     def meta = [:]
-    meta.sample = f.getSimpleName()
+    meta.id = f.getSimpleName()
     tuple(meta, f)
 }.set { tax_files }
 
@@ -30,16 +31,17 @@ workflow BUILD_REFERENCES {
 
     ch_files.branch { m, r ->
         zipped: r.toString().contains('.zip')
-        gzipped: r.toString().contains('.gz')
+        gzipped: r.toString().contains('tar.gz')
         uncompressed: !ir.toString().contains('.zip') && !r.toString().contains('.gz')
     }.set { ch_branched_files }
 
     /*
     Decompress the taxonomy files
     */
-    GUNZIP_TAXONOMY(
+    UNTAR_TAXONOMY(
         tax_files
     )
+
     /*
     MIDORI Blast databases are zipped, so we unzip them
     */

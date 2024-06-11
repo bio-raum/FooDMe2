@@ -11,8 +11,8 @@ process BLAST_FILTER_BITSCORE {
     tuple val(meta), path(report)
 
     output:
-    path('*.filtered.tsv')   , emit: tsv
-    path 'versions.yml'     , emit: versions
+    tuple val(meta),path('*.filtered.tsv')  , emit: tsv
+    path 'versions.yml'                     , emit: versions
 
     script:
     def args = task.ext.args ?: ''

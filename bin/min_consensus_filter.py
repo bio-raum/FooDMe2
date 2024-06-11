@@ -10,7 +10,7 @@ from collections import Counter, defaultdict
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--blast", help="Path to BLAST report. SeqID and Taxid should come first and sixth repsectively")
 parser.add_argument("--taxonomy", help="A JSON Taxonomy exported by taxidTool")
-parser.add_argument("--min_consensus", help="Consensus level in the ]0.5,1] interval")
+parser.add_argument("--min_consensus", help="Consensus level in the ]0.5,1] interval", type=float)
 parser.add_argument("--output", help="Path to output table")
 args = parser.parse_args()
 
