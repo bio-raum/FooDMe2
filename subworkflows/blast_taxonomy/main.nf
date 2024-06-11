@@ -10,13 +10,19 @@ workflow BLAST_TAXONOMY {
 
     main:
 
+    /*
+    Take the OTUs and blast it against the selected
+    Blastn database
+    */
     BLAST_BLASTN(
         otus,
         blast_db
     )
     ch_versions = ch_versions.mix(BLAST_BLASTN.out.versions)
 
-    // Filter the Blast hits
+    /*
+    Filter the Blast hits 
+    */
     BLAST_FILTER_BITSCORE(
         BLAST_BLASTN.out.txt
     )
