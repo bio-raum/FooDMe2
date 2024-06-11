@@ -2,14 +2,17 @@
 # -*- coding: utf-8 -*-
 
 
-import sys
-
-
-sys.stderr = open(snakemake.log[0], "w")
-
-
+import argparse
 import taxidTools as txd
 from collections import Counter, defaultdict
+
+
+parser = argparse.ArgumentParser(description="Script options")
+parser.add_argument("--blast", help="Path to BLAST report. SeqID and Taxid should come first and sixth repsectively")
+parser.add_argument("--taxonomy", help="A JSON Taxonomy exported by taxidTool")
+parser.add_argument("--min_consensus", help="Consensus level in the ]0.5,1] interval")
+parser.add_argument("--output", help="Path to output table")
+args = parser.parse_args()
 
 
 def parse_blast(blast_file):
@@ -39,11 +42,11 @@ def parse_blast(blast_file):
     return dictout
 
 
-def main(blast_report, output, min_consensus, taxonomy):
+def main(blast_report, taxonomy, min_consensus, output):
     if min_consensus <= 0.5 or min_consensus > 1:
         raise ValueError("'min_consensus' must be in the interval (0.5 , 1]")
 
-    tax = txd.load(taxonomy)
+    tax = txd.read_json(taxonomy)
     otu_dict = parse_blast(blast_report)
     with open(output, 'w') as out:
         out.write("queryID\tConsensus\tRank\tTaxid\tDisambiguation\n")
@@ -91,13 +94,15 @@ def main(blast_report, output, min_consensus, taxonomy):
                          for k, v in Counter(taxid_list).items()]
                 sorted_freqs = sorted(freqs, reverse=True)
 
-                names = "; ".join([f"{f} ({round(n,2)})"
+                names = "; ".join([f"{f} ({round(n, 2)})"
                                    for (n, f) in sorted_freqs])
                 out.write(f"{queryID}\t{name}\t{rank}\t{taxid}\t{names}\n")
 
 
 if __name__ == '__main__':
-    main(snakemake.input['blast'],
-         snakemake.output['consensus'],
-         snakemake.params["min_consensus"],
-         snakemake.input['tax'])
+    main(
+        args.blast,
+        args.taxonomy,
+        args.min_consensus,
+        args.output
+    )

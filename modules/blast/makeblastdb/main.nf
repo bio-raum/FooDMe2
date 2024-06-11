@@ -8,7 +8,7 @@ process BLAST_MAKEBLASTDB {
         'quay.io/biocontainers/blast:2.15.0--pl5321h6f7f691_1' }"
 
     input:
-    tuple val(meta), path(fasta)
+    tuple val(meta), path(fasta), path(taxid)
 
     output:
     tuple val(meta), path("${meta.id}"), emit: db
@@ -29,6 +29,8 @@ process BLAST_MAKEBLASTDB {
 
     makeblastdb \\
         -in ${fasta_name} \\
+        -parse_seqids \\
+        -taxid_map $taxid \\
         ${args}
     mkdir ${prefix}
     mv ${fasta_name}* ${prefix}

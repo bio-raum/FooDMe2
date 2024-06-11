@@ -1,34 +1,29 @@
 process HELPER_FORMAT_MIDORI {
-    tag "${meta.id  }"
+    tag "${meta.id}"
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/ubuntu:20.04' :
-        'ubuntu:20.04' }"
+        'https://depot.galaxyproject.org/singularity/aminoextract:0.3.1--pyhdfd78af_0' :
+        'quay.io/biocontainers/aminoextract:0.3.1--pyhdfd78af_0' }"
 
     input:
     tuple val(meta), path(fa, stageAs: 'midori/')
 
     output:
-    tuple val(meta), path(clean), emit: fasta
-    path 'versions.yml'             , emit: versions
+    tuple val(meta), path('*.fasta'),path('*.taxids')   , emit: midori
+    tuple val(meta), path('*.idmap')                    , emit: idmap
+    path 'versions.yml'                                 , emit: versions
 
     script:
-    clean = fa.getName().split('/')[-1]
+    prefix = meta.id
     """
-    cut -d '#' -f1 $fa \\
-        | tr -d '<' \\
-        | sed 's/^>/@/' \\
-        | tr -d '>' \\
-        | tr '@' '>' \\
-        | cut -d ',' -f1,2 \\
-        | tr ',' '_' \\
-        > $clean
+    format_midori.py --fasta $fa \
+    --output $prefix
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        cut: \$(echo \$(cut --version 2>&1) | head -n1 | sed 's/^.*coreutils) //')
+        python: \$(python --version  | sed -e "s/Python //")
     END_VERSIONS
     """
 }
