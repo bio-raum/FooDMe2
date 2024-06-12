@@ -23,6 +23,6 @@ def main(nodes, lineage, taxid, out):
 
 if __name__ == '__main__':
     main(args.nodes,
-         args.rankedlineage,
-         args.taxid,
-         args.json)
+        args.rankedlineage,
+        args.taxid,
+        args.json)

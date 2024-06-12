@@ -6,18 +6,23 @@ process HELPER_CREATE_BLAST_MASK {
     container "gregdenay/taxidtools:devel"
 
     input:
-    tuple path(nodes),path(rankedlineage)
+    path(taxlist)
     val(taxid)
+    path(taxonomy)
 
     output:
     path('*.mask')      , emit: mask
     path 'versions.yml' , emit: versions
 
     script:
-    json = "blast.mask"
+    blast_mask = "blast.mask"
 
     """
-    make_blast_mask.py 
+    make_blast_mask.py \\
+    --taxlist $taxlist \\
+    --taxid $taxid \\
+    --taxonomy $taxonomy \\
+    --output $blast_mask
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

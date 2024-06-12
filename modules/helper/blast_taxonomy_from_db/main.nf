@@ -19,7 +19,13 @@ process BLAST_TAXONOMY_FROM_DB {
     def prefix = task.ext.prefix ?: meta.id
 
     """
-    blastcmd -db $db \\
+    DB=`find -L ./ -name "*.ndb" | sed 's/\\.ndb\$//'`
+    if [ -z "\$DB" ]; then
+        DB=`find -L ./ -name "*.ndb" | sed 's/\\.ndb\$//'`
+    fi
+    echo Using \$DB
+
+    blastdbcmd -db \$DB \\
     -tax_info \\
     -outfmt %T > ${prefix}.list
 

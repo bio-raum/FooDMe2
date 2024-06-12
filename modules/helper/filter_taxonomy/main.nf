@@ -14,7 +14,7 @@ process HELPER_FILTER_TAXONOMY {
     path 'versions.yml' , emit: versions
 
     script:
-    json = "blast_mask.json"
+    json = "taxonomy.json"
     """
     filter_taxonomy.py --nodes $nodes \\
     --rankedlineage $rankedlineage \\
