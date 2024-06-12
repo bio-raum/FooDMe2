@@ -25,7 +25,7 @@ def main(taxid_file, parent, output, taxonomy):
                     fout.write(taxid + "\n")
                 else:
                     pass
-            except:
+            except txd.InvalidNodeError:
                 pass  # Ignoring missing taxids as they are either not in the
                 # taxdumps or actively filtered by the user.
 
