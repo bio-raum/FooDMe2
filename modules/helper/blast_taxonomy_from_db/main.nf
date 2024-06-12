@@ -1,5 +1,5 @@
 process BLAST_TAXONOMY_FROM_DB {
-    tag "${meta.sample_id}"
+    tag "${meta.id}"
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"

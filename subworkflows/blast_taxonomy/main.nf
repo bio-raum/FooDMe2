@@ -19,26 +19,22 @@ workflow BLAST_TAXONOMY {
     taxid 32524 is the default, else 
     we recompute the taxonomy list
     */
-    if (params.taxid_filter != 1) {
-        HELPER_FILTER_TAXONOMY(
-            taxdump,
-            params.taxid_filter
-        )
-        tax_json = HELPER_FILTER_TAXONOMY.out.json
+    HELPER_FILTER_TAXONOMY(
+        taxdump,
+        params.taxid_filter
+    )
+    tax_json = HELPER_FILTER_TAXONOMY.out.json
 
-        BLAST_TAXONOMY_FROM_DB(
-            blast_db
-        )
+    BLAST_TAXONOMY_FROM_DB(
+        blast_db
+    )
 
-        HELPER_CREATE_BLAST_MASK(
-            BLAST_TAXONOMY_FROM_DB.out.list,
-            params.taxid_filter,
-            tax_json
-        )
-
-    } else {
-        tax_json = Channel.fromPath(params.taxonomy_json)
-    }
+    HELPER_CREATE_BLAST_MASK(
+        BLAST_TAXONOMY_FROM_DB.out.list,
+        params.taxid_filter,
+        tax_json
+    )
+    blast_mask = HELPER_CREATE_BLAST_MASK.out.mask
 
     /*
     Take the OTUs and blast it against the selected
@@ -46,7 +42,8 @@ workflow BLAST_TAXONOMY {
     */
     BLAST_BLASTN(
         otus,
-        blast_db.collect()
+        blast_db.collect(),
+        blast_mask.collect()
     )
     ch_versions = ch_versions.mix(BLAST_BLASTN.out.versions)
 

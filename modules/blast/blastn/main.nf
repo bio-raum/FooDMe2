@@ -10,6 +10,7 @@ process BLAST_BLASTN {
     input:
     tuple val(meta) , path(fasta)
     tuple val(meta2), path(db)
+    path(blast_mask)
 
     output:
     tuple val(meta), path('*.txt'), emit: txt
@@ -33,6 +34,7 @@ process BLAST_BLASTN {
         -num_threads ${task.cpus} \\
         -db \$DB \\
         -query ${fasta} \\
+        -taxidlist $blast_mask \\
         ${args} \\
         -out ${prefix}.txt
 
