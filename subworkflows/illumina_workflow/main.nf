@@ -33,8 +33,8 @@ workflow ILLUMINA_WORKFLOW {
     FASTP(
         reads
     )
-    ch_versions = ch_versions.mix(FASTP.out.versions)
-    multiqc_files = multiqc_files.mix(FASTP.out.json)
+    ch_versions     = ch_versions.mix(FASTP.out.versions)
+    multiqc_files   = multiqc_files.mix(FASTP.out.json)
 
     /*
     Split trimmed reads by sample to find multi-lane data sets
@@ -64,7 +64,7 @@ workflow ILLUMINA_WORKFLOW {
         ch_primers,
         ch_primers_rc
     )
-    ch_versions = ch_versions.mix(REMOVE_PCR_PRIMERS.out.versions)
+    ch_versions     = ch_versions.mix(REMOVE_PCR_PRIMERS.out.versions)
 
     /*
     Cluster reads and produce OTUs
@@ -72,7 +72,7 @@ workflow ILLUMINA_WORKFLOW {
     VSEARCH_WORKFLOW(
         REMOVE_PCR_PRIMERS.out.reads
     )
-    ch_versions = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
+    ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
 
     emit:
     otus        = VSEARCH_WORKFLOW.out.otus

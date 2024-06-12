@@ -23,7 +23,7 @@ def fastq_channel(LinkedHashMap row) {
     meta.platform     = row.platform ? row.platform : 'ILLUMINA'
     meta.single_end   = true
 
-    valid_platforms = [ 'ILLUMINA', 'NANOPORE', 'PACBIO']
+    valid_platforms = [ 'ILLUMINA', 'NANOPORE', 'PACBIO', "TORRENT"]
 
     if (!valid_platforms.contains(row.platform)) {
         exit 1, "ERROR: Please check input samplesheet -> incorrect platform provided!\n${row.platform}"

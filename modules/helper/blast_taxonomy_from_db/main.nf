@@ -27,6 +27,7 @@ process BLAST_TAXONOMY_FROM_DB {
 
     blastdbcmd -db \$DB \\
     -tax_info \\
+    $args \\
     -outfmt %T > ${prefix}.list
 
     cat <<-END_VERSIONS > versions.yml

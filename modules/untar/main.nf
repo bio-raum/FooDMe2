@@ -12,7 +12,7 @@ process UNTAR {
 
     output:
     tuple val(meta), path("$prefix"), emit: untar
-    path "versions.yml"             , emit: versions
+    path 'versions.yml'             , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -20,7 +20,7 @@ process UNTAR {
     script:
     def args  = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
-    prefix    = task.ext.prefix ?: ( meta.id ? "${meta.id}" : archive.baseName.toString().replaceFirst(/\.tar$/, ""))
+    prefix    = task.ext.prefix ?: (meta.id ? "${meta.id}" : archive.baseName.toString().replaceFirst(/\.tar$/, ''))
 
     """
     mkdir $prefix
@@ -48,5 +48,4 @@ process UNTAR {
         untar: \$(echo \$(tar --version 2>&1) | sed 's/^.*(GNU tar) //; s/ Copyright.*\$//')
     END_VERSIONS
     """
-
 }

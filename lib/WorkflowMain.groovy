@@ -11,6 +11,7 @@ class WorkflowMain {
             log.info help(workflow)
             System.exit(0)
         }
+
     }
 
     public static String header(workflow) {

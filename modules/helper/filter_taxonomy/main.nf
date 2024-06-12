@@ -1,12 +1,12 @@
 process HELPER_FILTER_TAXONOMY {
-    tag "Taxdump"
+    tag 'Taxdump'
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
-    container "gregdenay/taxidtools:devel"
+    container 'gregdenay/taxidtools:devel'
 
     input:
-    tuple path(nodes),path(rankedlineage)
+    tuple path(nodes), path(rankedlineage)
     val(taxid)
 
     output:
@@ -14,7 +14,7 @@ process HELPER_FILTER_TAXONOMY {
     path 'versions.yml' , emit: versions
 
     script:
-    json = "taxonomy.json"
+    json = 'taxonomy.json'
     """
     filter_taxonomy.py --nodes $nodes \\
     --rankedlineage $rankedlineage \\

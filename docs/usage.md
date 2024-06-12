@@ -88,6 +88,12 @@ Available options:
 
 - par64_illumina (mammals and birds, as published by [Dobrovolny et al.](https://pubmed.ncbi.nlm.nih.gov/30309555/))
 
+A list of available primer sets is also available from the pipeline directly as follows:
+
+```bash
+nextflow run bio-raum/FooDMe2 --list
+```
+
 Alternatively, you can specify your own primers as described in the following.
 
 ### `--primers_txt` [ default = null ]

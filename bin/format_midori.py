@@ -11,7 +11,6 @@ parser.add_argument("--fasta")
 parser.add_argument("--output")
 args = parser.parse_args()
 
-
 def main(fasta, output):
 
     # Rather than trying to fix the Midori IDs, we create new ones.

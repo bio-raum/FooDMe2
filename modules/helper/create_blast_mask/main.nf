@@ -1,9 +1,9 @@
 process HELPER_CREATE_BLAST_MASK {
-    tag "Masking"
+    tag 'Masking'
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
-    container "gregdenay/taxidtools:devel"
+    container 'gregdenay/taxidtools:devel'
 
     input:
     path(taxlist)
@@ -15,7 +15,7 @@ process HELPER_CREATE_BLAST_MASK {
     path 'versions.yml' , emit: versions
 
     script:
-    blast_mask = "blast.mask"
+    blast_mask = 'blast.mask'
 
     """
     make_blast_mask.py \\

@@ -11,7 +11,7 @@ process HELPER_FORMAT_MIDORI {
     tuple val(meta), path(fa, stageAs: 'midori/')
 
     output:
-    tuple val(meta), path('*.fasta'),path('*.taxids')   , emit: midori
+    tuple val(meta), path('*.fasta'), path('*.taxids'), emit: midori
     tuple val(meta), path('*.idmap')                    , emit: idmap
     path 'versions.yml'                                 , emit: versions
 

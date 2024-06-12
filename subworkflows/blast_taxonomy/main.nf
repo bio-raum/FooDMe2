@@ -6,18 +6,20 @@ include { HELPER_FIND_CONSENSUS }       from './../../modules/helper/find_consen
 include { HELPER_CREATE_BLAST_MASK }    from './../../modules/helper/create_blast_mask'
 
 ch_versions = Channel.from([])
+ch_stats    = Channel.from([])
 
 workflow BLAST_TAXONOMY {
     take:
-    otus
-    blast_db
-    taxdump // [ nodes, rankedlineage, merged]
+    otus        // [ meta, fasta ]
+    blast_db    // [ meta, folder ]
+    taxdump     // [ nodes, rankedlineage ]
 
     main:
 
     /*
-    taxid 32524 is the default, else 
-    we recompute the taxonomy list
+    Take the NCBI taxonomy and create a
+    JSON-formatted dictionary for the taxonomic
+    subgroup of interest. 
     */
     HELPER_FILTER_TAXONOMY(
         taxdump,
@@ -25,10 +27,18 @@ workflow BLAST_TAXONOMY {
     )
     tax_json = HELPER_FILTER_TAXONOMY.out.json
 
+    /*
+    Get all tax ids from this Blast database
+    */
     BLAST_TAXONOMY_FROM_DB(
         blast_db
     )
 
+    /*
+    Create a list of allowed taxonomy ids based on the
+    intersection between the pre-filtered taxonomy database 
+    and the taxonomy IDs included in the Blast database
+    */
     HELPER_CREATE_BLAST_MASK(
         BLAST_TAXONOMY_FROM_DB.out.list,
         params.taxid_filter,
@@ -37,24 +47,27 @@ workflow BLAST_TAXONOMY {
     blast_mask = HELPER_CREATE_BLAST_MASK.out.mask
 
     /*
-    Take the OTUs and blast it against the selected
-    Blastn database
+    Take the OTUs and blast them against the selected
+    Blast database, using a taxonomy filter to limit
+    the search space
     */
     BLAST_BLASTN(
         otus,
         blast_db.collect(),
         blast_mask.collect()
     )
-    ch_versions = ch_versions.mix(BLAST_BLASTN.out.versions)
+    ch_versions     = ch_versions.mix(BLAST_BLASTN.out.versions)
 
     /*
-    Filter the Blast hits 
+    Filter the Blast hits to remove low-scoring hits
     */
     BLAST_FILTER_BITSCORE(
         BLAST_BLASTN.out.txt
     )
 
-    // Find taxonomic consensus for each OTU
+    /*
+    Find taxonomic consensus for each OTU
+    */
     HELPER_FIND_CONSENSUS(
         BLAST_FILTER_BITSCORE.out.tsv,
         params.blast_min_consensus,

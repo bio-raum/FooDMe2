@@ -3,10 +3,10 @@ process HELPER_FIND_CONSENSUS {
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
-    container "gregdenay/taxidtools:devel"
+    container 'gregdenay/taxidtools:devel'
 
     input:
-    tuple val(meta),path(report)
+    tuple val(meta), path(report)
     val(consensus)
     path(json)
 

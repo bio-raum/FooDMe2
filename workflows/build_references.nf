@@ -64,4 +64,4 @@ workflow BUILD_REFERENCES {
     BLAST_MAKEBLASTDB(
         HELPER_FORMAT_MIDORI.out.midori
     )
-}
+    }

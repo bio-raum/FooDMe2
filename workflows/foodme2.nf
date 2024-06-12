@@ -1,4 +1,3 @@
-
 /*
 Import modules
 */
@@ -18,6 +17,18 @@ Set default channels and values
 */
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
 gene        = null
+
+// TODO: Check if this can go into lib/
+/*
+Make sure the local reference directory exists
+*/
+if (params.input) {
+    refDir = file(params.reference_base + "/foodme2/${params.reference_version}")
+    if (!refDir.exists()) {
+        log.info 'The required reference directory was not found on your system, exiting!'
+        System.exit(1)
+    }
+}
 
 /*
 Primer sets are either pre-configured or can be supplied by user,
@@ -43,8 +54,6 @@ if (params.primer_set) {
 ch_blast_db     = Channel.from([])
 ch_blast_db_zip = Channel.from([])
 
-
-
 /*
 The taxonomy database for this gene
 */
@@ -53,26 +62,27 @@ if (params.reference_base && gene) {
     Channel.fromPath(params.references.genes[gene].blast_db, checkIfExists: true).map { db ->
         [[id: gene], db]
     }.set { ch_blast_db }
-}
+    }
 
-
-tax_nodes           = params.references.taxonomy.nodes
-tax_rankedlineage   = params.references.taxonomy.rankedlineage
-tax_merged          = params.references.taxonomy.merged
+tax_nodes           = params.references.taxonomy.nodes          // ncbi taxnomy node file
+tax_rankedlineage   = params.references.taxonomy.rankedlineage  // ncbi rankedlineage file
 
 ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage ])
-
 
 /*
 Setting default channels
 */
-ch_versions     = Channel.from([])
-multiqc_files   = Channel.from([])
-ch_otus         = Channel.from([])
+ch_versions     = Channel.from([]) // all version yml files
+multiqc_files   = Channel.from([]) // all files to go to MultiQC
+ch_otus         = Channel.from([]) // all the OTUs
 
 workflow FOODME2 {
     main:
 
+    /*
+    Validate the input samplesheet and 
+    alert users to any formatting issues
+    */
     INPUT_CHECK(samplesheet)
 
     /*
@@ -81,14 +91,14 @@ workflow FOODME2 {
     */
     INPUT_CHECK.out.reads.branch { m, r ->
         illumina: m.platform == 'ILLUMINA'
-        torrent: m.platform = 'TORRENT'
+        torrent: m.platform == 'TORRENT'
         nanopore: m.platform == 'NANOPORE'
         pacbio: m.platform == 'PACBIO'
     }.set { ch_reads_by_platform }
     // channel: [[ sample_id: xxx, platform: xxx ], [ reads ] ]
 
     /*
-    Processing of Illumina reads
+    SUB: Processing of Illumina reads
     */
     ILLUMINA_WORKFLOW(
         ch_reads_by_platform.illumina,
@@ -101,21 +111,21 @@ workflow FOODME2 {
     ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
 
     /*
-    Take all OTUs and determine taxonomic composition
+    SUB: Take all OTUs and determine taxonomic composition
     */
     BLAST_TAXONOMY(
         ch_otus,
         ch_blast_db.collect(),
         ch_tax_files
     )
-    ch_versions = ch_versions.mix(BLAST_TAXONOMY.out.versions)
+    ch_versions     = ch_versions.mix(BLAST_TAXONOMY.out.versions)
 
     // Create list of software packages used
     CUSTOM_DUMPSOFTWAREVERSIONS(
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
     )
 
-    multiqc_files = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
+    multiqc_files   = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
 
     MULTIQC(
         multiqc_files.collect()
