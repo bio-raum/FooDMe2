@@ -55,9 +55,9 @@ def main(blast_report, taxonomy, min_consensus, output):
             try:
                 consensus = tax.consensus(taxid_list, min_consensus)
 
-            except KeyError:
+            except txd.InvalidNodeError:
                 # Taxid not present in the Taxdump version
-                # used raises a KeyError
+                # used raises an InvalidNodeError
                 # Filter out missing sequences (verbose)
                 taxid_list_new = []
                 for taxid in taxid_list:
