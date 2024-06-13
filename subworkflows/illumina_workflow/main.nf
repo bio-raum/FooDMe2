@@ -9,10 +9,12 @@ Import sub workflows
 */
 include { VSEARCH_WORKFLOW }            from './../vsearch'
 include { REMOVE_PCR_PRIMERS }          from './../remove_pcr_primers'
+include { DADA2_ILLUMINA_WORKFLOW }     from './../dada2_illumina'
 
-ch_versions = Channel.from([])
-multiqc_files = Channel.from([])
-ch_jsons = Channel.from([])
+ch_versions     = Channel.from([])
+multiqc_files   = Channel.from([])
+ch_jsons        = Channel.from([])
+ch_otus         = Channel.from([])
 
 /*
 Clean, trim and cluster reads for subsequent
@@ -69,13 +71,22 @@ workflow ILLUMINA_WORKFLOW {
     /*
     Cluster reads and produce OTUs
     */
-    VSEARCH_WORKFLOW(
-        REMOVE_PCR_PRIMERS.out.reads
-    )
-    ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
-
+    if (params.dada) {
+        DADA2_ILLUMINA_WORKFLOW(
+            REMOVE_PCR_PRIMERS.out.reads
+        )
+        ch_otus = DADA2_ILLUMINA_WORKFLOW.out.otus
+        ch_versions = ch_versions.mix(DADA2_ILLUMINA_WORKFLOW.out.versions)
+    } else {
+        VSEARCH_WORKFLOW(
+            REMOVE_PCR_PRIMERS.out.reads
+        )
+        ch_otus = VSEARCH_WORKFLOW.out.otus
+        ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
+    }
+    
     emit:
-    otus        = VSEARCH_WORKFLOW.out.otus
+    otus        = ch_otus
     versions    = ch_versions
     qc          = multiqc_files
     }
