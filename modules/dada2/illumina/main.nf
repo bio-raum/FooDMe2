@@ -15,15 +15,18 @@ process DADA2_ILLUMINA {
     tuple val(meta), path('*ASVs.fasta')    , emit: otus
     tuple val(meta), path('*denoising.tsv') , emit: tsv
     tuple val(meta), path('*.dada2.log')    , emit: log
+    tuple val(meta), path('*.pdf')          , emit: errors
     path('versions.yml')                    , emit: versions
 
     script:
 
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
-    
+
     r1 = reads[0]
     r2 = reads[1]
+
+    // args = [ maxee, minlength, maxlength, max_mismatch, chimera  ] see conf/modules.config
 
     """
     dada2_illumina.R \\
@@ -39,5 +42,4 @@ process DADA2_ILLUMINA {
     END_VERSIONS
 
     """
-
 }

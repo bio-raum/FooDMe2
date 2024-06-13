@@ -3,7 +3,6 @@ include { DADA2_ILLUMINA }  from './../../modules/dada2/illumina'
 ch_versions = Channel.from([])
 
 workflow DADA2_ILLUMINA_WORKFLOW {
-
     take:
     otus
 
@@ -16,5 +15,4 @@ workflow DADA2_ILLUMINA_WORKFLOW {
     emit:
     otus = DADA2_ILLUMINA.out.otus
     versions = ch_versions
-
 }

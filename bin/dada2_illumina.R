@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 
-#suppressPackageStartupMessages(library(optparse"))
-
+# This is ugly, but the bioconda dada2 container does not support optparse or similar. 
 args <- commandArgs(trailingOnly = TRUE)
 
 base        = args[1]
@@ -13,6 +12,9 @@ minlength   = args[6]
 maxlength   = args[7]
 max_mismatch    = args[8]
 chimera     = args[9]
+
+# commandArgs automatically casts TRUE/FALSE to a string, so we do this:
+chimera <- if(chimera=="FALSE") FALSE else TRUE
 
 # logging
 log = file(paste(base,".dada2.log", sep=""), open="wt")

@@ -80,7 +80,7 @@ workflow FOODME2 {
     main:
 
     /*
-    Validate the input samplesheet and 
+    Validate the input samplesheet and
     alert users to any formatting issues
     */
     INPUT_CHECK(samplesheet)

@@ -84,7 +84,7 @@ workflow ILLUMINA_WORKFLOW {
         ch_otus = VSEARCH_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
     }
-    
+
     emit:
     otus        = ch_otus
     versions    = ch_versions

@@ -8,17 +8,17 @@ class WorkflowPipeline {
     //
     public static void initialise(params, log) {
         if (params.list_primers) {
-            println("Pre-configured primer sets:")
-            println("===========================")
+            println('Pre-configured primer sets:')
+            println('===========================')
             params.primers.keySet().each { primer ->
                 def info = params.primers[primer].description
                 def doi = params.primers[primer].doi
                 println("Name: ${primer}\nDescription: ${info}\nReference: doi:${doi}")
-                println("---------------------------")
+                println('---------------------------')
             }
             System.exit(1)
         }
-        if (!params.run_name ) {
+        if (!params.run_name) {
             log.info 'Must provide a run_name (--run_name)'
             System.exit(1)
         }

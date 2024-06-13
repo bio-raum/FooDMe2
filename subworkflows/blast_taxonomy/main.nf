@@ -19,7 +19,7 @@ workflow BLAST_TAXONOMY {
     /*
     Take the NCBI taxonomy and create a
     JSON-formatted dictionary for the taxonomic
-    subgroup of interest. 
+    subgroup of interest.
     */
     HELPER_FILTER_TAXONOMY(
         taxdump,
@@ -36,7 +36,7 @@ workflow BLAST_TAXONOMY {
 
     /*
     Create a list of allowed taxonomy ids based on the
-    intersection between the pre-filtered taxonomy database 
+    intersection between the pre-filtered taxonomy database
     and the taxonomy IDs included in the Blast database
     */
     HELPER_CREATE_BLAST_MASK(
