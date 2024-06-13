@@ -8,7 +8,7 @@ process BLAST_FILTER_BITSCORE {
         'quay.io/biocontainers/bioinfokit:2.1.3--pyh7cba7a3_0' }"
 
     input:
-    tuple val(meta), path(report)
+    tuple val(meta), path(report)   // the unfiltered blast report in custom TSV format
 
     output:
     tuple val(meta), path('*.filtered.tsv'), emit: tsv

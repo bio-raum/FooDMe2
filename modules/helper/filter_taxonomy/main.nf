@@ -6,8 +6,8 @@ process HELPER_FILTER_TAXONOMY {
     container 'gregdenay/taxidtools:devel'
 
     input:
-    tuple path(nodes), path(rankedlineage)
-    val(taxid)
+    tuple path(nodes), path(rankedlineage)  // nodes.dmp and rankedlineage.dmp from the ncbi taxonomy
+    val(taxid)                              // the root taxid to filter the taxonomy file by
 
     output:
     path('*.json')      , emit: json

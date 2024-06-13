@@ -8,7 +8,7 @@ process BLAST_TAXONOMY_FROM_DB {
         'quay.io/biocontainers/blast:2.15.0--pl5321h6f7f691_1' }"
 
     input:
-    tuple val(meta), path(db)
+    tuple val(meta), path(db)   // the blast database
 
     output:
     path('*.list')          , emit: list

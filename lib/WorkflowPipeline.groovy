@@ -7,12 +7,14 @@ class WorkflowPipeline {
     // Check and validate parameters
     //
     public static void initialise(params, log) {
-        if (params.list) {
+        if (params.list_primers) {
             println("Pre-configured primer sets:")
+            println("===========================")
             params.primers.keySet().each { primer ->
                 def info = params.primers[primer].description
                 def doi = params.primers[primer].doi
-                println("${primer}\t${info}\tdoi:${doi}")
+                println("Name: ${primer}\nDescription: ${info}\nReference: doi:${doi}")
+                println("---------------------------")
             }
             System.exit(1)
         }

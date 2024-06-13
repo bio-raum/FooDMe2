@@ -111,7 +111,7 @@ workflow FOODME2 {
     ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
 
     /*
-    SUB: Take all OTUs and determine taxonomic composition
+    SUB: Take each set of OTUs and determine taxonomic composition
     */
     BLAST_TAXONOMY(
         ch_otus,

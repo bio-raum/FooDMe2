@@ -6,9 +6,9 @@ process HELPER_FIND_CONSENSUS {
     container 'gregdenay/taxidtools:devel'
 
     input:
-    tuple val(meta), path(report)
-    val(consensus)
-    path(json)
+    tuple val(meta), path(report)   // the pre-filtered blast report in custom TSV format
+    val(consensus)                  // The consensus taxonomy assignment for each OTU
+    path(json)                      // the Taxonomy file in JSON for taxidtools
 
     output:
     path('*.tsv')       , emit: tsv

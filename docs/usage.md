@@ -6,11 +6,14 @@ This is not a full release. Please note that some things may not work as intende
 
 [Pipeline version](#specifying-pipeline-version)
 
+[Testing](#running-a-test)
+
 [Options](#options)
 
-[Expert options](#expert-options)
-
-[Using Cutadapt](#using-cutadapt-instead-of-ptrimmer)
+- [Basic options](#basic-options)
+- [Primer selection](#primer-selection)
+- [Expert options](#expert-options)
+- [Using Cutadapt](#using-cutadapt-instead-of-ptrimmer)
 
 ## Running the pipeline
 
@@ -21,15 +24,16 @@ A basic execution of the pipeline looks as follows:
 a) Without a site-specific config file
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile singularity --input samples.csv \\
+nextflow run bio-raum/FooDMe2 -profile singularity \\
+--input samples.csv \\
 --reference_base /path/to/references \\
 --run_name pipeline-test \\
---primer_set par64_illumina
+--primer_set amniotes_dobrovolny
 ```
 
-where `path_to_references` corresponds to the location in which you have [installed](installation.md) the pipeline references (this can be omitted to trigger an on-the-fly temporary installation, but is not recommended in production).
+where `path_to_references` corresponds to the location in which you have [installed](installation.md) the pipeline references.
 
-In this example, the pipeline will assume it runs on a single computer with the singularity container engine available. Available options to provision software are:
+In this example, the pipeline will assume it runs on a single computer with the singularity container engine. Available options to provision software are:
 
 `-profile singularity`
 
@@ -39,14 +43,18 @@ In this example, the pipeline will assume it runs on a single computer with the 
 
 `-profile conda`
 
+`-profile apptainer`
+
 b) with a site-specific config file
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile lsh --input samples.csv \\
---run_name pipeline-test
+nextflow run bio-raum/FooDMe2 -profile lsh \\
+--input samples.csv \\
+--run_name pipeline-test \\
+--primer_set amniotes_dobrovolny
 ```
 
-In this example, both `--reference_base` and the choice of software provisioning are already set in the local configuration `lsh` and don't have to provided as command line argument. In addition, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc.
+In this example, both `--reference_base` and the choice of software provisioning are already set in the  configuration `lsh` and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc.
 
 ## Specifying pipeline version
 
@@ -58,9 +66,21 @@ nextflow run bio-raum/FooDMe2 -profile lsh -r 1.0 <other options here>
 
 The `-r` option specifies a github [release tag](https://github.com/bio-raum/FooDMe2/releases) or branch, so could also point to `main` for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be [installed](installation.md) separately.
 
+## Running a test
+
+This pipeline has a built-in test to quickly check that your local setup is working correctly. To run it, do:
+
+```bash
+nextflow run bio-raum/FooDMe2 -profile your_profile,test
+```
+
+This test requires an active internet connection to download the test data. 
+
 ## Options
 
-### `--input samples.tsv` [default = null]
+### Basic options
+
+#### `--input samples.tsv` [default = null]
 
 This pipeline expects a TSV-formatted sample sheet to properly pull various meta data through the processes. The required format looks as follows:
 
@@ -80,23 +100,45 @@ Allowed platforms are:
 
 Note that only Illumina processing is currently enabled - the rest is "coming eventually". The column "platform" is thus optional - if it is not given, "ILLUMINA" is assumed as the default.
 
-### `--primer_set` [default = null]
+#### `--reference_base` [default = null ]
+
+The location of where the pipeline references are installed on your system. This will typically be pre-set in your site-specific config file and is only needed when you run without one.
+
+This option can be ommitted to trigger an on-the-fly temporary installation in the work directory. This is however not recommended as it creates unecessary traffic for the hoster of the references. See our [installation guide](installation.md) to learn how to install the references permanently on your system.
+
+#### `--outdir results` [default = results]
+
+The location where the results are stored. Usually this will be `results`in the location from where you run the nextflow process. However, this option also accepts any other path in your file system(s).
+
+#### `--run_name Fubar` [default = null]
+
+A mandatory name for this run, to be included with the result files.
+
+#### `--email me@google.com` [ default = null]
+
+An email address to which the MultiQC report is send after pipeline completion. This requires for the executing system to have [sendmail](https://rimuhosting.com/support/settingupemail.jsp?mta=sendmail) configured.
+
+### Primer selection
+
+#### `--list_primers` [ default = false]
+
+Get a list of pre-configured primer sets.
+
+```bash
+nextflow run bio-raum/FooDMe2 --list_primers
+```
+
+#### `--primer_set` [default = null]
 
 The name of the pre-configured primer set to use for read clipping. More sets will be added over time
 
 Available options:
 
-- par64_illumina (mammals and birds, as published by [Dobrovolny et al.](https://pubmed.ncbi.nlm.nih.gov/30309555/))
+- amniotes_dobrovolny (mammals and birds, as published by [Dobrovolny et al.](https://pubmed.ncbi.nlm.nih.gov/30309555/))
 
-A list of available primer sets is also available from the pipeline directly as follows:
+A list of available primer sets is also available from the pipeline directly, see [list](#--list_primers--default--false).
 
-```bash
-nextflow run bio-raum/FooDMe2 --list
-```
-
-Alternatively, you can specify your own primers as described in the following.
-
-### `--primers_txt` [ default = null ]
+#### `--primers_txt` [ default = null ]
 
 If you wish to use a set of primers not already configured for this pipeline, you can provide it with this option. You will also have to specify which mitochondrial gene this primer set is targeting using the `--gene` option described elsewhere.
 
@@ -111,7 +153,7 @@ FORWARD_PRIMER_SEQ  REVERSE_PRIMER_SEQ  EXPECTED_PRODUCT_SIZE   NAME_OF_PRIMER
 Note that the columns are tab-separated. The expected product size should be roughly correct, but doesn't need to accurate to the base. The primer sequences should represent the exact primer binding sequence.
 If you use primers with overhanging ends for e.g., downstream ligation, these overhanging ends must not be part of the sequence listed here. Also note that Ptrimmer does not understand degenerate primer sequences. If this is an issue, please use [Cutadapt](#using-cutadapt-instead-of-ptrimmer) instead of Ptrimmer.
 
-### `--gene` [default = null]
+#### `--gene` [default = null]
 
 If you do not use a pre-configured primer set, you will also need to tell the pipeline which mitochondrial gene you are targeting. Available options are (common choices in bold):
 
@@ -132,30 +174,11 @@ If you do not use a pre-configured primer set, you will also need to tell the pi
 
 Curated databases for these genes are obtained from [Midori](https://www.reference-midori.info/).
 
-### `--run_name Fubar` [default = null]
-
-A mandatory name for this run, to be included with the result files.
-
-### `--email me@google.com` [ default = null]
-
-An email address to which the MultiQC report is send after pipeline completion. This requires for the executing system to have [sendmail](https://rimuhosting.com/support/settingupemail.jsp?mta=sendmail) configured.
-
-
-### `--reference_base` [default = null ]
-
-The location of where the pipeline references are installed on your system. This will typically be pre-set in your site-specific config file and is only needed when you run without one.
-
-This option can be ommitted to trigger an on-the-fly temporary installation in the work directory. This is however not recommended as it creates unecessary traffic for the hoster of the references. See our [installation guide](installation.md) to learn how to install the references permanently on your system.
-
-### `--outdir results` [default = results]
-
-The location where the results are stored. Usually this will be `results`in the location from where you run the nextflow process. However, this option also accepts any other path in your file system(s).
-
-## Expert options
+### Expert options
 
 Only change these if you have a good reason to do so.
 
-### `--disable_low_complexity [default = false]`
+#### `--disable_low_complexity [default = false]`
 By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.
 
 ```bash
@@ -164,14 +187,14 @@ nextflow run bio-ram/FooDMe2 -profile singularity \\
 --disable_low_complexity ...
 ```
 
-### `--vsearch_min_cov` [ default = 5 ]
+#### `--vsearch_min_cov` [ default = 5 ]
 The minimum amount of coverage required for an OTU to be created from the read data.
 
-### `--vsearch_cluster_id` [ default = 98 ]
+#### `--vsearch_cluster_id` [ default = 98 ]
 The percentage similarity for ASUs to be collapsed into OTUs. If you set this to 100, ASUs will not be collapsed at all, which will generate a higher resolution call set at the cost of added noise. In turn, setting this value too low may collapse separate species into "hybrid" OTUs.
 The default of 98 seems to work quite well for our data, but will occasionally fragment individual taxa into multiple OTUs if sequencing error rate is high. For the TSV output, OTUs with identical taxonimic assignments will be counted as one, whereas the JSON output leaves this step to the user.
 
-## Using Cutadapt instead of Ptrimmer
+### Using Cutadapt instead of Ptrimmer
 
 Using Cutadapt is discouraged for most users as it requires more configuration and knowledge of your read data. It may thus not yield optimal results in all circumstances. It does however support degenerate primer sequences, which Ptrimmer does not.
 
@@ -206,17 +229,19 @@ nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
 
 This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.
 
-### `--cutadapt` [ default = false ]
+#### `--cutadapt` [ default = false ]
 
 Use Cutadapt instead of Ptrimmer.
 
-### `--cutadapt_trim_3p` [ default = false ]
-Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect.
+#### `--cutadapt_trim_3p` [ default = false ]
+Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect. Requires `--cutadapt`.
 
-### `--cutadapt_options` [ default = "" ]
-Any additional options you feel should be passed to Cutadapt. Use at your own risk.
+#### `--cutadapt_options` [ default = "" ]
+Any additional options you feel should be passed to Cutadapt. Use at your own risk. Requires `--cutadapt`.
 
-### `--primers_fa` [ default = null ]
+#### `--primers_fa` [ default = null ]
 Your primer sequences in FASTA format. There is no need to provide reverse-complemented sequences here if you wish to use `--cutadapt_trim_3p`, since the pipeline will do that automatically. If the primers in this file contain degenerate bases, the pipeline will automatically disambiguate them.
 
-This option requires that you also specify a valid gene name (see above) so that the pipeline knows which database to use for taxonomic profiling.
+This option requires that you also specify a valid gene name (see above) so that the pipeline knows which database to use for taxonomic profiling. 
+
+Requires `--cutadapt`.

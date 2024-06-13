@@ -8,7 +8,7 @@ process HELPER_FORMAT_MIDORI {
         'quay.io/biocontainers/aminoextract:0.3.1--pyhdfd78af_0' }"
 
     input:
-    tuple val(meta), path(fa, stageAs: 'midori/')
+    tuple val(meta), path(fa, stageAs: 'midori/')   // the midori database in FASTA format, staged into subfolder midori 
 
     output:
     tuple val(meta), path('*.fasta'), path('*.taxids'), emit: midori

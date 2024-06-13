@@ -6,9 +6,9 @@ process HELPER_CREATE_BLAST_MASK {
     container 'gregdenay/taxidtools:devel'
 
     input:
-    path(taxlist)
-    val(taxid)
-    path(taxonomy)
+    path(taxlist)   // List of tax ids in blast database
+    val(taxid)      // the root tax id for the mask
+    path(taxonomy)  // the taxonomy.json for taxidtools
 
     output:
     path('*.mask')      , emit: mask

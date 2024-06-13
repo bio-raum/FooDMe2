@@ -8,7 +8,7 @@ process PRIMER_DISAMBIGUATE {
         'quay.io/biocontainers/perl-bioperl:1.7.8--hdfd78af_1' }"
 
     input:
-    path(fa)
+    path(fa)    // the PCR primer set in FASTA format
 
     output:
     path(disambiguated), emit: fasta
