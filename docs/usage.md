@@ -98,7 +98,7 @@ Allowed platforms are:
 * PACBIO (expecting Pacbio CCS reads in fastq format)
 * TORRENT (expecting single-end IonTorrent reads in fastq format)
 
-Note that only Illumina processing is currently enabled - the rest is "coming eventually". The column "platform" is thus optional - if it is not given, "ILLUMINA" is assumed as the default.
+Note that only Illumina processing is currently enabled - the rest is "coming eventually".
 
 #### `--reference_base` [default = null ]
 

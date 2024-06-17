@@ -2,6 +2,16 @@
 
 This document is a brief overview of how to use this code base. Some understanding of Nextflow and how it implements DSL2 is assumed.
 
+- [Editor](#editor)
+- [Basic concepts](#basic-concept)
+- [Config files](#config-files)
+- [Groovy libraries](#groovy-libraries)
+- [Bioconda](#biocondabiocontainers)
+- [Github workflows](#github-workflows)
+- [How to start](#how-to-start)
+- [How to test](#how-to-test)
+- [Adding a new primer set](#adding-a-new-primer-set)
+
 ## Editor
 
 I personally recommend [Microsoft Visual Studio Code](https://code.visualstudio.com/download) for working on nextflow pipelines. It's free and comes with a variety of free extensions to support your work.
@@ -151,3 +161,22 @@ Here, standard refers to the default site configuration ('standard') - change it
 ## Sending report emails
 
 This template is set up to send the final QC report via Email (`--email you@email.com`). This requires for sendmail to be configured on the executing node/computer.
+
+## Adding a new primer set
+
+Primer sets consist of one or more primer pairs, meant to be used in a given experimental setup. A primer set should target a defined region in one of the supported mitochondrial genes. Primer sets are defined in [conf/primers](../docs/primers.config) and should include the following information:
+
+```GROOVY
+'amniotes_dobrovolny' {
+  description = "Amniote primer set described in Dobrovolny et al. 2019"
+  gene = "lrna"
+  doi = "10.1016/j.foodchem.2018.08.032"
+  maxee = 2.0
+  minlen = 70
+  maxlen = 100
+  ptrimmer_config = "${baseDir}/assets/ptrimmer/par64_illumina.txt"
+  fasta = "${baseDir}/assets/primers/par64_illumina.fasta"
+  taxid_filter = 32524
+}
+```
+In addition to supporting information and tool settings, please make sure to also include the corresponding Ptrimmer and primer FASTA files (ptrimmer_config, fasta) under [assets/primers](../assets/primers).

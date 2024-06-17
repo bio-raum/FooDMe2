@@ -18,7 +18,6 @@ Set default channels and values
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
 gene        = null
 
-// TODO: Check if this can go into lib/
 /*
 Make sure the local reference directory exists
 */

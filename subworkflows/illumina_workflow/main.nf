@@ -69,19 +69,19 @@ workflow ILLUMINA_WORKFLOW {
     ch_versions     = ch_versions.mix(REMOVE_PCR_PRIMERS.out.versions)
 
     /*
-    Cluster reads and produce OTUs
+    Cluster reads and produce OTUs/ASVs
     */
     if (params.dada) {
         DADA2_ILLUMINA_WORKFLOW(
             REMOVE_PCR_PRIMERS.out.reads
         )
-        ch_otus = DADA2_ILLUMINA_WORKFLOW.out.otus
-        ch_versions = ch_versions.mix(DADA2_ILLUMINA_WORKFLOW.out.versions)
+        ch_otus         = DADA2_ILLUMINA_WORKFLOW.out.otus
+        ch_versions     = ch_versions.mix(DADA2_ILLUMINA_WORKFLOW.out.versions)
     } else {
         VSEARCH_WORKFLOW(
             REMOVE_PCR_PRIMERS.out.reads
         )
-        ch_otus = VSEARCH_WORKFLOW.out.otus
+        ch_otus         = VSEARCH_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
     }
 

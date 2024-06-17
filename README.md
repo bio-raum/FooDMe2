@@ -4,6 +4,9 @@ This pipeline performs processing of mitochondrial amplicon data to profile the 
 
 Typical applications are in the analysis of food products, animal feed or seed materials.
 
+FooDMe2 is a complete re-write of [FooDMe](https://github.com/CVUA-RRW/FooDMe/tree/master) with improved capabilities and portability. If you are migrating from FooDMe and are curious about the changes, you
+can read about them [here](docs/migration.md).
+
 ## Documentation
 
 1. [What happens in this pipeline?](docs/pipeline.md)

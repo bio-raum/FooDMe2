@@ -24,3 +24,7 @@ top_modules:
 report_section_order:
     software_versions:
         order: -1001
+
+remove_sections:
+    - fastp-seq-content-gc
+

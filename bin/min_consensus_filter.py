@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 import argparse
 import taxidTools as txd
 from collections import Counter, defaultdict
-
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--blast", help="Path to BLAST report. SeqID and Taxid should come first and sixth repsectively")
@@ -13,7 +11,6 @@ parser.add_argument("--taxonomy", help="A JSON Taxonomy exported by taxidTool")
 parser.add_argument("--min_consensus", help="Consensus level in the ]0.5,1] interval", type=float)
 parser.add_argument("--output", help="Path to output table")
 args = parser.parse_args()
-
 
 def parse_blast(blast_file):
     """
@@ -91,11 +88,13 @@ def main(blast_report, taxonomy, min_consensus, output):
 
                 # (freq, name) tuple to sort
                 freqs = [((v/len(taxid_list)), tax.getName(k))
-                         for k, v in Counter(taxid_list).items()]
+                    for k, v in Counter(taxid_list).items()
+                ]
                 sorted_freqs = sorted(freqs, reverse=True)
 
                 names = "; ".join([f"{f} ({round(n, 2)})"
-                                   for (n, f) in sorted_freqs])
+                    for (n, f) in sorted_freqs]
+                )
                 out.write(f"{queryID}\t{name}\t{rank}\t{taxid}\t{names}\n")
 
 

@@ -18,14 +18,15 @@ workflow INPUT_CHECK {
 
 // Function to get list of [ meta, [ fastq_1, fastq_2 ] ]
 def fastq_channel(LinkedHashMap row) {
+
     meta = [:]
     meta.sample_id    = row.sample
-    meta.platform     = row.platform ? row.platform : 'ILLUMINA'
+    meta.platform     = row["platform"] ?: 'ILLUMINA'
     meta.single_end   = true
 
     valid_platforms = [ 'ILLUMINA', 'NANOPORE', 'PACBIO', 'TORRENT']
 
-    if (!valid_platforms.contains(row.platform)) {
+    if (!valid_platforms.contains(meta.platform)) {
         exit 1, "ERROR: Please check input samplesheet -> incorrect platform provided!\n${row.platform}"
     }
     array = []
