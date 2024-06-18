@@ -27,7 +27,9 @@ WorkflowMain.initialise(workflow, params, log)
 WorkflowPipeline.initialise(params, log)
 
 include { FOODME2 }            from './workflows/foodme2'
-include { BUILD_REFERENCES }    from './workflows/build_references'
+if (params.build_references) {
+    include { BUILD_REFERENCES }    from './workflows/build_references'
+}
 
 multiqc_report = Channel.from([])
 

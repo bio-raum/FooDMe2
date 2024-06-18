@@ -13,7 +13,7 @@ process PTRIMMER {
     path(amplicon_txt)
 
     output:
-    tuple val(meta), path('*ptrimmed.fastq.gz'), emit: reads
+    tuple val(meta), path('*trim.fastq.gz'), emit: reads
     path('versions.yml'), emit: versions
 
     script:

@@ -1,7 +1,0 @@
-name: dada2_assign_taxonomy
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - bioconda::bioconductor-dada2=1.28.0'
