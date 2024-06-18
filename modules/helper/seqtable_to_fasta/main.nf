@@ -17,7 +17,12 @@ process HELPER_SEQTABLE_TO_FASTA {
     script:
 
     """
-    asv <- data.frame($rds)
+    #!/usr/bin/env Rscript
+    suppressPackageStartupMessages(library(dada2))
+
+    seqtab = readRDS("${rds}")
+
+    asv <- data.frame(seqtab)
     colnames(asv) <- c("count")
     asv <- cbind(asv, name = sprintf("ASV_%s", seq(1:dim(asv)[1])))
     asv <- cbind(asv, sequence = rownames(asv))
