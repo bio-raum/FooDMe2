@@ -27,6 +27,11 @@ WorkflowMain.initialise(workflow, params, log)
 WorkflowPipeline.initialise(params, log)
 
 include { FOODME2 }            from './workflows/foodme2'
+
+/*
+We include this only when requested to avoid long
+startup times caused by nextflows code evaluation
+*/
 if (params.build_references) {
     include { BUILD_REFERENCES }    from './workflows/build_references'
 }

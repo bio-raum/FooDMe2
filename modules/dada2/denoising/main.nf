@@ -21,13 +21,11 @@ process DADA2_DENOISING {
 
     when:
     task.ext.when == null || task.ext.when
-
+ 
     script:
     def args = task.ext.args ?: [
             'selfConsist = FALSE, priors = character(0), DETECT_SINGLETONS = FALSE, GAPLESS = TRUE, GAP_PENALTY = -8, GREEDY = TRUE, KDIST_CUTOFF = 0.42, MATCH = 5, MAX_CLUST = 0, MAX_CONSIST = 10, MIN_ABUNDANCE = 1, MIN_FOLD = 1, MIN_HAMMING = 1, MISMATCH = -4, OMEGA_A = 1e-40, OMEGA_C = 1e-40, OMEGA_P = 1e-4, PSEUDO_ABUNDANCE = Inf, PSEUDO_PREVALENCE = 2, SSE = 2, USE_KMERS = TRUE, USE_QUALS = TRUE, VECTORIZED_ALIGNMENT = TRUE',
-            params.iontorrent ? 'BAND_SIZE = 32, HOMOPOLYMER_GAP_PENALTY = -1' : 'BAND_SIZE = 16, HOMOPOLYMER_GAP_PENALTY = NULL',
-            params.sample_inference == 'pseudo' ? 'pool = \"pseudo\"' :
-                params.sample_inference == 'pooled' ? 'pool = TRUE' : 'pool = FALSE'
+            params.iontorrent ? 'BAND_SIZE = 32, HOMOPOLYMER_GAP_PENALTY = -1' : 'BAND_SIZE = 16, HOMOPOLYMER_GAP_PENALTY = NULL'
         ].join(',').replaceAll('(,)*$', '')
     def args2 = task.ext.args2 ?: ''
     if (meta.single_end) {

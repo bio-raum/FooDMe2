@@ -3,6 +3,7 @@ include { GUNZIP as GUNZIP_TAXONOMY }   from './../modules/gunzip'
 include { HELPER_FORMAT_MIDORI }        from './../modules/helper/format_midori'
 include { BLAST_MAKEBLASTDB }           from './../modules/blast/makeblastdb'
 include { UNTAR as UNTAR_TAXONOMY }     from './../modules/untar'
+include { UNTAR as UNTAR_UNITE }        from './../modules/untar'
 
 genes   = params.references.genes.keySet()
 
@@ -20,7 +21,7 @@ midori_files = []
 // For all genes of interest, recover supported tools and the corresponding database link
 genes.each { gene ->
     midori_files << [ [ id: gene, tool: 'blast' ] ,
-        file(params.references.genes[gene].blast_url, checkIfExists: true)
+        file(params.references.genes[gene].url, checkIfExists: true)
     ]
 }
 
@@ -31,7 +32,7 @@ workflow BUILD_REFERENCES {
 
     ch_files.branch { m, r ->
         zipped: r.toString().contains('.zip')
-        gzipped: r.toString().contains('tar.gz')
+        gzipped: r.toString().contains('tar.gz') || r.toString().contains('.tgz')
         uncompressed: !ir.toString().contains('.zip') && !r.toString().contains('.gz')
     }.set { ch_branched_files }
 
@@ -42,6 +43,12 @@ workflow BUILD_REFERENCES {
         tax_files
     )
 
+    /*
+    Decompress the Unite database
+    */
+    UNTAR_UNITE(
+        ch_branched_files.gzipped
+    )
     /*
     MIDORI Blast databases are zipped, so we unzip them
     */
