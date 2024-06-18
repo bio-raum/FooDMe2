@@ -18,11 +18,14 @@ taxdb.mix(taxdump).map { f ->
 
 midori_files = []
 
-// For all genes of interest, recover supported tools and the corresponding database link
-genes.each { gene ->
-    midori_files << [ [ id: gene, tool: 'blast' ] ,
-        file(params.references.genes[gene].url, checkIfExists: true)
-    ]
+if (params.build_references) {
+    // For all genes of interest, recover supported tools and the corresponding database link
+    genes.each { gene ->
+        midori_files << [ [ id: gene, tool: 'blast' ] ,
+            file(params.references.genes[gene].url, checkIfExists: true)
+        ]
+    }
+
 }
 
 ch_files = Channel.fromList(midori_files)
