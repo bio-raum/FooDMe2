@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 import argparse
 from os import stat
 import pandas as pd
-
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--report", help="path to BLAST report")

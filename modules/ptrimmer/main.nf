@@ -21,7 +21,7 @@ process PTRIMMER {
     def prefix = task.ext.prefix ?: meta.sample_id
 
     r1 = reads[0]
-    r1_trimmed = prefix + '_1.ptrimmed.fastq'
+    r1_trimmed = prefix + '_1.trim.fastq'
     r1_trimmed_gz = r1_trimmed + '.gz'
 
     if (meta.single_end) {
@@ -36,7 +36,7 @@ process PTRIMMER {
         """
     } else {
         r2 = reads[1]
-        r2_trimmed = prefix + '_2.ptrimmed.fastq'
+        r2_trimmed = prefix + '_2.trim.fastq'
         r2_trimmed_gz = r2_trimmed + '.gz'
 
         """
