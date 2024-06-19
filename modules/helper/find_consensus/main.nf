@@ -3,7 +3,7 @@ process HELPER_FIND_CONSENSUS {
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
-    container 'gregdenay/taxidtools:devel'
+    container 'gregdenay/taxidtools:3.1.0'
 
     input:
     tuple val(meta), path(report)   // the pre-filtered blast report in custom TSV format

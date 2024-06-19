@@ -3,7 +3,7 @@ process HELPER_FILTER_TAXONOMY {
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
-    container 'gregdenay/taxidtools:devel'
+    container 'gregdenay/taxidtools:3.1.0'
 
     input:
     tuple path(nodes), path(rankedlineage)  // nodes.dmp and rankedlineage.dmp from the ncbi taxonomy

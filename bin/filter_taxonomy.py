@@ -3,7 +3,7 @@
 # Script to prune taxonomic assignments
 
 import argparse
-import taxidTools as txd
+import taxidTools
 
 
 parser = argparse.ArgumentParser(description="Script options")
@@ -15,8 +15,8 @@ parser.add_argument("--json", help="Path to JSON Taxonomy output")
 args = parser.parse_args()
 
 
-def main(nodes, lineage, taxid, out):
-    tax = txd.load_ncbi(nodes, lineage)
+def main(nodes, lineage, merged, taxid, out):
+    tax = taxidTools.read_taxdump(nodes, lineage, merged)
     tax.prune(taxid)
     tax.write(out)
 
@@ -24,5 +24,6 @@ def main(nodes, lineage, taxid, out):
 if __name__ == '__main__':
     main(args.nodes,
         args.rankedlineage,
+        args.merged,
         args.taxid,
         args.json)

@@ -24,7 +24,7 @@ process FASTX_REVERSE_COMPLEMENT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        fastx-toolkit: \$(echo \$(fastx_reverse_complement -h | head -n 2 | tail -n1 | sed -e "s/^Part of FASTX Toolkit //" -e "s/ by.*//")
+        fastx-toolkit: \$(echo \$(fastx_reverse_complement -h | head -n 2 | tail -n1 | sed -e "s/^Part of FASTX Toolkit //" -e "s/ by.*//"))
     END_VERSIONS
 
     """

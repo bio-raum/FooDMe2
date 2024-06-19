@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import taxidTools as txd
+import taxidTools
 from collections import Counter, defaultdict
 
 parser = argparse.ArgumentParser(description="Script options")
@@ -43,59 +43,35 @@ def main(blast_report, taxonomy, min_consensus, output):
     if min_consensus <= 0.5 or min_consensus > 1:
         raise ValueError("'min_consensus' must be in the interval (0.5 , 1]")
 
-    tax = txd.read_json(taxonomy)
+    tax = taxidTools.read_json(taxonomy)
     otu_dict = parse_blast(blast_report)
     with open(output, 'w') as out:
         out.write("queryID\tConsensus\tRank\tTaxid\tDisambiguation\n")
 
         for queryID, taxid_list in otu_dict.items():
             try:
-                consensus = tax.consensus(taxid_list, min_consensus)
+                # Usual case, maybe some taxa missing
+                consensus = tax.consensus(taxid_list, min_consensus, ignore_missing=True)
+                rank = consensus.rank
+                name = consensus.name
+                taxid = consensus.taxid
+            except ValueError:
+                # All taxa missing or empty taxid_list
+                consensus = "Undetermined"
+                taxid = "Undetermined"
+                rank = "Undetermined"
+                name = "Undetermined"
 
-            except txd.InvalidNodeError:
-                # Taxid not present in the Taxdump version
-                # used raises an InvalidNodeError
-                # Filter out missing sequences (verbose)
-                taxid_list_new = []
-                for taxid in taxid_list:
-                    if taxid not in tax.keys():
-                        pass  # This is most likely the result of active filtering by the user
-                        # No need ot be over verbose with this
-                        # print(f"WARNING: taxid {taxid} missing from Taxonomy "
-                        #      f"reference, it will be ignored")
-                    else:
-                        taxid_list_new.append(taxid)
+            # (freq, name) tuple to sort
+            freqs = [((v/len(taxid_list)), tax.getName(k))
+                for k, v in Counter(taxid_list).items()
+            ]
+            sorted_freqs = sorted(freqs, reverse=True)
 
-                # Update list
-                taxid_list = taxid_list_new
-
-                # Empty list case:
-                if not taxid_list:
-                    consensus = "Undetermined"
-                else:
-                    # Get the consensus with the filtered taxids
-                    consensus = tax.consensus(taxid_list, min_consensus)
-
-            finally:
-                if consensus != "Undetermined":
-                    rank = consensus.rank
-                    name = consensus.name
-                    taxid = consensus.taxid
-                else:
-                    taxid = "Undetermined"
-                    rank = "Undetermined"
-                    name = "Undetermined"
-
-                # (freq, name) tuple to sort
-                freqs = [((v/len(taxid_list)), tax.getName(k))
-                    for k, v in Counter(taxid_list).items()
-                ]
-                sorted_freqs = sorted(freqs, reverse=True)
-
-                names = "; ".join([f"{f} ({round(n, 2)})"
-                    for (n, f) in sorted_freqs]
-                )
-                out.write(f"{queryID}\t{name}\t{rank}\t{taxid}\t{names}\n")
+            names = "; ".join([f"{f} ({round(n, 2)})"
+                for (n, f) in sorted_freqs]
+            )
+            out.write(f"{queryID}\t{name}\t{rank}\t{taxid}\t{names}\n")
 
 
 if __name__ == '__main__':
