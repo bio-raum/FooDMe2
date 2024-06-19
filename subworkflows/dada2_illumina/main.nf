@@ -34,7 +34,7 @@ workflow DADA2_ILLUMINA_WORKFLOW {
         ch_reads_with_errors
     )
     ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
-  
+
     // Remove chimera
     DADA2_RMCHIMERA(
         DADA2_DENOISING.out.seqtab

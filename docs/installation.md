@@ -28,7 +28,7 @@ The pipeline comes with simple pre-set profiles for all of these as described [h
 
 ## Installing the references
 
-This pipeline requires locally stored references from the [Midori](https://www.reference-midori.info/) project. To build these, do:
+This pipeline requires locally stored references from the [Midori](https://www.reference-midori.info/) project and the [UNITE](https://unite.ut.ee/) project respectively. To build these, do:
 
 ### Without a local config file:
 
@@ -45,7 +45,7 @@ If you do not have singularity on your system, you can also specify docker, podm
 
 The path specified with `--reference_base` can then be given to the pipeline during normal execution as `--reference_base` (unless you already have set it as part of your site-specific config file).
 
-Please note that the build process will create a pipeline-specific subfolder (`foodme2`) that must not be given as part of the `--reference_base` argument. Euktaxpro is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself.
+Please note that the build process will create a pipeline-specific subfolder (`foodme2`) that must not be given as part of the `--reference_base` argument. FooDMe 2 is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself.
 
 ### With a [local config](#site-specific-config-file) file:
 
