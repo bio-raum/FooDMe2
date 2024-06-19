@@ -4,4 +4,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - bioconda::bioconductor-dada2=1.28.0'
+  - bioconda::bioconductor-dada2=1.28.0
