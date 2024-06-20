@@ -82,7 +82,7 @@ workflow BLAST_TAXONOMY {
 
     // Merge Taxonomy stats
 
-    // Summerize results
+    // Summarize results
 
     emit:
     results = BLAST_BLASTN.out.txt

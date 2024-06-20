@@ -47,6 +47,7 @@ workflow DADA2_ILLUMINA_WORKFLOW {
     )
 
     emit:
-    otus = DADA2_ILLUMINA.out.otus
+    otus = HELPER_SEQTABLE_TO_FASTA.out.fasta
+    table = HELPER_SEQTABLE_TO_FASTA.out.table
     versions = ch_versions
 }
