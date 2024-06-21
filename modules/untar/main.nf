@@ -11,8 +11,9 @@ process UNTAR {
     tuple val(meta), path(archive)
 
     output:
-    tuple val(meta), path("$prefix"), emit: untar
-    path 'versions.yml'             , emit: versions
+    tuple val(meta), path("$prefix")        , emit: untar
+    tuple val(meta),path("$prefix/*.fasta") , optional: true, emit: fasta
+    path 'versions.yml'                     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -42,6 +43,8 @@ process UNTAR {
             $archive \\
             $args2
     fi
+
+    rm -f $prefix/*_dev.fasta
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
