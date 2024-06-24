@@ -170,6 +170,7 @@ If you do not use a pre-configured primer set, you will also need to tell the pi
 - co2
 - co3
 - **cytb**
+- **its**
 - nd1
 - nd2
 - nd3
@@ -177,11 +178,14 @@ If you do not use a pre-configured primer set, you will also need to tell the pi
 - nd5
 - nd6
 
-Curated databases for these genes are obtained from [Midori](https://www.reference-midori.info/).
+Curated databases for these genes are obtained from [Midori](https://www.reference-midori.info/) and [Unite](https://unite.ut.ee/index.php).
 
 ### Expert options
 
 Only change these if you have a good reason to do so.
+
+#### `--blocklist`
+Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe 2 uses a built-in [block list](../assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.
 
 #### `--disable_low_complexity [default = false]`
 By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.

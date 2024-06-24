@@ -1,9 +1,10 @@
-include { BLAST_BLASTN }                from './../../modules/blast/blastn'
-include { BLAST_FILTER_BITSCORE }       from './../../modules/helper/blast_filter_bitscore'
-include { HELPER_FILTER_TAXONOMY }      from './../../modules/helper/filter_taxonomy'
-include { BLAST_TAXONOMY_FROM_DB }      from './../../modules/helper/blast_taxonomy_from_db'
-include { HELPER_FIND_CONSENSUS }       from './../../modules/helper/find_consensus'
-include { HELPER_CREATE_BLAST_MASK }    from './../../modules/helper/create_blast_mask'
+include { BLAST_BLASTN }                    from './../../modules/blast/blastn'
+include { BLAST_FILTER_BITSCORE }           from './../../modules/helper/blast_filter_bitscore'
+include { HELPER_FILTER_TAXONOMY }          from './../../modules/helper/filter_taxonomy'
+include { BLAST_TAXONOMY_FROM_DB }          from './../../modules/helper/blast_taxonomy_from_db'
+include { HELPER_FIND_CONSENSUS }           from './../../modules/helper/find_consensus'
+include { HELPER_CREATE_BLAST_MASK }        from './../../modules/helper/create_blast_mask'
+include { HELPER_BLAST_APPLY_BLOCKLIST }    from './../../modules/helper/blast_apply_blocklist'
 
 ch_versions = Channel.from([])
 ch_stats    = Channel.from([])
@@ -13,6 +14,7 @@ workflow BLAST_TAXONOMY {
     otus        // [ meta, fasta ]
     blast_db    // [ meta, folder ]
     taxdump     // [ nodes, rankedlineage ]
+    block_list  // [ blocklist ]
 
     main:
 
@@ -46,6 +48,12 @@ workflow BLAST_TAXONOMY {
     )
     blast_mask = HELPER_CREATE_BLAST_MASK.out.mask
 
+    HELPER_BLAST_APPLY_BLOCKLIST(
+        blast_mask,
+        block_list.collect()
+    )
+    blast_mask_blocked = HELPER_BLAST_APPLY_BLOCKLIST.out.mask
+
     /*
     Take the OTUs and blast them against the selected
     Blast database, using a taxonomy filter to limit
@@ -54,7 +62,7 @@ workflow BLAST_TAXONOMY {
     BLAST_BLASTN(
         otus,
         blast_db.collect(),
-        blast_mask.collect()
+        blast_mask_blocked.collect()
     )
     ch_versions     = ch_versions.mix(BLAST_BLASTN.out.versions)
 

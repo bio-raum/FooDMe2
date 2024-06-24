@@ -1,4 +1,3 @@
-include { DADA2_ILLUMINA }              from './../../modules/dada2/illumina'
 include { DADA2_ERROR }                 from './../../modules/dada2/error'
 include { DADA2_DENOISING }             from './../../modules/dada2/denoising'
 include { DADA2_RMCHIMERA }             from './../../modules/dada2/rmchimera'
@@ -11,11 +10,7 @@ workflow DADA2_ILLUMINA_WORKFLOW {
     reads
 
     main:
-    DADA2_ILLUMINA(
-        reads
-    )
-    ch_versions = ch_versions.mix(DADA2_ILLUMINA.out.versions)
-
+    
     /*
     DADA2 Error model calculation
     */

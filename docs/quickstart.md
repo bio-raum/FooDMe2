@@ -17,7 +17,7 @@ FooDMe 2 requires locally stored, formatted databases. The pipeline has a [built
 Once everything is set up, you can run a short test to see if everything works as expected. 
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile conda,test -r main
+nextflow run bio-raum/FooDMe2 -profile conda,test -r main --reference_base /path/to/references
 ```
 
 where the conda profile can be replaced by whatever your [software provider](usage.md#running-the-pipeline) of choice is.

@@ -69,6 +69,11 @@ tax_rankedlineage   = params.references.taxonomy.rankedlineage  // ncbi rankedli
 ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage ])
 
 /*
+Set a taxonomy block list to remove unwanted taxa
+*/
+ch_blocklist        = Channel.fromPath(params.blocklist)
+
+/*
 Setting default channels
 */
 ch_versions     = Channel.from([]) // all version yml files
@@ -115,7 +120,8 @@ workflow FOODME2 {
     BLAST_TAXONOMY(
         ch_otus,
         ch_blast_db.collect(),
-        ch_tax_files
+        ch_tax_files,
+        ch_blocklist
     )
     ch_versions     = ch_versions.mix(BLAST_TAXONOMY.out.versions)
 
