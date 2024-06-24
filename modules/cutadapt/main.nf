@@ -27,22 +27,24 @@ process CUTADAPT {
 
     def options_5p = ''
     def options_3p = ''
+    def mode = ""
     if (meta.single_end) {
         options_5p = "-g ^file:${primers}"
         options_3p = "-a file\$:${primers}"
     } else {
+        mode = "--interleaved"
         options_5p = "-g ^file:${primers} -G ^file:${primers}"
         options_3p = "-a file\$:${primers_rc} -A file\$:${primers_rc}"
     }
 
     if (params.cutadapt_trim_3p) {
         """
-        cutadapt --interleaved \\
+        cutadapt $mode \\
             --cores $task.cpus \\
             $args \\
             $reads \\
             $options_5p \\
-        | cutadapt --interleaved \\
+        | cutadapt $mode \\
             $args \\
             --cores $task.cpus \\
             $trimmed \\

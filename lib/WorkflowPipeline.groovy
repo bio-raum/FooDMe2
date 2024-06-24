@@ -56,7 +56,7 @@ class WorkflowPipeline {
                 log.info 'Provided primer information as Fasta file - this requires the option --cutadapt as well'
                 System.exit(1)
             }
-            if (params.pacbio && params.torrent || params.pacbio && params.ont || params.ont && params.torrent) {
+            if (params.pacbio && params.iontorrent || params.pacbio && params.ont || params.ont && params.iontorrent) {
                 log.info 'Sequencing technologies are mutually exclusive - please specify only one!'
                 System.exit(1)
             }

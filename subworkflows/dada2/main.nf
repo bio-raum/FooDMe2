@@ -5,7 +5,7 @@ include { HELPER_SEQTABLE_TO_FASTA }    from './../../modules/helper/seqtable_to
 
 ch_versions = Channel.from([])
 
-workflow DADA2_ILLUMINA_WORKFLOW {
+workflow DADA2_WORKFLOW {
     take:
     reads
 

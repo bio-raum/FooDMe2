@@ -11,7 +11,7 @@ Import sub workflows
 */
 include { ILLUMINA_WORKFLOW }           from './../subworkflows/illumina_workflow'
 include { BLAST_TAXONOMY }              from './../subworkflows/blast_taxonomy'
-
+include { ONT_WORKFLOW }                from './../subworkflows/ont_workflow'
 /*
 Set default channels and values
 */
@@ -61,13 +61,13 @@ if (params.reference_base && gene) {
     Channel.fromPath(params.references.genes[gene].blast_db, checkIfExists: true).map { db ->
         [[id: gene], db]
     }.set { ch_blast_db }
+
+    tax_nodes           = file(params.references.taxonomy.nodes, checkIfExists: true)          // ncbi taxnomy node file
+    tax_rankedlineage   = file(params.references.taxonomy.rankedlineage, checkIfExists: true)  // ncbi rankedlineage file
+    tax_merged          = file(params.references.taxonomy.merged, checkIfExists: true)         // ncbi merged file
+
+    ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
 }
-
-tax_nodes           = params.references.taxonomy.nodes          // ncbi taxnomy node file
-tax_rankedlineage   = params.references.taxonomy.rankedlineage  // ncbi rankedlineage file
-tax_merged          = params.references.taxonomy.merged         // ncbi merged file
-
-ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
 
 /*
 Set a taxonomy block list to remove unwanted taxa
@@ -98,9 +98,17 @@ workflow FOODME2 {
         // Pacbio workflow here
     // reads are ONT
     } else if (params.ont) {
-        // ONT workflow here
+        ONT_WORKFLOW(
+            INPUT_CHECK.out.reads,
+            ch_ptrimmer_config,
+            ch_primers,
+            ch_primers_rc
+        )
+        ch_versions = ch_versions.mix(ONT_WORKFLOW.out.versions)
+        ch_otus = ch_otus.mix(ONT_WORKFLOW.out.otus)
+        multiqc_files = multiqc_files.mix(ONT_WORKFLOW.out.qc)
     // reads are IonTorrent
-    } else if (params.torrent) {
+    } else if (params.iontorrent) {
         // Torrent workflow
     // reads are Illumina (or Illumina-like)
     } else {
