@@ -11,6 +11,7 @@ This is not a full release. Please note that some things may not work as intende
 [Options](#options)
 
 - [Basic options](#basic-options)
+- [Sequencing technology](#sequencing-technology)
 - [Primer selection](#primer-selection)
 - [Expert options](#expert-options)
 - [Using Cutadapt](#using-cutadapt-instead-of-ptrimmer)
@@ -85,20 +86,11 @@ This test requires an active internet connection to download the test data.
 This pipeline expects a TSV-formatted sample sheet to properly pull various meta data through the processes. The required format looks as follows:
 
 ```TSV
-sample  platform    fq1 fq2
-S100    ILLUMINA    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
+sample  fq1 fq2
+S100    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
 ```
 
 If the pipeline sees more than one set of reads for a given sample ID, it will concatenate them automatically at the appropriate time.
-
-Allowed platforms are:
-
-* ILLUMINA (expecting PE Illumina reads)
-* NANOPORE (expecting ONT reads in fastq format)
-* PACBIO (expecting Pacbio CCS reads in fastq format)
-* TORRENT (expecting single-end IonTorrent reads in fastq format)
-
-Note that only Illumina processing is currently enabled - the rest is "coming eventually".
 
 #### `--reference_base` [default = null ]
 
@@ -117,6 +109,19 @@ A mandatory name for this run, to be included with the result files.
 #### `--email me@google.com` [ default = null]
 
 An email address to which the MultiQC report is send after pipeline completion. This requires for the executing system to have [sendmail](https://rimuhosting.com/support/settingupemail.jsp?mta=sendmail) configured.
+
+### Sequencing technology
+
+By default, the pipeline assumes that it is processing Illumina short-reads in paired-end configuration. Other supported sequencing technologies must be requested specifically with one of the following flags:
+
+#### `--pacbio` [ default = false]
+Reads are Pacbio HiFi after demultiplexing, in FastQ format. 
+
+#### `--ont` [ default = false]
+Reads are Nanopore/ONT after demultiplexing, chemistry 10.4.1 or later, in FastQ format. 
+
+#### `--torrent` [ default = false]
+Reads are IonTorrent after demultiplexing, in FastQ format. 
 
 ### Primer selection
 
