@@ -6,7 +6,7 @@ process HELPER_FILTER_TAXONOMY {
     container 'gregdenay/taxidtools:3.1.0'
 
     input:
-    tuple path(nodes), path(rankedlineage)  // nodes.dmp and rankedlineage.dmp from the ncbi taxonomy
+    tuple path(nodes), path(rankedlineage), path(merged)  // nodes.dmp, rankedlineage.dmp and merged.dmp from the ncbi taxonomy
     val(taxid)                              // the root taxid to filter the taxonomy file by
 
     output:
@@ -18,6 +18,7 @@ process HELPER_FILTER_TAXONOMY {
     """
     filter_taxonomy.py --nodes $nodes \\
     --rankedlineage $rankedlineage \\
+    --merged $merged \\
     --taxid $taxid \\
     --json $json
 

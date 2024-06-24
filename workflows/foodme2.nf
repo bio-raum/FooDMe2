@@ -65,8 +65,9 @@ if (params.reference_base && gene) {
 
 tax_nodes           = params.references.taxonomy.nodes          // ncbi taxnomy node file
 tax_rankedlineage   = params.references.taxonomy.rankedlineage  // ncbi rankedlineage file
+tax_merged          = params.references.taxonomy.merged         // ncbi merged file
 
-ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage ])
+ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
 
 /*
 Setting default channels
