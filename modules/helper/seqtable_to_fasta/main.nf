@@ -9,7 +9,7 @@ process HELPER_SEQTABLE_TO_FASTA {
 
     input:
     tuple val(meta), path(rds)
-       
+    
     output:
     tuple val(meta), path('*.fasta')    , emit: fasta
     tuple val(meta), path('*.tsv')      , emit: table

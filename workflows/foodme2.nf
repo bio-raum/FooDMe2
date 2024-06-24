@@ -70,6 +70,11 @@ tax_merged          = params.references.taxonomy.merged         // ncbi merged f
 ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
 
 /*
+Set a taxonomy block list to remove unwanted taxa
+*/
+ch_blocklist        = Channel.fromPath(params.blocklist)
+
+/*
 Setting default channels
 */
 ch_versions     = Channel.from([]) // all version yml files
@@ -86,29 +91,29 @@ workflow FOODME2 {
     INPUT_CHECK(samplesheet)
 
     /*
-    Branch input reads by sequencing technology so we can decide which data
-    to process with which workflow
+    SUB: Processing of reads
     */
-    INPUT_CHECK.out.reads.branch { m, r ->
-        illumina: m.platform == 'ILLUMINA'
-        torrent: m.platform == 'TORRENT'
-        nanopore: m.platform == 'NANOPORE'
-        pacbio: m.platform == 'PACBIO'
-    }.set { ch_reads_by_platform }
-    // channel: [[ sample_id: xxx, platform: xxx ], [ reads ] ]
-
-    /*
-    SUB: Processing of Illumina reads
-    */
-    ILLUMINA_WORKFLOW(
-        ch_reads_by_platform.illumina,
-        ch_ptrimmer_config,
-        ch_primers,
-        ch_primers_rc
-    )
-    ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
-    multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
-    ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
+    // reads are Pacbio HiFi
+    if (params.pacbio) {
+        // Pacbio workflow here
+    // reads are ONT
+    } else if (params.ont) {
+        // ONT workflow here
+    // reads are IonTorrent
+    } else if (params.torrent) {
+        // Torrent workflow
+    // reads are Illumina (or Illumina-like)
+    } else {
+        ILLUMINA_WORKFLOW(
+            INPUT_CHECK.out.reads,
+            ch_ptrimmer_config,
+            ch_primers,
+            ch_primers_rc
+        )
+        ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
+        multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
+        ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
+    }
 
     /*
     SUB: Take each set of OTUs and determine taxonomic composition
@@ -116,7 +121,8 @@ workflow FOODME2 {
     BLAST_TAXONOMY(
         ch_otus,
         ch_blast_db.collect(),
-        ch_tax_files
+        ch_tax_files,
+        ch_blocklist
     )
     ch_versions     = ch_versions.mix(BLAST_TAXONOMY.out.versions)
 

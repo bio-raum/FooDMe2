@@ -11,6 +11,7 @@ This is not a full release. Please note that some things may not work as intende
 [Options](#options)
 
 - [Basic options](#basic-options)
+- [Sequencing technology](#sequencing-technology)
 - [Primer selection](#primer-selection)
 - [Expert options](#expert-options)
 - [Using Cutadapt](#using-cutadapt-instead-of-ptrimmer)
@@ -85,20 +86,11 @@ This test requires an active internet connection to download the test data.
 This pipeline expects a TSV-formatted sample sheet to properly pull various meta data through the processes. The required format looks as follows:
 
 ```TSV
-sample  platform    fq1 fq2
-S100    ILLUMINA    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
+sample  fq1 fq2
+S100    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
 ```
 
 If the pipeline sees more than one set of reads for a given sample ID, it will concatenate them automatically at the appropriate time.
-
-Allowed platforms are:
-
-* ILLUMINA (expecting PE Illumina reads)
-* NANOPORE (expecting ONT reads in fastq format)
-* PACBIO (expecting Pacbio CCS reads in fastq format)
-* TORRENT (expecting single-end IonTorrent reads in fastq format)
-
-Note that only Illumina processing is currently enabled - the rest is "coming eventually".
 
 #### `--reference_base` [default = null ]
 
@@ -117,6 +109,19 @@ A mandatory name for this run, to be included with the result files.
 #### `--email me@google.com` [ default = null]
 
 An email address to which the MultiQC report is send after pipeline completion. This requires for the executing system to have [sendmail](https://rimuhosting.com/support/settingupemail.jsp?mta=sendmail) configured.
+
+### Sequencing technology
+
+By default, the pipeline assumes that it is processing Illumina short-reads in paired-end configuration. Other supported sequencing technologies must be requested specifically with one of the following flags:
+
+#### `--pacbio` [ default = false]
+Reads are Pacbio HiFi after demultiplexing, in FastQ format. 
+
+#### `--ont` [ default = false]
+Reads are Nanopore/ONT after demultiplexing, chemistry 10.4.1 or later, in FastQ format. 
+
+#### `--torrent` [ default = false]
+Reads are IonTorrent after demultiplexing, in FastQ format. 
 
 ### Primer selection
 
@@ -165,6 +170,7 @@ If you do not use a pre-configured primer set, you will also need to tell the pi
 - co2
 - co3
 - **cytb**
+- **its**
 - nd1
 - nd2
 - nd3
@@ -172,11 +178,14 @@ If you do not use a pre-configured primer set, you will also need to tell the pi
 - nd5
 - nd6
 
-Curated databases for these genes are obtained from [Midori](https://www.reference-midori.info/).
+Curated databases for these genes are obtained from [Midori](https://www.reference-midori.info/) and [Unite](https://unite.ut.ee/index.php).
 
 ### Expert options
 
 Only change these if you have a good reason to do so.
+
+#### `--blocklist`
+Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe 2 uses a built-in [block list](../assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.
 
 #### `--disable_low_complexity [default = false]`
 By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.
