@@ -48,6 +48,10 @@ workflow BLAST_TAXONOMY {
     )
     blast_mask = HELPER_CREATE_BLAST_MASK.out.mask
 
+    /*
+    Further filter the blast mask to remove unwanted taxids
+    based on a (user-provided) blocklist.
+    */
     HELPER_BLAST_APPLY_BLOCKLIST(
         blast_mask,
         block_list.collect()

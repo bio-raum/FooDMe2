@@ -61,17 +61,16 @@ if (params.reference_base && gene) {
     Channel.fromPath(params.references.genes[gene].blast_db, checkIfExists: true).map { db ->
         [[id: gene], db]
     }.set { ch_blast_db }
-    }
+}
 
 tax_nodes           = params.references.taxonomy.nodes          // ncbi taxnomy node file
 tax_rankedlineage   = params.references.taxonomy.rankedlineage  // ncbi rankedlineage file
-
 ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage ])
 
 /*
 Set a taxonomy block list to remove unwanted taxa
 */
-ch_blocklist        = Channel.fromPath(params.blocklist)
+ch_blocklist        = Channel.fromPath(params.blocklist, checkIfExists: true)
 
 /*
 Setting default channels
