@@ -30,6 +30,7 @@ process DADA2_ERROR {
     if (meta.single_end) {
         """
         #!/usr/bin/env Rscript
+        
         suppressPackageStartupMessages(library(dada2))
         set.seed($seed) # Initialize random number generator for reproducibility
 

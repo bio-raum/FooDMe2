@@ -12,8 +12,6 @@ process HELPER_SEQTABLE_TO_FASTA {
     
     output:
     tuple val(meta), path('*.fasta')    , emit: fasta
-    tuple val(meta), path('*.tsv')      , emit: table
-    //tuple val(meta), path('*.json')     , emit: json
     path 'versions.yml'                 , emit: versions
 
     script:
@@ -32,11 +30,6 @@ process HELPER_SEQTABLE_TO_FASTA {
     fn <- function(x) paste0(">", x[2], ";size=", trimws(x[1]), "\n", x[3])
     asfasta <- apply(asv, MARGIN=1, fn)
     writeLines(asfasta, "${meta.sample_id}_ASVs.fasta")
-
-    # Drop sequences
-    asv <- subset(asv, select = -c(sequence))
-    write.table(asv, file="${meta.sample_id}_table.tsv", sep = "\\t", row.names = FALSE, quote = FALSE, na = '')
-
 
     writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")) ), "versions.yml")
     """
