@@ -13,6 +13,7 @@ process HELPER_SEQTABLE_TO_FASTA {
     output:
     tuple val(meta), path('*.fasta')    , emit: fasta
     tuple val(meta), path('*.tsv')      , emit: table
+    tuple val(meta), path('*.json')     , emit: json
     path 'versions.yml'                 , emit: versions
 
     script:

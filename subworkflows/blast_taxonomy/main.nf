@@ -13,7 +13,7 @@ workflow BLAST_TAXONOMY {
     take:
     otus        // [ meta, fasta ]
     blast_db    // [ meta, folder ]
-    taxdump     // [ nodes, rankedlineage ]
+    taxdump     // [ nodes, rankedlineage, merged ]
     block_list  // [ blocklist ]
 
     main:
