@@ -16,7 +16,7 @@ process HELPER_FORMAT_UNITE {
     path("versions.yml")              , emit: versions
 
     script:
-    def args = task.ext.args ?: ''
+    // def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "unite"
 
     """
