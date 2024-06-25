@@ -4,12 +4,14 @@
 import argparse
 import taxidTools
 
+
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--taxlist")
 parser.add_argument("--taxid")
 parser.add_argument("--taxonomy")
 parser.add_argument("--output")
 args = parser.parse_args()
+
 
 def main(taxid_file, parent, output, taxonomy):
 
@@ -29,5 +31,6 @@ def main(taxid_file, parent, output, taxonomy):
                 pass  # Ignoring missing taxids as they are either not in the
                 # taxdumps or actively filtered by the user.
 
+
 if __name__ == '__main__':
-    main(args.taxlist,args.taxid, args.output, args.taxonomy)
+    main(args.taxlist, args.taxid, args.output, args.taxonomy)
