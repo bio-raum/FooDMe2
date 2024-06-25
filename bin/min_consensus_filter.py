@@ -3,43 +3,17 @@
 
 
 import argparse
+import json
 import taxidTools
 from collections import Counter, defaultdict
 
 
 parser = argparse.ArgumentParser(description="Script options")
-parser.add_argument("--blast", help="Path to BLAST report. SeqID and Taxid should come first and sixth repsectively")
+parser.add_argument("--blast", help="Path pre-filtered BLAST report as JSON")
 parser.add_argument("--taxonomy", help="A JSON Taxonomy exported by taxidTool")
 parser.add_argument("--min_consensus", help="Consensus level in the ]0.5,1] interval", type=float)
 parser.add_argument("--output", help="Path to output table")
 args = parser.parse_args()
-
-
-def parse_blast(blast_file):
-    """
-    Parse a BLAST report and returns a dictionnary where Keys are query
-    sequence names and values list of taxids for each hit.
-    BLAST report must have the following formatting:
-        '6 qseqid sseqid evalue pident bitscore sacc
-        staxids sscinames scomnames stitle'
-    """
-    dictout = defaultdict()
-    with open(blast_file, 'r') as fi:
-        next(fi)  # Skip header
-        for line in fi:
-            ls = line.split()
-            taxids = ls[6].split(";")  # split taxids if nescessary
-            # extend taxids list for this OTU
-            if ls[0] in dictout.keys():
-                dictout[ls[0]].extend(taxids)
-            # or inititate the list
-            else:
-                dictout[ls[0]] = taxids
-
-    # Make sure everything is str formated
-    dictout = {k: [str(e) for e in v] for k, v in dictout.items()}
-
-    return dictout
 
 
 def main(blast_report, taxonomy, min_consensus, output):
@@ -47,34 +21,48 @@ def main(blast_report, taxonomy, min_consensus, output):
         raise ValueError("'min_consensus' must be in the interval (0.5 , 1]")
 
     tax = taxidTools.read_json(taxonomy)
-    otu_dict = parse_blast(blast_report)
-    with open(output, 'w') as out:
-        out.write("queryID\tConsensus\tRank\tTaxid\tDisambiguation\n")
 
-        for queryID, taxid_list in otu_dict.items():
-            try:
-                # Usual case, maybe some taxa missing
-                consensus = tax.consensus(taxid_list, min_consensus, ignore_missing=True)
-                rank = consensus.rank
-                name = consensus.name
-                taxid = consensus.taxid
-            except ValueError:
-                # All taxa missing or empty taxid_list
-                consensus = "Undetermined"
-                taxid = "Undetermined"
-                rank = "Undetermined"
-                name = "Undetermined"
+    with open(blast_report) as fi:
+        blast_dict = json.load(fi)
 
-            # (freq, name) tuple to sort
-            freqs = [((v/len(taxid_list)), tax.getName(k))
-                     for k, v in Counter(taxid_list).items()]
-            sorted_freqs = sorted(freqs, reverse=True)
+    # Group by query ID and get list of all taxid where "keep" is True
+    otus = {}
+    for d in blast_dict:
+        if d["keep"]:
+            otus.setdefault(d["query"], []).append(d["Taxid"])
+    otus = [{"queryID": k, "tax_list": v} for k, v in otus.items()]
 
-            names = "; ".join([
-                f"{f} ({round(n, 2)})"
-                for (n, f) in sorted_freqs]
-            )
-            out.write(f"{queryID}\t{name}\t{rank}\t{taxid}\t{names}\n")
+    for d in otus:
+        try:
+            # Usual case, maybe some taxa missing
+            consensus = tax.consensus(d["tax_list"], min_consensus, ignore_missing=True)
+            rank = consensus.rank
+            name = consensus.name
+            taxid = consensus.taxid
+        except ValueError:
+            # All taxa missing or empty taxid_list
+            consensus = "Undetermined"
+            taxid = "Undetermined"
+            rank = "Undetermined"
+            name = "Undetermined"
+        finally:
+            d["consensus"] = consensus
+            d["rank"] = rank
+            d["name"] = name
+            d["taxid"] = taxid
+        
+        # (freq, name) tuple to sort
+        freqs = [{
+            "name": tax.getName(k),
+            "taxid": k,
+            "freq": v/len(d["tax_list"])
+            } for k, v in Counter(d["tax_list"]).items()
+            ]
+        
+        d["tax_list"] = sorted(freqs, reverse=True)
+    
+    with open(output, "w") as fo:
+        json.dump(fo, otus)
 
 
 if __name__ == '__main__':

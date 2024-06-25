@@ -6,12 +6,12 @@ process HELPER_FIND_CONSENSUS {
     container 'gregdenay/taxidtools:3.1.0'
 
     input:
-    tuple val(meta), path(report)   // the pre-filtered blast report in custom TSV format
-    val(consensus)                  // The consensus taxonomy assignment for each OTU
+    tuple val(meta), path(report)   // the pre-filtered blast report in custom JSON format
+    val(consensus)                  // The min consensus value for taxonomy assignment for each OTU
     path(json)                      // the Taxonomy file in JSON for taxidtools
 
     output:
-    path('*.tsv')       , emit: tsv
+    path('*.json')      , emit: json
     path 'versions.yml' , emit: versions
 
     script:
@@ -22,7 +22,7 @@ process HELPER_FIND_CONSENSUS {
     --blast $report \\
     --taxonomy $json \\
     --min_consensus $consensus \\
-    --output ${prefix}_consensus.tsv
+    --output ${prefix}_consensus.json
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
