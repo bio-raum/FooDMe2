@@ -45,6 +45,10 @@ class WorkflowPipeline {
                 log.info 'Requested to build references without specifying the --reference_base'
                 System.exit(1)
             }
+            if (!params.skip_genbank) {
+                log.info 'WARNING: This will install the GenBank nt database for eukaryotes - over 250GB of storage will be required!'
+                log.info 'If you do not think that you will need this database, skip it with --skip_genbank'
+            }
         } else {
             if (params.primer_set && !params.primers.keySet().contains(params.primer_set)) {
                 log.info "The primer set ${params.primer_set} is not currently configured."

@@ -55,6 +55,9 @@ nextflow run bio-raum/FooDMe2 -profile your_profile \\
 --run_name build
 ```
 
+### IMPORTANT
+In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank nt Eukaryote database, which has a final size of over 250.GB, and will need over 500.GB during installation. If your application works with single gene [databases](usage.md#--gene-default--null), you can skip installing this database with `--skip-genbank`. 
+
 ## Site-specific config file
 
 If you run on anything other than a local system, this pipeline requires a site-specific configuration file to be able to talk to your cluster or compute infrastructure. Nextflow supports a wide range of such infrastructures, including Slurm, LSF and SGE - but also Kubernetes and AWS. For more information, see [here](https://www.nextflow.io/docs/latest/executor.html). In addition, a site-specific config file allows you to pre-set certain options specifically for your system and removes some of the complexity of the command line calls. 

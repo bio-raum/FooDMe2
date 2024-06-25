@@ -109,7 +109,15 @@ workflow FOODME2 {
         multiqc_files   = multiqc_files.mix(ONT_WORKFLOW.out.qc)
     // reads are IonTorrent
     } else if (params.iontorrent) {
-        // Torrent workflow
+        ILLUMINA_WORKFLOW(
+            INPUT_CHECK.out.reads,
+            ch_ptrimmer_config,
+            ch_primers,
+            ch_primers_rc
+        )
+        ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
+        multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
+        ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
     // reads are Illumina (or Illumina-like)
     } else {
         ILLUMINA_WORKFLOW(
