@@ -27,8 +27,7 @@ nav:
 theme:
   name: material
   logo: assets/pipelinelogo.png
-
-palette:
+  palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: light blue
