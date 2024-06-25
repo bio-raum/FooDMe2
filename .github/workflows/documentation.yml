@@ -9,30 +9,38 @@ on:
       - "docs/**"
       - "mkdocs.yml"
   workflow_dispatch:
-  page_build:
   release:
     types: # This configuration does not affect the page_build event above
       - created
+
+permissions:
+  content: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v3
+      - uses: actions/checkout@v4
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.x
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
+      - uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
 
-      - name: Update Contributing
-        run: cat CONTRIBUTING.md > docs/about/contributing.md
-
-      - name: Update Changelog
-        run: cat CHANGELOG.md > docs/about/changelog.md
-
-      - name: Update License
-        run: cat LICENSE > docs/about/license.md
+      - name: Update files
+        run: |
+          cat CONTRIBUTING.md > docs/about/contributing.md
+          cat CHANGELOG.md > docs/about/changelog.md
+          cat LICENSE > docs/about/license.md
 
       - name: Install Dependencies
         run: pip install mkdocs-material
