@@ -7,6 +7,7 @@ include { UNTAR as UNTAR_TAXONOMY }         from './../modules/untar'
 include { UNTAR as UNTAR_UNITE }            from './../modules/untar'
 include { HELPER_FORMAT_GENBANK_TAXIDS }    from './../modules/helper/format_genbank_taxids'
 include { HELPER_FORMAT_UNITE }             from './../modules/helper/format_unite'
+include { HELPER_INSTALL_GENBANK }          from './../modules/helper/install_genbank'
 
 genes   = params.references.genes.keySet()
 
@@ -115,4 +116,14 @@ workflow BUILD_REFERENCES {
     BLAST_MAKEBLASTDB(
         ch_blast_files
     )
+
+    /*
+    The full NT databases - this is too complex
+    to just stage via Nextflow so we use a more sophisticated
+    download script -  and we make it skippable in case users
+    do not need it. 
+    */
+    if (!params.skip_genbank) {
+        HELPER_INSTALL_GENBANK()
     }
+}

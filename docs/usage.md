@@ -160,7 +160,7 @@ If you use primers with overhanging ends for e.g., downstream ligation, these ov
 
 #### `--gene` [default = null]
 
-If you do not use a pre-configured primer set, you will also need to tell the pipeline which mitochondrial gene you are targeting. Available options are (common choices in bold):
+If you do not use a pre-configured primer set, you will also need to tell the pipeline which database you wish to use. Available options are (common choices in bold):
 
 - a6
 - a8
@@ -170,6 +170,8 @@ If you do not use a pre-configured primer set, you will also need to tell the pi
 - co2
 - co3
 - **cytb**
+- **genbank_nt**
+- ncbi_its
 - **its**
 - nd1
 - nd2
@@ -177,8 +179,15 @@ If you do not use a pre-configured primer set, you will also need to tell the pi
 - nd4l
 - nd5
 - nd6
+- **refseq**
 
-Curated databases for these genes are obtained from [Midori](https://www.reference-midori.info/) and [Unite](https://unite.ut.ee/index.php).
+The underlying databases are obtained from [Midori](https://www.reference-midori.info/), [Unite](https://unite.ut.ee/index.php) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db).
+
+You can get a list of supported databases and their origin as follows:
+
+```NEXTFLOW
+nextflow run bio-raum/FooDMe2 --list_dbs
+``` 
 
 ### Expert options
 
