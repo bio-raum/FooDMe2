@@ -22,7 +22,7 @@ process HELPER_FIND_CONSENSUS {
     --blast $report \\
     --taxonomy $json \\
     --min_consensus $consensus \\
-    --output ${prefix}_consensus.json
+    --output ${prefix}.consensus.json
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
