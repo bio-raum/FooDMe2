@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sys
+
 import argparse
+
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--taxids", help="path to BLAST mask")
@@ -10,6 +11,7 @@ parser.add_argument("--blocklist", help="Path to blocklist")
 parser.add_argument("--output", help="Name of output file")
 
 args = parser.parse_args()
+
 
 def main(taxids, blocklist, output):
     with open(taxids, 'r') as fi:
