@@ -58,7 +58,6 @@ theme:
 
 plugins:
   - search
-  - autorefs
 
 markdown_extensions:
   - attr_list
