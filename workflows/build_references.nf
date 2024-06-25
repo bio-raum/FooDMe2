@@ -1,10 +1,11 @@
-include { UNZIP as UNZIP_REFERENCES }       from './../modules/unzip'
+include { UNZIP as UNZIP_MIDORI }           from './../modules/unzip'
 include { GUNZIP as GUNZIP_TAXONOMY }       from './../modules/gunzip'
 include { GUNZIP as GUNZIP_REFSEQ }         from './../modules/gunzip'
 include { HELPER_FORMAT_MIDORI }            from './../modules/helper/format_midori'
 include { BLAST_MAKEBLASTDB }               from './../modules/blast/makeblastdb'
 include { UNTAR as UNTAR_TAXONOMY }         from './../modules/untar'
 include { UNTAR as UNTAR_UNITE }            from './../modules/untar'
+include { UNTAR as UNTAR_NCBI }             from './../modules/untar'
 include { HELPER_FORMAT_GENBANK_TAXIDS }    from './../modules/helper/format_genbank_taxids'
 include { HELPER_FORMAT_UNITE }             from './../modules/helper/format_unite'
 include { HELPER_INSTALL_GENBANK }          from './../modules/helper/install_genbank'
@@ -41,20 +42,15 @@ if (params.build_references) {
 
 ch_files = Channel.fromList(database_files)
 ch_blast_files = Channel.from([])
-
+ 
 workflow BUILD_REFERENCES {
     main:
 
-    /*
-    This is a bit crude. Different DBs happen to have different suffixes, so we can use
-    that to branch them for unpacking AND processing. Be careful here if new DBs are added
-    and, for example, should not go to the MIDORI formatter...
-    */
     ch_files.branch { m, r ->
-        zipped: r.toString().contains('.zip')
-        tarzipped: r.toString().contains('tar.gz') || r.toString().contains('.tgz')
-        gzipped: r.toString().contains('.gz') 
-        uncompressed: !ir.toString().contains('.zip') && !r.toString().contains('.gz')
+        midori: r.toString().contains("MIDORI")
+        ncbi_its: r.toString().contains("ITS_eukaryote")
+        refseq: r.toString().contains("mitochondrion")
+        unite: m.id == "unite"
     }.set { ch_branched_files }
 
     /*
@@ -79,7 +75,7 @@ workflow BUILD_REFERENCES {
     Decompress Gzipped database (RefSeq)
     */
     GUNZIP_REFSEQ(
-        ch_branched_files.gzipped
+        ch_branched_files.refseq
     )
 
     ch_refseq_with_taxids = GUNZIP_REFSEQ.out.gunzip.combine(
@@ -91,7 +87,7 @@ workflow BUILD_REFERENCES {
     Decompress the Unite database and re-format
     */
     UNTAR_UNITE(
-        ch_branched_files.tarzipped
+        ch_branched_files.unite
     )
     HELPER_FORMAT_UNITE(
         UNTAR_UNITE.out.fasta
@@ -104,8 +100,8 @@ workflow BUILD_REFERENCES {
     /*
     MIDORI Blast databases are zipped, so we unzip them
     */
-    UNZIP_REFERENCES(
-        ch_branched_files.zipped
+    UNZIP_MIDORI(
+        ch_branched_files.midori
     )
 
     ch_fasta_files = ch_branched_files.uncompressed.mix(UNZIP_REFERENCES.out.unzip)
