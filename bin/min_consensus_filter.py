@@ -67,8 +67,8 @@ def main(blast_report, taxonomy, min_consensus, output):
 
             # (freq, name) tuple to sort
             freqs = [((v/len(taxid_list)), tax.getName(k))
-                        for k, v in Counter(taxid_list).items()
-                    ]
+                     for k, v in Counter(taxid_list).items()
+                ]
             sorted_freqs = sorted(freqs, reverse=True)
 
             names = "; ".join([
