@@ -14,7 +14,7 @@ on:
       - created
 
 permissions:
-  content: write
+  contents: write
 
 jobs:
   deploy:
