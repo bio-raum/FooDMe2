@@ -76,14 +76,14 @@ cd "$directory"
 
 # Get directory listing in html format
 echo "[$( date -I'minutes')][INFO] Retrieving remote directory ${BLAST}"
-if wget --no-check-certificate ${BLAST} ; then :
+if wget --tries 3 --quiet --no-check-certificate ${BLAST} ; then :
 else
   echo "[$( date -I'minutes')][ERROR] URL does not exist: ${BLAST}"
   exit 1
 fi
 
 # Get Readme
-wget --no-check-certificate --quiet --tries 3 -O README.html ${BLAST}README
+wget --tries 3 --quiet --no-check-certificate   -O README.html ${BLAST}README
 
 # Cleanup older links
 if [ -f links ]; then
@@ -106,20 +106,20 @@ paste \
 
 while IFS=$'\t' read -r part md5; do
   # Getting checksum (always fresh)
-  wget --no-check-certificate -N --quiet --tries 3 $md5
+  wget --tries 3 --quiet --no-check-certificate -N   $md5
   
   # check if file exist
   if [ -f $(basename ${part}) ]; then
     echo "[$( date -I'minutes')][WARNING] $(basename ${part}) already exists"
-    md5sum --quiet -c $(basename ${md5})
+    md5sum  -c $(basename ${md5})
     
     # md5 exit status should be 0 if everything is ok
     if [ $? -ne 0 ]; then
       # Re download and check md5
       echo "[$( date -I'minutes')][WARNING] Checksum invalid, redownloading $(basename ${part})"
       rm $(basename ${part})
-      wget --no-check-certificate --quiet --tries 3 $part
-      md5sum --quiet -c $(basename ${md5})
+      wget --tries 3 --quiet --no-check-certificate   $part
+      md5sum  -c $(basename ${md5})
       
       # Check md5 status and exit on error
       if [ $? -ne 0 ]; then
@@ -136,8 +136,8 @@ while IFS=$'\t' read -r part md5; do
   else
     # download and check md5
     echo "[$( date -I'minutes')][INFO] Downloading $(basename ${part})"
-    wget --no-check-certificate --quiet --tries 3 $part
-    md5sum --quiet -c $(basename ${md5})
+    wget --tries 3 --quiet --no-check-certificate   $part
+    md5sum  -c $(basename ${md5})
     
     # Check md5 status and exit on error
     if [ $? -ne 0 ]; then

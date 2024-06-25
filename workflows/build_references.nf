@@ -30,6 +30,7 @@ database_files = []
 if (params.build_references) {
     // For all genes of interest, recover supported tools and the corresponding database link
     genes.each { gene ->
+        // Genbank NT does not have an url, so we skip it here. 
         if (params.references.genes[gene].url) {
             database_files << [ [ id: gene, tool: 'blast' ] ,
                 file(params.references.genes[gene].url, checkIfExists: true)
@@ -44,6 +45,11 @@ ch_blast_files = Channel.from([])
 workflow BUILD_REFERENCES {
     main:
 
+    /*
+    This is a bit crude. Different DBs happen to have different suffixes, so we can use
+    that to branch them for unpacking AND processing. Be careful here if new DBs are added
+    and, for example, should not go to the MIDORI formatter...
+    */
     ch_files.branch { m, r ->
         zipped: r.toString().contains('.zip')
         tarzipped: r.toString().contains('tar.gz') || r.toString().contains('.tgz')

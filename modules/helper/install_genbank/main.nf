@@ -4,13 +4,10 @@ process HELPER_INSTALL_GENBANK {
     label 'long_serial'
 
     /*
-    Yes, this uses the vsearch container because it happens to have an up-to-date version
-    of wget whereas gnu-wget is woefully outdated and does not support TSL. Go figure. 
+    Seems like no bioconda container has the proper wget available, so we have to resort to Dockerhub 
     */
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/vsearch:2.27.0--h6a68c12_0' :
-        'quay.io/biocontainers/vsearch:2.27.0--h6a68c12_0' }"
+    container "biocontainers/ncbi-datasets-cli:15.12.0_cv23.1.0-4"
 
     output:
     tuple val(meta), path("genbank_nt"), emit: db

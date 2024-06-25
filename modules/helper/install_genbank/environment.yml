@@ -4,4 +4,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - bioconda::vsearch=2.27.0
+  - conda-forge::wget=1.21.4
