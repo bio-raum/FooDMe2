@@ -11,7 +11,7 @@ process BLAST_FILTER_BITSCORE {
     tuple val(meta), path(report)   // the unfiltered blast report in custom TSV format
 
     output:
-    tuple val(meta), path('*.filtered.tsv'), emit: tsv
+    tuple val(meta), path('*.filtered.json'), emit: json
     path 'versions.yml'                     , emit: versions
 
     script:
@@ -19,7 +19,7 @@ process BLAST_FILTER_BITSCORE {
     def prefix = task.ext.prefix ?: report.getSimpleName()
 
     """
-    filter_blast.py --report $report --output ${prefix}.filtered.tsv $args
+    filter_blast.py --report $report --output ${prefix}.filtered.json $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

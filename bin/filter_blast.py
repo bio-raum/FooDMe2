@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 import argparse
+import json
 from os import stat
 import pandas as pd
+
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--report", help="path to BLAST report")
@@ -30,23 +33,15 @@ def main(report, output, bit_diff):
     ]
 
     if stat(report).st_size == 0:
-        with open(output, "w") as fout:
-            fout.write(
-                str.join(header)
-            )
+        json_out = {e: "" for e in header}
     else:
         df = pd.read_csv(report, sep="\t", names=header)
-        if df.empty:
-            df.to_csv(output, sep="\t", header=True, index=False)
-        else:
-            sd = dict(tuple(df.groupby("query")))
-            dfout = pd.DataFrame()
-            for key, val in sd.items():
-                dfout = pd.concat(
-                    [dfout, val[val["bitscore"] >= max(val["bitscore"]) - bit_diff]]
-                )
-            dfout["query"] = dfout["query"].str.split(";").str[0]
-            dfout.to_csv(output, sep="\t", header=True, index=False)
+        if not df.empty:
+            df["delta_bitscore"] = df.groupby("query")["bitscore"].transform("max") - df["bitscore"]
+            df["keep"] = df.apply(lambda x: x["delta_bitscore"] <= bit_diff, axis=1)
+        json_out = df.to_json(orient="records")
+    with open(output, "w") as fo:
+        json.dump(output, json_out)
 
 
 if __name__ == '__main__':

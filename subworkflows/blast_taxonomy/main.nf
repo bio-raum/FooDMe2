@@ -81,20 +81,10 @@ workflow BLAST_TAXONOMY {
     Find taxonomic consensus for each OTU
     */
     HELPER_FIND_CONSENSUS(
-        BLAST_FILTER_BITSCORE.out.tsv,
+        BLAST_FILTER_BITSCORE.out.json,
         params.blast_min_consensus,
         tax_json.collect()
     )
-
-    // Blast stats
-
-    // Merge Blast stats
-
-    // Taxonomy stats
-
-    // Merge Taxonomy stats
-
-    // Summarize results
 
     emit:
     results = BLAST_BLASTN.out.txt
