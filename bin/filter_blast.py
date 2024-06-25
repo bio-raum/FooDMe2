@@ -33,15 +33,17 @@ def main(report, output, bit_diff):
     ]
 
     if stat(report).st_size == 0:
+        header.append("size")
         json_out = {e: "" for e in header}
     else:
         df = pd.read_csv(report, sep="\t", names=header)
         if not df.empty:
+            df[["query", "size"]] = df["query"].str.split(";size=", n=1, expand=True)
             df["delta_bitscore"] = df.groupby("query")["bitscore"].transform("max") - df["bitscore"]
             df["keep"] = df.apply(lambda x: x["delta_bitscore"] <= bit_diff, axis=1)
-        json_out = df.to_json(orient="records")
+        json_out = json.loads(df.to_json(orient="records"))
     with open(output, "w") as fo:
-        json.dump(output, json_out)
+        json.dump(json_out, fo, indent=4)
 
 
 if __name__ == '__main__':

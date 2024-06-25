@@ -5,7 +5,7 @@
 import argparse
 import json
 import taxidTools
-from collections import Counter, defaultdict
+from collections import Counter
 
 
 parser = argparse.ArgumentParser(description="Script options")
@@ -29,8 +29,8 @@ def main(blast_report, taxonomy, min_consensus, output):
     otus = {}
     for d in blast_dict:
         if d["keep"]:
-            otus.setdefault(d["query"], []).append(d["Taxid"])
-    otus = [{"queryID": k, "tax_list": v} for k, v in otus.items()]
+            otus.setdefault(d["query"], []).append(str(d["subject_taxid"]))
+    otus = [{"query": k, "tax_list": v} for k, v in otus.items()]
 
     for d in otus:
         try:
@@ -39,14 +39,13 @@ def main(blast_report, taxonomy, min_consensus, output):
             rank = consensus.rank
             name = consensus.name
             taxid = consensus.taxid
-        except ValueError:
+        # except ValueError:
             # All taxa missing or empty taxid_list
-            consensus = "Undetermined"
-            taxid = "Undetermined"
-            rank = "Undetermined"
-            name = "Undetermined"
+            # consensus = "Undetermined"
+            # taxid = "Undetermined"
+            # rank = "Undetermined"
+            # name = "Undetermined"
         finally:
-            d["consensus"] = consensus
             d["rank"] = rank
             d["name"] = name
             d["taxid"] = taxid
@@ -59,10 +58,10 @@ def main(blast_report, taxonomy, min_consensus, output):
             } for k, v in Counter(d["tax_list"]).items()
             ]
         
-        d["tax_list"] = sorted(freqs, reverse=True)
+        d["tax_list"] = freqs
     
     with open(output, "w") as fo:
-        json.dump(fo, otus)
+        json.dump(otus, fo, indent=4)
 
 
 if __name__ == '__main__':
