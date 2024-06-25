@@ -18,6 +18,16 @@ class WorkflowPipeline {
             }
             System.exit(1)
         }
+        if (params.list_dbs) {
+            println('Available databases:')
+            println('===========================')
+            params.references.genes.keySet().each { db ->
+                def info = params.references.genes[db].description
+                println("Name: ${db}\nDescription: ${info}")
+                println('---------------------------')
+            }
+            System.exit(1)
+        }
         if (!params.run_name) {
             log.info 'Must provide a run_name (--run_name)'
             System.exit(1)
