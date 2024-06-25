@@ -1,0 +1,41 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.md"
+      - "docs/**"
+      - "mkdocs.yml"
+  workflow_dispatch:
+  page_build:
+  release:
+    types: # This configuration does not affect the page_build event above
+      - created
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+
+      - name: Update Contributing
+        run: cat CONTRIBUTING.md > docs/about/contributing.md
+
+      - name: Update Changelog
+        run: cat CHANGELOG.md > docs/about/changelog.md
+
+      - name: Update License
+        run: cat LICENSE > docs/about/license.md
+
+      - name: Install Dependencies
+        run: pip install mkdocs-material
+
+      - name: Publish Docs
+        run: mkdocs gh-deploy -v --force
