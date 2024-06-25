@@ -76,14 +76,14 @@ cd "$directory"
 
 # Get directory listing in html format
 echo "[$( date -I'minutes')][INFO] Retrieving remote directory ${BLAST}"
-if curl ${BLAST} --fail --silent > ftp_dir.html; then :
+if wget --no-check-certificate ${BLAST} ; then :
 else
   echo "[$( date -I'minutes')][ERROR] URL does not exist: ${BLAST}"
   exit 1
 fi
 
 # Get Readme
-wget --quiet --tries 3 -O README.html ${BLAST}README
+wget --no-check-certificate --quiet --tries 3 -O README.html ${BLAST}README
 
 # Cleanup older links
 if [ -f links ]; then
@@ -94,11 +94,11 @@ fi
 # Extract checksums and fasta links
 echo "[$( date -I'minutes')][INFO] Extracting links"
 paste \
-  <(grep -E "\"nt\.[0-9]+\.tar\.gz\"" ftp_dir.html \
+  <(grep -E "\"nt_euk\.[0-9]+\.tar\.gz\"" index.html \
     | cut -d'"' -f2 \
     | awk  -v blast=${BLAST} '{print blast$0}' \
     | sort -d ) \
-  <(grep -E "\"nt\.[0-9]+\.tar\.gz\.md5\"" ftp_dir.html \
+  <(grep -E "\"nt_euk\.[0-9]+\.tar\.gz\.md5\"" index.html \
   | cut -d'"' -f2 \
   | awk  -v blast=${BLAST} '{print blast$0}' \
   | sort -d ) \
@@ -106,7 +106,7 @@ paste \
 
 while IFS=$'\t' read -r part md5; do
   # Getting checksum (always fresh)
-  wget -N --quiet --tries 3 $md5
+  wget --no-check-certificate -N --quiet --tries 3 $md5
   
   # check if file exist
   if [ -f $(basename ${part}) ]; then
@@ -118,7 +118,7 @@ while IFS=$'\t' read -r part md5; do
       # Re download and check md5
       echo "[$( date -I'minutes')][WARNING] Checksum invalid, redownloading $(basename ${part})"
       rm $(basename ${part})
-      wget --quiet --tries 3 $part
+      wget --no-check-certificate --quiet --tries 3 $part
       md5sum --quiet -c $(basename ${md5})
       
       # Check md5 status and exit on error
@@ -136,7 +136,7 @@ while IFS=$'\t' read -r part md5; do
   else
     # download and check md5
     echo "[$( date -I'minutes')][INFO] Downloading $(basename ${part})"
-    wget --quiet --tries 3 $part
+    wget --no-check-certificate --quiet --tries 3 $part
     md5sum --quiet -c $(basename ${md5})
     
     # Check md5 status and exit on error

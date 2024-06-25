@@ -30,9 +30,11 @@ database_files = []
 if (params.build_references) {
     // For all genes of interest, recover supported tools and the corresponding database link
     genes.each { gene ->
-        database_files << [ [ id: gene, tool: 'blast' ] ,
-            file(params.references.genes[gene].url, checkIfExists: true)
-        ]
+        if (params.references.genes[gene].url) {
+            database_files << [ [ id: gene, tool: 'blast' ] ,
+                file(params.references.genes[gene].url, checkIfExists: true)
+            ]
+        }
     }
 }
 

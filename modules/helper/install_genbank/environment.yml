@@ -4,4 +4,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - conda-forge::sed=4.7
+  - bioconda::vsearch=2.27.0
