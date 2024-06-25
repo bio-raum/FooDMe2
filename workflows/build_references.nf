@@ -1,5 +1,6 @@
 include { UNZIP as UNZIP_REFERENCES }       from './../modules/unzip'
 include { GUNZIP as GUNZIP_TAXONOMY }       from './../modules/gunzip'
+include { GUNZIP as GUNZIP_REFSEQ }         from './../modules/gunzip'
 include { HELPER_FORMAT_MIDORI }            from './../modules/helper/format_midori'
 include { BLAST_MAKEBLASTDB }               from './../modules/blast/makeblastdb'
 include { UNTAR as UNTAR_TAXONOMY }         from './../modules/untar'
@@ -42,7 +43,8 @@ workflow BUILD_REFERENCES {
 
     ch_files.branch { m, r ->
         zipped: r.toString().contains('.zip')
-        gzipped: r.toString().contains('tar.gz') || r.toString().contains('.tgz')
+        tarzipped: r.toString().contains('tar.gz') || r.toString().contains('.tgz')
+        gzipped: r.toString().contains('.gz') 
         uncompressed: !ir.toString().contains('.zip') && !r.toString().contains('.gz')
     }.set { ch_branched_files }
 
@@ -65,10 +67,22 @@ workflow BUILD_REFERENCES {
     )
 
     /*
+    Decompress Gzipped database (RefSeq)
+    */
+    GUNZIP_REFSEQ(
+        ch_branched_files.gzipped
+    )
+
+    ch_refseq_with_taxids = GUNZIP_REFSEQ.out.gunzip.combine(
+        HELPER_FORMAT_GENBANK_TAXIDS.out.tab.map { m,t -> t }
+    )
+    ch_blast_files = ch_blast_files.mix(ch_refseq_with_taxids)
+
+    /*
     Decompress the Unite database and re-format
     */
     UNTAR_UNITE(
-        ch_branched_files.gzipped
+        ch_branched_files.tarzipped
     )
     HELPER_FORMAT_UNITE(
         UNTAR_UNITE.out.fasta

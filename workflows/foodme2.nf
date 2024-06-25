@@ -104,9 +104,9 @@ workflow FOODME2 {
             ch_primers,
             ch_primers_rc
         )
-        ch_versions = ch_versions.mix(ONT_WORKFLOW.out.versions)
-        ch_otus = ch_otus.mix(ONT_WORKFLOW.out.otus)
-        multiqc_files = multiqc_files.mix(ONT_WORKFLOW.out.qc)
+        ch_versions     = ch_versions.mix(ONT_WORKFLOW.out.versions)
+        ch_otus         = ch_otus.mix(ONT_WORKFLOW.out.otus)
+        multiqc_files   = multiqc_files.mix(ONT_WORKFLOW.out.qc)
     // reads are IonTorrent
     } else if (params.iontorrent) {
         // Torrent workflow
