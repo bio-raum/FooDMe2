@@ -143,9 +143,9 @@ workflow FOODME2 {
     BLAST_TAXONOMY(
         ch_otus,
         ch_blast_db.collect(),
-        ch_tax_files,
-        ch_taxdb,
-        ch_blocklist
+        ch_tax_files.collect(),
+        ch_taxdb.collect(),
+        ch_blocklist.collect()
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
     ch_bitscore    = ch_bitscore.mix(BLAST_TAXONOMY.out.bitscore)
