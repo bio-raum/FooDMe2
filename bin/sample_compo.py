@@ -17,21 +17,20 @@ def main(json_in, output):
     with open(json_in, "r") as fi:
         j = json.load(fi)
 
-    size, = {}
+    size = {}
     rank, name = {}, {}
     total = 0
     for e in j:
         size.setdefault(e["taxid"], []).append(e["size"])
         rank.setdefault(e["taxid"], e["rank"])
         name.setdefault(e["name"], e["name"])
-        total += e["size"]
+        total += int(e["size"])
 
-    total = sum(total)
     d = [{
             "name": name[id],
             "taxid": id,
             "rank": rank[id],
-            "proportion": sum(size[id])/total
+            "proportion": sum([int(i) for i in size[id]])/total
     } for id in size.keys()]
 
     df = pd.read_json(json.dumps(d), orient="record")
