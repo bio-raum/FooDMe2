@@ -15,7 +15,7 @@ process HELPER_BLAST_STATS {
     path 'versions.yml'                       , emit: versions
 
     script:
-    def prefix = task.ext.prefix ?: report.getSimpleName()
+    def prefix = task.ext.prefix ?: json.getSimpleName()
 
     """
     blast_stats.py --json $json --output ${prefix}.blast_stats.tsv
