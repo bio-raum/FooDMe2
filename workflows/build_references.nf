@@ -104,13 +104,11 @@ workflow BUILD_REFERENCES {
         ch_branched_files.midori
     )
 
-    ch_fasta_files = ch_branched_files.uncompressed.mix(UNZIP_REFERENCES.out.unzip)
-
     /*
     Clean FASTA header in Midori files
     */
     HELPER_FORMAT_MIDORI(
-        ch_fasta_files
+        UNZIP_MIDORI.out.unzip
     )
     ch_blast_files = ch_blast_files.mix(HELPER_FORMAT_MIDORI.out.midori)
 
