@@ -11,8 +11,8 @@ process HELPER_FIND_CONSENSUS {
     path(json)                      // the Taxonomy file in JSON for taxidtools
 
     output:
-    path('*.json')      , emit: json
-    path 'versions.yml' , emit: versions
+    tuple val(meta), path('*.consensus.json') , emit: json
+    path 'versions.yml'      , emit: versions
 
     script:
     def prefix = task.ext.prefix ?: "${meta.sample_id}"

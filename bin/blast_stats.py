@@ -12,7 +12,7 @@ args = parser.parse_args()
 
 
 def main(json_in, output):
-    df = pd.read_json(json_in)
+    df = pd.read_json(json_in, orient="record")
     df = df[[
         "query",
         "size",
