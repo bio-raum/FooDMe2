@@ -17,7 +17,6 @@ args = parser.parse_args()
 
 
 def main(report, output, bit_diff):
-    str = "\t"
     header = [
         "query",
         "subject",

@@ -49,7 +49,7 @@ def main(blast_report, taxonomy, min_consensus, output):
             d["rank"] = rank
             d["name"] = name
             d["taxid"] = taxid
-        
+
         # (freq, name) tuple to sort
         freqs = [{
             "name": tax.getName(k),
@@ -57,9 +57,9 @@ def main(blast_report, taxonomy, min_consensus, output):
             "freq": v/len(d["tax_list"])
             } for k, v in Counter(d["tax_list"]).items()
             ]
-        
+
         d["tax_list"] = freqs
-    
+
     with open(output, "w") as fo:
         json.dump(otus, fo, indent=4)
 

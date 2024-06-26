@@ -13,9 +13,18 @@ args = parser.parse_args()
 
 def main(json_in, output):
     df = pd.read_json(json_in)
-    df = df[["query", "size", "subject_taxid", "delta-bitscore", "keep", "bitscore", "alignment_length", "mismatch", "gaps"]]
+    df = df[[
+        "query",
+        "size",
+        "subject_taxid",
+        "delta-bitscore",
+        "keep", "bitscore",
+        "alignment_length",
+        "mismatch",
+        "gaps"
+        ]]
     df.sort._values("size")
-    df.to_csv(output, sep="\t", index=False)    
+    df.to_csv(output, sep="\t", index=False)
 
 
 if __name__ == '__main__':
