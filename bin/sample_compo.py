@@ -25,7 +25,7 @@ def main(json_in, output):
         rank.setdefault(e["taxid"], e["rank"])
         name.setdefault(e["name"], e["name"])
         total += e["size"]
-    
+
     total = sum(total)
     d = [{
             "name": name[id],
@@ -37,6 +37,6 @@ def main(json_in, output):
     df = pd.read_json(json.dumps(d), orient="record")
     df.to_csv(output, sep="\t", index=False)
 
-    
+
 if __name__ == '__main__':
     main(args.json, args.output)
