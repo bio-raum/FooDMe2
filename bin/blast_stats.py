@@ -17,13 +17,15 @@ def main(json_in, output):
         "query",
         "size",
         "subject_taxid",
-        "delta-bitscore",
-        "keep", "bitscore",
+        "subject_name",
+        "delta_bitscore",
+        "keep",
+        "bitscore",
         "alignment_length",
         "mismatch",
         "gaps"
         ]]
-    df.sort._values("size")
+    df.sort_values("size")
     df.to_csv(output, sep="\t", index=False)
 
 
