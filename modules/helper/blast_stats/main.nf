@@ -1,4 +1,4 @@
-process BLAST_STATS {
+process HELPER_BLAST_STATS {
     tag "${meta.sample_id}"
     label 'short_serial'
 
@@ -15,7 +15,7 @@ process BLAST_STATS {
     path 'versions.yml'                       , emit: versions
 
     script:
-    def prefix = taxk.ext.prefix ?: report.getSimpleName()
+    def prefix = task.ext.prefix ?: report.getSimpleName()
 
     """
     blast_stats.py --json $json --output ${prefix}.blast_stats.tsv

@@ -1,4 +1,4 @@
-include {}              from './../../modules/helper/blast_stats'
+include { HELPER_BLAST_STATS }              from './../../modules/helper/blast_stats'
 
 ch_versions = Channel.from([])
 
@@ -27,11 +27,12 @@ workflow REPORTING {
     HELPER_BLAST_STATS(
         bitscore
     )
+    ch_versions = ch_versions.mix(HELPER_BLAST_STATS.out.versions)
 
     /*
     Sample composition
     */
 
     emit:
-    version = ch_versions
+    versions = ch_versions
 }
