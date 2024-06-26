@@ -68,7 +68,10 @@ if (params.reference_base && gene) {
     tax_merged          = file(params.references.taxonomy.merged, checkIfExists: true)         // ncbi merged file
 
     ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
+
+    ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
 }
+
 
 /*
 Set a taxonomy block list to remove unwanted taxa
@@ -141,6 +144,7 @@ workflow FOODME2 {
         ch_otus,
         ch_blast_db.collect(),
         ch_tax_files,
+        ch_taxdb,
         ch_blocklist
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)

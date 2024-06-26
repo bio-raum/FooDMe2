@@ -13,6 +13,7 @@ workflow BLAST_TAXONOMY {
     otus        // [ meta, fasta ]
     blast_db    // [ meta, folder ]
     taxdump     // [ nodes, rankedlineage, merged ]
+    taxdb       // [ taxdb folder ]
     block_list  // [ blocklist ]
 
     main:
@@ -65,6 +66,7 @@ workflow BLAST_TAXONOMY {
     BLAST_BLASTN(
         otus,
         blast_db.collect(),
+        taxdb,
         blast_mask_blocked.collect()
     )
     ch_versions     = ch_versions.mix(BLAST_BLASTN.out.versions)
