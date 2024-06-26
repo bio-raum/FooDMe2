@@ -1,5 +1,5 @@
 include { BLAST_BLASTN }                    from './../../modules/blast/blastn'
-include { BLAST_FILTER_BITSCORE }           from './../../modules/helper/blast_filter_bitscore'
+include { HELPER_BLAST_FILTER_BITSCORE }    from './../../modules/helper/blast_filter_bitscore'
 include { HELPER_FILTER_TAXONOMY }          from './../../modules/helper/filter_taxonomy'
 include { BLAST_TAXONOMY_FROM_DB }          from './../../modules/helper/blast_taxonomy_from_db'
 include { HELPER_FIND_CONSENSUS }           from './../../modules/helper/find_consensus'
@@ -7,13 +7,13 @@ include { HELPER_CREATE_BLAST_MASK }        from './../../modules/helper/create_
 include { HELPER_BLAST_APPLY_BLOCKLIST }    from './../../modules/helper/blast_apply_blocklist'
 
 ch_versions = Channel.from([])
-ch_stats    = Channel.from([])
 
 workflow BLAST_TAXONOMY {
     take:
     otus        // [ meta, fasta ]
     blast_db    // [ meta, folder ]
     taxdump     // [ nodes, rankedlineage, merged ]
+    taxdb       // [ taxdb folder ]
     block_list  // [ blocklist ]
 
     main:
@@ -66,6 +66,7 @@ workflow BLAST_TAXONOMY {
     BLAST_BLASTN(
         otus,
         blast_db.collect(),
+        taxdb,
         blast_mask_blocked.collect()
     )
     ch_versions     = ch_versions.mix(BLAST_BLASTN.out.versions)
@@ -73,7 +74,7 @@ workflow BLAST_TAXONOMY {
     /*
     Filter the Blast hits to remove low-scoring hits
     */
-    BLAST_FILTER_BITSCORE(
+    HELPER_BLAST_FILTER_BITSCORE(
         BLAST_BLASTN.out.txt
     )
 
@@ -81,12 +82,13 @@ workflow BLAST_TAXONOMY {
     Find taxonomic consensus for each OTU
     */
     HELPER_FIND_CONSENSUS(
-        BLAST_FILTER_BITSCORE.out.json,
+        HELPER_BLAST_FILTER_BITSCORE.out.json,
         params.blast_min_consensus,
         tax_json.collect()
     )
 
     emit:
-    results = BLAST_BLASTN.out.txt
+    bitscore = HELPER_BLAST_FILTER_BITSCORE.out.json
+    consensus = HELPER_FIND_CONSENSUS.out.json
     versions = ch_versions
 }

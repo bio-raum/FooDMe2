@@ -1,0 +1,7 @@
+name: blast_stats
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::bioinfokit=2.1.3

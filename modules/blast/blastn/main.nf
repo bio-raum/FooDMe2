@@ -10,6 +10,7 @@ process BLAST_BLASTN {
     input:
     tuple val(meta) , path(fasta)
     tuple val(meta2), path(db)
+    path(taxdb)
     path(blast_mask)
 
     output:
@@ -29,6 +30,8 @@ process BLAST_BLASTN {
         DB=`find -L ./ -name "*.ndb" | sed 's/\\.ndb\$//'`
     fi
     echo Using \$DB
+
+    export BLASTDB=$taxdb
 
     blastn \\
         -num_threads ${task.cpus} \\

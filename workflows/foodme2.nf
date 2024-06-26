@@ -12,6 +12,7 @@ Import sub workflows
 include { ILLUMINA_WORKFLOW }           from './../subworkflows/illumina_workflow'
 include { BLAST_TAXONOMY }              from './../subworkflows/blast_taxonomy'
 include { ONT_WORKFLOW }                from './../subworkflows/ont_workflow'
+include { REPORTING }                   from './../subworkflows/reporting'
 /*
 Set default channels and values
 */
@@ -67,7 +68,10 @@ if (params.reference_base && gene) {
     tax_merged          = file(params.references.taxonomy.merged, checkIfExists: true)         // ncbi merged file
 
     ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
+
+    ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
 }
+
 
 /*
 Set a taxonomy block list to remove unwanted taxa
@@ -80,6 +84,8 @@ Setting default channels
 ch_versions     = Channel.from([]) // all version yml files
 multiqc_files   = Channel.from([]) // all files to go to MultiQC
 ch_otus         = Channel.from([]) // all the OTUs
+ch_bitscore     = Channel.from([]) // all the blast reports
+ch_consensus    = Channel.from([]) // all consensus
 
 workflow FOODME2 {
     main:
@@ -138,9 +144,21 @@ workflow FOODME2 {
         ch_otus,
         ch_blast_db.collect(),
         ch_tax_files,
+        ch_taxdb,
         ch_blocklist
     )
-    ch_versions     = ch_versions.mix(BLAST_TAXONOMY.out.versions)
+    ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
+    ch_bitscore    = ch_bitscore.mix(BLAST_TAXONOMY.out.bitscore)
+    ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)
+
+    /*
+    Generate reports
+    */
+    REPORTING(
+        ch_bitscore,
+        ch_consensus
+    )
+    ch_versions    = ch_versions.mix(REPORTING.out.versions)
 
     // Create list of software packages used
     CUSTOM_DUMPSOFTWAREVERSIONS(

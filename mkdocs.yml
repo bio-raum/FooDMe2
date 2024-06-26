@@ -2,8 +2,6 @@ site_name: FooDMe2 Documentation
 site_url: https://bio-raum.github.io/FooDMe2
 site_description: Food DNA Metabarcoding analysis
 site_author: Grégoire Denay and Marc Höppner
-copyright: GNU-GPL
-
 repo_url: https://github.com/bio-raum/FooDMe2
 
 nav:
@@ -74,4 +72,4 @@ markdown_extensions:
   - pymdownx.superfences
 
 copyright:
-  Copyrigth &copy; 2024 Grégoire Denay and Marc Höppner
+  Copyrigth &copy; GNU-GPL - 2024 Grégoire Denay and Marc Höppner

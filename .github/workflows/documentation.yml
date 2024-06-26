@@ -7,7 +7,7 @@ on:
     paths:
       - "**.md"
       - "docs/**"
-      - "mkdocs.yml"
+      - "conf/mkdocs.yml"
   workflow_dispatch:
   release:
     types: # This configuration does not affect the page_build event above
