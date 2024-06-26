@@ -23,17 +23,18 @@ def main(json_in, output):
     for e in j:
         size.setdefault(e["taxid"], []).append(e["size"])
         rank.setdefault(e["taxid"], e["rank"])
-        name.setdefault(e["name"], e["name"])
+        name.setdefault(e["taxid"], e["name"])
         total += int(e["size"])
 
     d = [{
             "name": name[id],
             "taxid": id,
             "rank": rank[id],
-            "proportion": sum([int(i) for i in size[id]])/total
+            "proportion": round(sum([float(i) for i in size[id]])/float(total), 4)
     } for id in size.keys()]
 
     df = pd.read_json(json.dumps(d), orient="record")
+    df = df.sort_values("proportion")
     df.to_csv(output, sep="\t", index=False)
 
 
