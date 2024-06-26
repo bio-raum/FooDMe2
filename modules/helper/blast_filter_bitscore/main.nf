@@ -1,4 +1,4 @@
-process BLAST_FILTER_BITSCORE {
+process HELPER_BLAST_FILTER_BITSCORE {
     tag "${meta.sample_id}"
     label 'short_serial'
 
