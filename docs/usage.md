@@ -205,6 +205,9 @@ nextflow run bio-ram/FooDMe2 -profile singularity \\
 --disable_low_complexity ...
 ```
 
+### `--vsearch` [ default = false ]
+The default tool to compute OTUs/ASVs is DADA2. Use this option to run VSEARCH instead (short reads only).
+
 #### `--vsearch_min_cov` [ default = 5 ]
 The minimum amount of coverage required for an OTU to be created from the read data.
 

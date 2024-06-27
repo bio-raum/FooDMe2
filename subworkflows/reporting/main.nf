@@ -12,13 +12,13 @@ workflow REPORTING {
 
     // FASTP automatically handled by MultiQC
 
-    if (params.dada) {
+    if (params.vsearch) {
         /*
-        DADA2 denoising
+        VSEARCH clustering
         */
     } else {
         /*
-        VSEARCH clustering
+        DADA2 denoising
         */
     }
 

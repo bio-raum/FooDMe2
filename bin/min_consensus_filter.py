@@ -29,7 +29,7 @@ def main(blast_report, taxonomy, min_consensus, output):
     otus = {}
     sizes = {}
     for d in blast_dict:
-        if d["keep"]:
+        if "keep" in d:
             otus.setdefault(d["query"], []).append(str(d["subject_taxid"]))
             sizes.setdefault(d["query"], d["size"])
     otus = [{"query": k, "tax_list": v} for k, v in otus.items()]
