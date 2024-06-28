@@ -12,7 +12,8 @@ This is not a full release. Please note that some things may not work as intende
 
 - [Basic options](#basic-options)
 - [Sequencing technology](#sequencing-technology)
-- [Primer selection](#primer-selection)
+- [PCR primers](#pcr-primers)
+- [Database](#database)
 - [Expert options](#expert-options)
 - [Adapter trimming](#adapter-trimming)
 
@@ -22,7 +23,7 @@ Please see our [installation guide](installation.md) to learn how to set up this
 
 A basic execution of the pipeline looks as follows:
 
-a) Without a site-specific config file
+### Without a site-specific config file
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile singularity \\
@@ -46,7 +47,7 @@ In this example, the pipeline will assume it runs on a single computer with the 
 
 `-profile apptainer`
 
-b) with a site-specific config file
+### With a site-specific config file
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile lsh \\
@@ -75,7 +76,7 @@ This pipeline has a built-in test to quickly check that your local setup is work
 nextflow run bio-raum/FooDMe2 -profile your_profile,test
 ```
 
-This test requires an active internet connection to download the test data. 
+where `your_profile` can either be a site-specific config file or one of the built-in [profiles](#without-a-site-specific-config-file). This test requires an active internet connection to download the test data. 
 
 ## Options
 
@@ -96,11 +97,11 @@ If the pipeline sees more than one set of reads for a given sample ID, it will c
 
 The location of where the pipeline references are installed on your system. This will typically be pre-set in your site-specific config file and is only needed when you run without one.
 
-This option can be ommitted to trigger an on-the-fly temporary installation in the work directory. This is however not recommended as it creates unecessary traffic for the hoster of the references. See our [installation guide](installation.md) to learn how to install the references permanently on your system.
+See our [installation guide](installation.md) to learn how to install the references permanently on your system.
 
 #### `--outdir results` [default = results]
 
-The location where the results are stored. Usually this will be `results`in the location from where you run the nextflow process. However, this option also accepts any other path in your file system(s).
+The location where the results are stored. Usually this will be `results` in the location from where you run the nextflow process. However, this option also accepts any other path in your file system(s).
 
 #### `--run_name Fubar` [default = null]
 
@@ -118,12 +119,12 @@ By default, the pipeline assumes that it is processing Illumina short-reads in p
 Reads are Pacbio HiFi after demultiplexing, in FastQ format. 
 
 #### `--ont` [ default = false]
-Reads are Nanopore/ONT after demultiplexing, chemistry 10.4.1 or later, in FastQ format. 
+Reads are Nanopore/ONT after demultiplexing, chemistry 10.4.1 or later, in FastQ format. Please note that the read quality is critical here, so only the most recent chemistry versions are likely to work.  
 
 #### `--torrent` [ default = false]
 Reads are IonTorrent after demultiplexing, in FastQ format. 
 
-### Primer selection
+### PCR primers
 
 #### `--list_primers` [ default = false]
 
@@ -141,11 +142,23 @@ Available options:
 
 - amniotes_dobrovolny (mammals and birds, as published by [Dobrovolny et al.](https://pubmed.ncbi.nlm.nih.gov/30309555/))
 
-A list of available primer sets is also available from the pipeline directly, see [list](#--list_primers--default--false).
+A list of pre-configured primer sets is also available from the pipeline directly, see [--list_primers](#--list_primers--default--false).
+
+### Database
+
+Databases for taxonomic assignment can be specified in one of two ways - from the pre-installed references or as a user-supplied option.
+
+#### `--list_dbs` 
+
+You can get a list of available databases and their origin as follows:
+
+```NEXTFLOW
+nextflow run bio-raum/FooDMe2 --list_dbs
+``` 
 
 #### `--db` [default = null]
 
-If you do not use a pre-configured primer set, you will also need to tell the pipeline which database you wish to use. Available options are (common choices in bold):
+Use a pre-installed database (recommended!). Available options are (common choices in bold):
 
 - a6
 - a8
@@ -168,18 +181,12 @@ If you do not use a pre-configured primer set, you will also need to tell the pi
 
 The underlying databases are obtained from [Midori](https://www.reference-midori.info/), [Unite](https://unite.ut.ee/index.php) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db).
 
-You can get a list of supported databases and their origin as follows:
-
-```NEXTFLOW
-nextflow run bio-raum/FooDMe2 --list_dbs
-``` 
+#### `--blast_db` [ default = null]
+Provide your own blast database. This requires that the database has valid taxonomy IDs included and should only be attempted by experienced users. Databases must be created with the options `--parse_seqids` and `--taxid_map` using the NCBI taxonomy.
 
 ### Expert options
 
 Only change these if you have a good reason to do so.
-
-#### `--blast_db` [ default = null]
-Provide your own blast databases. This requires that the database has valid taxonomy IDs included!
 
 #### `--blocklist`
 Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe 2 uses a built-in [block list](../assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.
@@ -210,15 +217,13 @@ Some possible usage examples:
 ```bash
 nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
 --primer_set amniotes_dobrovolny \\
---cutadapt \\
 --run_name cutadapt-test
 ```
 
-This example uses a built-in primer set but performs PCR primer site removal with Cutadapt instead of Ptrimmer.
+This example uses a built-in primer set to perform primer removal.
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
---cutadapt \\
 --primers_fa my_primers.fasta \\
 --db srna \\
 --run_name cutadapt-test
@@ -229,7 +234,6 @@ This example uses your custom primers, performs PCR primer site removal with cut
 ```bash
 nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
 --primer_set amniotes_dobrovolny \\
---cutadapt \\
 --cutadapt_trim_3p \\
 --run_name cutadapt-test
 ```
@@ -241,9 +245,4 @@ Use this option if you know that your read length is as long or longer than your
 
 #### `--cutadapt_options` [ default = "" ]
 Any additional options you feel should be passed to Cutadapt. Use at your own risk. 
-
-#### `--primers_fa` [ default = null ]
-Your primer sequences in FASTA format. There is no need to provide reverse-complemented sequences here if you wish to use `--cutadapt_trim_3p`, since the pipeline will do that automatically. If the primers in this file contain degenerate bases, the pipeline will automatically disambiguate them.
-
-This option requires that you also specify a valid gene name (see above) so that the pipeline knows which database to use for taxonomic profiling. 
 
