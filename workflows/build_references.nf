@@ -10,7 +10,7 @@ include { HELPER_FORMAT_GENBANK_TAXIDS }    from './../modules/helper/format_gen
 include { HELPER_FORMAT_UNITE }             from './../modules/helper/format_unite'
 include { HELPER_INSTALL_GENBANK }          from './../modules/helper/install_genbank'
 
-genes   = params.references.genes.keySet()
+databases   = params.references.databases.keySet()
 
 /*
 NCBI taxonomy files are needed to e.g. mask BLAST databases
@@ -30,11 +30,11 @@ database_files = []
 
 if (params.build_references) {
     // For all genes of interest, recover supported tools and the corresponding database link
-    genes.each { gene ->
+    databases.each { db ->
         // Genbank NT does not have an url, so we skip it here. 
-        if (params.references.genes[gene].url) {
-            database_files << [ [ id: gene, tool: 'blast' ] ,
-                file(params.references.genes[gene].url, checkIfExists: true)
+        if (params.references.databases[db].url) {
+            database_files << [ [ id: db, tool: 'blast' ] ,
+                file(params.references.databases[db].url, checkIfExists: true)
             ]
         }
     }
