@@ -1,7 +1,0 @@
-name: fastx_reverse_complement
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - bioconda::fastx_toolkit=0.0.14

@@ -10,10 +10,10 @@ process CUTADAPT {
     input:
     tuple val(meta), path(reads)
     path(primers)
-    path(primers_rc)
 
     output:
     tuple val(meta), path('*.trim.fastq.gz'), emit: reads
+    tuple val(meta), path('*.cutadapt.json'), emit: report
     tuple val(meta), path('*.log')          , emit: log
     path 'versions.yml'                     , emit: versions
 
@@ -24,7 +24,7 @@ process CUTADAPT {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
     def trimmed  = meta.single_end ? "-o ${prefix}.trim.fastq.gz" : "-o ${prefix}_1.trim.fastq.gz -p ${prefix}_2.trim.fastq.gz"
-
+    def report = "${prefix}.cutadapt.json"
     def options_5p = ''
     def options_3p = ''
     def mode = ""
@@ -34,24 +34,24 @@ process CUTADAPT {
     } else {
         mode = "--interleaved"
         options_5p = "-g ^file:${primers} -G ^file:${primers}"
-        options_3p = "-a file\$:${primers_rc} -A file\$:${primers_rc}"
+        options_3p = "-a file\$:${primers} -A file\$:${primers}"
     }
 
     if (params.cutadapt_trim_3p) {
         """
         cutadapt $mode \\
             --cores $task.cpus \\
+            --revcomp \\
             $args \\
             $reads \\
-            $options_5p \\
-        | cutadapt $mode \\
-            $args \\
-            --cores $task.cpus \\
             $trimmed \\
+            $options_5p \\
             $options_3p \\
+            --times=2 \\
             -Z \\
-            - \\
+            --json=$report \\
             > ${prefix}.cutadapt.log
+
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
             cutadapt: \$(cutadapt --version)
@@ -67,6 +67,7 @@ process CUTADAPT {
             $trimmed \\
             $reads \\
             $options_5p \\
+            --json=$report \\
             > ${prefix}.cutadapt.log
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":

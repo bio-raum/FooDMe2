@@ -25,7 +25,7 @@ def main(json_in, output):
         "mismatch",
         "gaps"
         ]]
-    df.sort_values("size")
+    df.sort_values("size", ascending=False)
     df.to_csv(output, sep="\t", index=False)
 
 

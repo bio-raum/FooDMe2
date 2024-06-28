@@ -34,7 +34,7 @@ def main(json_in, output):
     } for id in size.keys()]
 
     df = pd.read_json(json.dumps(d), orient="record")
-    df = df.sort_values("proportion")
+    df = df.sort_values("proportion", ascending=False)
     df.to_csv(output, sep="\t", index=False)
 
 
