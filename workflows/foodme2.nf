@@ -31,33 +31,42 @@ if (params.input) {
 }
 
 /*
-Primer sets are either pre-configured or can be supplied by user,
-preferably as Ptrimmer config, or as fasta for cutadapt.
+Primer sets are either pre-configured or can be supplied by user in FASTA format
 */
 
+// If we have a pre-configured primer set, get options from config
 if (params.primer_set) {
     database                = params.primers[params.primer_set].database
     ch_primers              = Channel.fromPath(file(params.primers[params.primer_set].fasta, checkIfExits: true)).collect()
     ch_primers_rc           = Channel.fromPath(file(params.primers[params.primer_set].fasta, checkIfExits: true)).collectFile(name: 'primers_rc.fasta')
+    blast_db                = params.references.databases[database].blast_db
+
+// If the users specifies a custom primer set as FASTA instead
 } else if (params.primers_fa) {
-    ch_ptrimmer_config      = Channel.from([])
+
     ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
     ch_primers_rc           = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collectFile(name: 'primers_rc.fasta')
-    database                = params.db.toLowerCase()
-}
+    
+    // If the user requests one of the installed databases
+    if (params.db) {    
+        database    = params.db
+        blast_db    = params.references.databases[database].blast_db
+    // Or allow users to provide their own database
+    } else if (params.blast_db) {
+       database     = "custom"
+       blast_db     = params.blast_db
+    }
 
-ch_blast_db     = Channel.from([])
-ch_tax_files    = Channel.from([])
+}
+Channel.fromPath(blast_db, checkIfExists: true).map { db ->
+    [[id: database], db]
+}.set { ch_blast_db }
 
 /*
 The taxonomy database for this gene
 */
-if (params.reference_base && database) {
-    // We retrieve the database folder and attach a rudimentary meta hash
-    Channel.fromPath(params.references.databases[database].blast_db, checkIfExists: true).map { db ->
-        [[id: database], db]
-    }.set { ch_blast_db }
 
+if (params.reference_base) {
     tax_nodes           = file(params.references.taxonomy.nodes, checkIfExists: true)          // ncbi taxnomy node file
     tax_rankedlineage   = file(params.references.taxonomy.rankedlineage, checkIfExists: true)  // ncbi rankedlineage file
     tax_merged          = file(params.references.taxonomy.merged, checkIfExists: true)         // ncbi merged file
@@ -66,7 +75,6 @@ if (params.reference_base && database) {
 
     ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
 }
-
 
 /*
 Set a taxonomy block list to remove unwanted taxa

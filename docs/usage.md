@@ -178,6 +178,9 @@ nextflow run bio-raum/FooDMe2 --list_dbs
 
 Only change these if you have a good reason to do so.
 
+#### `--blast_db` [ default = null]
+Provide your own blast databases. This requires that the database has valid taxonomy IDs included!
+
 #### `--blocklist`
 Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe 2 uses a built-in [block list](../assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.
 
