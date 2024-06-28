@@ -1,5 +1,5 @@
 title: "FooDMe2 pipeline report"
-subtitle: "Taxonomic profiling of eukaryote species from food and seed materials."
+subtitle: "Taxonomic profiling of eukaryote species from food and feed materials."
 custom_logo: "pipelinelogo.png"
 custom_logo_title: "bio-raum/FooDMe2"
 custom_logo_url: "http://www.github.com/bio-raum/FooDMe2"
@@ -21,10 +21,15 @@ report_header_info:
 top_modules:
     - 'general_stats'
 
+module_order:
+    - 'fastqc'
+    - 'cutadapt'
+
 report_section_order:
-    software_versions:
-        order: -1001
+    software_versions-module:
+        order: -1000
 
 remove_sections:
     - fastp-seq-content-gc
+    - fastp-seq-content-n
 

@@ -3,8 +3,8 @@ process MULTIQC {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/multiqc:1.19--pyhdfd78af_0' :
-        'quay.io/biocontainers/multiqc:1.19--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/multiqc:1.22.3--pyhdfd78af_0' :
+        'quay.io/biocontainers/multiqc:1.22.3--pyhdfd78af_0' }"
 
     input:
     path('*')

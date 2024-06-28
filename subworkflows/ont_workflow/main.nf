@@ -1,6 +1,6 @@
 include { DADA2_WORKFLOW }      from './../dada2'
 
-include { CUTADAPT }                    from './../../modules/cutadapt'
+include { CUTADAPT }            from './../../modules/cutadapt'
 include { PORECHOP_ABI }        from './../../modules/porechop/abi'
 include { NANOPLOT }            from './../../modules/nanoplot'
 
@@ -42,7 +42,7 @@ workflow ONT_WORKFLOW {
         ch_primers,
     )
     ch_versions = ch_versions.mix(CUTADAPT.out.versions)
-    // Add CUTADAPT.out.report to MultiQC
+    ch_qc       = multiqc_files.mix(CUTADAPT.out.report) 
 
     /*
     SUB: OTU calling with DADA2

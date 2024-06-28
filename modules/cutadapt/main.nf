@@ -13,7 +13,7 @@ process CUTADAPT {
 
     output:
     tuple val(meta), path('*.trim.fastq.gz'), emit: reads
-    tuple val(meta), path('*.cutadapt.json'), emit: report
+    path('*.cutadapt.json')                 , emit: report
     tuple val(meta), path('*.log')          , emit: log
     path 'versions.yml'                     , emit: versions
 

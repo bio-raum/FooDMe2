@@ -63,8 +63,8 @@ workflow ILLUMINA_WORKFLOW {
         ch_primers,
     )
     ch_versions     = ch_versions.mix(CUTADAPT.out.versions)
-    // multiqc_files   = multiqc_files.mix(CUTADAPT.out.report)  ERROR ~ 'FOODME2:MULTIQC' Not a valid path value type: java.util.LinkedHashMap ([sample_id:ERR10436143, single_end:false])
-
+    multiqc_files   = multiqc_files.mix(CUTADAPT.out.report) 
+    
     /*
     Cluster reads and produce OTUs/ASVs
     */
