@@ -1,7 +1,0 @@
-name: ptrimmer
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - bioconda::ptrimmer=1.3.3

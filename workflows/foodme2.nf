@@ -106,9 +106,7 @@ workflow FOODME2 {
     } else if (params.ont) {
         ONT_WORKFLOW(
             INPUT_CHECK.out.reads,
-            ch_ptrimmer_config,
             ch_primers,
-            ch_primers_rc
         )
         ch_versions     = ch_versions.mix(ONT_WORKFLOW.out.versions)
         ch_otus         = ch_otus.mix(ONT_WORKFLOW.out.otus)
@@ -117,9 +115,7 @@ workflow FOODME2 {
     } else if (params.iontorrent) {
         ILLUMINA_WORKFLOW(
             INPUT_CHECK.out.reads,
-            ch_ptrimmer_config,
             ch_primers,
-            ch_primers_rc
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
@@ -128,9 +124,7 @@ workflow FOODME2 {
     } else {
         ILLUMINA_WORKFLOW(
             INPUT_CHECK.out.reads,
-            ch_ptrimmer_config,
             ch_primers,
-            ch_primers_rc
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)

@@ -1,6 +1,6 @@
-include { REMOVE_PCR_PRIMERS }  from './../remove_pcr_primers'
 include { DADA2_WORKFLOW }      from './../dada2'
 
+include { CUTADAPT }                    from './../../modules/cutadapt'
 include { PORECHOP_ABI }        from './../../modules/porechop/abi'
 include { NANOPLOT }            from './../../modules/nanoplot'
 
@@ -11,9 +11,7 @@ workflow ONT_WORKFLOW {
 
     take:
     reads
-    ch_ptrimmer_config
     ch_primers
-    ch_primers_rc
 
     main:
 
@@ -39,19 +37,18 @@ workflow ONT_WORKFLOW {
     SUB: Remove PCR primers using
     Ptrimmer or Cutadapt
     */
-    REMOVE_PCR_PRIMERS(
+    CUTADAPT(
         PORECHOP_ABI.out.reads,
-        ch_ptrimmer_config,
         ch_primers,
-        ch_primers_rc
     )
-    ch_versions = ch_versions.mix(REMOVE_PCR_PRIMERS.out.versions)
+    ch_versions = ch_versions.mix(CUTADAPT.out.versions)
+    // Add CUTADAPT.out.report to MultiQC
 
     /*
     SUB: OTU calling with DADA2
     */
     DADA2_WORKFLOW(
-        REMOVE_PCR_PRIMERS.out.reads
+        CUTADAPT.out.reads
     )
     ch_otus         = DADA2_WORKFLOW.out.otus
     ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)

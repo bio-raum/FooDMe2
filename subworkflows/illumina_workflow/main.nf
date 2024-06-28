@@ -3,12 +3,12 @@ Import modules
 */
 include { FASTP }                       from './../../modules/fastp'
 include { CAT_FASTQ }                   from './../../modules/cat_fastq'
+include { CUTADAPT }                    from './../../modules/cutadapt'
 
 /*
 Import sub workflows
 */
 include { VSEARCH_WORKFLOW }            from './../vsearch'
-include { REMOVE_PCR_PRIMERS }          from './../remove_pcr_primers'
 include { DADA2_WORKFLOW }              from './../dada2'
 
 ch_versions     = Channel.from([])
@@ -23,9 +23,7 @@ taxonomic profiling
 workflow ILLUMINA_WORKFLOW {
     take:
     reads
-    ch_ptrimmer_config
     ch_primers
-    ch_primers_rc
 
     main:
 
@@ -60,26 +58,25 @@ workflow ILLUMINA_WORKFLOW {
     Remove PCR primers - using Ptrimmer if possible,
     or Cutadapt if requested
     */
-    REMOVE_PCR_PRIMERS(
+    CUTADAPT(
         ch_illumina_trimmed,
-        ch_ptrimmer_config,
         ch_primers,
-        ch_primers_rc
     )
-    ch_versions     = ch_versions.mix(REMOVE_PCR_PRIMERS.out.versions)
+    ch_versions     = ch_versions.mix(CUTADAPT.out.versions)
+    // multiqc_files   = multiqc_files.mix(CUTADAPT.out.report)  ERROR ~ 'FOODME2:MULTIQC' Not a valid path value type: java.util.LinkedHashMap ([sample_id:ERR10436143, single_end:false])
 
     /*
     Cluster reads and produce OTUs/ASVs
     */
     if (params.vsearch) {
         VSEARCH_WORKFLOW(
-            REMOVE_PCR_PRIMERS.out.reads
+            CUTADAPT.out.reads
         )
         ch_otus         = VSEARCH_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
     } else {
         DADA2_WORKFLOW(
-            REMOVE_PCR_PRIMERS.out.reads
+            CUTADAPT.out.reads
         )
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
