@@ -55,8 +55,7 @@ workflow ILLUMINA_WORKFLOW {
     ch_illumina_trimmed = ch_reads_illumina.single.mix(CAT_FASTQ.out.reads)
 
     /*
-    Remove PCR primers - using Ptrimmer if possible,
-    or Cutadapt if requested
+    Remove PCR primers 
     */
     CUTADAPT(
         ch_illumina_trimmed,

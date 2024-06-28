@@ -14,7 +14,7 @@ This is not a full release. Please note that some things may not work as intende
 - [Sequencing technology](#sequencing-technology)
 - [Primer selection](#primer-selection)
 - [Expert options](#expert-options)
-- [Using Cutadapt](#using-cutadapt-instead-of-ptrimmer)
+- [Adapter trimming](#adapter-trimming)
 
 ## Running the pipeline
 
@@ -143,22 +143,7 @@ Available options:
 
 A list of available primer sets is also available from the pipeline directly, see [list](#--list_primers--default--false).
 
-#### `--primers_txt` [ default = null ]
-
-If you wish to use a set of primers not already configured for this pipeline, you can provide it with this option. You will also have to specify which mitochondrial gene this primer set is targeting using the `--gene` option described elsewhere.
-
-This text file will be read by [Ptrimmer](https://pubmed.ncbi.nlm.nih.gov/31077131/) to remove PCR primers from the adapter-clipped reads. Please see the Ptrimmer [documentation](https://github.com/DMU-lilab/pTrimmer) on how to create such a config file or look at the [example](../assets/ptrimmer/par64_illumina.txt) included with this pipeline.
-
-Briefly, the file is a simple text format with each row representing one pair of primers, as follows:
-
-```TSV
-FORWARD_PRIMER_SEQ  REVERSE_PRIMER_SEQ  EXPECTED_PRODUCT_SIZE   NAME_OF_PRIMER
-```
-
-Note that the columns are tab-separated. The expected product size should be roughly correct, but doesn't need to accurate to the base. The primer sequences should represent the exact primer binding sequence.
-If you use primers with overhanging ends for e.g., downstream ligation, these overhanging ends must not be part of the sequence listed here. Also note that Ptrimmer does not understand degenerate primer sequences. If this is an issue, please use [Cutadapt](#using-cutadapt-instead-of-ptrimmer) instead of Ptrimmer.
-
-#### `--gene` [default = null]
+#### `--db` [default = null]
 
 If you do not use a pre-configured primer set, you will also need to tell the pipeline which database you wish to use. Available options are (common choices in bold):
 
@@ -215,15 +200,13 @@ The minimum amount of coverage required for an OTU to be created from the read d
 The percentage similarity for ASUs to be collapsed into OTUs. If you set this to 100, ASUs will not be collapsed at all, which will generate a higher resolution call set at the cost of added noise. In turn, setting this value too low may collapse separate species into "hybrid" OTUs.
 The default of 98 seems to work quite well for our data, but will occasionally fragment individual taxa into multiple OTUs if sequencing error rate is high. For the TSV output, OTUs with identical taxonimic assignments will be counted as one, whereas the JSON output leaves this step to the user.
 
-### Using Cutadapt instead of Ptrimmer
-
-Using Cutadapt is discouraged for most users as it requires more configuration and knowledge of your read data. It may thus not yield optimal results in all circumstances. It does however support degenerate primer sequences, which Ptrimmer does not.
+### Adapter trimming
 
 Some possible usage examples:
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
---primer_set par64_illumina \\
+--primer_set amniotes_dobrovolny \\
 --cutadapt \\
 --run_name cutadapt-test
 ```
@@ -234,7 +217,7 @@ This example uses a built-in primer set but performs PCR primer site removal wit
 nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
 --cutadapt \\
 --primers_fa my_primers.fasta \\
---gene srna \\
+--db srna \\
 --run_name cutadapt-test
 ```
 
@@ -242,7 +225,7 @@ This example uses your custom primers, performs PCR primer site removal with cut
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
---primer_set par64_illumina \\
+--primer_set amniotes_dobrovolny \\
 --cutadapt \\
 --cutadapt_trim_3p \\
 --run_name cutadapt-test
@@ -250,19 +233,14 @@ nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
 
 This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.
 
-#### `--cutadapt` [ default = false ]
-
-Use Cutadapt instead of Ptrimmer.
-
 #### `--cutadapt_trim_3p` [ default = false ]
-Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect. Requires `--cutadapt`.
+Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect. 
 
 #### `--cutadapt_options` [ default = "" ]
-Any additional options you feel should be passed to Cutadapt. Use at your own risk. Requires `--cutadapt`.
+Any additional options you feel should be passed to Cutadapt. Use at your own risk. 
 
 #### `--primers_fa` [ default = null ]
 Your primer sequences in FASTA format. There is no need to provide reverse-complemented sequences here if you wish to use `--cutadapt_trim_3p`, since the pipeline will do that automatically. If the primers in this file contain degenerate bases, the pipeline will automatically disambiguate them.
 
 This option requires that you also specify a valid gene name (see above) so that the pipeline knows which database to use for taxonomic profiling. 
 
-Requires `--cutadapt`.

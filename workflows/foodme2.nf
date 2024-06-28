@@ -17,7 +17,7 @@ include { REPORTING }                   from './../subworkflows/reporting'
 Set default channels and values
 */
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
-gene        = null
+database    = null
 
 /*
 Make sure the local reference directory exists
@@ -34,33 +34,28 @@ if (params.input) {
 Primer sets are either pre-configured or can be supplied by user,
 preferably as Ptrimmer config, or as fasta for cutadapt.
 */
+
 if (params.primer_set) {
-    ch_ptrimmer_config      = Channel.fromPath(file(params.primers[params.primer_set].ptrimmer_config, checkIfExits: true)).collect()
-    gene                    = params.primers[params.primer_set].gene
+    database                = params.primers[params.primer_set].database
     ch_primers              = Channel.fromPath(file(params.primers[params.primer_set].fasta, checkIfExits: true)).collect()
     ch_primers_rc           = Channel.fromPath(file(params.primers[params.primer_set].fasta, checkIfExits: true)).collectFile(name: 'primers_rc.fasta')
-} else if (params.primers_txt) {
-    ch_ptrimmer_config      = Channel.fromPath(file(params.primers_txt, checkIfExists: true)).collect()
-    gene                    = params.gene.toLowerCase()
-    ch_primers              = Channel.from([])
-    ch_primers_rc           = Channel.from([])
 } else if (params.primers_fa) {
     ch_ptrimmer_config      = Channel.from([])
     ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
     ch_primers_rc           = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collectFile(name: 'primers_rc.fasta')
-    gene                    = params.gene.toLowerCase()
+    database                = params.db.toLowerCase()
 }
 
 ch_blast_db     = Channel.from([])
-ch_blast_db_zip = Channel.from([])
+ch_tax_files    = Channel.from([])
 
 /*
 The taxonomy database for this gene
 */
-if (params.reference_base && gene) {
+if (params.reference_base && database) {
     // We retrieve the database folder and attach a rudimentary meta hash
-    Channel.fromPath(params.references.genes[gene].blast_db, checkIfExists: true).map { db ->
-        [[id: gene], db]
+    Channel.fromPath(params.references.databases[database].blast_db, checkIfExists: true).map { db ->
+        [[id: database], db]
     }.set { ch_blast_db }
 
     tax_nodes           = file(params.references.taxonomy.nodes, checkIfExists: true)          // ncbi taxnomy node file

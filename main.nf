@@ -44,17 +44,11 @@ workflow.onComplete {
     if (params.primer_set) {
         summary['PrimerSet'] = params.primer_set
     }
-    if (params.primers_txt) {
-        summary['CustomPrimerSet'] = params.primers_txt
-    }
+    
     if (params.primers_fa) {
         summary['PrimerFasta'] = params.primers_fa
     }
-    if (params.cutadapt) {
-        summary['PrimerTrimmer'] = 'Cutadapt'
-    } else {
-        summary['PrimerTrimmer'] = 'Ptrimmer'
-    }
+    
     summary['Input'] = params.input
 
     hline = '========================================='
