@@ -27,20 +27,18 @@ process CUTADAPT {
     def report = "${prefix}.cutadapt.json"
     def options_5p = ''
     def options_3p = ''
-    def mode = ""
     if (meta.single_end) {
         options_5p = "-g ^file:${primers}"
         options_3p = "-a file\$:${primers}"
     } else {
-        mode = "--interleaved"
-        options_5p = "-g ^file:${primers} -G ^file:${primers}"
+        options_5p = "-g file:${primers} -G file:${primers}"
         options_3p = "-a file\$:${primers} -A file\$:${primers}"
     }
 
     if (params.cutadapt_trim_3p) {
         """
-        cutadapt $mode \\
-            --cores $task.cpus \\
+        cutadapt --cores $task.cpus \\
+            --discard-untrimmed \\
             --revcomp \\
             $args \\
             $reads \\
@@ -61,6 +59,7 @@ process CUTADAPT {
     } else {
         """
         cutadapt \\
+            --discard-untrimmed \\
             -Z \\
             --cores $task.cpus \\
             $args \\
