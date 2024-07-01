@@ -28,7 +28,7 @@ The pipeline comes with simple pre-set profiles for all of these as described [h
 
 ## Installing the references
 
-This pipeline requires locally stored references from the [Midori](https://www.reference-midori.info/) project and the [UNITE](https://unite.ut.ee/) project respectively. To build these, do:
+This pipeline requires locally stored references from [Midori](https://www.reference-midori.info/), [UNITE](https://unite.ut.ee/) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db) respectively. To build these, do:
 
 ### Without a local config file:
 
@@ -36,7 +36,8 @@ This pipeline requires locally stored references from the [Midori](https://www.r
 nextflow run bio-raum/FooDMe2 -profile singularity \\
 --build_references \\
 --run_name build_refs \\
---reference_base /path/to/references
+--reference_base /path/to/references \\
+-r <PIPELINE_VERSION>
 ```
 
 where `/path/to/references` could be something like `/data/pipelines/references` or whatever is most appropriate on your system. If you have already added your own profile to our [configuration](https://github.com/marchoeppner/nf-configs) repository, then the `--reference_base` option does not need to be set from the command line.
@@ -52,11 +53,20 @@ Please note that the build process will create a pipeline-specific subfolder (`f
 ```bash
 nextflow run bio-raum/FooDMe2 -profile your_profile \\
 --build_references \\
---run_name build
+--run_name build \\
+-r <PIPELINE_VERSION>
 ```
 
 ### IMPORTANT
 In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank nt Eukaryote database, which has a final size of over 250.GB, and will need over 500.GB during installation. If your application works with single gene [databases](usage.md#--gene-default--null), you can skip installing this database with `--skip-genbank`. 
+
+```BASH
+nextflow run bio-raum/FooDMe2 -profile your_profile \\
+--build_references \\
+--run_name build \\
+--skip_genbank  \\
+-r <PIPELINE_VERSION>
+```
 
 ## Site-specific config file
 

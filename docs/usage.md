@@ -15,7 +15,7 @@ This is not a full release. Please note that some things may not work as intende
 - [PCR primers](#pcr-primers)
 - [Database](#database)
 - [Expert options](#expert-options)
-- [Adapter trimming](#adapter-trimming)
+- [Primer trimming](#pcr-primer-trimming)
 
 ## Running the pipeline
 
@@ -144,6 +144,10 @@ Available options:
 
 A list of pre-configured primer sets is also available from the pipeline directly, see [--list_primers](#--list_primers--default--false).
 
+#### `--primers_fa` [default = null]
+
+If you do not wish to use a pre-configured primer set, you can alternatively provide primer sequences in FASTA format. This option requires `--db` or `--blast_db` to choose the appropriate database to compare your data against. 
+
 ### Database
 
 Databases for taxonomic assignment can be specified in one of two ways - from the pre-installed references or as a user-supplied option.
@@ -210,7 +214,7 @@ The minimum amount of coverage required for an OTU to be created from the read d
 The percentage similarity for ASUs to be collapsed into OTUs. If you set this to 100, ASUs will not be collapsed at all, which will generate a higher resolution call set at the cost of added noise. In turn, setting this value too low may collapse separate species into "hybrid" OTUs.
 The default of 98 seems to work quite well for our data, but will occasionally fragment individual taxa into multiple OTUs if sequencing error rate is high. For the TSV output, OTUs with identical taxonimic assignments will be counted as one, whereas the JSON output leaves this step to the user.
 
-### Adapter trimming
+### PCR primer trimming
 
 Some possible usage examples:
 
