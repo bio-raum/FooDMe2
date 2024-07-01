@@ -63,19 +63,28 @@ workflow ILLUMINA_WORKFLOW {
     )
     ch_versions     = ch_versions.mix(CUTADAPT.out.versions)
     multiqc_files   = multiqc_files.mix(CUTADAPT.out.report) 
+
+    CUTADAPT.out.reads.branch { m, r ->
+        pass: r[0].countFastq() > params.min_reads
+        fail: r[0].countFastq() < params.min_reads
+    }.set { ch_cutadapt_with_status }
     
+    ch_cutadapt_with_status.fail.subscribe { m, r ->
+        log.warn "Too few reads - stopping sample ${m.sample_id} after PCR primer removal!"
+    }
+
     /*
     Cluster reads and produce OTUs/ASVs
     */
     if (params.vsearch) {
         VSEARCH_WORKFLOW(
-            CUTADAPT.out.reads
+            ch_cutadapt_with_status.pass
         )
         ch_otus         = VSEARCH_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
     } else {
         DADA2_WORKFLOW(
-            CUTADAPT.out.reads
+            ch_cutadapt_with_status.pass
         )
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)

@@ -21,24 +21,23 @@ database    = null
 ch_blast_db = Channel.from([])
 
 /*
-Make sure the local reference directory exists
+We make this conditional on input being specified so as to not create issues with
+the competing --build_references workflow
 */
 if (params.input) {
+
+    /*
+    Make sure the local reference directory exists
+    */
     refDir = file(params.reference_base + "/foodme2/${params.reference_version}")
     if (!refDir.exists()) {
         log.info 'The required reference directory was not found on your system, exiting!'
         System.exit(1)
     }
-}
-
-/*
-Primer sets are either pre-configured or can be supplied by user in FASTA format
-We make this conditional on input being specified so as to not create issues with
-the competing --build_references workflow
-*/
-
-if (params.input) {
     
+    /*
+    Primer sets are either pre-configured or can be supplied by user in FASTA format
+    */
     // If we have a pre-configured primer set, get options from config
     if (params.primer_set) {
         database                = params.primers[params.primer_set].database
