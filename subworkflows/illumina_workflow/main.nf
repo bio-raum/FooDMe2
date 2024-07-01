@@ -1,15 +1,16 @@
 /*
 Import modules
 */
-include { FASTP }                       from './../../modules/fastp'
-include { CAT_FASTQ }                   from './../../modules/cat_fastq'
-include { CUTADAPT }                    from './../../modules/cutadapt'
+include { FASTP }               from './../../modules/fastp'
+include { CAT_FASTQ }           from './../../modules/cat_fastq'
+include { CUTADAPT }            from './../../modules/cutadapt'
 
 /*
 Import sub workflows
 */
-include { VSEARCH_WORKFLOW }            from './../vsearch'
-include { DADA2_WORKFLOW }              from './../dada2'
+include { VSEARCH_WORKFLOW }    from './../vsearch'
+include { DADA2_WORKFLOW }      from './../dada2'
+include { CUTADAPT_WORKFLOW }   from './../cutadapt'
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
@@ -55,36 +56,28 @@ workflow ILLUMINA_WORKFLOW {
     ch_illumina_trimmed = ch_reads_illumina.single.mix(CAT_FASTQ.out.reads)
 
     /*
-    Remove PCR primers 
+    Remove PCR primers using Cutadapt
     */
-    CUTADAPT(
+    CUTADAPT_WORKFLOW(
         ch_illumina_trimmed,
         ch_primers,
     )
-    ch_versions     = ch_versions.mix(CUTADAPT.out.versions)
-    multiqc_files   = multiqc_files.mix(CUTADAPT.out.report) 
-
-    CUTADAPT.out.reads.branch { m, r ->
-        pass: r[0].countFastq() > params.min_reads
-        fail: r[0].countFastq() < params.min_reads
-    }.set { ch_cutadapt_with_status }
-    
-    ch_cutadapt_with_status.fail.subscribe { m, r ->
-        log.warn "Too few reads - stopping sample ${m.sample_id} after PCR primer removal!"
-    }
+    ch_versions         = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
+    multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc) 
+    ch_reads_trimmed    = CUTADAPT_WORKFLOW.out.trimmed
 
     /*
     Cluster reads and produce OTUs/ASVs
     */
     if (params.vsearch) {
         VSEARCH_WORKFLOW(
-            ch_cutadapt_with_status.pass
+            ch_reads_trimmed
         )
         ch_otus         = VSEARCH_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
     } else {
         DADA2_WORKFLOW(
-            ch_cutadapt_with_status.pass
+            ch_reads_trimmed
         )
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
