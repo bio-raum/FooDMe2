@@ -1,4 +1,4 @@
-name: dada2_stats
+name: helper_seqtable_to_fasta
 channels:
   - conda-forge
   - bioconda

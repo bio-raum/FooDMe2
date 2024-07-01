@@ -14,7 +14,6 @@ include { HELPER_VSEARCH_STATS }        from './../../modules/helper/vsearch_sta
 Set default channels
 */
 ch_versions = Channel.from([])
-ch_reports  = Channel.from([])
 ch_qc_files = Channel.from([])
 
 workflow VSEARCH_WORKFLOW {
