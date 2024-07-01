@@ -8,6 +8,7 @@ include { VSEARCH_FASTQFILTER }         from './../../modules/vsearch/fastqfilte
 include { VSEARCH_CLUSTER_SIZE  }       from './../../modules/vsearch/cluster_size'
 include { VSEARCH_CLUSTER_UNOISE }      from './../../modules/vsearch/unoise'
 include { VSEARCH_UCHIME_DENOVO }       from './../../modules/vsearch/uchime/denovo'
+include { HELPER_VSEARCH_STATS }        from './../../modules/helper/vsearch_stats'
 
 /*
 Set default channels
@@ -77,6 +78,17 @@ workflow VSEARCH_WORKFLOW {
         VSEARCH_CLUSTER_SIZE.out.fasta
     )
     ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
+
+    /*
+    Clustering statistics
+    */
+    HELPER_VSEARCH_STATS(
+        ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] },
+        VSEARCH_FASTQMERGE.out.fastq,
+        VSEARCH_FASTQFILTER.out.fasta,
+        VSEARCH_CLUSTER_SIZE.out.fasta
+    )
+    ch_qc_files = ch_qc_files.mix(HELPER_VSEARCH_STATS.out.json)
 
     emit:
     versions = ch_versions
