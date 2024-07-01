@@ -16,6 +16,7 @@ process HELPER_DADA_STATS {
     path 'versions.yml'                         , emit: versions
 
     script:
+    def prefix = task.ext.prefix ?: mergers.getSimpleName()
 
     """
     #!/usr/bin/env Rscript
@@ -35,6 +36,6 @@ process HELPER_DADA_STATS {
         merged,
         nonchimeric,
         asvs)
-    cat(json, file=${json}, sep="\n")
+    cat(json, file=${prefix}.dada_stats.json, sep="\n")
     """
 }
