@@ -16,6 +16,7 @@ process HELPER_DADA_STATS {
 
     script:
     def prefix = task.ext.prefix ?: mergers.getSimpleName()
+    def sample_id = meta.sample_id
 
     """
     #!/usr/bin/env Rscript
@@ -27,14 +28,13 @@ process HELPER_DADA_STATS {
 
     seqtab <- readRDS("${seqtab}")
     nonchimeric <- sum(seqtab)
-    asvs <- ncol(seqtab)
 
     json <- sprintf(
-        "{'total_pairs': %d, 'merged': %d, 'non_chimeric': %d, 'asvs': %d}",
-        total_pairs,
-        merged,
+        '{"${sample_id}": {"passing": %d, "no_merged": %d, "chimeras": %d}}',
         nonchimeric,
-        asvs)
-    cat(json, file=${prefix}.dada_stats.json, sep="\n")
+        total_pairs - merged,
+        merged - nonchimeric)
+    write(json, file="${prefix}.dada_stats.json")
+    writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
     """
 }

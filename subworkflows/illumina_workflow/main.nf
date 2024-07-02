@@ -62,7 +62,7 @@ workflow ILLUMINA_WORKFLOW {
         ch_primers,
     )
     ch_versions     = ch_versions.mix(CUTADAPT.out.versions)
-    multiqc_files   = multiqc_files.mix(CUTADAPT.out.report) 
+    multiqc_files   = multiqc_files.mix(CUTADAPT.out.report)
 
     CUTADAPT.out.reads.branch { m, r ->
         pass: r[0].countFastq() > params.min_reads
@@ -82,12 +82,14 @@ workflow ILLUMINA_WORKFLOW {
         )
         ch_otus         = VSEARCH_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
+        multiqc_files   = multiqc_files.mix(VSEARCH_WORKFLOW.out.qc) 
     } else {
         DADA2_WORKFLOW(
             ch_cutadapt_with_status.pass
         )
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
+        multiqc_files   = multiqc_files.mix(DADA2_WORKFLOW.out.qc) 
     }
 
     emit:
