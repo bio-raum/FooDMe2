@@ -5,8 +5,12 @@ include { BLAST_TAXONOMY_FROM_DB }          from './../../modules/helper/blast_t
 include { HELPER_FIND_CONSENSUS }           from './../../modules/helper/find_consensus'
 include { HELPER_CREATE_BLAST_MASK }        from './../../modules/helper/create_blast_mask'
 include { HELPER_BLAST_APPLY_BLOCKLIST }    from './../../modules/helper/blast_apply_blocklist'
+include { HELPER_BLAST_STATS }              from './../../modules/helper/blast_stats'
+include { HELPER_SAMPLE_COMPO }             from './../../modules/helper/sample_compo'
 
 ch_versions = Channel.from([])
+ch_reporting = Channel.from([])
+ch_qc_files = Channel.from([])
 
 workflow BLAST_TAXONOMY {
     take:
@@ -97,8 +101,23 @@ workflow BLAST_TAXONOMY {
         tax_json.collect()
     )
 
+    /*
+    BLAST search stats
+    */
+    HELPER_BLAST_STATS(
+        HELPER_BLAST_FILTER_BITSCORE.out.json
+    )
+    ch_versions = ch_versions.mix(HELPER_BLAST_STATS.out.versions)
+
+    /*
+    Sample composition
+    */
+    HELPER_SAMPLE_COMPO(
+        HELPER_FIND_CONSENSUS.out.json
+    )
+    ch_versions = ch_versions.mix(HELPER_BLAST_STATS.out.versions)
+
     emit:
-    bitscore = HELPER_BLAST_FILTER_BITSCORE.out.json
     consensus = HELPER_FIND_CONSENSUS.out.json
     versions = ch_versions
 }
