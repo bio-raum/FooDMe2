@@ -120,4 +120,5 @@ workflow BLAST_TAXONOMY {
     emit:
     consensus = HELPER_FIND_CONSENSUS.out.json
     versions = ch_versions
+    composition = HELPER_SAMPLE_COMPO.out.tsv
 }
