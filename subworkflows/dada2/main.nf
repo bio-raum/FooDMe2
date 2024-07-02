@@ -43,10 +43,11 @@ workflow DADA2_WORKFLOW {
         DADA2_RMCHIMERA.out.rds
     )
 
+    ch_denoising_with_chimera = DADA2_DENOISING.out.mergers.join(DADA2_RMCHIMERA.out.rds)
+
     // Denoising stats
     HELPER_DADA_STATS(
-        DADA2_DENOISING.out.mergers,
-        DADA2_RMCHIMERA.out.rds
+        ch_denoising_with_chimera
     )
     ch_qc_files = ch_qc_files.mix(HELPER_DADA_STATS.out.json)
 

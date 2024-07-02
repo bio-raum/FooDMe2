@@ -8,8 +8,7 @@ process HELPER_DADA_STATS {
         'biocontainers/bioconductor-dada2:1.28.0--r43hf17093f_0' }"
 
     input:
-    tuple val(meta), path(mergers)  // mergers rds
-    tuple val(meta), path(seqtab)   // seqtab rds
+    tuple val(meta), path(mergers), path(seqtab)  // mergers rds
     
     output:
     tuple val(meta), path('*.dada_stats.json')  , emit: json
