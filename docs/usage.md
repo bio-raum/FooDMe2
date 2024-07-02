@@ -172,24 +172,26 @@ nextflow run bio-raum/FooDMe2 --list_dbs
 
 Use a pre-installed database (recommended!). Available options are (common choices in bold):
 
-- a6
-- a8
-- **srna**
-- **lrna**
-- **co1**
-- co2
-- co3
-- **cytb**
-- **genbank_nt**
-- ncbi_its
-- **its**
-- nd1
-- nd2
-- nd3
-- nd4l
-- nd5
-- nd6
-- **refseq**
+| name | source |
+| ---- | ------ |
+| a6 | Midori |
+| a8 | Midori |
+| **srna** | Midori |
+| **lrna** | Midori |
+| **co1** | Midori |
+| co2 | Midori |
+| co3 | Midori |
+| **cytb** | Midori |
+| **genbank_nt** | NCBI |
+| ncbi_its | NCBI |
+| **its** | Unite |
+| nd1 | Midori |
+| nd2 | Midori |
+| nd3 | Midori |
+| nd4l | Midori |
+| nd5 | Midori |
+| nd6 | Midori |
+| **refseq** | RefSeq |
 
 The underlying databases are obtained from [Midori](https://www.reference-midori.info/), [Unite](https://unite.ut.ee/index.php) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db).
 

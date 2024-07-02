@@ -22,7 +22,7 @@ ch_blast_db = Channel.from([])
 
 /*
 We make this conditional on input being specified so as to not create issues with
-the competing --build_references workflow
+the competing --build_references workflow during which all this would be evaluated also
 */
 if (params.input) {
 
@@ -57,8 +57,8 @@ if (params.input) {
             blast_db    = params.references.databases[database].blast_db
         // Or allow users to provide their own database
         } else if (params.blast_db) {
-        database     = "custom"
-        blast_db     = params.blast_db
+            database    = "custom"
+            blast_db    = params.blast_db
         }
 
     }
@@ -168,7 +168,7 @@ workflow FOODME2 {
     )
 
     multiqc_files   = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
-
+    
     MULTIQC(
         multiqc_files.collect()
     )

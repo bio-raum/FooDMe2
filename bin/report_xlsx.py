@@ -5,6 +5,7 @@ import argparse
 from openpyxl import Workbook
 from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
 from openpyxl.utils import get_column_letter
+from openpyxl.styles import Font, PatternFill
 import glob
 import csv
 
@@ -34,6 +35,10 @@ def main(output):
     wb = Workbook()
     ws = wb.active
     ws.title = "FooDMe2 results"
+
+    ft = Font(name="Sans", bold=True)
+    cb_even = PatternFill(fill_type = "solid", fgColor="d9e1f2")
+    cb_uneven = PatternFill(fill_type = "solid", fgColor="cdd1d9")
     
     # Track cell positions
     row = 1
@@ -41,22 +46,41 @@ def main(output):
 
     sep = ";"
 
-    d = ws.cell(row=row, column=col, value="Sample")
-    d = ws.cell(row=row, column=col+1, value="Taxa")
+    ws.append(["Sample", "Taxon", "Percentage"])
+
+    for r in ws["A1:C1"]:
+        for cell in r:
+            cell.font = ft
     
     row += 1
 
+    this_sample = ""
+    sample_counter = 0
+
     # Iterate over each sample and get taxonomy assignments
     for sample in bucket:
-        d = ws.cell(row=row, column=col, value = sample)
+
+        if sample != this_sample:
+            this_sample = sample
+            sample_counter += 1
+
+        if sample_counter & 1:
+            bgcolor = cb_uneven
+        else:
+            bgcolor = cb_even
+
         hits = bucket[sample]
         info = []
         for hit in hits:
             name = hit["name"]
-            perc = round(float(hit["proportion"]),2)
-            info.append(f"{name}:{perc}")
-        d = ws.cell(row=row, column=col+1, value=sep.join(info))
-        row += 1
+            perc = round(float(hit["proportion"]),4)*100
+            ws.append([sample,name,perc])
+            
+            ws["A"+str(row)].fill = bgcolor
+            ws["B"+str(row)].fill = bgcolor
+            ws["C"+str(row)].fill = bgcolor
+
+            row += 1
 
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws)

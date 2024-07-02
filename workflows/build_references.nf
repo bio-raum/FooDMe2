@@ -72,6 +72,13 @@ workflow BUILD_REFERENCES {
     )
 
     /*
+    NCBI ITS database
+    */
+    UNTAR_NCBI(
+        ch_branched_files.ncbi_its
+    )
+
+    /*
     Decompress Gzipped database (RefSeq)
     */
     GUNZIP_REFSEQ(

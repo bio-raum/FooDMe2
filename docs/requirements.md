@@ -8,9 +8,9 @@ FooDMe2 requires a certain amount of reads for a sample to be considered for ana
 
 ## Primers
 
-We try to provide pre-configured profiles for primer sets that are commonly used in monitoring. That said, failed removal of primer sites can be a source of great frustration and will prevent FooDMe2 from working correctly. Please note that primer sequences should not be removed from the reads prior to running FooDMe2 since FooDMe2 uses the presence of primer sites as a criterion for inclusion of reads. In other words, all reads in which no primer sites were found, will be discarded. 
+We try to provide pre-configured profiles for pcr primer sets that are commonly used in monitoring. That said, failed removal of primer sites can be a source of great frustration and will prevent FooDMe2 from working correctly. Please note that primer sequences should not be removed from the reads prior to running FooDMe2 since FooDMe2 uses the presence of primer sites as a criterion for inclusion of reads. In other words, all reads in which no primer sites were found, will be discarded. 
 
-Custom primers should be privided in FASTA format, with no special characters in the sequence definition. Primers can include ambigious IUPAC bases and will be disambiguated by FooDMe2. 
+Custom primers should be provided in FASTA format, with no special characters in the sequence definition. Primers can include ambigious IUPAC bases and will be disambiguated by FooDMe2. 
 
 If your amplicons are shorter than your average read length, make sure to use the appropriate option to ensure removal of primer sites from both ends of the reads (`--cutadapt_trim_3p`).
 

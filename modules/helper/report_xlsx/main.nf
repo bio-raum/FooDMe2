@@ -1,4 +1,4 @@
-process REPORT_XLSX {
+process HELPER_REPORT_XLSX {
     tag 'XLSX'
     label 'short_serial'
 
