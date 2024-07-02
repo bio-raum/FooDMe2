@@ -29,7 +29,7 @@ def main(sample_id, fwd, merged, filtered, nonchimera, output):
     merged_reads = 0
     with open(merged, "r") as handle:
         for _ in SeqIO.parse(handle, "fastq"):
-            merged_reads +=1
+            merged_reads += 1
 
     # Filtered reads
     filtered_reads = 0
