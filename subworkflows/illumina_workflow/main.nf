@@ -66,7 +66,6 @@ workflow ILLUMINA_WORKFLOW {
     multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc) 
     ch_reads_trimmed    = CUTADAPT_WORKFLOW.out.trimmed
 
-
     /*
     Cluster reads and produce OTUs/ASVs
     */
