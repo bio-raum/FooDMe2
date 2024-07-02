@@ -3,19 +3,14 @@
 
 import argparse
 from openpyxl import Workbook
-import glob
-import csv
 from openpyxl.worksheet.dimensions import ColumnDimension, DimensionHolder
 from openpyxl.utils import get_column_letter
+import glob
+import csv
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--output")
 args = parser.parse_args()
-
-def as_text(value):
-    if value is None:
-        return ""
-    return str(value)
 
 def main(output):
 
@@ -39,15 +34,19 @@ def main(output):
     wb = Workbook()
     ws = wb.active
     ws.title = "FooDMe2 results"
+    
     # Track cell positions
     row = 1
     col = 1
+
     sep = ";"
+
     d = ws.cell(row=row, column=col, value="Sample")
     d = ws.cell(row=row, column=col+1, value="Taxa")
     
     row += 1
 
+    # Iterate over each sample and get taxonomy assignments
     for sample in bucket:
         d = ws.cell(row=row, column=col, value = sample)
         hits = bucket[sample]
@@ -59,6 +58,7 @@ def main(output):
         d = ws.cell(row=row, column=col+1, value=sep.join(info))
         row += 1
 
+    # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws)
 
     for column in range(ws.min_column, ws.max_column + 1):
