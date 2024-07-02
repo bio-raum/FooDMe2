@@ -12,7 +12,7 @@ Import sub workflows
 include { ILLUMINA_WORKFLOW }           from './../subworkflows/illumina_workflow'
 include { BLAST_TAXONOMY }              from './../subworkflows/blast_taxonomy'
 include { ONT_WORKFLOW }                from './../subworkflows/ont_workflow'
-include { REPORTING }                   from './../subworkflows/reporting'
+
 /*
 Set default channels and values
 */
@@ -150,17 +150,7 @@ workflow FOODME2 {
         ch_blocklist.collect()
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
-    ch_bitscore    = ch_bitscore.mix(BLAST_TAXONOMY.out.bitscore)
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)
-
-    /*
-    Generate reports
-    */
-    REPORTING(
-        ch_bitscore,
-        ch_consensus
-    )
-    ch_versions    = ch_versions.mix(REPORTING.out.versions)
 
     // Create list of software packages used
     CUSTOM_DUMPSOFTWAREVERSIONS(

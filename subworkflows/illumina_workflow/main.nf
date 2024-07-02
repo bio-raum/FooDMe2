@@ -66,6 +66,7 @@ workflow ILLUMINA_WORKFLOW {
     multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc) 
     ch_reads_trimmed    = CUTADAPT_WORKFLOW.out.trimmed
 
+
     /*
     Cluster reads and produce OTUs/ASVs
     */
@@ -75,12 +76,14 @@ workflow ILLUMINA_WORKFLOW {
         )
         ch_otus         = VSEARCH_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
+        multiqc_files   = multiqc_files.mix(VSEARCH_WORKFLOW.out.qc) 
     } else {
         DADA2_WORKFLOW(
             ch_reads_trimmed
         )
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
+        multiqc_files   = multiqc_files.mix(DADA2_WORKFLOW.out.qc) 
     }
 
     emit:

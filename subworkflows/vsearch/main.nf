@@ -8,13 +8,15 @@ include { VSEARCH_FASTQFILTER }         from './../../modules/vsearch/fastqfilte
 include { VSEARCH_CLUSTER_SIZE  }       from './../../modules/vsearch/cluster_size'
 include { VSEARCH_CLUSTER_UNOISE }      from './../../modules/vsearch/unoise'
 include { VSEARCH_UCHIME_DENOVO }       from './../../modules/vsearch/uchime/denovo'
+include { HELPER_VSEARCH_STATS }        from './../../modules/helper/vsearch_stats'
+include { HELPER_VSEARCH_MULTIQC }      from './../../modules/helper/vsearch_multiqc'
 
 /*
 Set default channels
 */
 ch_versions = Channel.from([])
-ch_reports  = Channel.from([])
 ch_qc_files = Channel.from([])
+ch_reporting = Channel.from([])
 
 workflow VSEARCH_WORKFLOW {
     take:
@@ -38,6 +40,7 @@ workflow VSEARCH_WORKFLOW {
         ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }
     )
     ch_versions = ch_versions.mix(VSEARCH_FASTQMERGE.out.versions)
+    ch_reporting = ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }.join(VSEARCH_FASTQMERGE.out.fastq)
 
     /*
     paired and unpaired reads after optional merging and read name tagging
@@ -53,6 +56,7 @@ workflow VSEARCH_WORKFLOW {
         VSEARCH_FASTQMERGE.out.fastq
     )
     ch_versions = ch_versions.mix(VSEARCH_FASTQFILTER.out.versions)
+    ch_reporting = ch_reporting.join(VSEARCH_FASTQFILTER.out.fasta)
 
     /*
     Dereplicate the filtered reads
@@ -77,6 +81,27 @@ workflow VSEARCH_WORKFLOW {
         VSEARCH_CLUSTER_SIZE.out.fasta
     )
     ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
+    ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)
+    
+    /*
+    Clustering statistics
+    */
+    HELPER_VSEARCH_STATS(
+        ch_reporting
+    )
+
+    HELPER_VSEARCH_STATS.out.json.map { meta, json ->
+        json
+    }.set { ch_json_nometa }
+
+    /*
+    MultiQC report
+    */
+    HELPER_VSEARCH_MULTIQC(
+        ch_json_nometa.collect()
+    )
+
+    ch_qc_files = ch_qc_files.mix(HELPER_VSEARCH_MULTIQC.out.json)
 
     emit:
     versions = ch_versions

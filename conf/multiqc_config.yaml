@@ -24,6 +24,11 @@ top_modules:
 module_order:
     - 'fastqc'
     - 'cutadapt'
+    - 'custom_content'
+
+custom_content:
+    order:
+        - "custom_cluster_barplot-module"
 
 report_section_order:
     software_versions-module:
