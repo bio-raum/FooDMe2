@@ -18,7 +18,7 @@ def main(output):
     bucket = {}
 
     # Get all the TSV files in this directory
-    reports = glob.glob("*.tsv")
+    reports = sorted(glob.glob("*.tsv"))
 
     for report in reports:
 
@@ -41,9 +41,7 @@ def main(output):
     cb_uneven = PatternFill(fill_type = "solid", fgColor="cdd1d9")
     
     # Track cell positions
-    row = 1
-    col = 1
-
+    row = 0
     sep = ";"
 
     ws.append(["Sample", "Taxon", "Percentage"])
@@ -52,8 +50,6 @@ def main(output):
         for cell in r:
             cell.font = ft
     
-    row += 1
-
     this_sample = ""
     sample_counter = 0
 
@@ -72,15 +68,14 @@ def main(output):
         hits = bucket[sample]
         info = []
         for hit in hits:
+            row += 1
             name = hit["name"]
             perc = round(float(hit["proportion"]),4)*100
             ws.append([sample,name,perc])
             
-            ws["A"+str(row)].fill = bgcolor
-            ws["B"+str(row)].fill = bgcolor
-            ws["C"+str(row)].fill = bgcolor
-
-            row += 1
+            ws["A"+str(ws._current_row)].fill = bgcolor
+            ws["B"+str(ws._current_row)].fill = bgcolor
+            ws["C"+str(ws._current_row)].fill = bgcolor
 
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws)
@@ -89,6 +84,8 @@ def main(output):
         dim_holder[get_column_letter(column)] = ColumnDimension(ws, min=column, max=column, width=20)
 
     ws.column_dimensions = dim_holder
+
+    ws.freeze_panes = ws["A2"]
 
     wb.save(output)
 

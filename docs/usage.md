@@ -129,7 +129,7 @@ Reads are Pacbio HiFi after demultiplexing, in FastQ format.
 #### `--ont` [ default = false]
 Reads are Nanopore/ONT after demultiplexing, chemistry 10.4.1 or later, in FastQ format. Please note that the read quality is critical here, so only the most recent chemistry versions are likely to work.  
 
-#### `--torrent` [ default = false]
+#### `--iontorrent` [ default = false]
 Reads are IonTorrent after demultiplexing, in FastQ format. 
 
 ### PCR primers
