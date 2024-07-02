@@ -58,6 +58,14 @@ nextflow run bio-raum/FooDMe2 -profile lsh \\
 
 In this example, both `--reference_base` and the choice of software provisioning are already set in the  configuration `lsh` and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc.
 
+### Removing temporary data
+
+Nextflow stores all the process data in a folder structure inside the `work` directory. All the relevant results are subsequently copied to the designated results folder (`--outdir`). The work directory is needed to resume completed or failed pipeline runs, but should be removed once you are satisified with the analysis to save space. To do so, run:
+
+```bash
+nextflow clean
+```
+
 ## Specifying pipeline version
 
 If you are running this pipeline in a production setting, you will want to lock the pipeline to a specific version. This is natively supported through nextflow with the `-r` argument:
@@ -190,7 +198,10 @@ Provide your own blast database. This requires that the database has valid taxon
 
 ### Expert options
 
-Only change these if you have a good reason to do so.
+Most users probably will not need to touch these options.
+
+#### `--store_reads` [ default = false ]
+Emit the primer-trimmed reads into the result folder. This option is mostly useful to debug errors that are related to failed primer site removal. This option is set to false by default to save storage space. 
 
 #### `--blocklist`
 Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe 2 uses a built-in [block list](../assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.

@@ -11,6 +11,7 @@ A quick start guide can be found [here](docs/quickstart.md). We do recommend you
 
 ## Documentation
 
+0. [Requirements](docs/requirements.md)
 1. [What happens in this pipeline?](docs/pipeline.md)
 2. [Installation and configuration](docs/installation.md)
 3. [Running the pipeline](docs/usage.md)
