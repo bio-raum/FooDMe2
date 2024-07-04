@@ -103,6 +103,12 @@ workflow FOODME2 {
     */
     INPUT_CHECK(samplesheet)
 
+    if (!params.cutadapt_trim_3p) {
+        INPUT_CHECK.out.reads.filter {m,r -> m.single_end}.count().filter { c -> c > 0 }.map { c ->
+            log.warn "$c read sets are classified as single-end - this typically requires --cutadapt_trim_3p."
+        }
+    }
+
     /*
     SUB: Processing of reads
     */
