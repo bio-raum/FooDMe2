@@ -7,6 +7,7 @@ include { HELPER_CREATE_BLAST_MASK }        from './../../modules/helper/create_
 include { HELPER_BLAST_APPLY_BLOCKLIST }    from './../../modules/helper/blast_apply_blocklist'
 include { HELPER_BLAST_STATS }              from './../../modules/helper/blast_stats'
 include { HELPER_SAMPLE_COMPO }             from './../../modules/helper/sample_compo'
+include { HELPER_ASSIGNEMENT_MULTIQC }      from './../../modules/helper/assignemnt_multiqc'
 
 ch_versions = Channel.from([])
 ch_reporting = Channel.from([])
@@ -110,6 +111,16 @@ workflow BLAST_TAXONOMY {
         HELPER_BLAST_FILTER_BITSCORE.out.json
     )
     ch_versions = ch_versions.mix(HELPER_BLAST_STATS.out.versions)
+
+    // Assignement MULTIQC
+    HELPER_ASSIGNEMENT_STATS.out.json.map { meta, json ->
+        json
+    }.set { ch_json_nometa }
+
+    HELPER_ASSIGNEMENT_MULTIQC(
+        ch_json_nometa.collect()
+    )
+    ch_qc_files = ch_qc_files.mix(HELPER_ASSIGNEMENT_MULTIQC.out.json)
 
     /*
     Sample composition
