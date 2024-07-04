@@ -1,5 +1,6 @@
 process KRONA_HTML {
-    label 'short_parallel'
+    tag 'krona'
+    label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -10,13 +11,14 @@ process KRONA_HTML {
     path(table)
 
     output:
-    path('krona.html')   , emit: html
+    path('*.krona.html')   , emit: html
     path 'versions.yml'  , emit: versions
 
     script:
+    def prefix = task.ext.prefix ?: params.run_name
 
     """
-    ktImportText ${table} -o krona.html
+    ktImportText ${table} -o ${prefix}.krona.html
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
