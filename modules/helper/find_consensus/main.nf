@@ -6,9 +6,9 @@ process HELPER_FIND_CONSENSUS {
     container 'gregdenay/taxidtools:3.1.0'
 
     input:
-    tuple val(meta), path(report)   // the pre-filtered blast report in custom JSON format
-    val(consensus)                  // The min consensus value for taxonomy assignment for each OTU
-    path(json)                      // the Taxonomy file in JSON for taxidtools
+    tuple val(meta), path(report), path(otus)   // the pre-filtered blast report in custom JSON format and OTUS fasta
+    val(consensus)                              // The min consensus value for taxonomy assignment for each OTU
+    path(json)                                  // the Taxonomy file in JSON for taxidtools
 
     output:
     tuple val(meta), path('*.consensus.json') , emit: json
@@ -20,6 +20,7 @@ process HELPER_FIND_CONSENSUS {
     """
     min_consensus_filter.py \\
     --blast $report \\
+    --otus $otus \\
     --taxonomy $json \\
     --min_consensus $consensus \\
     --output ${prefix}.consensus.json

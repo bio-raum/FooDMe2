@@ -92,11 +92,13 @@ workflow BLAST_TAXONOMY {
         ch_blast_with_status.pass
     )
 
+    ch_blast_and_otus = HELPER_BLAST_FILTER_BITSCORE.out.json.join(otus)
+
     /*
     Find taxonomic consensus for each OTU
     */
     HELPER_FIND_CONSENSUS(
-        HELPER_BLAST_FILTER_BITSCORE.out.json,
+        ch_blast_and_otus,
         params.blast_min_consensus,
         tax_json.collect()
     )

@@ -4,19 +4,31 @@
 
 import argparse
 import json
+import re
 import taxidTools
 from collections import Counter
 
 
 parser = argparse.ArgumentParser(description="Script options")
-parser.add_argument("--blast", help="Path pre-filtered BLAST report as JSON")
+parser.add_argument("--blast", help="Path to pre-filtered BLAST report as JSON")
+parser.add_argument("--otus", help="Path to OTUs fasta")
 parser.add_argument("--taxonomy", help="A JSON Taxonomy exported by taxidTool")
 parser.add_argument("--min_consensus", help="Consensus level in the ]0.5,1] interval", type=float)
 parser.add_argument("--output", help="Path to output table")
 args = parser.parse_args()
 
 
-def main(blast_report, taxonomy, min_consensus, output):
+def parse_headers(otus_fasta):
+    """Generator for sequence ID and size from OTU fasta file
+    '>SeqID;size=xxx' yields (SeqID, xxx)"""
+    with open(otus_fasta) as fi:
+        for line in fi:
+            if line[0] == ">":
+                parsed = line[1:].split(";size=")
+                yield parsed[0], parsed[1].strip()
+
+
+def main(blast_report, otus_fasta, taxonomy, min_consensus, output):
     if min_consensus <= 0.5 or min_consensus > 1:
         raise ValueError("'min_consensus' must be in the interval (0.5 , 1]")
 
@@ -28,10 +40,16 @@ def main(blast_report, taxonomy, min_consensus, output):
     # Group by query ID and get list of all taxid where "keep" is True
     otus = {}
     sizes = {}
+
     for d in blast_dict:
-        if "keep" in d:
+        if d["keep"]:
             otus.setdefault(d["query"], []).append(str(d["subject_taxid"]))
             sizes.setdefault(d["query"], d["size"])
+    # Add missing ids (no BLAST hits) from OTU fasta
+    for id, size in parse_headers(otus_fasta):
+        otus.setdefault(id, [])
+        sizes.setdefault(id, size)
+    # Reformat to list
     otus = [{"query": k, "tax_list": v} for k, v in otus.items()]
 
     # add sized to dict
@@ -45,12 +63,12 @@ def main(blast_report, taxonomy, min_consensus, output):
             rank = consensus.rank
             name = consensus.name
             taxid = consensus.taxid
-        # except ValueError:
-            # All taxa missing or empty taxid_list
-            # consensus = "Undetermined"
-            # taxid = "Undetermined"
-            # rank = "Undetermined"
-            # name = "Undetermined"
+        except ValueError:
+            # All taxa missing or empty taxid_list: Value Error
+            consensus = "Undetermined"
+            taxid = "Undetermined"
+            rank = "Undetermined"
+            name = "Undetermined"
         finally:
             d["rank"] = rank
             d["name"] = name
@@ -73,6 +91,7 @@ def main(blast_report, taxonomy, min_consensus, output):
 if __name__ == '__main__':
     main(
         args.blast,
+        args.otus,
         args.taxonomy,
         args.min_consensus,
         args.output
