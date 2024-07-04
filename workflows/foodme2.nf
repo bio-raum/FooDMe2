@@ -150,6 +150,7 @@ workflow FOODME2 {
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)
+    multiqc_files  = multiqc_files.mix(BLAST_TAXONOMY.out.qc)
     
     /*
     Reporting sub workflow

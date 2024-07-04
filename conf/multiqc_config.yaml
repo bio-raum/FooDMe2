@@ -29,6 +29,7 @@ module_order:
 custom_content:
     order:
         - "custom_cluster_barplot-module"
+        - "custom_assignement_barplot-module"
 
 report_section_order:
     software_versions-module:

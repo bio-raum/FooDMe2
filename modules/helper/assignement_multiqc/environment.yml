@@ -1,0 +1,7 @@
+name: assignemnt_multiqc
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::aminoextract=0.3.1
