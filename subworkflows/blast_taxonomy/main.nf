@@ -12,6 +12,7 @@ include { HELPER_ASSIGNEMENT_MULTIQC }      from './../../modules/helper/assigne
 ch_versions = Channel.from([])
 ch_reporting = Channel.from([])
 ch_qc_files = Channel.from([])
+ch_tax_json = Channel.from([])
 
 workflow BLAST_TAXONOMY {
     take:
@@ -32,7 +33,7 @@ workflow BLAST_TAXONOMY {
         taxdump,
         params.taxid_filter
     )
-    tax_json = HELPER_FILTER_TAXONOMY.out.json
+    ch_tax_json = ch_tax_json.mix(HELPER_FILTER_TAXONOMY.out.json)
 
     /*
     Get all tax ids from this Blast database
@@ -49,7 +50,7 @@ workflow BLAST_TAXONOMY {
     HELPER_CREATE_BLAST_MASK(
         BLAST_TAXONOMY_FROM_DB.out.list,
         params.taxid_filter,
-        tax_json
+        ch_tax_json
     )
     blast_mask = HELPER_CREATE_BLAST_MASK.out.mask
 
@@ -101,7 +102,7 @@ workflow BLAST_TAXONOMY {
     HELPER_FIND_CONSENSUS(
         ch_blast_and_otus,
         params.blast_min_consensus,
-        tax_json.collect()
+        ch_tax_json.collect()
     )
 
     /*
@@ -135,4 +136,5 @@ workflow BLAST_TAXONOMY {
     versions = ch_versions
     composition = HELPER_SAMPLE_COMPO.out.tsv
     qc = ch_qc_files
+    tax_json = ch_tax_json
 }
