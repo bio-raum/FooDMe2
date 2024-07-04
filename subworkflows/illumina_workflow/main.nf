@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 /*
 Import modules
 */
@@ -35,7 +37,7 @@ workflow ILLUMINA_WORKFLOW {
         reads
     )
     ch_versions     = ch_versions.mix(FASTP.out.versions)
-    multiqc_files   = multiqc_files.mix(FASTP.out.json)
+    multiqc_files   = multiqc_files.mix(FASTP.out.json.map{ m,j -> j})
 
     /*
     Split trimmed reads by sample to find multi-lane data sets
@@ -46,6 +48,24 @@ workflow ILLUMINA_WORKFLOW {
         multi: reads.size() > 1
             return [ meta, reads.flatten()]
     }.set { ch_reads_illumina }
+
+    /*
+    We alert users in case that the insert size is larger than the read
+    length - if --cutadapt_trim_3p was not specified
+    */
+    if (!params.cutadapt_trim_3p) {
+
+        FASTP.out.json.filter { m,j -> !m.single_end }.map { m,j -> 
+            def metrics = get_metrics(j)
+            m.insert_size = metrics[0]
+            m.mean_read_length = metrics[1]
+            tuple(m,j)
+        }.set { ch_json_with_insert_size }
+
+        ch_json_with_insert_size.filter {m,j -> m.insert_size > (m.mean_read_length - 20)}.subscribe { m,j ->
+            log.warn "${m.sample_id} - the mean insert size seems to be close to or greater than the mean read length. Should you perhaps use --cutadapt_trim_3p?"
+        }
+    }
 
     /*
     Concatenate samples with multiple PE files
@@ -90,3 +110,20 @@ workflow ILLUMINA_WORKFLOW {
     versions    = ch_versions
     qc          = multiqc_files
     }
+
+
+/*
+Read the FastP JSON metrics
+to extract insert size and mean read length
+*/
+def get_metrics(json) {
+
+    data = file(json).getText()
+    def jsonSlurper = new JsonSlurper()
+    def object = jsonSlurper.parseText(data)
+
+    def isize = object["insert_size"]["peak"]
+    def mean_len = object["summary"]["after_filtering"]["read1_mean_length"]
+
+    return [ isize, mean_len ]
+}
