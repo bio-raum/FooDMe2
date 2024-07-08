@@ -63,10 +63,10 @@ In this example, both `--reference_base` and the choice of software provisioning
 Nextflow stores all the process data in a folder structure inside the `work` directory. All the relevant results are subsequently copied to the designated results folder (`--outdir`). The work directory is needed to resume completed or failed pipeline runs, but should be removed once you are satisified with the analysis to save space. To do so, run:
 
 ```bash
-nextflow clean
+nextflow clean -f
 ```
 
-## Specifying pipeline version
+## Specifying a pipeline version
 
 If you are running this pipeline in a production setting, you will want to lock the pipeline to a specific version. This is natively supported through nextflow with the `-r` argument:
 
@@ -99,7 +99,7 @@ sample  fq1 fq2
 S100    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
 ```
 
-If the pipeline sees more than one set of reads for a given sample ID, it will concatenate them automatically at the appropriate time.
+If the pipeline sees more than one set of reads for a given sample ID (i.e. from multi-lane sequencing runs), it will concatenate them automatically at the appropriate time.
 
 #### `--reference_base` [default = null ]
 
@@ -182,7 +182,7 @@ Use a pre-installed database (recommended!). Available options are (common choic
 | co2 | Midori |
 | co3 | Midori |
 | **cytb** | Midori |
-| **genbank_nt** | NCBI |
+| **genbank** | NCBI |
 | ncbi_its | NCBI |
 | **its** | Unite |
 | nd1 | Midori |

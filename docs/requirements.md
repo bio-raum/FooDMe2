@@ -18,7 +18,7 @@ If your amplicons are shorter than your average read length, make sure to use th
 
 FooDMe2 ships with presumably all of the relevant databases for taxonomic assignment. However, these needs to be installed first - as described [here](installation.md)
 
-We would recommend the use of the single gene databases, provided through [Midori](https://www.reference-midori.info/). However, FooDMe2 also provides access to larger databases - specifically NCBI GenBank Eukaryotes. 
+We would recommend the use of the single gene databases, provided through [Midori](https://www.reference-midori.info/). However, FooDMe2 also provides access to larger databases - specifically NCBI GenBank Eukaryotes. Please note that Genbank has [grown](https://www.ncbi.nlm.nih.gov/genbank/statistics/) to well over 500.GB in size. Running it will require a rather formidable compute server. We have access to nodes with 256.GB Ram and can no longer run it as part of FooDMe 2 (as opposed to versions from four years ago).
 
 If you absolutely need to use a custom database, this is also supported as described [here](usage.md#--blast_db--default--null).
 

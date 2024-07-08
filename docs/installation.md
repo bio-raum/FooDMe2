@@ -58,14 +58,15 @@ nextflow run bio-raum/FooDMe2 -profile your_profile \\
 ```
 
 ### IMPORTANT
-In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank nt Eukaryote database, which has a final size of over 250.GB, and will need over 500.GB during installation. If your application works with single gene [databases](usage.md#--gene-default--null), you can skip installing this database with `--skip-genbank`. 
+In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank nt Eukaryote database, which has a final size of over 600.GB, and will need over 1.TB during installation. If your application works with single gene [databases](usage.md#--gene-default--null), you can skip installing this database with `--skip_genbank`. 
 
 ```BASH
 nextflow run bio-raum/FooDMe2 -profile your_profile \\
 --build_references \\
 --run_name build \\
 --skip_genbank  \\
--r <PIPELINE_VERSION>
+-r <PIPELINE_VERSION> \\
+--skip_genbank
 ```
 
 ## Site-specific config file
