@@ -4,8 +4,8 @@ process DADA2_ERROR {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bioconductor-dada2:1.28.0--r43hf17093f_0' :
-        'biocontainers/bioconductor-dada2:1.28.0--r43hf17093f_0' }"
+        'https://depot.galaxyproject.org/singularity/bioconductor-dada2:1.30.0--r43hf17093f_0' :
+        'quay.io/biocontainers/bioconductor-dada2:1.30.0--r43hf17093f_0' }"
 
     input:
     tuple val(meta), path(reads)
@@ -61,8 +61,8 @@ process DADA2_ERROR {
         suppressPackageStartupMessages(library(dada2))
         set.seed($seed) # Initialize random number generator for reproducibility
 
-        fnFs <- sort(list.files(".", pattern = "_1.trim.fastq.gz", full.names = TRUE))
-        fnRs <- sort(list.files(".", pattern = "_2.trim.fastq.gz", full.names = TRUE))
+        fnFs <- sort(list.files(".", pattern = "_1.filt.fastq.gz", full.names = TRUE))
+        fnRs <- sort(list.files(".", pattern = "_2.filt.fastq.gz", full.names = TRUE))
 
         sink(file = "${meta.sample_id}.err.log")
         errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)

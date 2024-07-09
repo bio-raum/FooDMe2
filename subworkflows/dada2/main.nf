@@ -1,3 +1,4 @@
+include { DADA2_FILTNTRIM }             from './../../modules/dada2/filterntrim'
 include { DADA2_ERROR }                 from './../../modules/dada2/error'
 include { DADA2_DENOISING }             from './../../modules/dada2/denoising'
 include { DADA2_RMCHIMERA }             from './../../modules/dada2/rmchimera'
@@ -16,10 +17,17 @@ workflow DADA2_WORKFLOW {
     main:
     
     /*
+    Filter reads; trimming is done by Cutadapt
+    */
+    DADA2_FILTNTRIM(
+        reads
+    )
+
+    /*
     DADA2 Error model calculation
     */
     DADA2_ERROR(
-        reads
+        DADA2_FILTNTRIM.out.filtered_reads
     )
     ch_versions = ch_versions.mix(DADA2_ERROR.out.versions)
 

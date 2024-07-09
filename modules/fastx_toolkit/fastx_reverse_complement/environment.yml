@@ -1,7 +1,7 @@
-name: dada2_denoising
+name: fastx_reverse_complement
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::bioconductor-dada2=1.30.0
+  - bioconda::fastx_toolkit=0.0.14

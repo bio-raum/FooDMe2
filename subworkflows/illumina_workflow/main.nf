@@ -5,7 +5,6 @@ Import modules
 */
 include { FASTP }               from './../../modules/fastp'
 include { CAT_FASTQ }           from './../../modules/cat_fastq'
-include { CUTADAPT }            from './../../modules/cutadapt'
 
 /*
 Import sub workflows
@@ -80,7 +79,7 @@ workflow ILLUMINA_WORKFLOW {
     */
     CUTADAPT_WORKFLOW(
         ch_illumina_trimmed,
-        ch_primers.collect()
+        ch_primers
     )
     ch_versions         = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
     multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc) 
@@ -97,6 +96,7 @@ workflow ILLUMINA_WORKFLOW {
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(VSEARCH_WORKFLOW.out.qc) 
     } else {
+
         DADA2_WORKFLOW(
             ch_reads_trimmed
         )

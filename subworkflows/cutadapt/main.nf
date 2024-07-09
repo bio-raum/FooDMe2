@@ -1,4 +1,6 @@
-include { CUTADAPT }    from './../../modules/cutadapt'
+include { CUTADAPT }            from './../../modules/cutadapt'
+include { PRIMER_DISAMBIGUATE } from './../../modules/helper/primer_disambiguate'
+include { FASTX_REVERSE_COMPLEMENT }    from './../../modules/fastx_toolkit/fastx_reverse_complement'
 
 ch_versions = Channel.from([])
 ch_qc  = Channel.from([])
@@ -11,9 +13,24 @@ workflow CUTADAPT_WORKFLOW {
 
     main:
 
+    // Disambiguate degenerate primer sequences
+    PRIMER_DISAMBIGUATE(
+        ch_primers
+    )
+    ch_primers_disambiguated = PRIMER_DISAMBIGUATE.out.fasta
+    ch_versions = ch_versions.mix(PRIMER_DISAMBIGUATE.out.versions)
+
+    // Generate a reverse complement
+    FASTX_REVERSE_COMPLEMENT(
+        ch_primers_disambiguated
+    )
+    ch_primers_rc = FASTX_REVERSE_COMPLEMENT.out.fasta
+    ch_versions = ch_versions.mix(FASTX_REVERSE_COMPLEMENT.out.versions)
+
     CUTADAPT(
         reads,
-        ch_primers.collect()
+        ch_primers_disambiguated.collect(),
+        ch_primers_rc.collect()
     )
     ch_versions         = ch_versions.mix(CUTADAPT.out.versions)
     ch_qc               = ch_qc.mix(CUTADAPT.out.report) 
