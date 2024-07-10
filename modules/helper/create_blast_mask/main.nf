@@ -16,6 +16,7 @@ process HELPER_CREATE_BLAST_MASK {
 
     script:
     blast_mask = 'blast.mask'
+    def args = task.ext.args ?: ''
 
     """
     make_blast_mask.py \\

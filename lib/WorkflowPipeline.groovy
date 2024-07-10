@@ -70,6 +70,9 @@ class WorkflowPipeline {
                 log.info "Did not provide a database name (--db) - if you wish to use a custom database, please specify with --blast_db!"
                 System.exit(1)
             }
+            if (params.primers_fa && params.taxid_filter == 2759 && params.db == "genbank") {
+                log.warn "Using 'eukaryota' as default taxonomic root - this will require a lot of RAM on larger databases!\nConsider specifying a shallower node using --taxid_filter"
+            }
         }
     }
 
