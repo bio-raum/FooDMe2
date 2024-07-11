@@ -154,7 +154,7 @@ A list of pre-configured primer sets is also available from the pipeline directl
 
 #### `--primers_fa` [default = null]
 
-If you do not wish to use a pre-configured primer set, you can alternatively provide primer sequences in FASTA format. This option requires `--db` or `--blast_db` to choose the appropriate database to compare your data against. 
+If you do not wish to use a pre-configured primer set, you can alternatively provide primer sequences in FASTA format. This option requires `--db` or `--blast_db` to choose the appropriate database to compare your data against.
 
 ### Database
 
@@ -197,6 +197,18 @@ The underlying databases are obtained from [Midori](https://www.reference-midori
 
 #### `--blast_db` [ default = null]
 Provide your own blast database. This requires that the database has valid taxonomy IDs included and should only be attempted by experienced users. Databases must be created with the options `--parse_seqids` and `--taxid_map` using the NCBI taxonomy.
+
+#### `--taxid_filter` [ default = null ]
+In case you do not use a pre-configured [primer_set](#--primer_set-default--null), you will have to tell the pipeline a taxonomic group you wish to screen. The argument must be an ID from the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy). Some common examples are:
+
+| Taxonomic group | NCBI ID |
+| --------------- | ------- |
+| Amniotes        | 32524   |
+| Mammals         | 40674   |
+| Insects         | 50557   |
+| Teleost fishes  | 32443   |
+
+Please note that the deeper the node (i.e. the broader the search space), the more RAM will be required. This is not a concern for the single gene databases (e.g. Midori), but will be a significant factor when screening against GenBank NT. If you need to use GenBank NT and find that your jobs crash due to an out-of-memory error, consider using a shallower taxonomic node. 
 
 ### Expert options
 
