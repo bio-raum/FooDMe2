@@ -22,6 +22,7 @@ workflow DADA2_WORKFLOW {
     DADA2_FILTNTRIM(
         reads
     )
+    ch_versions = ch_versions.mix(DADA2_FILTNTRIM.out.versions)
 
     /*
     DADA2 Error model calculation

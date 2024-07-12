@@ -23,7 +23,7 @@ Please see our [installation guide](installation.md) to learn how to set up this
 
 A basic execution of the pipeline looks as follows:
 
-### Without a site-specific config file
+### With a built-in profile
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile singularity \\

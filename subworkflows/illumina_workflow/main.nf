@@ -24,8 +24,8 @@ taxonomic profiling
 */
 workflow ILLUMINA_WORKFLOW {
     take:
-    reads
-    ch_primers
+    reads       // [ meta, [ reads ] ]
+    ch_primers  // [ primers ]
 
     main:
 
@@ -96,7 +96,6 @@ workflow ILLUMINA_WORKFLOW {
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(VSEARCH_WORKFLOW.out.qc) 
     } else {
-
         DADA2_WORKFLOW(
             ch_reads_trimmed
         )
@@ -110,7 +109,6 @@ workflow ILLUMINA_WORKFLOW {
     versions    = ch_versions
     qc          = multiqc_files
     }
-
 
 /*
 Read the FastP JSON metrics

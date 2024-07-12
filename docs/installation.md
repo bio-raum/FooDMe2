@@ -30,7 +30,7 @@ The pipeline comes with simple pre-set profiles for all of these as described [h
 
 This pipeline requires locally stored references from [Midori](https://www.reference-midori.info/), [UNITE](https://unite.ut.ee/) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db) respectively. To build these, do:
 
-### Without a local config file:
+### Witha built-in profile:
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile singularity \\
@@ -48,7 +48,7 @@ The path specified with `--reference_base` can then be given to the pipeline dur
 
 Please note that the build process will create a pipeline-specific subfolder (`foodme2`) that must not be given as part of the `--reference_base` argument. FooDMe 2 is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself.
 
-### With a [local config](#site-specific-config-file) file:
+### With a [site-specific config](#site-specific-config-file) file:
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile your_profile \\

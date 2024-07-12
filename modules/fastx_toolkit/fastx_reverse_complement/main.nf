@@ -1,6 +1,8 @@
 process FASTX_REVERSE_COMPLEMENT {
     label 'short_serial'
 
+    tag "${fa}"
+
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/fastx_toolkit:0.0.14--hdbdd923_11' :

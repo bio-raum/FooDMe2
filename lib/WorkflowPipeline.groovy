@@ -74,7 +74,7 @@ class WorkflowPipeline {
                 log.warn "Must provide a taxonomic group against which to search your sequences (--taxid_filter)"
                 System.exit(1)
             }
-            if (params.taxid_filter && !params.taxid_filter.isInteger()) {
+            if (params.taxid_filter && !params.taxid_filter.toString().isInteger()) {
                 log.warn "The argument for --taxid_filter must be numeric (i.e. a taxonomy id from NCBI)!"
                 System.exit(1)
             }
