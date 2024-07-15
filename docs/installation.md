@@ -33,7 +33,7 @@ This pipeline requires locally stored references from [Midori](https://www.refer
 ### Witha built-in profile:
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile singularity \\
+nextflow run bio-raum/FooDMe2 -profile apptainer \\
 --build_references \\
 --run_name build_refs \\
 --reference_base /path/to/references \\
@@ -42,7 +42,7 @@ nextflow run bio-raum/FooDMe2 -profile singularity \\
 
 where `/path/to/references` could be something like `/data/pipelines/references` or whatever is most appropriate on your system. If you have already added your own profile to our [configuration](https://github.com/marchoeppner/nf-configs) repository, then the `--reference_base` option does not need to be set from the command line.
 
-If you do not have singularity on your system, you can also specify docker, podman or conda for software provisioning - see the [usage information](usage.md).
+If you do not have apptainer on your system, you can also specify docker, singularity, podman or conda for software provisioning - see the [usage information](usage.md).
 
 The path specified with `--reference_base` can then be given to the pipeline during normal execution as `--reference_base` (unless you already have set it as part of your site-specific config file).
 

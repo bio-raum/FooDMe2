@@ -4,7 +4,7 @@ Below are some general guidelines to ensure that your data can be successfully a
 
 ## Computing
 
-FooDMe2 is a comparatively light-weight pipeline and runs on a wide range of hardware, including your "average" laptop (for limitations, see [Database](#database)). At the same time, it is also capable of taking advantage of high-performance compute clusters, or the cloud. 
+FooDMe2 is a comparatively light-weight pipeline and runs on a wide range of hardware, including your "average" laptop (for limitations, see [Database](#database)). At the same time, it is also capable of taking advantage of high-performance compute clusters, or "the cloud". 
 
 At minimum, you will need 4 CPU cores, 8GB of Ram and ~5.GB of disk space for the reference databases (again, see [Database](#database) for exceptions). In addition, the pipeline requires storage space for the intermediate files and the final results - which will depend on the size of your input data. 
 

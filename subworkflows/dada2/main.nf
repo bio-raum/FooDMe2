@@ -58,7 +58,7 @@ workflow DADA2_WORKFLOW {
 
     // Denoising stats
     HELPER_DADA_STATS(
-        ch_reporting
+        ch_reporting.filter { m,r,t -> !m.single_end }
     )
 
     HELPER_DADA_STATS.out.json.map { meta, json ->

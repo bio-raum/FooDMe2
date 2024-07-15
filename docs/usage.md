@@ -26,7 +26,7 @@ A basic execution of the pipeline looks as follows:
 ### With a built-in profile
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile singularity \\
+nextflow run bio-raum/FooDMe2 -profile apptainer \\
 --input samples.csv \\
 --reference_base /path/to/references \\
 --run_name pipeline-test \\
@@ -35,7 +35,7 @@ nextflow run bio-raum/FooDMe2 -profile singularity \\
 
 where `path_to_references` corresponds to the location in which you have [installed](installation.md) the pipeline references.
 
-In this example, the pipeline will assume it runs on a single computer with the singularity container engine. Available options to provision software are:
+In this example, the pipeline will assume it runs on a single computer with the apptainer container engine. Available options to provision software are:
 
 `-profile singularity`
 
@@ -224,7 +224,7 @@ Provide a list of NCBI taxonomy IDs (one per line) that should be masked from th
 By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.
 
 ```bash
-nextflow run bio-ram/FooDMe2 -profile singularity \\
+nextflow run bio-ram/FooDMe2 -profile apptainer \\
 --input samples.tsv \\
 --disable_low_complexity ...
 ```

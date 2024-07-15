@@ -23,9 +23,7 @@ process VSEARCH_ORIENT {
 
     """
     vsearch --orient $fastq \
-    -threads ${task.cpus} \
     -db $db \
-    -relabel ${meta.sample_id}.
     -fastqout $reorient $args
 
     cat <<-END_VERSIONS > versions.yml
