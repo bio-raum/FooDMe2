@@ -10,6 +10,7 @@ process CUTADAPT {
     input:
     tuple val(meta), path(reads)
     path(primers)
+    path(primers_rc)
 
     output:
     tuple val(meta), path('*.trim.fastq.gz'), emit: reads
@@ -29,10 +30,10 @@ process CUTADAPT {
     def options_3p = ''
     if (meta.single_end) {
         options_5p = "-g ^file:${primers}"
-        options_3p = "-a file\$:${primers}"
+        options_3p = "-a file\$:${primers_rc}"
     } else {
         options_5p = "-g file:${primers} -G file:${primers}"
-        options_3p = "-a file\$:${primers} -A file\$:${primers}"
+        options_3p = "-a file\$:${primers_rc} -A file\$:${primers_rc}"
     }
 
     if (params.cutadapt_trim_3p) {

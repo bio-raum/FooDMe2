@@ -5,7 +5,6 @@ Import modules
 */
 include { FASTP }               from './../../modules/fastp'
 include { CAT_FASTQ }           from './../../modules/cat_fastq'
-include { CUTADAPT }            from './../../modules/cutadapt'
 
 /*
 Import sub workflows
@@ -25,8 +24,8 @@ taxonomic profiling
 */
 workflow ILLUMINA_WORKFLOW {
     take:
-    reads
-    ch_primers
+    reads       // [ meta, [ reads ] ]
+    ch_primers  // [ primers ]
 
     main:
 
@@ -80,7 +79,7 @@ workflow ILLUMINA_WORKFLOW {
     */
     CUTADAPT_WORKFLOW(
         ch_illumina_trimmed,
-        ch_primers.collect()
+        ch_primers
     )
     ch_versions         = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
     multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc) 
@@ -110,7 +109,6 @@ workflow ILLUMINA_WORKFLOW {
     versions    = ch_versions
     qc          = multiqc_files
     }
-
 
 /*
 Read the FastP JSON metrics

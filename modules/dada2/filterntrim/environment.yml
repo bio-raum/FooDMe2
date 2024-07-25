@@ -1,7 +1,7 @@
-name: dada2_denoising
+name: dada2_filter
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::bioconductor-dada2=1.30.0
+  - bioconda::bioconductor-dada2=1.28.0

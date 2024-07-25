@@ -1,6 +1,6 @@
 process BLAST_BLASTN {
     tag "$meta.sample_id"
-    label 'short_parallel'
+    label 'medium_parallel'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

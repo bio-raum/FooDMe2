@@ -23,10 +23,10 @@ Please see our [installation guide](installation.md) to learn how to set up this
 
 A basic execution of the pipeline looks as follows:
 
-### Without a site-specific config file
+### With a built-in profile
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile singularity \\
+nextflow run bio-raum/FooDMe2 -profile apptainer \\
 --input samples.csv \\
 --reference_base /path/to/references \\
 --run_name pipeline-test \\
@@ -35,7 +35,7 @@ nextflow run bio-raum/FooDMe2 -profile singularity \\
 
 where `path_to_references` corresponds to the location in which you have [installed](installation.md) the pipeline references.
 
-In this example, the pipeline will assume it runs on a single computer with the singularity container engine. Available options to provision software are:
+In this example, the pipeline will assume it runs on a single computer with the apptainer container engine. Available options to provision software are:
 
 `-profile singularity`
 
@@ -63,10 +63,10 @@ In this example, both `--reference_base` and the choice of software provisioning
 Nextflow stores all the process data in a folder structure inside the `work` directory. All the relevant results are subsequently copied to the designated results folder (`--outdir`). The work directory is needed to resume completed or failed pipeline runs, but should be removed once you are satisified with the analysis to save space. To do so, run:
 
 ```bash
-nextflow clean
+nextflow clean -f
 ```
 
-## Specifying pipeline version
+## Specifying a pipeline version
 
 If you are running this pipeline in a production setting, you will want to lock the pipeline to a specific version. This is natively supported through nextflow with the `-r` argument:
 
@@ -99,7 +99,7 @@ sample  fq1 fq2
 S100    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
 ```
 
-If the pipeline sees more than one set of reads for a given sample ID, it will concatenate them automatically at the appropriate time.
+If the pipeline sees more than one set of reads for a given sample ID (i.e. from multi-lane sequencing runs), it will concatenate them automatically at the appropriate time.
 
 #### `--reference_base` [default = null ]
 
@@ -154,7 +154,7 @@ A list of pre-configured primer sets is also available from the pipeline directl
 
 #### `--primers_fa` [default = null]
 
-If you do not wish to use a pre-configured primer set, you can alternatively provide primer sequences in FASTA format. This option requires `--db` or `--blast_db` to choose the appropriate database to compare your data against. 
+If you do not wish to use a pre-configured primer set, you can alternatively provide primer sequences in FASTA format. This option requires `--db` or `--blast_db` to choose the appropriate database to compare your data against.
 
 ### Database
 
@@ -182,7 +182,7 @@ Use a pre-installed database (recommended!). Available options are (common choic
 | co2 | Midori |
 | co3 | Midori |
 | **cytb** | Midori |
-| **genbank_nt** | NCBI |
+| **genbank** | NCBI |
 | ncbi_its | NCBI |
 | **its** | Unite |
 | nd1 | Midori |
@@ -198,6 +198,18 @@ The underlying databases are obtained from [Midori](https://www.reference-midori
 #### `--blast_db` [ default = null]
 Provide your own blast database. This requires that the database has valid taxonomy IDs included and should only be attempted by experienced users. Databases must be created with the options `--parse_seqids` and `--taxid_map` using the NCBI taxonomy.
 
+#### `--taxid_filter` [ default = null ]
+In case you do not use a pre-configured [primer_set](#--primer_set-default--null), you will have to tell the pipeline a taxonomic group you wish to screen. The argument must be an ID from the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy). Some common examples are:
+
+| Taxonomic group | NCBI ID |
+| --------------- | ------- |
+| Amniotes        | 32524   |
+| Mammals         | 40674   |
+| Insects         | 50557   |
+| Teleost fishes  | 32443   |
+
+Please note that the deeper the node (i.e. the broader the search space), the more RAM will be required. This is not a concern for the single gene databases (e.g. Midori), but will be a significant factor when screening against GenBank NT. If you need to use GenBank NT and find that your jobs crash due to an out-of-memory error, consider using a shallower taxonomic node. 
+
 ### Expert options
 
 Most users probably will not need to touch these options.
@@ -212,7 +224,7 @@ Provide a list of NCBI taxonomy IDs (one per line) that should be masked from th
 By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.
 
 ```bash
-nextflow run bio-ram/FooDMe2 -profile singularity \\
+nextflow run bio-ram/FooDMe2 -profile apptainer \\
 --input samples.tsv \\
 --disable_low_complexity ...
 ```

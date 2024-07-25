@@ -5,8 +5,8 @@ process DADA2_DENOISING {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bioconductor-dada2:1.28.0--r43hf17093f_0' :
-        'biocontainers/bioconductor-dada2:1.28.0--r43hf17093f_0' }"
+        'https://depot.galaxyproject.org/singularity/bioconductor-dada2:1.30.0--r43hf17093f_0' :
+        'quay.io/biocontainers/bioconductor-dada2:1.30.0--r43hf17093f_0' }"
 
     input:
     tuple val(meta), path('filtered/*'), path(errormodel)
@@ -23,11 +23,9 @@ process DADA2_DENOISING {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: [
-            'selfConsist = FALSE, priors = character(0), DETECT_SINGLETONS = FALSE, GAPLESS = TRUE, GAP_PENALTY = -8, GREEDY = TRUE, KDIST_CUTOFF = 0.42, MATCH = 5, MAX_CLUST = 0, MAX_CONSIST = 10, MIN_ABUNDANCE = 1, MIN_FOLD = 1, MIN_HAMMING = 1, MISMATCH = -4, OMEGA_A = 1e-40, OMEGA_C = 1e-40, OMEGA_P = 1e-4, PSEUDO_ABUNDANCE = Inf, PSEUDO_PREVALENCE = 2, SSE = 2, USE_KMERS = TRUE, USE_QUALS = TRUE, VECTORIZED_ALIGNMENT = TRUE',
-            params.iontorrent ? 'BAND_SIZE = 32, HOMOPOLYMER_GAP_PENALTY = -1' : 'BAND_SIZE = 16, HOMOPOLYMER_GAP_PENALTY = NULL'
-        ].join(',').replaceAll('(,)*$', '')
+    def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
+
     if (meta.single_end) {
         """
         #!/usr/bin/env Rscript
@@ -66,10 +64,13 @@ process DADA2_DENOISING {
 
         #denoising
         sink(file = "${meta.sample_id}.dada.log")
+        
         dadaFs <- dada(filtFs, err = errF, $args, multithread = $task.cpus)
         saveRDS(dadaFs, "${meta.sample_id}_1.dada.rds")
+
         dadaRs <- dada(filtRs, err = errR, $args, multithread = $task.cpus)
         saveRDS(dadaRs, "${meta.sample_id}_2.dada.rds")
+
         sink(file = NULL)
 
         #make table

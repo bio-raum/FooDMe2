@@ -49,7 +49,7 @@ if (params.input) {
     } else if (params.input && params.primers_fa) {
 
         ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
-    
+
         // If the user requests one of the installed databases
         if (params.db) {    
             database    = params.db
@@ -119,7 +119,7 @@ workflow FOODME2 {
     } else if (params.ont) {
         ONT_WORKFLOW(
             INPUT_CHECK.out.reads,
-            ch_primers,
+            ch_primers
         )
         ch_versions     = ch_versions.mix(ONT_WORKFLOW.out.versions)
         ch_otus         = ch_otus.mix(ONT_WORKFLOW.out.otus)
@@ -128,7 +128,7 @@ workflow FOODME2 {
     } else if (params.iontorrent) {
         ILLUMINA_WORKFLOW(
             INPUT_CHECK.out.reads,
-            ch_primers,
+            ch_primers       
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
@@ -137,7 +137,7 @@ workflow FOODME2 {
     } else {
         ILLUMINA_WORKFLOW(
             INPUT_CHECK.out.reads,
-            ch_primers,
+            ch_primers
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)

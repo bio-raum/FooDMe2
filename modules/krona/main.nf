@@ -11,14 +11,15 @@ process KRONA_HTML {
     path(table)
 
     output:
-    path('*.krona.html')   , emit: html
+
+    path('*.html')   , emit: html
     path 'versions.yml'  , emit: versions
 
     script:
-    def prefix = task.ext.prefix ?: params.run_name
+    def prefix = task.ext.prefix ?: params.run_name + "_krona"
 
     """
-    ktImportText ${table} -o ${prefix}.krona.html
+    ktImportText ${table} -o ${prefix}.html
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

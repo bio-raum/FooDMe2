@@ -21,9 +21,9 @@ class WorkflowPipeline {
         if (params.list_dbs) {
             println('Available databases:')
             println('===========================')
-            params.references.genes.keySet().each { db ->
-                def info = params.references.genes[db].description
-                println("Name: ${db}\nDescription: ${info}")
+            params.references.databases.keySet().each { db ->
+                def info = params.references.databases[db].description
+                println("Name: ${db}\tSource: ${info}")
                 println('---------------------------')
             }
             System.exit(1)
@@ -46,7 +46,7 @@ class WorkflowPipeline {
                 System.exit(1)
             }
             if (!params.skip_genbank) {
-                log.info 'WARNING: This will install the GenBank nt database for eukaryotes - over 250GB of storage will be required!'
+                log.info 'WARNING: This will install the GenBank nt database for eukaryotes - over 600GB of storage will be required!'
                 log.info 'If you do not think that you will need this database, skip it with --skip_genbank'
             }
         } else {
@@ -68,6 +68,14 @@ class WorkflowPipeline {
             }
             if (params.primers_fa && !params.db && !params.blast_db) {
                 log.info "Did not provide a database name (--db) - if you wish to use a custom database, please specify with --blast_db!"
+                System.exit(1)
+            }
+            if (params.primers_fa && !params.taxid_filter) {
+                log.warn "Must provide a taxonomic group against which to search your sequences (--taxid_filter)"
+                System.exit(1)
+            }
+            if (params.taxid_filter && !params.taxid_filter.toString().isInteger()) {
+                log.warn "The argument for --taxid_filter must be numeric (i.e. a taxonomy id from NCBI)!"
                 System.exit(1)
             }
         }
