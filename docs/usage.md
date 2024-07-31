@@ -221,19 +221,16 @@ Benchmarking is activated by providing following arguments:
 #### `--groundtruth` [default = false]
 Path to a tab-delimited text file giving expected sample composition. The file must contain headerandat list the columns:
 
-##### `name`
-Sample name
+- `name`: Sample name
 
-##### `taxid`
-Taxonomic identifier 
+- `taxid`:Taxonomic identifier 
 
-##### `proportion`
-Expected proportion in the [0-1] interval, **not** in percent
+`proportion`: Expected proportion in the [0-1] interval, **not** in percent
 
 #### `--benchmark_rank` [default = 'genus']
 Maximum rank for a predicted match to be positive
 
-### `--benchmark_cutoff` [default = 0.001]
+#### `--benchmark_cutoff` [default = 0.001]
 Minimum proportion to be considered predicted
 
 ### Expert options
