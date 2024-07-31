@@ -210,6 +210,32 @@ In case you do not use a pre-configured [primer_set](#--primer_set-default--null
 
 Please note that the deeper the node (i.e. the broader the search space), the more RAM will be required. This is not a concern for the single gene databases (e.g. Midori), but will be a significant factor when screening against GenBank NT. If you need to use GenBank NT and find that your jobs crash due to an out-of-memory error, consider using a shallower taxonomic node. 
 
+### Benchmarking
+
+It is possible to benchmark the pipelines performance against a set of known samples (e.g. for validation).
+Therefore, predicted and expected components will be matched in a 'least distance' manner. A match will be deemed positive if the clast common ancestor of both components
+is at a maximum given rank and it's predicted (and expected) proportion in the sample is at least at a certain threshold.
+
+Benchmarking is activated by providing following arguments:
+
+#### `--groundtruth` [default = false]
+Path to a tab-delimited text file giving expected sample composition. The file must contain headerandat list the columns:
+
+##### `name`
+Sample name
+
+##### `taxid`
+Taxonomic identifier 
+
+##### `proportion`
+Expected proportion in the [0-1] interval, **not** in percent
+
+#### `--benchmark_rank` [default = 'genus']
+Maximum rank for a predicted match to be positive
+
+### `--benchmark_cutoff` [default = 0.001]
+Minimum proportion to be considered predicted
+
 ### Expert options
 
 Most users probably will not need to touch these options.
