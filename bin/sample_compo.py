@@ -17,6 +17,8 @@ def main(json_in, output):
     with open(json_in, "r") as fi:
         j = json.load(fi)
 
+    sample = json_in.split(".")[0]
+
     size = {}
     rank, name = {}, {}
     total = 0
@@ -27,6 +29,7 @@ def main(json_in, output):
         total += int(e["size"])
 
     d = [{
+            "sample": sample,
             "name": name[id],
             "taxid": id,
             "rank": rank[id],

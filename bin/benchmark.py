@@ -5,10 +5,11 @@
 import argparse
 import json
 import taxidTools
+from collections import Counter
 
 
 parser = argparse.ArgumentParser(description="Script options")
-parser.add_argument("--compo", help="Path to composition table")  # name taxid rank proportion
+parser.add_argument("--compo", help="Path to composition table")  # sample taxid proportion
 parser.add_argument("--truth", help="Path to truth table")  # sample taxid proportion ...
 parser.add_argument("--taxonomy", help="Path to taxonomy JSON")
 parser.add_argument("--rank", help="max rank for positive result")
@@ -28,7 +29,7 @@ def parse_table(path):
     with open(path, "r") as fi:
         header = next(fi)
         header = [name.strip().lower() for name in header.split("\t")]
-        index_id = header.index("name")
+        index_id = header.index("sample")
         index_taxid = header.index("taxid")
         index_freq = header.index("proportion")
         for line in fi:
@@ -85,8 +86,11 @@ def filter_freqs(d, cutoff):
     """
     new = {}
     for id in d.keys():
-        l = [(t, f) for t, f in zip(d[id]['taxids'], d[id]['freqs']) if f >= cutoff]
-        taxids, freqs = zip(*l)
+        l = [(t, f) for t, f in zip(d[id]['taxids'], d[id]['freqs']) if float(f) >= float(cutoff)]
+        try:
+            taxids, freqs = zip(*l)
+        except ValueError:
+            taxids, freqs = [], []
         new[id] = {'taxids': taxids, 'freqs': freqs}
     return new
 
@@ -95,8 +99,8 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
     global tax
     tax = taxidTools.read_json(taxonomy)
 
-    predicted = parse_table(compo, 0, 2, 4)
-    expected = parse_table(truth, 0, 2, 3)
+    predicted = parse_table(compo)
+    expected = parse_table(truth)
 
     ## Filter predicted and expected by freqs >= thrshold
     predicted = filter_freqs(predicted, cutoff)
@@ -109,34 +113,35 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
         # if sample is missing for truth table, then everything is false pos
         pred_matchs, pred_distances, pred_lcas = compare_ids(
             predicted[id]["taxids"],
-            expected.get(id, {"taxid":[]})["taxids"],
+            expected.get(id, {"taxids":[]})["taxids"],
             )
         # Filter for max rank and get a true (tp) /false (fp) list, only pos if above threshold!
         pred_correct = [evaluate_rank(taxid, max_rank) for taxid in pred_lcas]
 
         # Work in reverse for the false negatives True (tp) /false (fn) - nescesssary because multiple expected ids can be matched to single pred
         # use copy of expected taxids where already matched ones are gone
-        expected_taxids = [id for id in expected.get(id, {"taxid":[]})["taxids"] if id not in pred_matchs]
+        expected_taxids = [id for id in expected.get(id, {"taxids":[]})["taxids"] if id not in pred_matchs]
         exp_matchs, exp_distances, exp_lcas = compare_ids(
             expected_taxids,
             predicted[id]["taxids"],
             )
         exp_found = [evaluate_rank(taxid, max_rank) for taxid in exp_lcas]
 
-        # Metrics - handling special case div by 0 returns 0 (maybe None better?)
-        if expected.get(id, {"taxid":[]})["taxids"]:
-            recall = (sum(pred_correct) + sum(exp_found)) / len(expected.get(id, {"taxid":[]})["taxids"])
-        else:
-            recall = 0.0
-        if pred_correct:
-            precision = (sum(pred_correct) + sum(exp_found)) / len(pred_correct)
-        else:
-            precision = 0.0
-
         # jsonify 
         # {prediction: str, expect: str, match_rank: str, result: str, pred_freq: float, expect_freq: float}
         pred_correct = ["tp" if x else "fp" for x in pred_correct]
         exp_found = ["tp" if x else "fn" for x in exp_found]
+
+        # Metrics - handling special case div by 0 returns 0 (maybe None better?)
+        c = Counter(pred_correct + exp_found)
+        try:
+            recall = c["tp"] / (c["tp"] + c["fn"])
+        except ZeroDivisionError:
+            recall = 0.0
+        try:
+            precision = c["tp"] / (c["tp"] + c["fp"])
+        except ZeroDivisionError:
+            precision = 0.0
 
         entry = []
         for i in range(len(predicted[id]["taxids"])):
@@ -161,9 +166,9 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
         metrics[id] =  {'recall': recall, 'precision': precision}
 
     # dump JSONs
-    with open(results_out) as fo:
+    with open(results_out, "w") as fo:
         json.dump(results, fo, indent=4)
-    with open(metrics_out) as fo:
+    with open(metrics_out, "w") as fo:
         json.dump(metrics, fo, indent=4)
 
 
@@ -175,5 +180,5 @@ if __name__ == '__main__':
         args.rank,
         args.cutoff,
         args.results,
-        args.metrixs,
+        args.metrics,
         )

@@ -218,14 +218,14 @@ is at a maximum given rank and it's predicted (and expected) proportion in the s
 
 Benchmarking is activated by providing following arguments:
 
-#### `--groundtruth` [default = false]
+#### `--ground_truth` [default = false]
 Path to a tab-delimited text file giving expected sample composition. The file must contain headerandat list the columns:
 
-- `name`: Sample name
+- `sample`: Sample name
 
 - `taxid`:Taxonomic identifier 
 
-`proportion`: Expected proportion in the [0-1] interval, **not** in percent
+- `proportion`: Expected proportion in the [0-1] interval, **not** in percent
 
 #### `--benchmark_rank` [default = 'genus']
 Maximum rank for a predicted match to be positive

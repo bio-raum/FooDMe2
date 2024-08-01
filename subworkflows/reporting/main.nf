@@ -4,7 +4,7 @@ include { KRONA_HTML }                      from './../../modules/krona/'
 include { HELPER_BENCHMARK }                from './../../modules/helper/benchmark'
 
 ch_versions = Channel.from([])
-truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
+ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
 
 workflow REPORTING {
     take:
@@ -30,13 +30,16 @@ workflow REPORTING {
 
     // Benchmark
     if (params.ground_truth) {
-        HELPER_BENCHMARK{
-            ch_compo..map { m,t -> t}.collectFile(name: 'composition.tsv', keepHeader: true),
-            truthtable,
+
+        ch_compo_agg = ch_compo.map { m,t -> t}.collectFile(name: 'composition.tsv', keepHeader: true)
+
+        HELPER_BENCHMARK(
+            ch_compo_agg,
+            ch_truthtable,
             ch_tax_json.collect(),
             params.benchmark_rank,
             params.benchmark_cutoff
-        }
+        )
     }
 
     emit:
