@@ -79,8 +79,8 @@ if (params.input) {
 
         ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
 
-        ch_multiqc_config = params.multiqc_config   ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
-        ch_multiqc_logo   = params.multiqc_logo     ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
+        ch_multiqc_config   = params.multiqc_config ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
+        ch_multiqc_logo     = params.multiqc_logo   ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
 
     }
 }

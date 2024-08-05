@@ -94,11 +94,11 @@ fi
 # Extract checksums and fasta links
 echo "[$( date -I'minutes')][INFO] Extracting links"
 paste \
-  <(grep -E "\"nt_euk\.[0-9]+\.tar\.gz\"" index.html \
+  <(grep -E "\"core_nt\.[0-9]+\.tar\.gz\"" index.html \
     | cut -d'"' -f2 \
     | awk  -v blast=${BLAST} '{print blast$0}' \
     | sort -d ) \
-  <(grep -E "\"nt_euk\.[0-9]+\.tar\.gz\.md5\"" index.html \
+  <(grep -E "\"core_nt\.[0-9]+\.tar\.gz\.md5\"" index.html \
   | cut -d'"' -f2 \
   | awk  -v blast=${BLAST} '{print blast$0}' \
   | sort -d ) \
