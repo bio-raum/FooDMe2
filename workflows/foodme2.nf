@@ -78,6 +78,10 @@ if (params.input) {
         ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
 
         ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
+
+        ch_multiqc_config = params.multiqc_config   ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
+        ch_multiqc_logo   = params.multiqc_logo     ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
+
     }
 }
 
@@ -175,7 +179,9 @@ workflow FOODME2 {
     multiqc_files   = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
     
     MULTIQC(
-        multiqc_files.collect()
+        multiqc_files.collect(),
+        ch_multiqc_config,
+        ch_multiqc_logo
     )
 
     emit:

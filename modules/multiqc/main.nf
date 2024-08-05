@@ -8,6 +8,8 @@ process MULTIQC {
 
     input:
     path('*')
+    path(mqc_config)
+    path(mqc_logo)
 
     output:
     path('*multiqc_report.html'), emit: html
@@ -16,8 +18,6 @@ process MULTIQC {
     script:
 
     """
-    cp ${baseDir}/conf/multiqc_config.yaml .
-    cp ${baseDir}/assets/pipelinelogo.png .
     multiqc -n ${params.run_name}_multiqc_report .
 
     cat <<-END_VERSIONS > versions.yml
