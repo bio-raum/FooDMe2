@@ -95,6 +95,23 @@ def filter_freqs(d, cutoff):
     return new
 
 
+def get_pr(predictions):
+    """
+    Calculate precsion and recall from a list of predicitons in the form
+    ['fp', 'tp', 'fn', 'tn', ...]
+    """
+    c = Counter(predictions)
+    try:
+        recall = c["tp"] / (c["tp"] + c["fn"])
+    except ZeroDivisionError:
+        recall = 0.0
+    try:
+        precision = c["tp"] / (c["tp"] + c["fp"])
+    except ZeroDivisionError:
+        precision = 0.0
+    return precision, recall
+
+
 def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
     global tax
     tax = taxidTools.read_json(taxonomy)
@@ -107,6 +124,7 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
     expected = filter_freqs(expected, cutoff)
     
     results, metrics = {}, {}
+    all_res = []
 
     for id in predicted.keys():
         # Get true positives and false positives
@@ -131,23 +149,16 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
         # {prediction: str, expect: str, match_rank: str, result: str, pred_freq: float, expect_freq: float}
         pred_correct = ["tp" if x else "fp" for x in pred_correct]
         exp_found = ["tp" if x else "fn" for x in exp_found]
-
-        # Metrics - handling special case div by 0 returns 0 (maybe None better?)
-        c = Counter(pred_correct + exp_found)
-        try:
-            recall = c["tp"] / (c["tp"] + c["fn"])
-        except ZeroDivisionError:
-            recall = 0.0
-        try:
-            precision = c["tp"] / (c["tp"] + c["fp"])
-        except ZeroDivisionError:
-            precision = 0.0
+        precision, recall = get_pr(pred_correct + exp_found)
+        all_res = all_res + pred_correct + exp_found
 
         entry = []
         for i in range(len(predicted[id]["taxids"])):
             entry.append({
                 'prediction': predicted[id]["taxids"][i],
+                'prediction_name': tax.getName(predicted[id]["taxids"][i]),
                 'expect': pred_matchs[i],
+                'expect_name': tax.getName(pred_matchs[i]),
                 'match_rank': tax[pred_lcas[i]].rank,
                 'result': pred_correct[i],
                 'pred_freq': predicted[id]["freqs"][i],
@@ -156,7 +167,9 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
         for i in range(len(expected_taxids)):
             entry.append({
                 'prediction': exp_matchs[i],
+                'prediction_name': tax.getName(exp_matchs[i]),
                 'expect': expected_taxids[i],
+                'expect_name': tax.getName(expected_taxids[i]),
                 'match_rank': tax[exp_lcas[i]].rank,
                 'result': exp_found[i],
                 'pred_freq': predicted[id]["freqs"][predicted[id]["taxids"].index(exp_matchs[i])],
@@ -164,6 +177,14 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
             })
         results[id] = entry
         metrics[id] =  {'recall': recall, 'precision': precision}
+
+    # Global metrics
+    glob_prec, glob_recall = get_pr(all_res)
+    metrics['#global'] =  {'recall': glob_recall, 'precision': glob_prec}
+    
+    # sort by sample id
+    results = {k: results[k] for k in sorted(results)}
+    metrics = {k: metrics[k] for k in sorted(metrics)}
 
     # dump JSONs
     with open(results_out, "w") as fo:
