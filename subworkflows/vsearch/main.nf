@@ -46,7 +46,7 @@ workflow VSEARCH_WORKFLOW {
     paired and unpaired reads after optional merging and read name tagging
     we now have [ meta, fastq ]
     */
-    ch_merged_reads = VSEARCH_FASTQMERGE.out.fastq
+    ch_merged_reads = VSEARCH_FASTQMERGE.out.fastq.mix(ch_trimmed_reads.unpaired)
 
     /*
     Filter merged reads using static parameters

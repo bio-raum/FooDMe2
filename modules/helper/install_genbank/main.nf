@@ -10,7 +10,7 @@ process HELPER_INSTALL_GENBANK {
     container "biocontainers/ncbi-datasets-cli:15.12.0_cv23.1.0-4"
 
     output:
-    tuple val(meta), path("core_nt"), emit: db
+    path("core_nt"), emit: db
     path("versions.yml"), emit: versions
 
     script:

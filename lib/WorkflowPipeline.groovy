@@ -46,7 +46,7 @@ class WorkflowPipeline {
                 System.exit(1)
             }
             if (!params.skip_genbank) {
-                log.info 'WARNING: This will install the GenBank nt database for eukaryotes - over 600GB of storage will be required!'
+                log.info 'WARNING: This will install the GenBank core nt database - over 200GB of storage will be required!'
                 log.info 'If you do not think that you will need this database, skip it with --skip_genbank'
             }
         } else {

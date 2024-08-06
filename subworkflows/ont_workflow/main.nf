@@ -1,8 +1,9 @@
 /*
 Sub workflows
 */
-include { DADA2_WORKFLOW }      from './../dada2'
-include { CUTADAPT_WORKFLOW }   from './../cutadapt'
+include { DADA2_WORKFLOW }          from './../dada2'
+include { CUTADAPT_WORKFLOW }       from './../cutadapt'
+include { VSEARCH_ONT_WORKFLOW }    from './../vsearch_ont'
 
 /*
 Modules
@@ -68,14 +69,24 @@ workflow ONT_WORKFLOW {
     ch_versions = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
     ch_qc       = ch_qc.mix(CUTADAPT_WORKFLOW.out.qc) 
 
-    /*
-    SUB: OTU calling with DADA2
-    */
-    DADA2_WORKFLOW(
-        CUTADAPT_WORKFLOW.out.trimmed
-    )
-    ch_otus         = DADA2_WORKFLOW.out.otus
-    ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
+    if (params.vsearch) {
+        VSEARCH_ONT_WORKFLOW(
+            CUTADAPT_WORKFLOW.out.trimmed
+        )
+        ch_otus         = VSEARCH_ONT_WORKFLOW.out.otus
+        ch_versions     = ch_versions.mix(VSEARCH_ONT_WORKFLOW.out.versions)
+        ch_qc           = ch_qc.mix(VSEARCH_ONT_WORKFLOW.out.qc)
+    } else {
+        /*
+        SUB: OTU calling with DADA2
+        */
+        DADA2_WORKFLOW(
+            CUTADAPT_WORKFLOW.out.trimmed
+        )
+        ch_otus         = DADA2_WORKFLOW.out.otus
+        ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
+        ch_qc           = ch_qc.mix(DADA2_WORKFLOW.out.qc)
+    }
 
     emit:
     versions = ch_versions
