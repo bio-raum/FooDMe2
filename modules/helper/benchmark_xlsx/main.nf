@@ -9,7 +9,7 @@ process HELPER_BENCHMARK_XLSX {
 
     input:
     path(results)       // report in json
-    
+
     output:
     path('*.xlsx')      , emit: xlsx
     path 'versions.yml' , emit: versions

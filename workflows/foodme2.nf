@@ -6,7 +6,6 @@ include { MULTIQC }                     from './../modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 include { UNZIP }                       from './../modules/unzip'
 
-
 /*
 Import sub workflows
 */
@@ -27,7 +26,6 @@ We make this conditional on input being specified so as to not create issues wit
 the competing --build_references workflow during which all this would be evaluated also
 */
 if (params.input) {
-
     /*
     Make sure the local reference directory exists
     */
@@ -36,7 +34,7 @@ if (params.input) {
         log.info 'The required reference directory was not found on your system, exiting!'
         System.exit(1)
     }
-    
+
     /*
     Primer sets are either pre-configured or can be supplied by user in FASTA format
     */
@@ -49,11 +47,10 @@ if (params.input) {
 
     // If the users specifies a custom primer set as FASTA instead
     } else if (params.input && params.primers_fa) {
-
         ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
 
         // If the user requests one of the installed databases
-        if (params.db) {    
+        if (params.db) {
             database    = params.db
             blast_db    = file(params.references.databases[database].blast_db, checkIfExists: true)
             version     = params.references.databases[database].version
@@ -61,9 +58,8 @@ if (params.input) {
         } else if (params.blast_db) {
             database    = file(params.blast_db).getSimpleName()
             blast_db    = file(params.blast_db, checkIfExists: true)
-            version     = "NA"
+            version     = 'NA'
         }
-
     }
     Channel.fromPath(blast_db, checkIfExists: true).map { db ->
         [[id: database, version: version], db]
@@ -84,9 +80,8 @@ if (params.input) {
 
         ch_multiqc_config   = params.multiqc_config ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
         ch_multiqc_logo     = params.multiqc_logo   ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
-
     }
-}
+    }
 
 /*
 Set a taxonomy block list to remove unwanted taxa
@@ -112,17 +107,17 @@ workflow FOODME2 {
     INPUT_CHECK(samplesheet)
 
     if (!params.cutadapt_trim_3p) {
-        INPUT_CHECK.out.reads.filter {m,r -> m.single_end}.count().filter { c -> c > 0 }.map { c ->
+        INPUT_CHECK.out.reads.filter { m, r -> m.single_end }.count().filter { c -> c > 0 }.map { c ->
             log.warn "$c read sets are classified as single-end - this typically requires --cutadapt_trim_3p."
-        }
     }
+}
 
     /*
     SUB: Processing of reads
     */
     // reads are Pacbio HiFi
     if (params.pacbio) {
-        // Pacbio workflow here
+    // Pacbio workflow here
     // reads are ONT
     } else if (params.ont) {
         ONT_WORKFLOW(
@@ -136,7 +131,7 @@ workflow FOODME2 {
     } else if (params.iontorrent) {
         ILLUMINA_WORKFLOW(
             INPUT_CHECK.out.reads,
-            ch_primers       
+            ch_primers
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
@@ -165,7 +160,7 @@ workflow FOODME2 {
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)
     multiqc_files  = multiqc_files.mix(BLAST_TAXONOMY.out.qc)
-  
+
     /*
     Reporting sub workflow
     */
@@ -180,7 +175,7 @@ workflow FOODME2 {
     )
 
     multiqc_files   = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
-    
+
     MULTIQC(
         multiqc_files.collect(),
         ch_multiqc_config,
@@ -189,4 +184,4 @@ workflow FOODME2 {
 
     emit:
     qc = MULTIQC.out.html
-    }
+}

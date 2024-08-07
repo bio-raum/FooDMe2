@@ -12,7 +12,7 @@ process UNTAR {
 
     output:
     tuple val(meta), path("$prefix")        , emit: untar
-    tuple val(meta),path("$prefix/*.fasta") , optional: true, emit: fasta
+    tuple val(meta), path("$prefix/*.fasta"), optional: true, emit: fasta
     path 'versions.yml'                     , emit: versions
 
     when:

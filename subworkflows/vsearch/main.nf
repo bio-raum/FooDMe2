@@ -82,7 +82,7 @@ workflow VSEARCH_WORKFLOW {
     )
     ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
     ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)
-    
+
     /*
     Clustering statistics
     */

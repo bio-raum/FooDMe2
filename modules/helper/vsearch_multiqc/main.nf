@@ -20,7 +20,7 @@ process HELPER_VSEARCH_MULTIQC {
     import json
 
     data = {}
-    
+
     for j in "${jsons}".split(" "):
         with open(j, "r") as fi:
             data.update(json.load(fi))
@@ -36,7 +36,7 @@ process HELPER_VSEARCH_MULTIQC {
             "ylab": "# Reads"
         },
         "data": data
-        }
+    }
 
     with open("vsearch_mqc.json","w") as fo:
         json.dump(config,fo)

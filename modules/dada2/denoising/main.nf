@@ -64,7 +64,7 @@ process DADA2_DENOISING {
 
         #denoising
         sink(file = "${meta.sample_id}.dada.log")
-        
+
         dadaFs <- dada(filtFs, err = errF, $args, multithread = $task.cpus)
         saveRDS(dadaFs, "${meta.sample_id}_1.dada.rds")
 

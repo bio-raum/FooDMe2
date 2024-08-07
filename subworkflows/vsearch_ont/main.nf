@@ -22,10 +22,9 @@ workflow VSEARCH_ONT_WORKFLOW {
 
     main:
 
-    /* 
+    /*
     Filter reads by size
     */
-    
 
     /*
     Get unique sequences
@@ -51,7 +50,7 @@ workflow VSEARCH_ONT_WORKFLOW {
     )
     ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
     ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)
-    
+
     /*
     Clustering statistics
     */
@@ -76,4 +75,4 @@ workflow VSEARCH_ONT_WORKFLOW {
     versions = ch_versions
     otus = VSEARCH_UCHIME_DENOVO.out.fasta
     qc = ch_qc_files
-}
+    }
