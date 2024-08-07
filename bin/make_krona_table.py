@@ -20,12 +20,12 @@ def main(table, tax, output):
         next(fi)  #skip header
         for line in fi:
             try:
-                lineage = taxidTools.Lineage(tax[line.split("\t")[1].strip()], ascending=False)
+                lineage = taxidTools.Lineage(tax[line.split("\t")[2].strip()], ascending=False)
                 lineage_string = "\t".join([node.name for node in lineage])
             except taxidTools.InvalidNodeError:
                 lineage_string = "Undetermined"
             finally:
-                fo.write(f"{line.split("\t")[3].strip()}\t{lineage_string}\n")
+                fo.write(f"{line.split("\t")[4].strip()}\t{lineage_string}\n")
 
 
 if __name__ == '__main__':
