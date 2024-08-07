@@ -32,5 +32,5 @@ jobs:
           NXF_SINGULARITY_CACHEDIR: ./
           NXF_SINGULARITY_HOME_MOUNT: true
         run: |
-          echo ${{ env.REPO_BRANCH }}
-          nextflow run ${{ env.REPOTITLE_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity,test --outdir ./results 
+          nextflow run ${{ env.REPOTITLE_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity --reference_base ./refs --skip_genbank
+          nextflow run ${{ env.REPOTITLE_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity,test --outdir ./results --reference_base ./refs
