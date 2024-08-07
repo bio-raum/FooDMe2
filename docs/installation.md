@@ -10,7 +10,7 @@ This pipeline expects Nextflow version 23.10.1, available [here](https://github.
 
 ## Software provisioning
 
-This pipeline is set up to work with a range of software provisioning technologies - no need to manually install packages.
+This pipeline is set up to work with a range of software provisioning technologies - no need to manually install packages!
 
 You can choose one of the following options:
 
@@ -24,7 +24,7 @@ You can choose one of the following options:
 
 [Apptainer](https://apptainer.org/)
 
-The pipeline comes with simple pre-set profiles for all of these as described [here](usage.md); if you plan to use this pipeline regularly, consider adding your own custom profile to our [central repository](https://github.com/marchoeppner/configs) to better leverage your available resources.
+The pipeline comes with simple pre-set profiles for all of these as described [here](usage.md); if you plan to use this pipeline regularly, consider adding your own custom profile to our [central repository](https://github.com/marchoeppner/configs) to better leverage your available resources. This will allow you to also use additional container/package managers not pre-configured in FooDMe2, as described [here](https://www.nextflow.io/docs/latest/container.html).
 
 ## Installing the references
 
@@ -40,7 +40,7 @@ nextflow run bio-raum/FooDMe2 -profile apptainer \\
 -r <PIPELINE_VERSION>
 ```
 
-where `/path/to/references` could be something like `/data/pipelines/references` or whatever is most appropriate on your system. If you have already added your own profile to our [configuration](https://github.com/marchoeppner/nf-configs) repository, then the `--reference_base` option does not need to be set from the command line.
+where `/path/to/references` could be something like `/data/pipelines/references` or whatever is most appropriate on your system.
 
 If you do not have apptainer on your system, you can also specify docker, singularity, podman or conda for software provisioning - see the [usage information](usage.md).
 
@@ -56,6 +56,8 @@ nextflow run bio-raum/FooDMe2 -profile your_profile \\
 --run_name build \\
 -r <PIPELINE_VERSION>
 ```
+
+Note that you do not have to specify `--reference_base`, as this option is pre-set in your profile. 
 
 ### IMPORTANT
 In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank nt Eukaryote database, which has a final size of over 600GB (and growing), and will need over 1TB during installation. If your application works with single gene [databases](usage.md#--gene-default--null), you can skip installing this database with `--skip_genbank`. 

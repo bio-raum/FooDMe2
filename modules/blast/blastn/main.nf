@@ -23,7 +23,7 @@ process BLAST_BLASTN {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-
+    
     """
     DB=`find -L ./ -name "*.ndb" | sed 's/\\.ndb\$//'`
     if [ -z "\$DB" ]; then
@@ -44,6 +44,7 @@ process BLAST_BLASTN {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         blast: \$(blastn -version 2>&1 | sed 's/^.*blastn: //; s/ .*\$//')
+        db: ${meta2.id}:${meta2.version}
     END_VERSIONS
     """
 }

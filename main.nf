@@ -60,6 +60,13 @@ workflow.onComplete {
     emailFields['version'] = workflow.manifest.version
     emailFields['session'] = workflow.sessionId
     emailFields['runName'] = run_name
+    emailFields['Database'] = params.db
+    if (params.primer_set) {
+        emailFields['PrimerSet'] = params.primer_set
+    }
+    if (params.primers_fa) {
+        emailFields['Primers'] = params.primers_fa
+    }
     emailFields['success'] = workflow.success
     emailFields['dateStarted'] = workflow.start
     emailFields['dateComplete'] = workflow.complete
