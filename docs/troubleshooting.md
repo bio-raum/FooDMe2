@@ -20,5 +20,13 @@ This warning is similar to the previous one. The pipeline has detected single-en
 
 This error is most likely to occur when screening against the GenBank NT database (`--db genbank`) in combination with a fairly "deep" taxonomic root (`-taxid_filter`). The larger the slice of GenBank that BLAST is asked to search against, the larger the available memory needs to be. For example, searching against all amniotes (mammals and birds) will require around 80GB of RAM (at the time of writing - this value will grow as GenBank grows). 
 
+## The pipeline immediately fails with a "no such file" error
 
+Most likely you saw something like this:
+
+```bash
+ERROR ~ No such file or directory: 
+```
+
+This is most likely happening because you passed the `reference_base` option from a custom config file via the "-c" argument. There is currently a [known bug](https://github.com/nextflow-io/nextflow/issues/2662) in Nextflow which prevents the correct passing of parameters from a custom config file to the workflow. Please use the command line argument `--reference_base` instead or consider contributing a site-specific [config file](https://github.com/marchoeppner/nf-configs). 
 
