@@ -4,6 +4,9 @@ name: Test successful pipeline execution using test profile
 #  - a pull request is made
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     types:
       - opened
@@ -32,6 +35,6 @@ jobs:
           NXF_SINGULARITY_CACHEDIR: ./
           NXF_SINGULARITY_HOME_MOUNT: true
         run: |
-          nextflow run ${{ env.REPO_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity --reference_base ./refs --skip_genbank --run_name build
+          nextflow run ${{ env.REPO_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity --build_references --reference_base ./refs --skip_genbank --run_name build
           nextflow run ${{ env.REPO_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity,test --outdir ./results --reference_base ./refs --run_name test
 
