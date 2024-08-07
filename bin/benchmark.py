@@ -33,12 +33,12 @@ def parse_table(path):
         index_taxid = header.index("taxid")
         index_freq = header.index("proportion")
         for line in fi:
-            l = line.split("\t")
+            li = line.split("\t")
             # skip if Undetermined
-            if l[index_taxid] == "Undetermined":
+            if li[index_taxid] == "Undetermined":
                 continue
-            bucket_id.setdefault(l[index_id].strip(), []).append(l[index_taxid].strip()) 
-            bucket_freq.setdefault(l[index_id].strip(), []).append(float(l[index_freq].strip()))
+            bucket_id.setdefault(li[index_id].strip(), []).append(li[index_taxid].strip())
+            bucket_freq.setdefault(li[index_id].strip(), []).append(float(li[index_freq].strip()))
     return {id: {"taxids": bucket_id[id], "freqs": bucket_freq[id]} for id in bucket_id.keys()}
 
 
@@ -57,7 +57,7 @@ def compare_ids(left, right):
     try to match taxids in left to taxids in right
     returns:
         - best matchs list
-        - distance list 
+        - distance list
         - lca of the two matching taxids list
 
     List order is the same as left
@@ -86,9 +86,9 @@ def filter_freqs(d, cutoff):
     """
     new = {}
     for id in d.keys():
-        l = [(t, f) for t, f in zip(d[id]['taxids'], d[id]['freqs']) if float(f) >= float(cutoff)]
+        li = [(t, f) for t, f in zip(d[id]['taxids'], d[id]['freqs']) if float(f) >= float(cutoff)]
         try:
-            taxids, freqs = zip(*l)
+            taxids, freqs = zip(*li)
         except ValueError:
             taxids, freqs = [], []
         new[id] = {'taxids': taxids, 'freqs': freqs}
@@ -119,10 +119,10 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
     predicted = parse_table(compo)
     expected = parse_table(truth)
 
-    ## Filter predicted and expected by freqs >= thrshold
+    # Filter predicted and expected by freqs >= thrshold
     predicted = filter_freqs(predicted, cutoff)
     expected = filter_freqs(expected, cutoff)
-    
+
     results, metrics = {}, {}
     all_res = []
 
@@ -131,21 +131,21 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
         # if sample is missing for truth table, then everything is false pos
         pred_matchs, pred_distances, pred_lcas = compare_ids(
             predicted[id]["taxids"],
-            expected.get(id, {"taxids":[]})["taxids"],
+            expected.get(id, {"taxids": []})["taxids"],
             )
         # Filter for max rank and get a true (tp) /false (fp) list, only pos if above threshold!
         pred_correct = [evaluate_rank(taxid, max_rank) for taxid in pred_lcas]
 
         # Work in reverse for the false negatives True (tp) /false (fn) - nescesssary because multiple expected ids can be matched to single pred
         # use copy of expected taxids where already matched ones are gone
-        expected_taxids = [id for id in expected.get(id, {"taxids":[]})["taxids"] if id not in pred_matchs]
+        expected_taxids = [id for id in expected.get(id, {"taxids": []})["taxids"] if id not in pred_matchs]
         exp_matchs, exp_distances, exp_lcas = compare_ids(
             expected_taxids,
             predicted[id]["taxids"],
             )
         exp_found = [evaluate_rank(taxid, max_rank) for taxid in exp_lcas]
 
-        # jsonify 
+        # jsonify
         # {prediction: str, expect: str, match_rank: str, result: str, pred_freq: float, expect_freq: float}
         pred_correct = ["tp" if x else "fp" for x in pred_correct]
         exp_found = ["tp" if x else "fn" for x in exp_found]
@@ -176,12 +176,12 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
                 'expect_freq': expected[id]["freqs"][expected[id]["taxids"].index(expected_taxids[i])],
             })
         results[id] = entry
-        metrics[id] =  {'recall': recall, 'precision': precision}
+        metrics[id] = {'recall': recall, 'precision': precision}
 
     # Global metrics
     glob_prec, glob_recall = get_pr(all_res)
-    metrics['#global'] =  {'recall': glob_recall, 'precision': glob_prec}
-    
+    metrics['#global'] = {'recall': glob_recall, 'precision': glob_prec}
+
     # sort by sample id
     results = {k: results[k] for k in sorted(results)}
     metrics = {k: metrics[k] for k in sorted(metrics)}

@@ -26,10 +26,10 @@ def main(results_in, output):
     ws.title = "FooDMe2 benchmarking"
 
     ft = Font(name="Sans", bold=True)
-    cb_even = PatternFill(fill_type = "solid", fgColor="d9e1f2")
-    cb_uneven = PatternFill(fill_type = "solid", fgColor="cdd1d9")
-    redfill = PatternFill(fill_type = "solid", fgColor="fc4c4c")
-    
+    cb_even = PatternFill(fill_type="solid", fgColor="d9e1f2")
+    cb_uneven = PatternFill(fill_type="solid", fgColor="cdd1d9")
+    redfill = PatternFill(fill_type="solid", fgColor="fc4c4c")
+
     # Track cell positions
     row = 0
 
@@ -38,7 +38,7 @@ def main(results_in, output):
     for r in ws["A1:F1"]:
         for cell in r:
             cell.font = ft
-    
+
     this_sample = ""
     sample_counter = 0
 
@@ -61,11 +61,11 @@ def main(results_in, output):
                 hit["prediction_name"],
                 hit["expect_name"],
                 hit["match_rank"],
-                round(float(hit["pred_freq"]),4)*100,
-                round(float(hit["expect_freq"]),4)*100,
+                round(float(hit["pred_freq"]), 4)*100,
+                round(float(hit["expect_freq"]), 4)*100,
                 hit["result"].upper()
             ])
-            
+
             ws["A"+str(ws._current_row)].fill = bgcolor
             ws["B"+str(ws._current_row)].fill = bgcolor
             ws["C"+str(ws._current_row)].fill = bgcolor
@@ -86,6 +86,7 @@ def main(results_in, output):
 
     ws.freeze_panes = ws["A2"]
     wb.save(output)
+
 
 if __name__ == '__main__':
     main(args.results, args.output)

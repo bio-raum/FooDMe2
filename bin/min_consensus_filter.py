@@ -4,7 +4,6 @@
 
 import argparse
 import json
-import re
 import taxidTools
 from collections import Counter
 

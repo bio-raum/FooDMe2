@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--output")
 args = parser.parse_args()
 
+
 def main(output):
 
     bucket = {}
@@ -28,7 +29,7 @@ def main(output):
             rd = csv.DictReader(fd, delimiter="\t")
             for row in rd:
                 entries.append(row)
-        
+
         bucket[sample] = entries
 
     # Create an empty workbook and start page
@@ -37,19 +38,18 @@ def main(output):
     ws.title = "FooDMe2 results"
 
     ft = Font(name="Sans", bold=True)
-    cb_even = PatternFill(fill_type = "solid", fgColor="d9e1f2")
-    cb_uneven = PatternFill(fill_type = "solid", fgColor="cdd1d9")
-    
+    cb_even = PatternFill(fill_type="solid", fgColor="d9e1f2")
+    cb_uneven = PatternFill(fill_type="solid", fgColor="cdd1d9")
+
     # Track cell positions
     row = 0
-    sep = ";"
 
     ws.append(["Sample", "Taxon", "Percentage"])
 
     for r in ws["A1:C1"]:
         for cell in r:
             cell.font = ft
-    
+
     this_sample = ""
     sample_counter = 0
 
@@ -66,13 +66,13 @@ def main(output):
             bgcolor = cb_even
 
         hits = bucket[sample]
-        info = []
+
         for hit in hits:
             row += 1
             name = hit["name"]
-            perc = round(float(hit["proportion"]),4)*100
-            ws.append([sample,name,perc])
-            
+            perc = round(float(hit["proportion"]), 4)*100
+            ws.append([sample, name, perc])
+
             ws["A"+str(ws._current_row)].fill = bgcolor
             ws["B"+str(ws._current_row)].fill = bgcolor
             ws["C"+str(ws._current_row)].fill = bgcolor
@@ -88,6 +88,7 @@ def main(output):
     ws.freeze_panes = ws["A2"]
 
     wb.save(output)
+
 
 if __name__ == '__main__':
     main(args.output)
