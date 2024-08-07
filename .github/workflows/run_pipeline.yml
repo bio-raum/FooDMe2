@@ -18,9 +18,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  download:
+  run_ci:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v1
 
@@ -30,11 +33,16 @@ jobs:
           echo "REPOTITLE_LOWERCASE=$(basename ${GITHUB_REPOSITORY,,})" >> ${GITHUB_ENV}
           echo "REPO_BRANCH=${{ github.event.inputs.testbranch || 'dev' }}" >> ${GITHUB_ENV}
 
+      - name: install singularity
+        uses: eWaterCycle/setup-singularity@v7
+        with:
+          singularity-version: 3.8.3
+
       - name: Run the pipeline
         env:
           NXF_SINGULARITY_CACHEDIR: ./
           NXF_SINGULARITY_HOME_MOUNT: true
         run: |
-          nextflow run ${{ env.REPO_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity --build_references --reference_base ./refs --skip_genbank --run_name build
-          nextflow run ${{ env.REPO_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity,test --outdir ./results --reference_base ./refs --run_name test
+          nextflow run main.nf -profile singularity --build_references --reference_base ./refs --skip_genbank --run_name build
+          nextflow run main.nf -profile singularity,test --outdir ./results --reference_base ./refs --run_name test
 
