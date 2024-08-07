@@ -136,3 +136,8 @@ workflow BUILD_REFERENCES {
         HELPER_INSTALL_GENBANK()
     }
 }
+
+workflow.onComplete = {
+    log.info "Installation complete - deleting staged files. "
+    workDir.resolve("stage-${workflow.sessionId}").deleteDir()
+}
