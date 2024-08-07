@@ -136,7 +136,7 @@ def main(compo, truth, taxonomy, max_rank, cutoff, results_out, metrics_out):
         # Filter for max rank and get a true (tp) /false (fp) list, only pos if above threshold!
         pred_correct = [evaluate_rank(taxid, max_rank) for taxid in pred_lcas]
 
-        # Work in reverse for the false negatives True (tp) /false (fn) 
+        # Work in reverse for the false negatives True (tp) /false (fn)
         #   nescesssary because multiple expected ids can be matched to single pred
         # use copy of expected taxids where already matched ones are gone
         expected_taxids = [id for id in expected.get(id, {"taxids": []})["taxids"] if id not in pred_matchs]

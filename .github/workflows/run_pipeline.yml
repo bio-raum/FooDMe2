@@ -31,4 +31,4 @@ jobs:
         env:
           NXF_SINGULARITY_CACHEDIR: ./
           NXF_SINGULARITY_HOME_MOUNT: true
-        run: nextflow run ${{ env.REPOTITLE_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity,test --outdir ./results
+        run: nextflow run ${{ env.REPOTITLE_LOWERCASE }} -r ${{ env.REPO_BRANCH }} -profile singularity,test --outdir ./results 
