@@ -44,11 +44,11 @@ workflow.onComplete {
     if (params.primer_set) {
         summary['PrimerSet'] = params.primer_set
     }
-    
+
     if (params.primers_fa) {
         summary['PrimerFasta'] = params.primers_fa
     }
-    
+
     summary['Input'] = params.input
 
     hline = '========================================='

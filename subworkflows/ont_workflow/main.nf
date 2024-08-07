@@ -17,7 +17,6 @@ ch_versions = Channel.from([])
 ch_qc       = Channel.from([])
 
 workflow ONT_WORKFLOW {
-
     take:
     reads
     ch_primers
@@ -31,9 +30,9 @@ workflow ONT_WORKFLOW {
         reads
     )
     ch_versions = ch_versions.mix(PORECHOP_ABI.out.versions)
-    ch_qc       = ch_qc.mix(PORECHOP_ABI.out.log.map { m,l -> l })
+    ch_qc       = ch_qc.mix(PORECHOP_ABI.out.log.map { m, l -> l })
 
-    /* 
+    /*
     Merge reads by sample
     */
     PORECHOP_ABI.out.reads.groupTuple().branch { meta, reads ->
@@ -55,10 +54,9 @@ workflow ONT_WORKFLOW {
         ch_ont_trimmed
     )
     ch_versions = ch_versions.mix(NANOPLOT.out.versions)
-    ch_qc = ch_qc.mix(NANOPLOT.out.txt.map {m,t -> t })
+    ch_qc = ch_qc.mix(NANOPLOT.out.txt.map { m, t -> t })
 
-
-    /* 
+    /*
     SUB: Remove PCR primers using
     Cutadapt
     */
@@ -67,7 +65,7 @@ workflow ONT_WORKFLOW {
         ch_primers,
     )
     ch_versions = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
-    ch_qc       = ch_qc.mix(CUTADAPT_WORKFLOW.out.qc) 
+    ch_qc       = ch_qc.mix(CUTADAPT_WORKFLOW.out.qc)
 
     if (params.vsearch) {
         VSEARCH_ONT_WORKFLOW(
@@ -92,5 +90,4 @@ workflow ONT_WORKFLOW {
     versions = ch_versions
     otus = ch_otus
     qc = ch_qc
-    
-}
+    }

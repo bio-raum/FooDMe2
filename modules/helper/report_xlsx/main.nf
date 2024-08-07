@@ -9,7 +9,7 @@ process HELPER_REPORT_XLSX {
 
     input:
     path(reports)   // List of tax ids in blast database
-    
+
     output:
     path('*.xlsx')      , emit: xlsx
     path 'versions.yml' , emit: versions

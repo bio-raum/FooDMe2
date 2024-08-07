@@ -9,12 +9,12 @@ process DADA2_FILTNTRIM {
 
     input:
     tuple val(meta), path(reads)
-    tuple val(fwd),val(rev)     // sequence of forward and reverse primer
-    
+    tuple val(fwd), val(rev)     // sequence of forward and reverse primer
+
     output:
-    tuple val(meta), path("*.trim.fastq.gz"), emit: filtered_reads
-    tuple val(meta), path("*.trim.fastq.gz"), path("*.filter_stats.tsv"), path("*.args.txt"), emit: reads_logs_args
-    path "versions.yml"                        , emit: versions
+    tuple val(meta), path('*.trim.fastq.gz'), emit: filtered_reads
+    tuple val(meta), path('*.trim.fastq.gz'), path('*.filter_stats.tsv'), path('*.args.txt'), emit: reads_logs_args
+    path 'versions.yml'                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -23,7 +23,7 @@ process DADA2_FILTNTRIM {
     def args        = task.ext.args ?: ''
     def in_and_out  = meta.single_end ? "\"${reads}\", \"${meta.sample_id}.trim.fastq.gz\"" : "\"${reads[0]}\", \"${meta.sample_id}_1.trim.fastq.gz\", \"${reads[1]}\", \"${meta.sample_id}_2.trim.fastq.gz\""
     def outfiles    = meta.single_end ? "\"${meta.sample_id}.trim.fastq.gz\"" : "\"${meta.sample_id}_1.trim.fastq.gz\", \"${meta.sample_id}_2.trim.fastq.gz\""
-    
+
     """
     #!/usr/bin/env Rscript
     suppressPackageStartupMessages(library(dada2))

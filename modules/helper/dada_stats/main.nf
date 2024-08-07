@@ -9,7 +9,7 @@ process HELPER_DADA_STATS {
 
     input:
     tuple val(meta), path(mergers), path(seqtab)  // mergers rds
-    
+
     output:
     tuple val(meta), path('*.dada_stats.json')  , emit: json
     path 'versions.yml'                         , emit: versions

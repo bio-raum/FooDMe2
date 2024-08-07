@@ -23,7 +23,7 @@ process HELPER_CREATE_BLAST_MASK {
     --taxlist $taxlist \\
     --taxid $taxid \\
     --taxonomy $taxonomy \\
-    --output $blast_mask
+    --output $blast_mask $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

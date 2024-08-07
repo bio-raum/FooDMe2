@@ -11,9 +11,9 @@ process DADA2_FILTNTRIM {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("*.filt.fastq.gz"), emit: filtered_reads
-    tuple val(meta), path("*.filt.fastq.gz"), path("*.filter_stats.tsv"), path("*.args.txt"), emit: reads_logs_args
-    path "versions.yml"                        , emit: versions
+    tuple val(meta), path('*.filt.fastq.gz'), emit: filtered_reads
+    tuple val(meta), path('*.filt.fastq.gz'), path('*.filter_stats.tsv'), path('*.args.txt'), emit: reads_logs_args
+    path 'versions.yml'                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,7 +22,7 @@ process DADA2_FILTNTRIM {
     def args        = task.ext.args ?: ''
     def in_and_out  = meta.single_end ? "\"${reads}\", \"${meta.sample_id}.filt.fastq.gz\"" : "\"${reads[0]}\", \"${meta.sample_id}_1.filt.fastq.gz\", \"${reads[1]}\", \"${meta.sample_id}_2.filt.fastq.gz\""
     def outfiles    = meta.single_end ? "\"${meta.sample_id}.filt.fastq.gz\"" : "\"${meta.sample_id}_1.filt.fastq.gz\", \"${meta.sample_id}_2.filt.fastq.gz\""
-    
+
     """
     #!/usr/bin/env Rscript
     suppressPackageStartupMessages(library(dada2))

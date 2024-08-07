@@ -16,7 +16,7 @@ process PRIMER_DISAMBIGUATE {
 
     script:
     def args = task.ext.args ?: ''
-    disambiguated = fa.getSimpleName() + ".disambiguated.fasta"
+    disambiguated = fa.getSimpleName() + '.disambiguated.fasta'
 
     """
     primer_disambiguate.pl --fasta $fa --outfile $disambiguated $args

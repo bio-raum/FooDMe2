@@ -1,13 +1,13 @@
 process HELPER_INSTALL_GENBANK {
-    tag "GenBank nt"
+    tag 'GenBank nt'
 
     label 'long_serial'
 
     /*
-    Seems like no bioconda container has the proper wget available, so we have to resort to Dockerhub 
+    Seems like no bioconda container has the proper wget available, so we have to resort to Dockerhub
     */
     conda "${moduleDir}/environment.yml"
-    container "biocontainers/ncbi-datasets-cli:15.12.0_cv23.1.0-4"
+    container 'biocontainers/ncbi-datasets-cli:15.12.0_cv23.1.0-4'
 
     output:
     path("core_nt"), emit: db

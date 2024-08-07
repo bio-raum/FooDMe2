@@ -15,7 +15,7 @@ workflow DADA2_WORKFLOW {
     reads
 
     main:
-    
+
     /*
     Filter reads; trimming is done by Cutadapt
     */
@@ -58,7 +58,7 @@ workflow DADA2_WORKFLOW {
 
     // Denoising stats
     HELPER_DADA_STATS(
-        ch_reporting.filter { m,r,t -> !m.single_end }
+        ch_reporting.filter { m, r, t -> !m.single_end }
     )
 
     HELPER_DADA_STATS.out.json.map { meta, json ->
@@ -74,9 +74,8 @@ workflow DADA2_WORKFLOW {
 
     ch_qc_files = ch_qc_files.mix(HELPER_DADA_MULTIQC.out.json)
 
-
     emit:
     otus = HELPER_SEQTABLE_TO_FASTA.out.fasta
     versions = ch_versions
     qc = ch_qc_files
-}
+    }

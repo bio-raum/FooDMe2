@@ -37,7 +37,7 @@ class WorkflowMain {
             --email                        Email address to send reports to (enclosed in '')
             Optional parameters:
             --run_name                     A descriptive name for this pipeline run
-            --primer_set                   A pre-configured primer set 
+            --primer_set                   A pre-configured primer set
             Output:
             --outdir                       Local directory to which all output is written (default: results)
         """

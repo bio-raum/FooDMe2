@@ -4,16 +4,16 @@ process NANOFILT {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/nanofilt:2.8.0--py_0':
+        'https://depot.galaxyproject.org/singularity/nanofilt:2.8.0--py_0' :
         'quay.io/biocontainers/nanofilt:2.8.0--py_0' }"
 
     input:
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("*.fastq.gz"), emit: filtreads
-    path "*.log"                       , optional: true, emit: log_file
-    path "versions.yml"                , emit: versions
+    tuple val(meta), path('*.fastq.gz'), emit: filtreads
+    path '*.log'                       , optional: true, emit: log_file
+    path 'versions.yml'                , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -33,5 +33,4 @@ process NANOFILT {
         nanofilt: \$(NanoFilt -v | sed 's/NanoFilt //')
     END_VERSIONS
     """
-
 }

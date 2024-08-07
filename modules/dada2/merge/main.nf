@@ -10,8 +10,7 @@ process DADA2_MERGE {
         'biocontainers/bioconductor-dada2:1.22.0--r41h399db7b_0' }"
 
     input:
-    tuple val(meta),path(reads),path(rds)
-    
+    tuple val(meta), path(reads), path(rds)
 
     output:
     path("DADA2_stats.tsv"), emit: dada2stats

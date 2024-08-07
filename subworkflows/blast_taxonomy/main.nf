@@ -78,12 +78,12 @@ workflow BLAST_TAXONOMY {
     ch_versions     = ch_versions.mix(BLAST_BLASTN.out.versions)
 
     // Catch all the empty reports and discard the branch
-    BLAST_BLASTN.out.txt.branch { m,r ->
+    BLAST_BLASTN.out.txt.branch { m, r ->
         pass: r.size() > 0
         fail: r.size() == 0
     }.set { ch_blast_with_status }
 
-    ch_blast_with_status.fail.subscribe { m,r ->
+    ch_blast_with_status.fail.subscribe { m, r ->
         log.warn "No valid blast hits - stopping sample ${m.sample_id}."
     }
 
@@ -137,4 +137,4 @@ workflow BLAST_TAXONOMY {
     composition = HELPER_SAMPLE_COMPO.out.tsv
     qc = ch_qc_files
     tax_json = ch_tax_json
-}
+    }
