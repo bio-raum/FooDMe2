@@ -2,6 +2,7 @@ include { HELPER_REPORT_XLSX }              from './../../modules/helper/report_
 include { HELPER_KRONA_TABLE }              from './../../modules/helper/krona_table'
 include { KRONA_HTML }                      from './../../modules/krona/'
 include { HELPER_BENCHMARK }                from './../../modules/helper/benchmark'
+include { HELPER_BENCHMARK_XLSX }           from './../../modules/helper/benchmark_xlsx'
 
 ch_versions = Channel.from([])
 ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
@@ -39,6 +40,10 @@ workflow REPORTING {
             ch_tax_json.collect(),
             params.benchmark_rank,
             params.benchmark_cutoff
+        )
+
+        HELPER_BENCHMARK_XLSX(
+            HELPER_BENCHMARK.out.results.collect()
         )
     }
 
