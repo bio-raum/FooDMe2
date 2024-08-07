@@ -6,6 +6,7 @@ on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - dev
+      - main
       - TEMPLATE
   pull_request:
   workflow_dispatch:
