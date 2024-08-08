@@ -43,5 +43,5 @@ jobs:
           NXF_SINGULARITY_CACHEDIR: ./
           NXF_SINGULARITY_HOME_MOUNT: true
         run: |
-          nextflow run main.nf -profile singularity --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv
+          nextflow run main.nf -profile singularty --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv
 
