@@ -1,4 +1,4 @@
-name: apply_block_list
+name: helper_blast_apply_blocklist
 channels:
   - conda-forge
   - bioconda

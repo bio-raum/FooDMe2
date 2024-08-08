@@ -1,4 +1,4 @@
-name: sample_compo
+name: helper_sample_compo
 channels:
   - conda-forge
   - bioconda

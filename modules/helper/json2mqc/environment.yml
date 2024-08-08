@@ -1,4 +1,4 @@
-name: sintax_otu2json
+name: helper_json2mqc
 channels:
   - conda-forge
   - bioconda

@@ -1,4 +1,4 @@
-name: report_xlsx
+name: helper_report_xlsx
 channels:
   - conda-forge
   - bioconda

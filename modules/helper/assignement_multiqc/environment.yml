@@ -1,4 +1,4 @@
-name: assignemnt_multiqc
+name: helper_assignemnt_multiqc
 channels:
   - conda-forge
   - bioconda
