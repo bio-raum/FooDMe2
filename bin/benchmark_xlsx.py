@@ -33,9 +33,9 @@ def main(results_in, output):
     # Track cell positions
     row = 0
 
-    ws.append(["Predicted taxon", "Expected taxon", "Matching rank", "Predicted %", "Expected %", "Classification"])
+    ws.append(["Sample", "Predicted taxon", "Expected taxon", "Matching rank", "Predicted %", "Expected %", "Classification"])
 
-    for r in ws["A1:F1"]:
+    for r in ws["A1:G1"]:
         for cell in r:
             cell.font = ft
 
@@ -58,6 +58,7 @@ def main(results_in, output):
         for hit in hits:
             row += 1
             ws.append([
+                sample,
                 hit["prediction_name"],
                 hit["expect_name"],
                 hit["match_rank"],
@@ -71,10 +72,11 @@ def main(results_in, output):
             ws["C"+str(ws._current_row)].fill = bgcolor
             ws["D"+str(ws._current_row)].fill = bgcolor
             ws["E"+str(ws._current_row)].fill = bgcolor
+            ws["F"+str(ws._current_row)].fill = bgcolor
             if hit["result"].upper() != "TP":
-                ws["F"+str(ws._current_row)].fill = redfill
+                ws["G"+str(ws._current_row)].fill = redfill
             else:
-                ws["F"+str(ws._current_row)].fill = bgcolor
+                ws["G"+str(ws._current_row)].fill = bgcolor
 
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws)
