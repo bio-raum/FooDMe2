@@ -1,4 +1,4 @@
-name: format_midori
+name: helper_find_consensus
 channels:
   - conda-forge
   - bioconda

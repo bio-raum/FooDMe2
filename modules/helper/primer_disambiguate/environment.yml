@@ -1,4 +1,4 @@
-name: primer_disambiguate
+name: hlper_primer_disambiguate
 channels:
   - conda-forge
   - bioconda

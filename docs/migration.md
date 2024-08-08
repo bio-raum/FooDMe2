@@ -46,6 +46,8 @@ That said, we took a hard look to see if any of the outputs could be streamlined
 - MultiQC report to summarize the sequence data metrics and software versions
 
 ### Results
+- Krona reports to visualize the taxonomic composition of individual samples
+- An XLSX table that summarizes all samples with all hits and their relative abundances
 
 
 

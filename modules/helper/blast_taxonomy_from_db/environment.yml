@@ -1,4 +1,4 @@
-name: blast_taxonmy_from_db
+name: helper_blast_taxonmy_from_db
 channels:
   - conda-forge
   - bioconda

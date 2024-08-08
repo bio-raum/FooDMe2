@@ -1,4 +1,4 @@
-name: dada2_stats
+name: dada2_denoising
 channels:
   - conda-forge
   - bioconda

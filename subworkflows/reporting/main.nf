@@ -16,7 +16,7 @@ workflow REPORTING {
 
     // Excel report
     HELPER_REPORT_XLSX(
-        ch_compo.map { m,t -> t}.collect()
+        ch_compo.map { m, t -> t }.collect()
     )
 
     // Krona
@@ -31,8 +31,7 @@ workflow REPORTING {
 
     // Benchmark
     if (params.ground_truth) {
-
-        ch_compo_agg = ch_compo.map { m,t -> t}.collectFile(name: 'composition.tsv', keepHeader: true)
+        ch_compo_agg = ch_compo.map { m, t -> t }.collectFile(name: 'composition.tsv', keepHeader: true)
 
         HELPER_BENCHMARK(
             ch_compo_agg,

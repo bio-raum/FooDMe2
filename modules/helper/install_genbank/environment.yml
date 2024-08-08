@@ -1,4 +1,4 @@
-name: install_genbank
+name: helper_install_genbank
 channels:
   - conda-forge
   - bioconda

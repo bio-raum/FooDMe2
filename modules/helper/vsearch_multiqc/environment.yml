@@ -1,4 +1,4 @@
-name: vsearch_multiqc
+name: helper_vsearch_multiqc
 channels:
   - conda-forge
   - bioconda

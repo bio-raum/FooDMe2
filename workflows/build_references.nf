@@ -31,7 +31,7 @@ database_files = []
 if (params.build_references) {
     // For all genes of interest, recover supported tools and the corresponding database link
     databases.each { db ->
-        // Genbank NT does not have an url, so we skip it here. 
+        // Genbank NT does not have an url, so we skip it here.
         if (params.references.databases[db].url) {
             database_files << [ [ id: db, tool: 'blast' ] ,
                 file(params.references.databases[db].url, checkIfExists: true)
@@ -42,25 +42,25 @@ if (params.build_references) {
 
 ch_files = Channel.fromList(database_files)
 ch_blast_files = Channel.from([])
- 
+
 workflow BUILD_REFERENCES {
     main:
 
     ch_files.branch { m, r ->
-        midori: r.toString().contains("MIDORI")
-        ncbi_its: r.toString().contains("ITS_eukaryote")
-        refseq: r.toString().contains("mitochondrion")
-        unite: m.id == "unite"
+        midori: r.toString().contains('MIDORI')
+        ncbi_its: r.toString().contains('ITS_eukaryote')
+        refseq: r.toString().contains('mitochondrion')
+        unite: m.id == 'unite'
     }.set { ch_branched_files }
 
     /*
     Decompress and format taxonomy id mappings
     */
     HELPER_FORMAT_GENBANK_TAXIDS(
-        taxid.map { f -> 
+        taxid.map { f ->
             def meta = [:]
             meta.id = f.getBaseName()
-            tuple(meta,f)
+            tuple(meta, f)
         }
     )
 
@@ -86,7 +86,7 @@ workflow BUILD_REFERENCES {
     )
 
     ch_refseq_with_taxids = GUNZIP_REFSEQ.out.gunzip.combine(
-        HELPER_FORMAT_GENBANK_TAXIDS.out.tab.map { m,t -> t }
+        HELPER_FORMAT_GENBANK_TAXIDS.out.tab.map { m, t -> t }
     )
     ch_blast_files = ch_blast_files.mix(ch_refseq_with_taxids)
 
@@ -100,7 +100,7 @@ workflow BUILD_REFERENCES {
         UNTAR_UNITE.out.fasta
     )
     ch_unite_with_taxids = HELPER_FORMAT_UNITE.out.clean.combine(
-        HELPER_FORMAT_GENBANK_TAXIDS.out.tab.map { m,t -> t }
+        HELPER_FORMAT_GENBANK_TAXIDS.out.tab.map { m, t -> t }
     )
     ch_blast_files = ch_blast_files.mix(ch_unite_with_taxids)
 
@@ -130,14 +130,14 @@ workflow BUILD_REFERENCES {
     The full NT databases - this is too complex
     to just stage via Nextflow so we use a more sophisticated
     download script -  and we make it skippable in case users
-    do not need it. 
+    do not need it.
     */
     if (!params.skip_genbank) {
         HELPER_INSTALL_GENBANK()
     }
-}
+    }
 
 workflow.onComplete = {
-    log.info "Installation complete - deleting staged files. "
+    log.info 'Installation complete - deleting staged files. '
     workDir.resolve("stage-${workflow.sessionId}").deleteDir()
 }

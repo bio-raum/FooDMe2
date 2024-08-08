@@ -17,7 +17,7 @@ args = parser.parse_args()
 def main(table, tax, output):
     tax = taxidTools.read_json(tax)
     with open(table, "r") as fi, open(output, "w") as fo:
-        next(fi)  #skip header
+        next(fi)  # skip header
         for line in fi:
             try:
                 lineage = taxidTools.Lineage(tax[line.split("\t")[2].strip()], ascending=False)

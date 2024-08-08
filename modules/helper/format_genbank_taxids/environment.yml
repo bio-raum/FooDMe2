@@ -1,4 +1,4 @@
-name: gunzip_genbank
+name: helper_format_genbank_taxids
 channels:
   - conda-forge
   - bioconda

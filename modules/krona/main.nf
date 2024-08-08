@@ -16,7 +16,7 @@ process KRONA_HTML {
     path 'versions.yml'  , emit: versions
 
     script:
-    def prefix = task.ext.prefix ?: params.run_name + "_krona"
+    def prefix = task.ext.prefix ?: params.run_name + '_krona'
 
     """
     ktImportText ${table} -o ${prefix}.html

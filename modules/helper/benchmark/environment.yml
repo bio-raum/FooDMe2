@@ -1,4 +1,4 @@
-name: format_midori
+name: helper_benchmark
 channels:
   - conda-forge
   - bioconda

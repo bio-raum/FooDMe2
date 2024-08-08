@@ -1,4 +1,4 @@
-name: porechop
+name: porechop_porechop
 channels:
   - conda-forge
   - bioconda

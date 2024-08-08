@@ -1,4 +1,4 @@
-name: krona_table
+name: helper_krona_table
 channels:
   - conda-forge
   - bioconda

@@ -1,4 +1,4 @@
-name: dada2_denoising
+name: dada2_make_sequence_table
 channels:
   - conda-forge
   - bioconda

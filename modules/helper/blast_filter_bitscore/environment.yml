@@ -1,4 +1,4 @@
-name: blast_filter_bitscore
+name: helper_blast_filter_bitscore
 channels:
   - conda-forge
   - bioconda

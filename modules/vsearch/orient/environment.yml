@@ -1,4 +1,4 @@
-name: vsearch_usearch_global
+name: vsearch_orient
 channels:
   - conda-forge
   - bioconda

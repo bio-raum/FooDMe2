@@ -8,19 +8,18 @@ process CAT_FASTQ {
         'nf-core/ubuntu:20.04' }"
 
     input:
-    tuple val(meta), path(reads, stageAs: "input*/*")
+    tuple val(meta), path(reads, stageAs: 'input*/*')
 
     output:
-    tuple val(meta), path("*.merged.fastq.gz"), emit: reads
-    path "versions.yml"                       , emit: versions
+    tuple val(meta), path('*.merged.fastq.gz'), emit: reads
+    path 'versions.yml'                       , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    def readList = reads instanceof List ? reads.collect{ it.toString() } : [reads.toString()]
+    def readList = reads instanceof List ? reads.collect { it.toString() } : [reads.toString()]
     if (meta.single_end) {
         if (readList.size >= 1) {
             """
@@ -36,7 +35,7 @@ process CAT_FASTQ {
         if (readList.size >= 2) {
             def read1 = []
             def read2 = []
-            readList.eachWithIndex{ v, ix -> ( ix & 1 ? read2 : read1 ) << v }
+            readList.eachWithIndex { v, ix -> (ix & 1 ? read2 : read1) << v }
             """
             cat ${read1.join(' ')} > ${prefix}_1.merged.fastq.gz
             cat ${read2.join(' ')} > ${prefix}_2.merged.fastq.gz
@@ -48,5 +47,4 @@ process CAT_FASTQ {
             """
         }
     }
-
 }

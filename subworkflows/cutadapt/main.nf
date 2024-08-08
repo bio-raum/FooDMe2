@@ -6,7 +6,6 @@ ch_versions = Channel.from([])
 ch_qc  = Channel.from([])
 
 workflow CUTADAPT_WORKFLOW {
-
     take:
     reads
     ch_primers
@@ -33,9 +32,9 @@ workflow CUTADAPT_WORKFLOW {
         ch_primers_rc.collect()
     )
     ch_versions         = ch_versions.mix(CUTADAPT.out.versions)
-    ch_qc               = ch_qc.mix(CUTADAPT.out.report) 
-    
-    CUTADAPT.out.reads.branch { m, r -> 
+    ch_qc               = ch_qc.mix(CUTADAPT.out.report)
+
+    CUTADAPT.out.reads.branch { m, r ->
         paired: !m.single_end
         single: m.single_end
     }.set { ch_reads_by_config }
@@ -57,7 +56,7 @@ workflow CUTADAPT_WORKFLOW {
 
     ch_failed_reads     = ch_failed_reads.mix(ch_reads_pe_with_status.fail, ch_reads_se_with_status.fail)
     ch_pass_reads       = ch_pass_reads.mix(ch_reads_pe_with_status.pass, ch_reads_se_with_status.pass)
-    
+
     ch_failed_reads.subscribe { m, r ->
         log.warn "Too few reads - stopping sample ${m.sample_id} after PCR primer removal!"
     }
@@ -66,5 +65,4 @@ workflow CUTADAPT_WORKFLOW {
     trimmed     = ch_pass_reads
     versions    = ch_versions
     qc          = ch_qc
-
-}
+    }

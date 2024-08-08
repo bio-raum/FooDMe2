@@ -17,7 +17,7 @@ process HELPER_FORMAT_UNITE {
 
     script:
     // def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "unite"
+    def prefix = task.ext.prefix ?: 'unite'
 
     """
     awk -F'|' '{if (\$0 ~ /^>/) {print ">"\$2} else { print \$0 }}' $fa > ${prefix}.fasta

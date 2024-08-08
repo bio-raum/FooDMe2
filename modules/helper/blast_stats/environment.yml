@@ -1,4 +1,4 @@
-name: blast_stats
+name: helper_blast_stats
 channels:
   - conda-forge
   - bioconda

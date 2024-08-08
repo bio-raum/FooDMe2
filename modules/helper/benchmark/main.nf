@@ -5,14 +5,12 @@ process HELPER_BENCHMARK {
     conda "${moduleDir}/environment.yml"
     container 'gregdenay/taxidtools:3.1.0'
 
-
     input:
     path(composition)                           // composition table aggregated over all samples (with collectFiles?)
     path(truthtable)                            // Truth table (tsv)
     path(json)                                  // the Taxonomy file in JSON for taxidtools
     val(rank)                                   // max rank for postive match (string)
     val(cutoff)                                 // Proportion cutoff for positive result
-
 
     output:
     path('results.json')     , emit: results

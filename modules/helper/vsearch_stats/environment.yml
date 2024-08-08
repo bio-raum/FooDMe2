@@ -1,4 +1,4 @@
-name: vsearch_stats
+name: helper_vsearch_stats
 channels:
   - conda-forge
   - bioconda

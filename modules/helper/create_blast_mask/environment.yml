@@ -1,4 +1,4 @@
-name: format_midori
+name: helper_create_blast_mask
 channels:
   - conda-forge
   - bioconda

@@ -1,6 +1,6 @@
 # Installation
 
-If you are new to our pipeline ecosystem, we recommend you first check out our general setup guide [here](https://github.com/marchoeppner/nf-configs/blob/main/doc/installation.md).
+If you are new to our pipeline ecosystem, we recommend you first check out our general setup guide [here](https://github.com/marchoeppner/nf-configs/blob/main/doc/installation.md). 
 
 ## Installing nextflow
 

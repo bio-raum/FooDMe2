@@ -1,4 +1,4 @@
-name: format_midori
+name: helper_filter_taxonomy
 channels:
   - conda-forge
   - bioconda

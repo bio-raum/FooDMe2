@@ -1,4 +1,4 @@
-name: dada2_filter
+name: dada2_removeprimers
 channels:
   - conda-forge
   - bioconda

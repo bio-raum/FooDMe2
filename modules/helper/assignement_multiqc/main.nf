@@ -22,7 +22,7 @@ process HELPER_ASSIGNEMENT_MULTIQC {
     from collections import Counter
 
     data = {}
-    
+
     for j in "${jsons}".split(" "):
         with open(j, "r") as fi:
             dict= json.load(fi)
@@ -42,7 +42,7 @@ process HELPER_ASSIGNEMENT_MULTIQC {
             "ylab": "# Cluster"
         },
         "data": data
-        }
+    }
 
     with open("assignement_mqc.json","w") as fo:
         json.dump(config,fo)
