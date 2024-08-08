@@ -55,11 +55,6 @@ jobs:
           activate-environment: ""
           channels: conda-forge,bioconda,defaults
           channel-priority: strict
-        run: |
-          conda info
-          conda list
-          conda config --show-sources
-          conda config --show
 
       - name: Run the pipeline
         run: |
