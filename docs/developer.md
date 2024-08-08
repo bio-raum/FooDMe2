@@ -87,7 +87,7 @@ Nextflow does not have a dedicated linting tool. However, since most of nextflow
 You may wish to run this stand-alone also, before you commit your code. I would strongly recommend setting this up in a [conda](https://github.com/conda-forge/miniforge) environment, but it should also work on your *nix system directly (albeit with some minor pitfalls re: java version).
 
 ```bash
-conda create -n nf-lint nodejs openjdk=17.0.10
+conda create -n nf-lint nodejs openjdk=17.0.10 flake8
 conda activate nf-lint
 npm install -g npm-groovy-lint
 ```
@@ -96,6 +96,7 @@ In your pipeline directory, you can check all the files in one go as follows:
 
 ```bash
 npm-groovy-lint
+flake8
 ```
 
 You'll note that some obvious errors/warnings are omitted. This behavior is controlled by the settings in .groovylintrc [documentation](https://www.npmjs.com/package/npm-groovy-lint), included with this template. If you need to switch on some stuff, just add it the config file - and vice-versa.
