@@ -10,7 +10,7 @@ nav:
     - Quickstart: quickstart.md
     - Installation: installation.md
     - Usage: usage.md
-    - Pipeline: piepline.md
+    - Pipeline: pipeline.md
     - Output: output.md
   - Help:
     - Migration: migration.md
