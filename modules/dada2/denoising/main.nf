@@ -1,7 +1,6 @@
 process DADA2_DENOISING {
     tag "$meta.sample_id"
-    label 'process_medium'
-    label 'process_long'
+    label 'parallel_short'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -33,7 +32,7 @@ process DADA2_DENOISING {
 
         errF = readRDS("${errormodel}")
 
-        filtFs <- sort(list.files("./filtered/", pattern = ".fastq.gz", full.names = TRUE))
+        filtFs <- sort(list.files("./filtered/", pattern = ".fastq*", full.names = TRUE))
 
         #denoising
         sink(file = "${meta.sample_id}.dada.log")

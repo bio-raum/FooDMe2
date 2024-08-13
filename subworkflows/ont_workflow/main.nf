@@ -11,7 +11,9 @@ Modules
 include { CUTADAPT }            from './../../modules/cutadapt'
 include { PORECHOP_ABI }        from './../../modules/porechop/abi'
 include { NANOPLOT }            from './../../modules/nanoplot'
+include { NANOFILT }            from './../../modules/nanofilt'
 include { CAT_FASTQ }           from './../../modules/cat_fastq'
+include { VSEARCH_ORIENT }      from './../../modules/vsearch/orient'
 
 ch_versions = Channel.from([])
 ch_qc       = Channel.from([])
@@ -20,6 +22,7 @@ workflow ONT_WORKFLOW {
     take:
     reads
     ch_primers
+    db
 
     main:
 
@@ -67,9 +70,20 @@ workflow ONT_WORKFLOW {
     ch_versions = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
     ch_qc       = ch_qc.mix(CUTADAPT_WORKFLOW.out.qc)
 
+    // Filter ONT reads
+    NANOFILT(
+        CUTADAPT_WORKFLOW.out.trimmed
+    )
+
+    // Make sure reads are consistently oriented
+    VSEARCH_ORIENT(
+        NANOFILT.out.filtreads,
+        db
+    )
+
     if (params.vsearch) {
         VSEARCH_ONT_WORKFLOW(
-            CUTADAPT_WORKFLOW.out.trimmed
+            VSEARCH_ORIENT.out.reads
         )
         ch_otus         = VSEARCH_ONT_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_ONT_WORKFLOW.out.versions)
@@ -79,7 +93,7 @@ workflow ONT_WORKFLOW {
         SUB: OTU calling with DADA2
         */
         DADA2_WORKFLOW(
-            CUTADAPT_WORKFLOW.out.trimmed
+            VSEARCH_ORIENT.out.reads
         )
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
