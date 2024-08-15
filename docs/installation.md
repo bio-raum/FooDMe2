@@ -44,7 +44,7 @@ where `/path/to/references` could be something like `/data/pipelines/references`
 
 If you do not have apptainer on your system, you can also specify docker, singularity, podman or conda for software provisioning - see the [usage information](usage.md).
 
-The path specified with `--reference_base` can then be given to the pipeline during normal execution as `--reference_base` (unless you already have set it as part of your site-specific config file).
+The path specified with `--reference_base` can then be given to the pipeline during normal execution as `--reference_base`.
 
 Please note that the build process will create a pipeline-specific subfolder (`foodme2`) that must not be given as part of the `--reference_base` argument. FooDMe 2 is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself.
 
@@ -60,7 +60,8 @@ nextflow run bio-raum/FooDMe2 -profile your_profile \\
 Note that you do not have to specify `--reference_base`, as this option is pre-set in your profile. 
 
 ### IMPORTANT
-In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank nt Eukaryote database, which has a final size of over 600GB (and growing), and will need over 1TB during installation. If your application works with single gene [databases](usage.md#--gene-default--null), you can skip installing this database with `--skip_genbank`. 
+
+In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank core_nt database, which has a final size of over 250GB (and growing), and will need around 0.5TB during installation. If your application works with single gene [databases](usage.md#--gene-default--null), you can skip installing this database with `--skip_genbank`. 
 
 ```BASH
 nextflow run bio-raum/FooDMe2 -profile your_profile \\

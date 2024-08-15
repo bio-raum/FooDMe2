@@ -14,6 +14,7 @@ This is not a full release. Please note that some things may not work as intende
 - [Sequencing technology](#sequencing-technology)
 - [PCR primers](#pcr-primers)
 - [Database](#database)
+- [Benchmarking](#benchmarking)
 - [Expert options](#expert-options)
 - [Primer trimming](#pcr-primer-trimming)
 
@@ -241,7 +242,7 @@ Most users probably will not need to touch these options.
 Emit the primer-trimmed reads into the result folder. This option is mostly useful to debug errors that are related to failed primer site removal. This option is set to false by default to save storage space. 
 
 #### `--blocklist`
-Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe 2 uses a built-in [block list](../assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.
+Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe 2 uses a built-in [block list](https://raw.githubusercontent.com/bio-raum/FooDMe2/main/assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.
 
 #### `--disable_low_complexity [default = false]`
 By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.
@@ -252,7 +253,7 @@ nextflow run bio-ram/FooDMe2 -profile apptainer \\
 --disable_low_complexity ...
 ```
 
-### `--vsearch` [ default = false ]
+#### `--vsearch` [ default = false ]
 The default tool to compute OTUs/ASVs is DADA2. Use this option to run VSEARCH instead (short reads only).
 
 #### `--vsearch_min_cov` [ default = 5 ]
@@ -289,7 +290,6 @@ nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
 --cutadapt_trim_3p \\
 --run_name cutadapt-test
 ```
-
 This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.
 
 #### `--cutadapt_trim_3p` [ default = false ]
@@ -298,3 +298,8 @@ Use this option if you know that your read length is as long or longer than your
 #### `--cutadapt_options` [ default = "" ]
 Any additional options you feel should be passed to Cutadapt. Use at your own risk. 
 
+### `--amplicon_min_length` [ default = 70 ]
+The minimum size an amplicon is expected to have. Data that falls below this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 
+
+### `--amplicon_max_length` [ default = 100 ]
+The maximum size an amplicon is expected to have. Data that lies above this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 
