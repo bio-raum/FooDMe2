@@ -75,6 +75,13 @@ workflow ONT_WORKFLOW {
         CUTADAPT_WORKFLOW.out.trimmed
     )
 
+    // Warn if a sample has only a few reads left after filtering. 
+    NANOFILT.out.filtreads.filter { m,r -> 
+        r.countFastq() < 100 
+    }.subscribe { m,r -> 
+        log.warn "${m.sample_id} - only few or no reads left after filtering."
+    }
+
     // Make sure reads are consistently oriented
     VSEARCH_ORIENT(
         NANOFILT.out.filtreads,
