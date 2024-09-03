@@ -1,6 +1,6 @@
 # Migrating from FooDMe 1
 
-If you are migrating from FooDMe1, welcome! We hope that you will find the process quite simple. We designed FooDMe 2 to be more flexible and take away some of the complexity encountered in FooDMe 1. This not only concerns the installation procedure, which is vastly streamlined now, but also the process of configuring and starting individual analysis runs. We'll discuss some of the changes and updates below.
+If you are migrating from FooDMe1, welcome! We hope that you will find the process quite simple. We designed FooDMe2 to be more flexible and take away some of the complexity encountered in FooDMe 1. This not only concerns the installation procedure, which is vastly streamlined now, but also the process of configuring and starting individual analysis runs. We'll discuss some of the changes and updates below.
 
 ## Switch from Snakemake to Nextflow
 
@@ -24,7 +24,7 @@ Some advantages are:
 
 ## Scope
 
-FooDMe 1 was designed for Illumina short reads in paired-end configuration. With FooDMe 2, we decided to extend the scope to additional sequencing approaches - namely:
+FooDMe 1 was designed for Illumina short reads in paired-end configuration. With FooDMe2, we decided to extend the scope to additional sequencing approaches - namely:
 
 - ONT long reads (chemistry 10.4.3 and onwards)
 - Pacbio HiFI Reads
@@ -34,11 +34,11 @@ This added scope will allow labs to run data from different sequencing platforms
 
 ## Running a pipeline job
 
-FooDMe 2 removes some of the complexity encountered with FooDMe 1. For example, whereas FooDMe 1 required users to fill out somewhat lengthy configuration files in YAML format, FooDMe2 works with pre-configured [primer set profiles](usage.md#primer-selection) that set a range of options automatically (although these can be overwritten, if need be). Likewise, if users wanted to run different versions of the pipeline code, FooDMe 1 requires users to switch git release tags, or keep multiple copies of the code. Instead, FooDMe 2 with the help of Nextflow hides the underlying complexity by simply exposing the desired release tag as a command line option (`-r VERSION`).
+FooDMe2 removes some of the complexity encountered with FooDMe 1. For example, whereas FooDMe 1 required users to fill out somewhat lengthy configuration files in YAML format, FooDMe2 works with pre-configured [primer set profiles](usage.md#primer-selection) that set a range of options automatically (although these can be overwritten, if need be). Likewise, if users wanted to run different versions of the pipeline code, FooDMe 1 requires users to switch git release tags, or keep multiple copies of the code. Instead, FooDMe2 with the help of Nextflow hides the underlying complexity by simply exposing the desired release tag as a command line option (`-r VERSION`).
 
 ## In-/Outputs
 
-While optimizing the usage over the old version, FooDMe 2 maintains backwards compatibility with the FooDMe 1 sample sheet format and most of its outputs.
+While optimizing the usage over the old version, FooDMe2 maintains backwards compatibility with the FooDMe 1 sample sheet format and most of its outputs.
 
 That said, we took a hard look to see if any of the outputs could be streamlined. We wanted to make it easier for users to get to the information that they needed without any added noise. To this end, we split the rather complex HTML report from FooDMe 1 into two separate files:
 

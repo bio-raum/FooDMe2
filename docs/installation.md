@@ -46,7 +46,7 @@ If you do not have apptainer on your system, you can also specify docker, singul
 
 The path specified with `--reference_base` can then be given to the pipeline during normal execution as `--reference_base`.
 
-Please note that the build process will create a pipeline-specific subfolder (`foodme2`) that must not be given as part of the `--reference_base` argument. FooDMe 2 is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself.
+Please note that the build process will create a pipeline-specific subfolder (`foodme2`) that must not be given as part of the `--reference_base` argument. FooDMe2 is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself.
 
 ### With a [site-specific config](#site-specific-config-file) file:
 

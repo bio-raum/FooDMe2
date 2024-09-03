@@ -1,6 +1,6 @@
 # Quickstart guide
 
-This is a very short list of steps required to get your started with FooDMe 2. Please see our complete [installation](installation.md) and [usage](usage.md) guides to answer any questions you are left with after reading this. 
+This is a very short list of steps required to get your started with FooDMe2. Please see our complete [installation](installation.md) and [usage](usage.md) guides to answer any questions you are left with after reading this. 
 
 ## 1. Installation
 
@@ -10,7 +10,7 @@ We recommend you also contribute a config file for your setup to our [central co
 
 ## 2. Pipeline references
 
-FooDMe 2 requires locally stored, formatted databases. The pipeline has a [built-in](installation.md#installing-the-references) option to install these. 
+FooDMe2 requires locally stored, formatted databases. The pipeline has a [built-in](installation.md#installing-the-references) option to install these. 
 
 ## 3. Run the test
 

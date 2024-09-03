@@ -242,7 +242,7 @@ Most users probably will not need to touch these options.
 Emit the primer-trimmed reads into the result folder. This option is mostly useful to debug errors that are related to failed primer site removal. This option is set to false by default to save storage space. 
 
 #### `--blocklist`
-Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe 2 uses a built-in [block list](https://raw.githubusercontent.com/bio-raum/FooDMe2/main/assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.
+Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe2 uses a built-in [block list](https://raw.githubusercontent.com/bio-raum/FooDMe2/main/assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.
 
 #### `--disable_low_complexity [default = false]`
 By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.
