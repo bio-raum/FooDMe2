@@ -50,8 +50,8 @@ class WorkflowPipeline {
                 log.info 'If you do not think that you will need this database, skip it with --skip_genbank'
             }
         } else {
-            if (params.ont && params.db == "genbank" || params.ont && params.db == "ncbi_its" || params.ont && params.blast_db ) {
-                log.info "Sorry, it is not currently possible to analyse ONT data against large NCBI or custom databases..."
+            if (params.ont && params.db == 'genbank' || params.ont && params.db == 'ncbi_its' || params.ont && params.blast_db) {
+                log.info 'Sorry, it is not currently possible to analyse ONT data against large NCBI or custom databases...'
                 System.exit(1)
             }
             if (params.primer_set && !params.primers.keySet().contains(params.primer_set)) {

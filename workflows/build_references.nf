@@ -1,3 +1,6 @@
+/*
+Include Modules
+*/
 include { UNZIP as UNZIP_MIDORI }           from './../modules/unzip'
 include { GUNZIP as GUNZIP_TAXONOMY }       from './../modules/gunzip'
 include { GUNZIP as GUNZIP_REFSEQ }         from './../modules/gunzip'

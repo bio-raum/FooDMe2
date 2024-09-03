@@ -9,7 +9,7 @@ can read about them [here](docs/migration.md).
 
 ![schema](images/Foodme2_schema_v3.png)
 
-A quick start guide can be found [here](docs/quickstart.md). We do recommend you read the full documentation [here]( bio-raum.github.io/FooDMe2/).
+A quick start guide can be found [here](docs/quickstart.md). We do recommend you read the [full documentation](https://bio-raum.github.io/FooDMe2/).
 
 ## Acknowledgements
 

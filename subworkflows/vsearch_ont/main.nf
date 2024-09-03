@@ -34,11 +34,11 @@ workflow VSEARCH_ONT_WORKFLOW {
     )
     ch_versions = ch_versions.mix(VSEARCH_FASTXUNIQUES.out.versions)
 
-    /* 
+    /*
     Cluster unique sequences
     */
     VSEARCH_CLUSTER_SIZE(
-       VSEARCH_FASTXUNIQUES.out.fasta 
+       VSEARCH_FASTXUNIQUES.out.fasta
     )
     ch_versions = ch_versions.mix(VSEARCH_CLUSTER_SIZE.out.versions)
 
