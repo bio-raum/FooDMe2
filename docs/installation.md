@@ -6,7 +6,7 @@ If you are new to our pipeline ecosystem, we recommend you first check out our g
 
 Nextflow is a highly portable pipeline engine. Please see the official [installation guide](https://www.nextflow.io/docs/latest/getstarted.html#installation) to learn how to set it up.
 
-This pipeline expects Nextflow version 23.10.1, available [here](https://github.com/nextflow-io/nextflow/releases/tag/v23.10.1).
+This pipeline expects Nextflow version 24.04.4, available [here](https://github.com/nextflow-io/nextflow/releases/tag/v24.04.4).
 
 ## Software provisioning
 
@@ -30,7 +30,7 @@ The pipeline comes with simple pre-set profiles for all of these as described [h
 
 This pipeline requires locally stored references from [Midori](https://www.reference-midori.info/), [UNITE](https://unite.ut.ee/) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db) respectively. To build these, do:
 
-### Witha built-in profile:
+### With a built-in profile:
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile apptainer \\

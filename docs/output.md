@@ -5,7 +5,7 @@
 <details markdown=1>
 <summary>reports</summary>
 
-- `name_of_pipeline_run`.xlsx: A table with accumulated results - one row per sample per taxon:
+- `name_of_pipeline_run.xlsx`: A table with accumulated results - one row per sample per taxon:
 
 ```TSV
 Sample  Taxon Percentage
@@ -13,35 +13,39 @@ SampleA Sus scrofa  75.0
 SampleA Bos taurus  25.0  
 ```
 
-- ` name_of_pipeline_run`_krona.html: A multi-sample Krona report to visualize taxonomic composition of samples. 
+- `name_of_pipeline_run_krona.html`: A multi-sample Krona report to visualize taxonomic composition of samples. 
 
-</details>
-
-## Quality control
-
-<details markdown=1>
-<summary>MultiQC</summary>
-
-- MultiQC/`name_of_pipeline_run`_multiqc_report.html: A graphical and interactive report of various QC steps and results
+- `name_of_pipeline_run_multiqc_report.html`: A graphical and interactive report of various QC steps and results
 
 </details>
 
 ## Per-sample outputs
 
 <details markdown=1>
-<summary>SampleID</summary>
+<summary>samples/SampleID</summary>
 
-- `name_of_pipeline_run`.usearch_global.tsv - the Number of reads mapping against each respective OTU, per sample
-- `name_of_pipeline_run`.precluster.fasta - the final set of OTUs in FASTA format
+### VSEARCH
+
+When using Vsearch for OTU clustering
+- `vsearch/sample_id.usearch_global.tsv` - the Number of reads mapping against each respective OTU, per sample
+- `vsearch/sample_id.precluster.fasta` - the final set of OTUs in FASTA format
+
+### DADA2
+
+When using DADA2 for OTU/ASV clustering
+- `DADA2/sample_id_ASVs.fasta` - the clustered sequences (OTU/ASV)
+
+That same folder also contains a number of additional metrics and outputs, including graphical summaries of the error profiles that can be used to debug sample-specific issues. 
+
+### Reports
+
+This folder contains some of the raw sample-level outputs.
+
+- `report/sample_id.composition.tsv` - the taxonomic composition of this sample in TSV format. 
+- `report/sample_id.blast_stats.tsv` - Details of the blast matches against each respective OTU. 
 
 </details>
 
-<details markdown=1>
-<summary>vsearch</summary>
-
-This folder contains the various intermediate processing outputs and is mostly there for debugging purposes.
-
-</details>
 
 ## Pipeline run metrics
 

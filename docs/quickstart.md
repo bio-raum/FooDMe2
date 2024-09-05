@@ -8,9 +8,20 @@ This pipeline is written in [Nextflow](https://nextflow.io/) and requires a fair
 
 We recommend you also contribute a config file for your setup to our [central config repository](https://github.com/bio-raum/nf-configs/blob/main/doc/config.md). This will save you time down the road by setting certain options automatically based on your compute environment. 
 
+For the example below, we will assume you use Conda (although we highly recommend using a container framework like Apptainer or Singularity!).
+
 ## 2. Pipeline references
 
 FooDMe2 requires locally stored, formatted databases. The pipeline has a [built-in](installation.md#installing-the-references) option to install these. 
+
+```bash
+nextflow run bio-raum/FooDMe2 -profile conda \
+--build_references \
+--reference_base /path/to/references \
+-r main \
+--run_name build \
+--skip_genbank
+```
 
 ## 3. Run the test
 

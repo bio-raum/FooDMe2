@@ -21,6 +21,6 @@ A quick start guide can be found [here](quickstart.md). We do recommend you read
 
 ## Acknowledgements
 
-The FooDMe2 team gratefully acknowledges the contributions made to FooDMe 1, by its (former) developers as well as the user community. We hope to continue this fruitful collaboration with FooDMe2. 
+The FooDMe2 team gratefully acknowledges the contributions made to FooDMe1, by its (former) developers as well as the user community. We hope to continue this fruitful collaboration with FooDMe2. 
 
 With our switch to Nextflow, we happily acknowledge the use of design principles and code snippets from the [nf-co.re](https://nf-co.re/) project, whose fundamental contributions to the Nextflow community has greatly influenced our work on FooDMe2. 
