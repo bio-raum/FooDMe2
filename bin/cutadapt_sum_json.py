@@ -26,9 +26,9 @@ def main(fwd, rev, output):
     data["read_count"] = fwd_data["read_counts"]["input"]
     data["filtered_count"] = rev_data["read_counts"]["output"]
 
-    with open(output,"w") as sj:
+    with open(output, "w") as sj:
         json.dump(data, sj)
+
 
 if __name__ == '__main__':
     main(args.forward, args.reverse, args.output)
-

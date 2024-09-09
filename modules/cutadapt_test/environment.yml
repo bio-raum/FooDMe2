@@ -1,0 +1,7 @@
+name: cutadapt_test
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::cutadapt=4.9
