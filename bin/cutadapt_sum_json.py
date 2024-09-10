@@ -22,7 +22,7 @@ def main(sample, fwd, rev, output):
         "description": "Cutadapt is a tool to find and remove adapter sequences, primers, poly-A tails and other types of unwanted sequence from your high-throughput sequencing reads. DOI: 10.14806/ej.17.1.200.",
         "plot_type": "bargraph",
         "pconfig": {
-            "id": "cutadapt", 
+            "id": "cutadapt",
             "col1_header": "Sample",
             "title": "Cutadapt: Filtered reads"
         },
@@ -31,10 +31,9 @@ def main(sample, fwd, rev, output):
 
     reads_in = 0
     reads_out = 0
-    
+
     with open(fwd) as fjson:
         fwd_data = json.load(fjson)
-        
 
     with open(rev) as rjson:
         rev_data = json.load(rjson)
@@ -47,7 +46,7 @@ def main(sample, fwd, rev, output):
     passing = reads_out
     failed = reads_in-reads_out
 
-    data = { "Reads passing filters": passing, "Filtered reads (uncategorized)": failed }
+    data = {"Reads passing filters": passing, "Filtered reads (uncategorized)": failed}
 
     matrix["data"][sample] = data
 
