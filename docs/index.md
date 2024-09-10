@@ -18,6 +18,7 @@ A quick start guide can be found [here](quickstart.md). We do recommend you read
 5. [Software](about/software.md)
 5. [Troubleshooting](troubleshooting.md)
 6. [Developer guide](developer.md)
+7. [Validation](validation.md)
 
 ## Acknowledgements
 
