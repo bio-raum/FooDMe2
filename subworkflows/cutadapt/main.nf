@@ -1,4 +1,4 @@
-include { CUTADAPT }            from './../../modules/cutadapt'
+include { CUTADAPT }            from './../../modules/cutadapt_test'
 include { PRIMER_DISAMBIGUATE } from './../../modules/helper/primer_disambiguate'
 include { FASTX_REVERSE_COMPLEMENT }    from './../../modules/fastx_toolkit/fastx_reverse_complement'
 
