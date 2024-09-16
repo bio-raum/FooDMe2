@@ -166,19 +166,27 @@ workflow FOODME2 {
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)
     multiqc_files  = multiqc_files.mix(BLAST_TAXONOMY.out.qc)
 
+    // Create list of software packages used
+    CUSTOM_DUMPSOFTWAREVERSIONS(
+        ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    )
+
     /*
     Reporting sub workflow
     */
     REPORTING(
         BLAST_TAXONOMY.out.tax_json,
         BLAST_TAXONOMY.out.composition
+        // cutadapt
+        // clustering
+        // blast
+        BLAST_TAXONOMY.out.consensus
+        CUSTOM_DUMPSOFTWAREVERSIONS.out.yml
     )
 
-    // Create list of software packages used
-    CUSTOM_DUMPSOFTWAREVERSIONS(
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
-    )
-
+    /*
+    MULTIQC
+    */
     multiqc_files   = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
 
     MULTIQC(

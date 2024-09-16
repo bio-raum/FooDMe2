@@ -3,6 +3,7 @@ include { HELPER_KRONA_TABLE }              from './../../modules/helper/krona_t
 include { KRONA_HTML }                      from './../../modules/krona/'
 include { HELPER_BENCHMARK }                from './../../modules/helper/benchmark'
 include { HELPER_BENCHMARK_XLSX }           from './../../modules/helper/benchmark_xlsx'
+include { HELPER_SAMPLE_REPORT }            from './../../modules/helper/sample_report'
 
 ch_versions = Channel.from([])
 ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
@@ -11,6 +12,11 @@ workflow REPORTING {
     take:
     ch_tax_json // The filtered taxonomy JSON
     ch_compo
+    ch_cutadapt
+    ch_clustering
+    ch_blast
+    ch_consensus
+    ch_versions
 
     main:
 
@@ -27,6 +33,11 @@ workflow REPORTING {
 
     KRONA_HTML(
         HELPER_KRONA_TABLE.out.krona.collect()
+    )
+
+    HELPER_SAMPLE_REPORT(
+        ch_compo,
+
     )
 
     // Benchmark
