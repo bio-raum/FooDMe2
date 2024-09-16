@@ -10,14 +10,15 @@ process HELPER_SAMPLE_COMPO {
     input:
     tuple val(meta), path(json) // The json with consensus
     output:
-    tuple val(meta), path('*.composition.tsv'), emit: tsv
-    path 'versions.yml'                       , emit: versions
+    tuple val(meta), path('*.composition.tsv') , emit: tsv
+    tuple val(meta), path('*.composition.json'), emit: json
+    path 'versions.yml'                        , emit: versions
 
     script:
     def prefix = task.ext.prefix ?: json.getSimpleName()
 
     """
-    sample_compo.py --json $json --output ${prefix}.composition.tsv
+    sample_compo.py --json $json --output_tsv ${prefix}.composition.tsv --output_json ${prefix}.composition.json
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
