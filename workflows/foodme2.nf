@@ -113,8 +113,8 @@ workflow FOODME2 {
     if (!params.cutadapt_trim_3p) {
         INPUT_CHECK.out.reads.filter { m, r -> m.single_end }.count().filter { c -> c > 0 }.map { c ->
             log.warn "$c read sets are classified as single-end - this typically requires --cutadapt_trim_3p."
+        }
     }
-}
 
     /*
     SUB: Processing of reads
@@ -174,13 +174,15 @@ workflow FOODME2 {
     /*
     Reporting sub workflow
     */
+    // TODO, create channel with input either ILLUMINA or ONT or else
     REPORTING(
         BLAST_TAXONOMY.out.tax_json,
-        BLAST_TAXONOMY.out.composition
-        // cutadapt
-        // clustering
-        // blast
-        BLAST_TAXONOMY.out.consensus
+        BLAST_TAXONOMY.out.composition,
+        BLAST_TAXONOMY.out.composition_json,
+        ILLUMINA_WORKFLOW.out.cutadapt_json,
+        ILLUMINA_WORKFLOW.out.cluster_json,
+        BLAST_TAXONOMY.out.filtered_blast,
+        BLAST_TAXONOMY.out.consensus,
         CUSTOM_DUMPSOFTWAREVERSIONS.out.yml
     )
 

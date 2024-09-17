@@ -12,6 +12,7 @@ workflow REPORTING {
     take:
     ch_tax_json // The filtered taxonomy JSON
     ch_compo
+    ch_compo_json
     ch_cutadapt
     ch_clustering
     ch_blast
@@ -36,8 +37,12 @@ workflow REPORTING {
     )
 
     HELPER_SAMPLE_REPORT(
-        ch_compo,
-
+        ch_compo_json,
+        ch_cutadapt,
+        ch_clustering,
+        ch_blast,
+        ch_consensus,
+        ch_versions
     )
 
     // Benchmark
