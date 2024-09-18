@@ -36,13 +36,25 @@ workflow REPORTING {
         HELPER_KRONA_TABLE.out.krona.collect()
     )
 
+    /*
+    Here we group all the sample-specific reports by meta hash
+    */
+    ch_compo_json.join(
+        ch_cutadapt
+    ).join(
+        ch_blast
+    ).join(
+        ch_consensus
+    ).set { ch_reports_grouped }
+
+    /*
+    Make a pretty JSON using the sample-specific reports and
+    summary metrics from the clustering as well as software versions
+    */
     HELPER_SAMPLE_REPORT(
-        ch_compo_json,
-        ch_cutadapt,
-        ch_clustering,
-        ch_blast,
-        ch_consensus,
-        ch_versions
+        ch_reports_grouped,
+        ch_clustering.collect(),
+        ch_versions.collect()
     )
 
     // Benchmark

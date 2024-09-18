@@ -81,7 +81,7 @@ workflow ILLUMINA_WORKFLOW {
         ch_primers
     )
     ch_versions         = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
-    multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc)
+    multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc.map { m,j -> j })
     ch_reads_trimmed    = CUTADAPT_WORKFLOW.out.trimmed
 
     /*

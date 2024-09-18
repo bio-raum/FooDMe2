@@ -8,11 +8,8 @@ process HELPER_SAMPLE_REPORT {
         'quay.io/biocontainers/biokit:0.5.0--pyh5e36f6f_0' }"
 
     input:
-    tuple val(meta), path(composition) // The composition json
-    path(cutadapt)   // The cutadapt mqc json
-    path(clustering) // Vsearch or dada mqc json
-    tuple val(meta), path(blast)      // filtered blast json
-    tuple val(meta), path(consensus)  // consensus json
+    tuple val(meta), path(composition), path(cutadapt), path(blast), path(consensus)
+    path(clustering)
     path(versions)                    // versions yaml
 
     output:
