@@ -22,4 +22,4 @@ FooDMe2 is developed and supported by the following people and organizations:
 
 [Grégoire Denay](https://github.com/gregdenay), Chemisches und Veterinäruntersuchungsamt Rhein-Ruhr-Wupper, [CVUA RRW](https://www.cvua-rrw.de/)
 
-[Marc Höppner](https://github.com/marchoeppner), Landeslabor Schleswig-Holstein, [LSH](https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LLABOR)//----+
+[Marc Höppner](https://github.com/marchoeppner), Landeslabor Schleswig-Holstein, [LSH](https://www.schleswig-holstein.de/DE/landesregierung/ministerien-behoerden/LLABOR)
