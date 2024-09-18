@@ -10,10 +10,10 @@ A basic execution of the pipeline looks as follows:
 
     ```bash
     nextflow run bio-raum/FooDMe2 \
-      -profile conda \ (1)
-      -r main \ (2)
+      -profile conda \ # (1)!
+      -r main \ # (2)!
       --input samples.csv \
-      --reference_base /path/to/references \ (3)
+      --reference_base /path/to/references \ # (3)!
       --run_name pipeline-test \
       --primer_set amniotes_dobrovolny
 
@@ -26,8 +26,8 @@ A basic execution of the pipeline looks as follows:
 
     ```bash
     nextflow run bio-raum/FooDMe2 
-      -profile myprofile \ (1)
-      -r main \ (2)
+      -profile myprofile \ # (1)!
+      -r main \ # (2)!
       --input samples.csv \
       --run_name pipeline-test \
       --primer_set amniotes_dobrovolny

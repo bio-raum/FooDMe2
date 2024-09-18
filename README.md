@@ -1,13 +1,13 @@
-![logo](assets/pipelinelogo.png){ align=right width="200" }
-
 # FooDMe2
+
+<img align="right" width="200" height="200" src="docs/pipelinelogo.png">
 
 FooDMe2 (Food DNA Metabarcoding) is a Nextflow pipeline for procesing of metabarcoding data, especially developed for 
 applications in the analyis of food and feed products authenticity, or similar materials and applications.
 
-It is designed to be easily installed and used, handle most sequencing technologies, and work on a wide range of configuration.
+It is designed to be easily installed and used, and work on a wide range of configuration.
 
-![schema](images/Foodme2_schema_v3.png){ align=center }
+![schema](docs/img/Foodme2_schema_v3.png)
 
 *The full documentation is available from the [homepage](https://bio-raum.github.io/FooDMe2/)*
 
@@ -16,7 +16,6 @@ It is designed to be easily installed and used, handle most sequencing technolog
 - ready-to-use reports
 - pre-configured experiments parameters for common aplications
 - automatic handling of reference databases
-- handles Illumina data, ONT support is in developement
 - requires only Nextflow and a container/environement manager to run
 - easy deployment on a variety of configuartions through containerization
 

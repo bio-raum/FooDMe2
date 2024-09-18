@@ -26,7 +26,7 @@ nav:
 
 theme:
   name: material
-  logo: assets/pipelinelogo.png
+  logo: img/pipelinelogo.png
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -44,7 +44,7 @@ theme:
         name: Switch to light mode
   icon:
     repo: fontawesome/brands/github
-    favicon: assets/favicon.png
+    favicon: img/favicon.png
     annotation: material/help-circle
   features:
     - navigation.instant
@@ -64,6 +64,8 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - tables
+  - toc:
+    toc_depth: 3
   - admonition
   - pymdownx.highlight:
       anchor_linenums: true

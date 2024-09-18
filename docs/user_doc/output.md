@@ -21,7 +21,7 @@
 
 ## Per-sample outputs
 
-== "Clustering"
+=== "Clustering"
 
     When using Vsearch for OTU clustering
     - `vsearch/sample_id.usearch_global.tsv`: the number of reads mapping against each respective OTU, per sample
