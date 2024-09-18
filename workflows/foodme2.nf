@@ -182,7 +182,6 @@ workflow FOODME2 {
     /*
     Reporting sub workflow
     */
-    // TODO, create channel with input either ILLUMINA or ONT or else
     REPORTING(
         BLAST_TAXONOMY.out.tax_json,
         BLAST_TAXONOMY.out.composition,

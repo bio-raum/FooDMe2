@@ -13,7 +13,7 @@ parser.add_argument("--sample_id", help="sample ID")
 parser.add_argument("--run_name", help="run name")
 parser.add_argument("--compo", help="composition json")
 parser.add_argument("--cutadapt", help="cutadat_mqc json")
-parser.add_argument("--clustering", help="either dada_mqc or vsearch_mqc json") ## not tested for vsearch TODO
+parser.add_argument("--clustering", help="either dada_mqc or vsearch_mqc json")
 parser.add_argument("--blast", help="blast_filtered json")
 parser.add_argument("--consensus", help="consensus json")
 parser.add_argument("--versions", help="versions yaml")
@@ -25,7 +25,7 @@ def parse_json(handle):
     "boilerplate jsonparsing and return as dict"
     with open(handle, "r") as fi:
         return json.load(fi)
-    
+
 
 def main(sample_id, run_name, compo, cutadapt, clustering, blast, consensus, versions, output):
     cutadapt_dict = parse_json(cutadapt)
@@ -36,7 +36,7 @@ def main(sample_id, run_name, compo, cutadapt, clustering, blast, consensus, ver
 
     with open(versions, "r") as fi:
         versions_dict = yaml.safe_load(fi)
-    
+
     out = {
         "sample": sample_id,
         "run_name": run_name,
@@ -48,8 +48,8 @@ def main(sample_id, run_name, compo, cutadapt, clustering, blast, consensus, ver
         "consensus": consensus_dict,
         "versions": versions_dict
     }
-    
-    with open(output,"w") as fo:
+
+    with open(output, "w") as fo:
         json.dump(out, fo, indent=4)
 
 

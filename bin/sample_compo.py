@@ -43,9 +43,9 @@ def main(json_in, output_tsv, output_json):
 
     aggd = {}
     for entry in d:
-        aggd.setdefault(entry["sample"], []).append({k:v for k, v in entry.items() if k != "sample"})
+        aggd.setdefault(entry["sample"], []).append({k: v for k, v in entry.items() if k != "sample"})
 
-    with open(output_json,"w") as fo:
+    with open(output_json, "w") as fo:
         json.dump(aggd, fo, indent=4)
 
 
