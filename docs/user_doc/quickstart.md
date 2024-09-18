@@ -1,6 +1,6 @@
 # Quickstart guide
 
-This is a very short list of steps required to get your started with FooDMe2. Please see our complete [installation](user_doc/installation.md) and [usage]((user_doc/usage.md) guides to answer any questions you are left with after reading this. 
+This is a very short list of steps required to get your started with FooDMe2. Please see our complete [installation](user_doc/installation.md) and [usage](user_doc/usage.md) guides to answer any questions you are left with after reading this. 
 
 ## Installation
 
