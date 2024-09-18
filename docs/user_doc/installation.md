@@ -68,18 +68,18 @@ Select the appropriate profile with the `-profile`argument:
 
     ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile apptainer \
-    -r main \
-    --reference_base /path/to/references
+      -profile apptainer \
+      -r main \
+      --reference_base /path/to/references
     ```
 
 === "Site-specific"
 
-    ``` sh
+    ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile myprofile \
-    -r main \
-    --reference_base /path/to/references # (1)!
+      -profile myprofile \
+      -r main \
+      --reference_base /path/to/references #(1)!
 
     1.  You can define reference_base in your site-spcific profile and omit it in the command-line
     ```
