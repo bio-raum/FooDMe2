@@ -75,13 +75,13 @@ Select the appropriate profile with the `-profile`argument:
 
 === "Site-specific"
 
-    ``` bash
+    ``` py
     nextflow run bio-raum/FooDMe2 \
       -profile myprofile \
       -r main \
-      --reference_base /path/to/references #(1)!
+      --reference_base /path/to/references # (1)!
 
-    1.  You can define reference_base in your site-spcific profile and omit it in the command-line
+    1. You can define reference_base in your site-spcific profile and omit it in the command-line
     ```
 
 ## Installing the references
@@ -108,7 +108,7 @@ This pipeline requires locally stored references from [Midori](https://www.refer
       --run_name build \
       --reference_base /path/to/references # (1)!
 
-    1.  You can define reference_base in your site-spcific profile and omit it in the command-line
+    1. You can define reference_base in your site-spcific profile and omit it in the command-line
     ```
 
 where `/path/to/references` could be something like `/data/pipelines/references` or whatever is most appropriate on your system.
