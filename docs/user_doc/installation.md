@@ -32,36 +32,36 @@ Select the appropriate profile with the `-profile`argument:
 
     ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile conda \
-    -r main \
-    --reference_base /path/to/references
+      -profile conda \
+      -r main \
+      --reference_base /path/to/references
     ```
 
 === "Docker"
 
     ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile docker \
-    -r main \
-    --reference_base /path/to/references
+      -profile docker \
+      -r main \
+      --reference_base /path/to/references
     ```
 
 === "Singularity"
 
     ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile singularity \
-    -r main \
-    --reference_base /path/to/references
+      -profile singularity \
+      -r main \
+      --reference_base /path/to/references
     ```
 
 === "Podman"
 
     ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile podman \
-    -r main \
-    --reference_base /path/to/references
+      -profile podman \
+      -r main \
+      --reference_base /path/to/references
     ```
 
 === "Apptainer"
@@ -75,14 +75,15 @@ Select the appropriate profile with the `-profile`argument:
 
 === "Site-specific"
 
-    ``` py
+    ``` bash
     nextflow run bio-raum/FooDMe2 \
       -profile myprofile \
       -r main \
       --reference_base /path/to/references # (1)!
+    ```
 
     1. You can define reference_base in your site-spcific profile and omit it in the command-line
-    ```
+
 
 ## Installing the references
 
@@ -107,9 +108,9 @@ This pipeline requires locally stored references from [Midori](https://www.refer
       --build_references \
       --run_name build \
       --reference_base /path/to/references # (1)!
+    ```
 
     1. You can define reference_base in your site-spcific profile and omit it in the command-line
-    ```
 
 where `/path/to/references` could be something like `/data/pipelines/references` or whatever is most appropriate on your system.
 
