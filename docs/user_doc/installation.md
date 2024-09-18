@@ -75,7 +75,7 @@ Select the appropriate profile with the `-profile`argument:
 
 === "Site-specific"
 
-    ``` bash
+    ``` sh
     nextflow run bio-raum/FooDMe2 \
     -profile myprofile \
     -r main \
