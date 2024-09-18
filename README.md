@@ -1,14 +1,24 @@
+![logo](assets/pipelinelogo.png){ align=right width="200" }
+
 # FooDMe2
 
-This pipeline performs processing of mitochondrial amplicon data to profile the composition of eukaryotic taxa.
+FooDMe2 (Food DNA Metabarcoding) is a Nextflow pipeline for procesing of metabarcoding data, especially developed for 
+applications in the analyis of food and feed products authenticity, or similar materials and applications.
 
-Typical applications are in the analysis of food products, animal feed or seed materials.
+It is designed to be easily installed and used, handle most sequencing technologies, and work on a wide range of configuration.
 
-FooDMe2 is a complete re-write of [FooDMe](https://github.com/CVUA-RRW/FooDMe/tree/master) with improved capabilities and portability. Check the migration doc if you come from FooDMe1.
+![schema](images/Foodme2_schema_v3.png){ align=center }
 
-![schema](images/Foodme2_schema_v3.png)
+*The full documentation is available from the [homepage](https://bio-raum.github.io/FooDMe2/)*
 
-The full documentation is available from the [homepage](https://bio-raum.github.io/FooDMe2/).
+## Highlights
+
+- ready-to-use reports
+- pre-configured experiments parameters for common aplications
+- automatic handling of reference databases
+- handles Illumina data, ONT support is in developement
+- requires only Nextflow and a container/environement manager to run
+- easy deployment on a variety of configuartions through containerization
 
 ## Acknowledgements
 

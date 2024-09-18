@@ -1,63 +1,40 @@
 # Usage information
 
-This is not a full release. Please note that some things may not work as intended yet.
-
-[Running the pipeline](#running-the-pipeline)
-
-[Pipeline version](#specifying-pipeline-version)
-
-[Testing](#running-a-test)
-
-[Options](#options)
-
-- [Basic options](#basic-options)
-- [Sequencing technology](#sequencing-technology)
-- [PCR primers](#pcr-primers)
-- [Database](#database)
-- [Benchmarking](#benchmarking)
-- [Expert options](#expert-options)
-- [Primer trimming](#pcr-primer-trimming)
-
 ## Running the pipeline
 
-Please see our [installation guide](installation.md) to learn how to set up this pipeline first.
+Please see our [installation guide](user_doc/installation.md) to learn how to set up this pipeline first.
 
 A basic execution of the pipeline looks as follows:
 
-### With a built-in profile
+=== "Built-in profile"
 
-```bash
-nextflow run bio-raum/FooDMe2 -profile apptainer \\
---input samples.csv \\
---reference_base /path/to/references \\
---run_name pipeline-test \\
---primer_set amniotes_dobrovolny
-```
+    ```bash
+    nextflow run bio-raum/FooDMe2 \
+      -profile conda \ (1)
+      -r main \ (2)
+      --input samples.csv \
+      --reference_base /path/to/references \ (3)
+      --run_name pipeline-test \
+      --primer_set amniotes_dobrovolny
 
-where `path_to_references` corresponds to the location in which you have [installed](installation.md) the pipeline references.
+    1.  In this example, the pipeline will assume it runs on a single computer with the conda engine. Available options to provision software are documented in the [installation section](user_doc/installation.md).
+    2.  We highly recommend pinning a release number(e.g. `-r 1.0.0`) instead of using the latest commit.
+    3.  `path_to_references` corresponds to the location in which you have [installed](user_doc/installation.md) the pipeline references.
+    ```
 
-In this example, the pipeline will assume it runs on a single computer with the apptainer container engine. Available options to provision software are:
+=== "Site-specific profile"
 
-`-profile singularity`
+    ```bash
+    nextflow run bio-raum/FooDMe2 
+      -profile myprofile \ (1)
+      -r main \ (2)
+      --input samples.csv \
+      --run_name pipeline-test \
+      --primer_set amniotes_dobrovolny
 
-`-profile docker`
-
-`-profile podman`
-
-`-profile conda`
-
-`-profile apptainer`
-
-### With a site-specific config file
-
-```bash
-nextflow run bio-raum/FooDMe2 -profile lsh \\
---input samples.csv \\
---run_name pipeline-test \\
---primer_set amniotes_dobrovolny
-```
-
-In this example, both `--reference_base` and the choice of software provisioning are already set in the  configuration `lsh` and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc. It is highly recommended to [set up](installation.md) such a config file. 
+    1.  In this example, both `--reference_base` and the choice of software provisioning are already set in the  configuration `lsh` and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc. It is highly recommended to [set up](user_doc/installation.md) such a config file. 
+    2.  We highly recommend pinning a release number(e.g. `-r 1.0.0`) instead of using the latest commit.
+    ```
 
 ### Removing temporary data
 
@@ -72,22 +49,22 @@ nextflow clean -f
 If you are running this pipeline in a production setting, you will want to lock the pipeline to a specific version. This is natively supported through nextflow with the `-r` argument:
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile lsh -r 1.0 <other options here>
+nextflow run bio-raum/FooDMe2 -profile myprofile -r 1.0 <other options here>
 ```
 
-The `-r` option specifies a github [release tag](https://github.com/bio-raum/FooDMe2/releases) or branch, so could also point to `main` for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be [installed](installation.md) separately.
+The `-r` option specifies a github [release tag](https://github.com/bio-raum/FooDMe2/releases) or branch, so could also point to `main` for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be [installed](user_doc/installation.md) separately.
 
 ## Running a test
 
 This pipeline has a built-in test to quickly check that your local setup is working correctly. To run it, do:
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile your_profile,test
+nextflow run bio-raum/FooDMe2 -profile myprofile,test
 ```
 
 where `your_profile` can either be a site-specific config file or one of the built-in [profiles](#without-a-site-specific-config-file). This test requires an active internet connection to download the test data. 
 
-## Options
+## Command-line option
 
 ### Basic options
 
@@ -106,7 +83,7 @@ If the pipeline sees more than one set of reads for a given sample ID (i.e. from
 
 The location where the pipeline references are installed on your system. This will typically be pre-set in your site-specific config file and is only needed when you run without one.
 
-See our [installation guide](installation.md) to learn how to install the references permanently on your system.
+See our [installation guide](user_doc/installation.md) to learn how to install the references permanently on your system.
 
 #### `--outdir results` [default = results]
 
@@ -166,7 +143,7 @@ Databases for taxonomic assignment can be specified in one of two ways - from th
 
 You can get a list of available databases and their origin as follows:
 
-```NEXTFLOW
+```bash
 nextflow run bio-raum/FooDMe2 --list_dbs
 ``` 
 
@@ -210,7 +187,7 @@ In case you do not use a pre-configured [primer_set](#--primer_set-default--null
 | Insects         | 50557   |
 | Teleost fishes  | 32443   |
 
-Please note that the deeper the node (i.e. the broader the search space), the more RAM will be required. This is not a concern for the single gene databases (e.g. Midori), but will be a significant factor when screening against GenBank NT. If you need to use GenBank NT and find that your jobs crash due to an out-of-memory error, consider using a shallower taxonomic node. 
+Please note that the higher the node (i.e. the broader the search space), the more RAM will be required. This is not a concern for the single gene databases (e.g. Midori), but will be a significant factor when screening against GenBank NT. If you need to use GenBank NT and find that your jobs crash due to an out-of-memory error, consider using a shallower taxonomic node. 
 
 ### Benchmarking
 
@@ -249,9 +226,10 @@ Provide a list of NCBI taxonomy IDs (one per line) that should be masked from th
 By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.
 
 ```bash
-nextflow run bio-ram/FooDMe2 -profile apptainer \\
---input samples.tsv \\
---disable_low_complexity ...
+nextflow run bio-ram/FooDMe2 
+  -profile apptainer \
+  --input samples.tsv \
+  --disable_low_complexity ...
 ```
 
 #### `--vsearch` [ default = false ]
@@ -269,7 +247,7 @@ The default of 98 seems to work quite well for our data, but will occasionally f
 Some possible usage examples:
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
+nextflow run bio-raum/FooDMe2 \-profile standard,conda --input samples.csv \\
 --primer_set amniotes_dobrovolny \\
 --run_name cutadapt-test
 ```
