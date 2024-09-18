@@ -30,55 +30,55 @@ Select the appropriate profile with the `-profile`argument:
 
 === "Conda/Mamba"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile conda 
-    -r main 
+    -profile conda \
+    -r main \
     --reference_base /path/to/references
     ```
 
 === "Docker"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile docker 
-    -r main 
+    -profile docker \
+    -r main \
     --reference_base /path/to/references
     ```
 
 === "Singularity"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile singularity 
-    -r main 
+    -profile singularity \
+    -r main \
     --reference_base /path/to/references
     ```
 
 === "Podman"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile podman 
-    -r main 
+    -profile podman \
+    -r main \
     --reference_base /path/to/references
     ```
 
 === "Apptainer"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile apptainer 
-    -r main 
+    -profile apptainer \
+    -r main \
     --reference_base /path/to/references
     ```
 
 === "Site-specific"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 \
-    -profile myprofile 
-    -r main 
+    -profile myprofile \
+    -r main \
     --reference_base /path/to/references # (1)!
 
     1.  You can define reference_base in your site-spcific profile and omit it in the command-line
@@ -91,7 +91,7 @@ This pipeline requires locally stored references from [Midori](https://www.refer
 
 === "Default profile"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 -profile conda \
       -r main \
       --build_references \
@@ -101,7 +101,7 @@ This pipeline requires locally stored references from [Midori](https://www.refer
 
 === "Site-specific profile"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 -profile myprofile \
       -r main \
       --build_references \
