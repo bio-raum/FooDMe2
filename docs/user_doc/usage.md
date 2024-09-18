@@ -277,8 +277,8 @@ Use this option if you know that your read length is as long or longer than your
 #### `--cutadapt_options` [ default = "" ]
 Any additional options you feel should be passed to Cutadapt. Use at your own risk. 
 
-### `--amplicon_min_length` [ default = 70 ]
+#### `--amplicon_min_length` [ default = 70 ]
 The minimum size an amplicon is expected to have. Data that falls below this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 
 
-### `--amplicon_max_length` [ default = 100 ]
+#### `--amplicon_max_length` [ default = 100 ]
 The maximum size an amplicon is expected to have. Data that lies above this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 

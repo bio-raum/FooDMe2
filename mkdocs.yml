@@ -16,7 +16,7 @@ nav:
     - Validation: user_doc/validation.md
   - Help:
     - Migration: help/migration.md
-    - Troobleshooting: help/toobleshooting.md
+    - Troobleshooting: help/troubleshooting.md
   - Developer Guide: developer.md
   - About:
     - Contibuting: about/contributing.md

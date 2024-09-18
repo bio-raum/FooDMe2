@@ -2,14 +2,6 @@
 
 This document is a brief overview of how to use this code base. Some understanding of Nextflow and how it implements DSL2 is assumed.
 
-- [Editor](#editor)
-- [Basic concepts](#basic-concept)
-- [Config files](#config-files)
-- [Groovy libraries](#groovy-libraries)
-- [Bioconda](#biocondabiocontainers)
-- [Github workflows](#github-workflows)
-- [Adding a new primer set](#adding-a-new-primer-set)
-
 ## Editor
 
 We recommend [Microsoft Visual Studio Code](https://code.visualstudio.com/download) for working on nextflow pipelines. It's free and comes with a variety of free extensions to support your work.

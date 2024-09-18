@@ -4,7 +4,7 @@
 
 This error suggests that no or too few reads survived the PCR primer removal. Several things could cause this:
 
-- Too few reads to begin with (see [requirements](requirements.md))
+- Too few reads to begin with (see [requirements](../user_doc/requirements.md))
 - The provided primer sequences are incorrect
 - The reads were already trimmed; we only allow reads to pass that have been successfully primer trimmed inside of FooDMe2 to ensure high data quality
 
