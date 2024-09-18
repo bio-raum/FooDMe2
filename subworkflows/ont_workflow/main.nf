@@ -95,6 +95,7 @@ workflow ONT_WORKFLOW {
         ch_otus         = VSEARCH_ONT_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_ONT_WORKFLOW.out.versions)
         ch_qc           = ch_qc.mix(VSEARCH_ONT_WORKFLOW.out.qc)
+        ch_clusterjsons = VSEARCH_ONT_WORKFLOW.out.qc
     } else {
         /*
         SUB: OTU calling with DADA2
@@ -105,10 +106,13 @@ workflow ONT_WORKFLOW {
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
         ch_qc           = ch_qc.mix(DADA2_WORKFLOW.out.qc)
+        ch_clusterjsons = DADA2_WORKFLOW.out.qc
     }
 
     emit:
     versions = ch_versions
     otus = ch_otus
     qc = ch_qc
+    cutadapt_json = CUTADAPT_WORKFLOW.out.qc
+    cluster_json  = ch_clusterjsons
     }
