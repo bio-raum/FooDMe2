@@ -44,13 +44,13 @@ workflow CUTADAPT_WORKFLOW {
 
     // all paired end samples
     ch_reads_by_config.paired.branch { m, r ->
-        pass: file(r[0]).countFastq() > params.min_reads
+        pass: file(r[0]).countFastq() >= params.min_reads
         fail: file(r[0]).countFastq() < params.min_reads
     }.set { ch_reads_pe_with_status }
 
     // all single-end samples
     ch_reads_by_config.single.branch { m, r ->
-        pass: file(r).countFastq() > params.min_reads
+        pass: file(r).countFastq() >= params.min_reads
         fail: file(r).countFastq() < params.min_reads
     }.set { ch_reads_se_with_status }
 

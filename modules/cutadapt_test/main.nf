@@ -13,8 +13,8 @@ process CUTADAPT {
     path(primers_rc)
 
     output:
-    tuple val(meta), path('*.trim.fastq.gz'), emit: reads
-    path('*.cutadapt*.json')                 , emit: report
+    tuple val(meta), path('*.trim.fastq.gz')  , emit: reads
+    tuple val(meta), path('*.cutadapt*.json') , emit: report
     tuple val(meta), path('*.log')          , emit: log
     path 'versions.yml'                     , emit: versions
 
