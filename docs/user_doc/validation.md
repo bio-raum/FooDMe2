@@ -12,7 +12,7 @@ FooDMe2 comes with somepre-configured validations for specific analysis. Current
 
 Mammals and birds 16S Illumina metabarcoding, method from [Dobrovolny paper](https://pubmed.ncbi.nlm.nih.gov/30309555/) with the dataset from the [FooDMe1 paper](https://pubmed.ncbi.nlm.nih.gov/36900485/).
 
-```bash
+``` bash
 nextflow run bio-raum/FooDMe2 \
 -profile singularity,dobrovolny_benchmark
 ```

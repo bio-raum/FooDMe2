@@ -1,3 +1,3 @@
 # Pipeline structure
 
-![dag](img/pipeline_dag.png)
+![dag](../img/pipeline_dag.png)

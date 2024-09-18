@@ -14,7 +14,7 @@ For the example below, we will assume you use Conda (although we highly recommen
 
 FooDMe2 requires locally stored, formatted databases. The pipeline has a [built-in]((user_doc/installation.md#installing-the-references) option to install these. 
 
-```bash
+``` bash
 nextflow run bio-raum/FooDMe2 \ # (1)!
   -profile conda \ # (2)!
   -r main \ # (3)!
@@ -22,13 +22,14 @@ nextflow run bio-raum/FooDMe2 \ # (1)!
   --reference_base /path/to/references \ # (5)!
   --run_name build \
   --skip_genbank
+```
 
 1.  Nextflow will fetch the pipeline directly from Github and cache a copy, there is no need to manualy download it.
 2.  If you have a [site-specific config]((https://github.com/bio-raum/nf-configs/blob/main/doc/config.md)) you should provide it here. In there it is possible to define ressource usage, software deployment method and much more!
 3.  The `-r` argument is always required, you can either provide `-r main` to use the last pipeline version or pin a release with e.g. `-r 1.0.0` (recommended).
 4.  This instructs the pipeline to build the reference database.
 5. The reference database path can also be part of a [site-specific config]((https://github.com/bio-raum/nf-configs/blob/main/doc/config.md)). Then it can be omitted here.
-```
+
 
 !!! info Nextflow arguments and pipeline options
     In the command above you can notice two different kinds of arguments.
@@ -39,7 +40,7 @@ nextflow run bio-raum/FooDMe2 \ # (1)!
 
 Once everything is set up, you can run a short test to see if everything works as expected. 
 
-```bash
+``` bash
 nextflow run bio-raum/FooDMe2 \
   -profile conda,test 
   -r main 

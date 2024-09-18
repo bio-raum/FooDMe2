@@ -8,7 +8,7 @@ A basic execution of the pipeline looks as follows:
 
 === "Built-in profile"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 \
       -profile conda \ # (1)!
       -r main \ # (2)!
@@ -16,31 +16,31 @@ A basic execution of the pipeline looks as follows:
       --reference_base /path/to/references \ # (3)!
       --run_name pipeline-test \
       --primer_set amniotes_dobrovolny
+    ```
 
     1.  In this example, the pipeline will assume it runs on a single computer with the conda engine. Available options to provision software are documented in the [installation section](user_doc/installation.md).
     2.  We highly recommend pinning a release number(e.g. `-r 1.0.0`) instead of using the latest commit.
     3.  `path_to_references` corresponds to the location in which you have [installed](user_doc/installation.md) the pipeline references.
-    ```
 
 === "Site-specific profile"
 
-    ```bash
+    ``` bash
     nextflow run bio-raum/FooDMe2 
       -profile myprofile \ # (1)!
       -r main \ # (2)!
       --input samples.csv \
       --run_name pipeline-test \
       --primer_set amniotes_dobrovolny
+    ```
 
     1.  In this example, both `--reference_base` and the choice of software provisioning are already set in the  configuration `lsh` and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc. It is highly recommended to [set up](user_doc/installation.md) such a config file. 
     2.  We highly recommend pinning a release number(e.g. `-r 1.0.0`) instead of using the latest commit.
-    ```
 
 ### Removing temporary data
 
 Nextflow stores all the process data in a folder structure inside the `work` directory. All the relevant results are subsequently copied to the designated results folder (`--outdir`). The work directory is needed to resume completed or failed pipeline runs, but should be removed once you are satisified with the analysis to save space. To do so, run:
 
-```bash
+``` bash
 nextflow clean -f
 ```
 
@@ -48,7 +48,7 @@ nextflow clean -f
 
 If you are running this pipeline in a production setting, you will want to lock the pipeline to a specific version. This is natively supported through nextflow with the `-r` argument:
 
-```bash
+``` bash
 nextflow run bio-raum/FooDMe2 -profile myprofile -r 1.0 <other options here>
 ```
 
@@ -58,7 +58,7 @@ The `-r` option specifies a github [release tag](https://github.com/bio-raum/Foo
 
 This pipeline has a built-in test to quickly check that your local setup is working correctly. To run it, do:
 
-```bash
+``` bash
 nextflow run bio-raum/FooDMe2 -profile myprofile,test
 ```
 

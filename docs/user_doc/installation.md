@@ -82,7 +82,7 @@ Select the appropriate profile with the `-profile`argument:
       --reference_base /path/to/references # (1)!
     ```
 
-    1. You can define reference_base in your site-spcific profile and omit it in the command-line
+    1. You can define `reference_base` in your site-specific profile and omit it in the command-line
 
 
 ## Installing the references
@@ -110,7 +110,7 @@ This pipeline requires locally stored references from [Midori](https://www.refer
       --reference_base /path/to/references # (1)!
     ```
 
-    1. You can define reference_base in your site-spcific profile and omit it in the command-line
+    1. You can define `reference_base` in your site-specific profile and omit it in the command-line
 
 where `/path/to/references` could be something like `/data/pipelines/references` or whatever is most appropriate on your system.
 
