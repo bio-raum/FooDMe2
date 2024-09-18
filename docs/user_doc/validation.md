@@ -14,7 +14,8 @@ Mammals and birds 16S Illumina metabarcoding, method from [Dobrovolny paper](htt
 
 ``` bash
 nextflow run bio-raum/FooDMe2 \
--profile singularity,dobrovolny_benchmark
+  -profile singularity,dobrovolny_benchmark \
+  -r main
 ```
 
 Running this will fetch the dataset from ENA, run the workflow with the `amniotes_dobrovolny` preconfiguration and then compare the resutls to the expected composition defined under `assets/validation/dobrovolny_benchmark_groundtruth.csv`. A noise filter fo 0.1% of the total read number is applied to each sample and the composition is matched to up to the genus level.
@@ -22,6 +23,7 @@ Running this will fetch the dataset from ENA, run the workflow with the `amniote
 In the resulting Excel file we can quickly count the number of TP, FP and FN and calculate precision and recall for the analysis:
 
 | - | Expect Positive | Expect negative |
+| --- | --- | --- |
 | Predicted Positive | 524 | 31 |
 | Predicted Negative | 19 | - |
 
@@ -34,6 +36,7 @@ Another problem in this dataset is that Kangaroo (*Macropodidae*), a family node
 The corrected confusion table now looks like this:
 
 | - | Expect Positive | Expect negative |
+| --- | --- | --- |
 | Predicted Positive | 541 | 14 |
 | Predicted Negative | 5 | - |
 
