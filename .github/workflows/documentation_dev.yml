@@ -3,10 +3,6 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - "**.md"
-      - "docs/**"
-      - "conf/mkdocs.yml"
   workflow_dispatch:
 permissions:
   contents: write
