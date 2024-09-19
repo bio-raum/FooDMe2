@@ -1,6 +1,6 @@
 # Quickstart guide
 
-This is a very short list of steps required to get your started with FooDMe2. Please see our complete [installation](user_doc/installation.md) and [usage](user_doc/usage.md) guides to answer any questions you are left with after reading this. 
+This is a very short list of steps required to get your started with FooDMe2. Please see our complete [installation](installation.md) and [usage](usage.md) guides to answer any questions you are left with after reading this. 
 
 ## Installation
 
@@ -12,7 +12,7 @@ For the example below, we will assume you use Conda (although we highly recommen
 
 ## Pipeline references
 
-FooDMe2 requires locally stored, formatted databases. The pipeline has a [built-in]((user_doc/installation.md#installing-the-references) option to install these. 
+FooDMe2 requires locally stored, formatted databases. The pipeline has a [built-in]((installation.md#installing-the-references) option to install these. 
 
 ``` bash
 nextflow run bio-raum/FooDMe2 \ # (1)!
@@ -33,7 +33,7 @@ nextflow run bio-raum/FooDMe2 \ # (1)!
 
 !!! info Nextflow arguments and pipeline options
     In the command above you can notice two different kinds of arguments.
-    Those that start with a single dash (`-profile`, `-r`) are Nextflow arguments, and are documented in the [Nextflow documentation](https://www.nextflow.io/docs/latest/cli.html). Those starting with a double dash (`--build_reference`, `--run_name`) are FooDMe2 options and are detailled in the [usage section](user_doc/usage.md)
+    Those that start with a single dash (`-profile`, `-r`) are Nextflow arguments, and are documented in the [Nextflow documentation](https://www.nextflow.io/docs/latest/cli.html). Those starting with a double dash (`--build_reference`, `--run_name`) are FooDMe2 options and are detailled in the [usage section](usage.md)
 
 
 ## Run the test

@@ -4,7 +4,7 @@
 
 Bioinformatics workflows should always be properly validated before routine use.
 To facilitate this process, it is possible to provide FooDMe2 a list of expected smaple composition 
-which will beautomatically compared to the predicted composition (see [usage](user_doc/usage.md)).
+which will beautomatically compared to the predicted composition (see [usage](usage.md)).
 
 FooDMe2 comes with somepre-configured validations for specific analysis. Currently following validations are available:
 

@@ -8,7 +8,7 @@ FooDMe2 is a comparatively light-weight pipeline and runs on a wide range of har
 
 At minimum, you will need 4 CPU cores, 8GB of Ram and ~5.GB of disk space for the reference databases (again, see [Database](#database) for exceptions). In addition, the pipeline requires storage space for the intermediate files and the final results - which will depend on the size of your input data. 
 
-While Nextflow, and consequently FooDMe2, are technically compatible with Windows (through [WSL](https://learn.microsoft.com/en-us/windows/wsl/about)) and OSX, it is going to be easiest to run it on a Linux system. For more details, please see our [installation](user_doc/installation.md) instructions. 
+While Nextflow, and consequently FooDMe2, are technically compatible with Windows (through [WSL](https://learn.microsoft.com/en-us/windows/wsl/about)) and OSX, it is going to be easiest to run it on a Linux system. For more details, please see our [installation](installation.md) instructions. 
 
 ## Read count / sequencing depth
 
@@ -24,9 +24,9 @@ If your amplicons are shorter than your average read length, make sure to use th
 
 ## Database
 
-FooDMe2 ships with presumably all of the relevant databases for taxonomic assignment. However, these needs to be installed first - as described [here](user_doc/installation.md)
+FooDMe2 ships with presumably all of the relevant databases for taxonomic assignment. However, these needs to be installed first - as described [here](installation.md)
 
 We would recommend the use of the single gene databases, provided through [Midori](https://www.reference-midori.info/). However, FooDMe2 also provides access to larger databases - specifically NCBI GenBank [core_nt](https://ncbiinsights.ncbi.nlm.nih.gov/2024/07/18/new-blast-core-nucleotide-database/). Please note that Genbank has [grown](https://www.ncbi.nlm.nih.gov/genbank/statistics/) over the years, and even the core_nt database comes in at well over 200.GB. Running it will require a lot of RAM, depending on the taxonomic root for your analysis (`--taxid_filter`). For example, setting "amniotes" as the taxonomic root when using Genbank, will require roughly 60-80GB of RAM. In comparison, the same analysis against the Midori lRNA database (lrna) requires less than 3.GB RAM.
 
-If you absolutely need to use a custom database, this is also supported as described [here](user_doc/usage.md#--blast_db--default--null). 
+If you absolutely need to use a custom database, this is also supported as described [here](usage.md#--blast_db--default--null). 
 
