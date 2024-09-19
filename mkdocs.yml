@@ -57,6 +57,12 @@ theme:
 plugins:
   - search
 
+extra:
+  version:
+    provider: mike
+    default: latest
+    alias: true
+
 markdown_extensions:
   - attr_list
   - md_in_html
