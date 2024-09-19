@@ -24,7 +24,7 @@ You can choose one of the following options:
 
 [Apptainer](https://apptainer.org/)
 
-The pipeline comes with simple pre-set profiles for all of these as described [here](user_doc/usage.md); if you plan to use this pipeline regularly, consider adding your own custom profile to our [central repository](https://github.com/bio-raum/nf-configs) to better leverage your available resources. This will allow you to also use additional container/package managers not pre-configured in FooDMe2, as described [here](https://www.nextflow.io/docs/latest/container.html).
+The pipeline comes with simple pre-set profiles for all of these as described [here](usage.md); if you plan to use this pipeline regularly, consider adding your own custom profile to our [central repository](https://github.com/bio-raum/nf-configs) to better leverage your available resources. This will allow you to also use additional container/package managers not pre-configured in FooDMe2, as described [here](https://www.nextflow.io/docs/latest/container.html).
 
 Select the appropriate profile with the `-profile`argument:
 
@@ -120,7 +120,7 @@ Please note that the build process will create a pipeline-specific subfolder (`f
 
 !!! warning Skip Genbank
 
-    In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank core_nt database, which has a final size of over 250GB (and growing), and will need around 0.5TB during installation. If your application works with single gene [databases](user_doc/usage.md#--gene-default--null), you can skip installing this database with `--skip_genbank`. 
+    In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank core_nt database, which has a final size of over 250GB (and growing), and will need around 0.5TB during installation. If your application works with single gene [databases](usage.md#--gene-default--null), you can skip installing this database with `--skip_genbank`. 
 
 ## Site-specific config file
 

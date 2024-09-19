@@ -2,7 +2,7 @@
 
 ## Running the pipeline
 
-Please see our [installation guide](user_doc/installation.md) to learn how to set up this pipeline first.
+Please see our [installation guide](installation.md) to learn how to set up this pipeline first.
 
 A basic execution of the pipeline looks as follows:
 
@@ -18,9 +18,9 @@ A basic execution of the pipeline looks as follows:
       --primer_set amniotes_dobrovolny
     ```
 
-    1.  In this example, the pipeline will assume it runs on a single computer with the conda engine. Available options to provision software are documented in the [installation section](user_doc/installation.md).
+    1.  In this example, the pipeline will assume it runs on a single computer with the conda engine. Available options to provision software are documented in the [installation section](installation.md).
     2.  We highly recommend pinning a release number(e.g. `-r 1.0.0`) instead of using the latest commit.
-    3.  `path_to_references` corresponds to the location in which you have [installed](user_doc/installation.md) the pipeline references.
+    3.  `path_to_references` corresponds to the location in which you have [installed](installation.md) the pipeline references.
 
 === "Site-specific profile"
 
@@ -33,7 +33,7 @@ A basic execution of the pipeline looks as follows:
       --primer_set amniotes_dobrovolny
     ```
 
-    1.  In this example, both `--reference_base` and the choice of software provisioning are already set in the  configuration `lsh` and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc. It is highly recommended to [set up](user_doc/installation.md) such a config file. 
+    1.  In this example, both `--reference_base` and the choice of software provisioning are already set in the  configuration `lsh` and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc. It is highly recommended to [set up](installation.md) such a config file. 
     2.  We highly recommend pinning a release number(e.g. `-r 1.0.0`) instead of using the latest commit.
 
 ### Removing temporary data
@@ -52,7 +52,7 @@ If you are running this pipeline in a production setting, you will want to lock 
 nextflow run bio-raum/FooDMe2 -profile myprofile -r 1.0 <other options here>
 ```
 
-The `-r` option specifies a github [release tag](https://github.com/bio-raum/FooDMe2/releases) or branch, so could also point to `main` for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be [installed](user_doc/installation.md) separately.
+The `-r` option specifies a github [release tag](https://github.com/bio-raum/FooDMe2/releases) or branch, so could also point to `main` for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be [installed](installation.md) separately.
 
 ## Running a test
 
@@ -83,7 +83,7 @@ If the pipeline sees more than one set of reads for a given sample ID (i.e. from
 
 The location where the pipeline references are installed on your system. This will typically be pre-set in your site-specific config file and is only needed when you run without one.
 
-See our [installation guide](user_doc/installation.md) to learn how to install the references permanently on your system.
+See our [installation guide](installation.md) to learn how to install the references permanently on your system.
 
 #### `--outdir results` [default = results]
 
@@ -96,19 +96,6 @@ A mandatory name for this run, to be included with the result files.
 #### `--email me@google.com` [ default = null]
 
 An email address to which the MultiQC report is send after pipeline completion. This requires for the executing system to have [sendmail](https://rimuhosting.com/support/settingupemail.jsp?mta=sendmail) configured.
-
-### Sequencing technology
-
-By default, the pipeline assumes that it is processing Illumina short-reads in paired-end configuration. Other supported sequencing technologies must be requested specifically with one of the following flags:
-
-#### `--pacbio` [ default = false]
-Reads are Pacbio HiFi after demultiplexing, in FastQ format. 
-
-#### `--ont` [ default = false]
-Reads are Nanopore/ONT after demultiplexing, chemistry 10.4.1 or later, in FastQ format. Please note that the read quality is critical here, so only the most recent chemistry versions are likely to work.  
-
-#### `--iontorrent` [ default = false]
-Reads are IonTorrent after demultiplexing, in FastQ format. 
 
 ### PCR primers
 
