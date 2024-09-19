@@ -1,0 +1,2027 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Food DNA Metabarcoding analysis">
+      
+      
+        <meta name="author" content="Grégoire Denay and Marc Höppner">
+      
+      
+        <link rel="canonical" href="https://bio-raum.github.io/FooDMe2/1.0.0.alpha.2/usage/">
+      
+      
+        <link rel="prev" href="../installation/">
+      
+      
+        <link rel="next" href="../output/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.35">
+    
+    
+      
+        <title>Usage - FooDMe2 Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.35f28582.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#usage-information" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="FooDMe2 Documentation" class="md-header__button md-logo" aria-label="FooDMe2 Documentation" data-md-component="logo">
+      
+  <img src="../assets/pipelinelogo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FooDMe2 Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="light-blue" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0 9.821 9.821 0 0 0-17.64 0"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/bio-raum/FooDMe2" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Welcome
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../quickstart/" class="md-tabs__link">
+          
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../migration/" class="md-tabs__link">
+          
+  
+  Help
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../developer/" class="md-tabs__link">
+        
+  
+    
+  
+  Developer Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../about/contributing/" class="md-tabs__link">
+          
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="FooDMe2 Documentation" class="md-nav__button md-logo" aria-label="FooDMe2 Documentation" data-md-component="logo">
+      
+  <img src="../assets/pipelinelogo.png" alt="logo">
+
+    </a>
+    FooDMe2 Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/bio-raum/FooDMe2" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            User Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quickstart
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Usage
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Usage
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the pipeline
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-a-built-in-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      With a built-in profile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-a-site-specific-config-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      With a site-specific config file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-temporary-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing temporary data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specifying-a-pipeline-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specifying a pipeline version
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-a-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running a test
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-input-samplestsv-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --input samples.tsv [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-reference_base-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --reference_base [default = null ]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-outdir-results-default-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      --outdir results [default = results]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-run_name-fubar-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --run_name Fubar [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-email-megooglecom-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --email me@google.com [ default = null]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequencing-technology" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequencing technology
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sequencing technology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-pacbio-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --pacbio [ default = false]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-ont-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --ont [ default = false]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-iontorrent-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --iontorrent [ default = false]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pcr-primers" class="md-nav__link">
+    <span class="md-ellipsis">
+      PCR primers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PCR primers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-list_primers-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --list_primers [ default = false]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-primer_set-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --primer_set [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-primers_fa-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --primers_fa [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-list_dbs" class="md-nav__link">
+    <span class="md-ellipsis">
+      --list_dbs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-db-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --db [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-blast_db-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --blast_db [ default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-taxid_filter-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --taxid_filter [ default = null ]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmarking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benchmarking
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Benchmarking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-ground_truth-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --ground_truth [default = false]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-benchmark_rank-default-genus" class="md-nav__link">
+    <span class="md-ellipsis">
+      --benchmark_rank [default = 'genus']
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-benchmark_cutoff-default-0001" class="md-nav__link">
+    <span class="md-ellipsis">
+      --benchmark_cutoff [default = 0.001]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expert-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expert options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Expert options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-store_reads-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --store_reads [ default = false ]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-blocklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      --blocklist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-disable_low_complexity-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --disable_low_complexity [default = false]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-vsearch-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --vsearch [ default = false ]
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="--vsearch [ default = false ]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-vsearch_min_cov-default-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      --vsearch_min_cov [ default = 5 ]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-vsearch_cluster_id-default-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      --vsearch_cluster_id [ default = 98 ]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pcr-primer-trimming" class="md-nav__link">
+    <span class="md-ellipsis">
+      PCR primer trimming
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PCR primer trimming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-cutadapt_trim_3p-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --cutadapt_trim_3p [ default = false ]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-cutadapt_options-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      --cutadapt_options [ default = "" ]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../piepline.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pipeline
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Output
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Help
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Help
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../migration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Migration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../toobleshooting.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troobleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Developer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            About
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contibutingg
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/software/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Software
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    License
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/changelog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Release notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the pipeline
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-a-built-in-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      With a built-in profile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-a-site-specific-config-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      With a site-specific config file
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-temporary-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing temporary data
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#specifying-a-pipeline-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specifying a pipeline version
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-a-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running a test
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-input-samplestsv-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --input samples.tsv [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-reference_base-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --reference_base [default = null ]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-outdir-results-default-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      --outdir results [default = results]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-run_name-fubar-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --run_name Fubar [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-email-megooglecom-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --email me@google.com [ default = null]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequencing-technology" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequencing technology
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sequencing technology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-pacbio-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --pacbio [ default = false]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-ont-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --ont [ default = false]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-iontorrent-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --iontorrent [ default = false]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pcr-primers" class="md-nav__link">
+    <span class="md-ellipsis">
+      PCR primers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PCR primers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-list_primers-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --list_primers [ default = false]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-primer_set-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --primer_set [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-primers_fa-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --primers_fa [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-list_dbs" class="md-nav__link">
+    <span class="md-ellipsis">
+      --list_dbs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-db-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --db [default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-blast_db-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --blast_db [ default = null]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-taxid_filter-default-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      --taxid_filter [ default = null ]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmarking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benchmarking
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Benchmarking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-ground_truth-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --ground_truth [default = false]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-benchmark_rank-default-genus" class="md-nav__link">
+    <span class="md-ellipsis">
+      --benchmark_rank [default = 'genus']
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-benchmark_cutoff-default-0001" class="md-nav__link">
+    <span class="md-ellipsis">
+      --benchmark_cutoff [default = 0.001]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expert-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expert options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Expert options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-store_reads-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --store_reads [ default = false ]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-blocklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      --blocklist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-disable_low_complexity-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --disable_low_complexity [default = false]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-vsearch-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --vsearch [ default = false ]
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="--vsearch [ default = false ]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-vsearch_min_cov-default-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      --vsearch_min_cov [ default = 5 ]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-vsearch_cluster_id-default-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      --vsearch_cluster_id [ default = 98 ]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pcr-primer-trimming" class="md-nav__link">
+    <span class="md-ellipsis">
+      PCR primer trimming
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PCR primer trimming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-cutadapt_trim_3p-default-false" class="md-nav__link">
+    <span class="md-ellipsis">
+      --cutadapt_trim_3p [ default = false ]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-cutadapt_options-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      --cutadapt_options [ default = "" ]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="usage-information">Usage information</h1>
+<p>This is not a full release. Please note that some things may not work as intended yet.</p>
+<p><a href="#running-the-pipeline">Running the pipeline</a></p>
+<p><a href="#specifying-pipeline-version">Pipeline version</a></p>
+<p><a href="#running-a-test">Testing</a></p>
+<p><a href="#options">Options</a></p>
+<ul>
+<li><a href="#basic-options">Basic options</a></li>
+<li><a href="#sequencing-technology">Sequencing technology</a></li>
+<li><a href="#pcr-primers">PCR primers</a></li>
+<li><a href="#database">Database</a></li>
+<li><a href="#expert-options">Expert options</a></li>
+<li><a href="#pcr-primer-trimming">Primer trimming</a></li>
+</ul>
+<h2 id="running-the-pipeline">Running the pipeline</h2>
+<p>Please see our <a href="../installation/">installation guide</a> to learn how to set up this pipeline first.</p>
+<p>A basic execution of the pipeline looks as follows:</p>
+<h3 id="with-a-built-in-profile">With a built-in profile</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>apptainer<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>--reference_base<span class="w"> </span>/path/to/references<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>--run_name<span class="w"> </span>pipeline-test<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>--primer_set<span class="w"> </span>amniotes_dobrovolny
+</span></code></pre></div>
+<p>where <code>path_to_references</code> corresponds to the location in which you have <a href="../installation/">installed</a> the pipeline references.</p>
+<p>In this example, the pipeline will assume it runs on a single computer with the apptainer container engine. Available options to provision software are:</p>
+<p><code>-profile singularity</code></p>
+<p><code>-profile docker</code></p>
+<p><code>-profile podman</code></p>
+<p><code>-profile conda</code></p>
+<p><code>-profile apptainer</code></p>
+<h3 id="with-a-site-specific-config-file">With a site-specific config file</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>lsh<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>--run_name<span class="w"> </span>pipeline-test<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>--primer_set<span class="w"> </span>amniotes_dobrovolny
+</span></code></pre></div>
+<p>In this example, both <code>--reference_base</code> and the choice of software provisioning are already set in the  configuration <code>lsh</code> and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc.</p>
+<h3 id="removing-temporary-data">Removing temporary data</h3>
+<p>Nextflow stores all the process data in a folder structure inside the <code>work</code> directory. All the relevant results are subsequently copied to the designated results folder (<code>--outdir</code>). The work directory is needed to resume completed or failed pipeline runs, but should be removed once you are satisified with the analysis to save space. To do so, run:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>nextflow<span class="w"> </span>clean<span class="w"> </span>-f
+</span></code></pre></div>
+<h2 id="specifying-a-pipeline-version">Specifying a pipeline version</h2>
+<p>If you are running this pipeline in a production setting, you will want to lock the pipeline to a specific version. This is natively supported through nextflow with the <code>-r</code> argument:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>lsh<span class="w"> </span>-r<span class="w"> </span><span class="m">1</span>.0<span class="w"> </span>&lt;other<span class="w"> </span>options<span class="w"> </span>here&gt;
+</span></code></pre></div>
+<p>The <code>-r</code> option specifies a github <a href="https://github.com/bio-raum/FooDMe2/releases">release tag</a> or branch, so could also point to <code>main</code> for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be <a href="../installation/">installed</a> separately.</p>
+<h2 id="running-a-test">Running a test</h2>
+<p>This pipeline has a built-in test to quickly check that your local setup is working correctly. To run it, do:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>your_profile,test
+</span></code></pre></div>
+<p>where <code>your_profile</code> can either be a site-specific config file or one of the built-in <a href="#without-a-site-specific-config-file">profiles</a>. This test requires an active internet connection to download the test data. </p>
+<h2 id="options">Options</h2>
+<h3 id="basic-options">Basic options</h3>
+<h4 id="-input-samplestsv-default-null"><code>--input samples.tsv</code> [default = null]</h4>
+<p>This pipeline expects a TSV-formatted sample sheet to properly pull various meta data through the processes. The required format looks as follows:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sample  fq1 fq2
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>S100    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
+</span></code></pre></div>
+<p>If the pipeline sees more than one set of reads for a given sample ID (i.e. from multi-lane sequencing runs), it will concatenate them automatically at the appropriate time.</p>
+<h4 id="-reference_base-default-null"><code>--reference_base</code> [default = null ]</h4>
+<p>The location of where the pipeline references are installed on your system. This will typically be pre-set in your site-specific config file and is only needed when you run without one.</p>
+<p>See our <a href="../installation/">installation guide</a> to learn how to install the references permanently on your system.</p>
+<h4 id="-outdir-results-default-results"><code>--outdir results</code> [default = results]</h4>
+<p>The location where the results are stored. Usually this will be <code>results</code> in the location from where you run the nextflow process. However, this option also accepts any other path in your file system(s).</p>
+<h4 id="-run_name-fubar-default-null"><code>--run_name Fubar</code> [default = null]</h4>
+<p>A mandatory name for this run, to be included with the result files.</p>
+<h4 id="-email-megooglecom-default-null"><code>--email me@google.com</code> [ default = null]</h4>
+<p>An email address to which the MultiQC report is send after pipeline completion. This requires for the executing system to have <a href="https://rimuhosting.com/support/settingupemail.jsp?mta=sendmail">sendmail</a> configured.</p>
+<h3 id="sequencing-technology">Sequencing technology</h3>
+<p>By default, the pipeline assumes that it is processing Illumina short-reads in paired-end configuration. Other supported sequencing technologies must be requested specifically with one of the following flags:</p>
+<h4 id="-pacbio-default-false"><code>--pacbio</code> [ default = false]</h4>
+<p>Reads are Pacbio HiFi after demultiplexing, in FastQ format. </p>
+<h4 id="-ont-default-false"><code>--ont</code> [ default = false]</h4>
+<p>Reads are Nanopore/ONT after demultiplexing, chemistry 10.4.1 or later, in FastQ format. Please note that the read quality is critical here, so only the most recent chemistry versions are likely to work.  </p>
+<h4 id="-iontorrent-default-false"><code>--iontorrent</code> [ default = false]</h4>
+<p>Reads are IonTorrent after demultiplexing, in FastQ format. </p>
+<h3 id="pcr-primers">PCR primers</h3>
+<h4 id="-list_primers-default-false"><code>--list_primers</code> [ default = false]</h4>
+<p>Get a list of pre-configured primer sets.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>--list_primers
+</span></code></pre></div>
+<h4 id="-primer_set-default-null"><code>--primer_set</code> [default = null]</h4>
+<p>The name of the pre-configured primer set to use for read clipping. More sets will be added over time</p>
+<p>Available options:</p>
+<ul>
+<li>amniotes_dobrovolny (mammals and birds, as published by <a href="https://pubmed.ncbi.nlm.nih.gov/30309555/">Dobrovolny et al.</a>)</li>
+</ul>
+<p>A list of pre-configured primer sets is also available from the pipeline directly, see <a href="#--list_primers--default--false">--list_primers</a>.</p>
+<h4 id="-primers_fa-default-null"><code>--primers_fa</code> [default = null]</h4>
+<p>If you do not wish to use a pre-configured primer set, you can alternatively provide primer sequences in FASTA format. This option requires <code>--db</code> or <code>--blast_db</code> to choose the appropriate database to compare your data against.</p>
+<h3 id="database">Database</h3>
+<p>Databases for taxonomic assignment can be specified in one of two ways - from the pre-installed references or as a user-supplied option.</p>
+<h4 id="-list_dbs"><code>--list_dbs</code></h4>
+<p>You can get a list of available databases and their origin as follows:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>nextflow run bio-raum/FooDMe2 --list_dbs
+</span></code></pre></div>
+<h4 id="-db-default-null"><code>--db</code> [default = null]</h4>
+<p>Use a pre-installed database (recommended!). Available options are (common choices in bold):</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a6</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td>a8</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td><strong>srna</strong></td>
+<td>Midori</td>
+</tr>
+<tr>
+<td><strong>lrna</strong></td>
+<td>Midori</td>
+</tr>
+<tr>
+<td><strong>co1</strong></td>
+<td>Midori</td>
+</tr>
+<tr>
+<td>co2</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td>co3</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td><strong>cytb</strong></td>
+<td>Midori</td>
+</tr>
+<tr>
+<td><strong>genbank</strong></td>
+<td>NCBI</td>
+</tr>
+<tr>
+<td>ncbi_its</td>
+<td>NCBI</td>
+</tr>
+<tr>
+<td><strong>its</strong></td>
+<td>Unite</td>
+</tr>
+<tr>
+<td>nd1</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td>nd2</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td>nd3</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td>nd4l</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td>nd5</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td>nd6</td>
+<td>Midori</td>
+</tr>
+<tr>
+<td><strong>refseq</strong></td>
+<td>RefSeq</td>
+</tr>
+</tbody>
+</table>
+<p>The underlying databases are obtained from <a href="https://www.reference-midori.info/">Midori</a>, <a href="https://unite.ut.ee/index.php">Unite</a> and <a href="https://ftp.ncbi.nlm.nih.gov/blast/db">NCBI</a>.</p>
+<h4 id="-blast_db-default-null"><code>--blast_db</code> [ default = null]</h4>
+<p>Provide your own blast database. This requires that the database has valid taxonomy IDs included and should only be attempted by experienced users. Databases must be created with the options <code>--parse_seqids</code> and <code>--taxid_map</code> using the NCBI taxonomy.</p>
+<h4 id="-taxid_filter-default-null"><code>--taxid_filter</code> [ default = null ]</h4>
+<p>In case you do not use a pre-configured <a href="#--primer_set-default--null">primer_set</a>, you will have to tell the pipeline a taxonomic group you wish to screen. The argument must be an ID from the <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI taxonomy</a>. Some common examples are:</p>
+<table>
+<thead>
+<tr>
+<th>Taxonomic group</th>
+<th>NCBI ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amniotes</td>
+<td>32524</td>
+</tr>
+<tr>
+<td>Mammals</td>
+<td>40674</td>
+</tr>
+<tr>
+<td>Insects</td>
+<td>50557</td>
+</tr>
+<tr>
+<td>Teleost fishes</td>
+<td>32443</td>
+</tr>
+</tbody>
+</table>
+<p>Please note that the deeper the node (i.e. the broader the search space), the more RAM will be required. This is not a concern for the single gene databases (e.g. Midori), but will be a significant factor when screening against GenBank NT. If you need to use GenBank NT and find that your jobs crash due to an out-of-memory error, consider using a shallower taxonomic node. </p>
+<h3 id="benchmarking">Benchmarking</h3>
+<p>It is possible to benchmark the pipelines performance against a set of known samples (e.g. for validation).
+Therefore, predicted and expected components will be matched in a 'least distance' manner. A match will be deemed positive if the clast common ancestor of both components
+is at a maximum given rank and it's predicted (and expected) proportion in the sample is at least at a certain threshold.</p>
+<p>Benchmarking is activated by providing following arguments:</p>
+<h4 id="-ground_truth-default-false"><code>--ground_truth</code> [default = false]</h4>
+<p>Path to a tab-delimited text file giving expected sample composition. The file must contain headerandat list the columns:</p>
+<ul>
+<li>
+<p><code>sample</code>: Sample name</p>
+</li>
+<li>
+<p><code>taxid</code>:Taxonomic identifier </p>
+</li>
+<li>
+<p><code>proportion</code>: Expected proportion in the [0-1] interval, <strong>not</strong> in percent</p>
+</li>
+</ul>
+<h4 id="-benchmark_rank-default-genus"><code>--benchmark_rank</code> [default = 'genus']</h4>
+<p>Maximum rank for a predicted match to be positive</p>
+<h4 id="-benchmark_cutoff-default-0001"><code>--benchmark_cutoff</code> [default = 0.001]</h4>
+<p>Minimum proportion to be considered predicted</p>
+<h3 id="expert-options">Expert options</h3>
+<p>Most users probably will not need to touch these options.</p>
+<h4 id="-store_reads-default-false"><code>--store_reads</code> [ default = false ]</h4>
+<p>Emit the primer-trimmed reads into the result folder. This option is mostly useful to debug errors that are related to failed primer site removal. This option is set to false by default to save storage space. </p>
+<h4 id="-blocklist"><code>--blocklist</code></h4>
+<p>Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe 2 uses a built-in <a href="../assets/blocklist.txt">block list</a> - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits.</p>
+<h4 id="-disable_low_complexity-default-false"><code>--disable_low_complexity [default = false]</code></h4>
+<p>By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-ram/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>apptainer<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>--input<span class="w"> </span>samples.tsv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>--disable_low_complexity<span class="w"> </span>...
+</span></code></pre></div>
+<h3 id="-vsearch-default-false"><code>--vsearch</code> [ default = false ]</h3>
+<p>The default tool to compute OTUs/ASVs is DADA2. Use this option to run VSEARCH instead (short reads only).</p>
+<h4 id="-vsearch_min_cov-default-5"><code>--vsearch_min_cov</code> [ default = 5 ]</h4>
+<p>The minimum amount of coverage required for an OTU to be created from the read data.</p>
+<h4 id="-vsearch_cluster_id-default-98"><code>--vsearch_cluster_id</code> [ default = 98 ]</h4>
+<p>The percentage similarity for ASUs to be collapsed into OTUs. If you set this to 100, ASUs will not be collapsed at all, which will generate a higher resolution call set at the cost of added noise. In turn, setting this value too low may collapse separate species into "hybrid" OTUs.
+The default of 98 seems to work quite well for our data, but will occasionally fragment individual taxa into multiple OTUs if sequencing error rate is high. For the TSV output, OTUs with identical taxonimic assignments will be counted as one, whereas the JSON output leaves this step to the user.</p>
+<h3 id="pcr-primer-trimming">PCR primer trimming</h3>
+<p>Some possible usage examples:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>--primer_set<span class="w"> </span>amniotes_dobrovolny<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>--run_name<span class="w"> </span>cutadapt-test
+</span></code></pre></div>
+<p>This example uses a built-in primer set to perform primer removal.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>--primers_fa<span class="w"> </span>my_primers.fasta<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>--db<span class="w"> </span>srna<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>--run_name<span class="w"> </span>cutadapt-test
+</span></code></pre></div>
+<p>This example uses your custom primers, performs PCR primer site removal with cutadapt and performs taxonomic profiling against the srrna database.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>--primer_set<span class="w"> </span>amniotes_dobrovolny<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>--cutadapt_trim_3p<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>--run_name<span class="w"> </span>cutadapt-test
+</span></code></pre></div>
+<p>This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.</p>
+<h4 id="-cutadapt_trim_3p-default-false"><code>--cutadapt_trim_3p</code> [ default = false ]</h4>
+<p>Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect. </p>
+<h4 id="-cutadapt_options-default"><code>--cutadapt_options</code> [ default = "" ]</h4>
+<p>Any additional options you feel should be passed to Cutadapt. Use at your own risk. </p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyrigth &copy; GNU-GPL - 2024 Grégoire Denay and Marc Höppner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.path", "toc.follow", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>
