@@ -34,7 +34,7 @@ This added scope will allow labs to run data from different sequencing platforms
 
 ## Running a pipeline job
 
-FooDMe2 removes some of the complexity encountered with FooDMe1. For example, whereas FooDMe1 required users to fill out somewhat lengthy configuration files in YAML format, FooDMe2 works with pre-configured [primer set profiles](../user_doc/usage.md#primer-selection) that set a range of options automatically (although these can be overwritten, if need be). Likewise, if users wanted to run different versions of the pipeline code, FooDMe1 requires users to switch git release tags, or keep multiple copies of the code. Instead, FooDMe2 with the help of Nextflow hides the underlying complexity by simply exposing the desired release tag as a command line option (`-r VERSION`).
+FooDMe2 removes some of the complexity encountered with FooDMe1. For example, whereas FooDMe1 required users to fill out somewhat lengthy configuration files in YAML format, FooDMe2 works with pre-configured [primer set profiles](../user_doc/usage.md#pcr-primers) that set a range of options automatically (although these can be overwritten, if need be). Likewise, if users wanted to run different versions of the pipeline code, FooDMe1 requires users to switch git release tags, or keep multiple copies of the code. Instead, FooDMe2 with the help of Nextflow hides the underlying complexity by simply exposing the desired release tag as a command line option (`-r VERSION`).
 
 ## In-/Outputs
 

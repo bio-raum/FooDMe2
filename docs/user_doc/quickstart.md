@@ -12,7 +12,7 @@ For the example below, we will assume you use Conda (although we highly recommen
 
 ## Pipeline references
 
-FooDMe2 requires locally stored, formatted databases. The pipeline has a [built-in]((installation.md#installing-the-references) option to install these. 
+FooDMe2 requires locally stored, formatted databases. The pipeline has a [built-in](installation.md#installing-the-references) option to install these. 
 
 ``` bash
 nextflow run bio-raum/FooDMe2 \ # (1)!

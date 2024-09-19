@@ -62,7 +62,7 @@ This pipeline has a built-in test to quickly check that your local setup is work
 nextflow run bio-raum/FooDMe2 -profile myprofile,test
 ```
 
-where `your_profile` can either be a site-specific config file or one of the built-in [profiles](#without-a-site-specific-config-file). This test requires an active internet connection to download the test data. 
+where `myprofile` can either be a site-specific config file or one of the built-in [profiles](installation/#software-provisioning). This test requires an active internet connection to download the test data. 
 
 ## Command-line option
 
@@ -115,7 +115,7 @@ Available options:
 
 - amniotes_dobrovolny (mammals and birds, as published by [Dobrovolny et al.](https://pubmed.ncbi.nlm.nih.gov/30309555/))
 
-A list of pre-configured primer sets is also available from the pipeline directly, see [--list_primers](#--list_primers--default--false).
+A list of pre-configured primer sets is also available from the pipeline directly, with `--list_primers`
 
 #### `--primers_fa` [default = null]
 
@@ -165,7 +165,7 @@ The underlying databases are obtained from [Midori](https://www.reference-midori
 Provide your own blast database. This requires that the database has valid taxonomy IDs included and should only be attempted by experienced users. Databases must be created with the options `--parse_seqids` and `--taxid_map` using the NCBI taxonomy.
 
 #### `--taxid_filter` [ default = null ]
-In case you do not use a pre-configured [primer_set](#--primer_set-default--null), you will have to tell the pipeline a taxonomic group you wish to screen. The argument must be an ID from the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy). Some common examples are:
+In case you do not use a pre-configured [primer_set](#pcr-primers), you will have to tell the pipeline a taxonomic group you wish to screen. The argument must be an ID from the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy). Some common examples are:
 
 | Taxonomic group | NCBI ID |
 | --------------- | ------- |

@@ -85,9 +85,9 @@ Make sure that the local linting produces *no* messages (info, warning, error) o
 
 ## Adding a new primer set
 
-Primer sets consist of one or more primer pairs, meant to be used in a given experimental setup. A primer set should target a defined region in one of the supported mitochondrial genes. Primer sets are defined in [conf/primers](../docs/primers.config) and should include the following information:
+Primer sets consist of one or more primer pairs, meant to be used in a given experimental setup. A primer set should target a defined region in one of the supported mitochondrial genes. Primer sets are defined in [conf/primers](https://github.com/bio-raum/FooDMe2/blob/main/conf/primers.config) and should include the following information:
 
-```GROOVY
+``` GROOVY
 'amniotes_dobrovolny' {
   description = "Amniote primer set described in Dobrovolny et al. 2019"
   gene = "lrna"
@@ -100,4 +100,4 @@ Primer sets consist of one or more primer pairs, meant to be used in a given exp
   taxid_filter = 32524
 }
 ```
-In addition to supporting information and tool settings, please make sure to also include the corresponding primer FASTA file under [assets/primers](../assets/primers).
+In addition to supporting information and tool settings, please make sure to also include the corresponding primer FASTA file under [assets/primers](https://github.com/bio-raum/FooDMe2/tree/main/assets/primers).
