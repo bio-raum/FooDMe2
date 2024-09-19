@@ -1,21 +1,11 @@
-name: Deploy Documentation
-
+name: Build/Publish Release Docs 
 on:
-  push:
+  release:
+    types: [published]
     branches:
       - main
-    paths:
-      - "**.md"
-      - "docs/**"
-      - "conf/mkdocs.yml"
-  workflow_dispatch:
-  release:
-    types: # This configuration does not affect the page_build event above
-      - created
-
 permissions:
   contents: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -35,15 +25,17 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-
       - name: Update files
         run: |
           cat CONTRIBUTING.md > docs/about/contributing.md
           cat CHANGELOG.md > docs/about/changelog.md
           cat LICENSE > docs/about/license.md
-
+        
       - name: Install Dependencies
-        run: pip install mkdocs-material
-
-      - name: Publish Docs
-        run: mkdocs gh-deploy -v --force
+        run: |
+          pip install mkdocs-material
+          pip install mike
+      - name: Build Docs Website
+        run: |
+          git fetch origin gh-pages --depth=1
+          mike deploy --push --update-aliases ${{ github.event.release.tag_name }} latest
