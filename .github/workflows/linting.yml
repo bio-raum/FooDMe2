@@ -62,4 +62,4 @@ jobs:
         run: npm install -g npm-groovy-lint@14.2.4
 
       - name: Run groovy lint check
-        run: npm-groovy-lint --failon error ${GITHUB_WORKSPACE
+        run: npm-groovy-lint --failon error ${GITHUB_WORKSPACE}
