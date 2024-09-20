@@ -4,9 +4,9 @@ This is a very short list of steps required to get your started with FooDMe2. Pl
 
 ## Installation
 
-This pipeline is written in [Nextflow](https://nextflow.io/) and requires a fairly recent [version](https://github.com/nextflow-io/nextflow/releases) of Nextflow on your system. In addition, a software provisioning tool is needed (Docker, Conda, etc). If you need help with this, see [here]((https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md)).
+This pipeline is written in [Nextflow](https://nextflow.io/) and requires a fairly recent [version](https://github.com/nextflow-io/nextflow/releases) of Nextflow on your system. In addition, a software provisioning tool is needed (Docker, Conda, etc). If you need help with this, see [here](https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md).
 
-We recommend you also contribute a config file for your setup to our [central config repository]((https://github.com/bio-raum/nf-configs/blob/main/doc/config.md)). This will save you time down the road by setting certain options automatically based on your compute environment. 
+We recommend you also contribute a config file for your setup to our [central config repository](https://github.com/bio-raum/nf-configs/blob/main/doc/config.md). This will save you time down the road by setting certain options automatically based on your compute environment. 
 
 For the example below, we will assume you use Conda (although we highly recommend using a container framework like Apptainer or Singularity!).
 
@@ -25,10 +25,10 @@ nextflow run bio-raum/FooDMe2 \ # (1)!
 ```
 
 1.  Nextflow will fetch the pipeline directly from Github and cache a copy, there is no need to manualy download it.
-2.  If you have a [site-specific config]((https://github.com/bio-raum/nf-configs/blob/main/doc/config.md)) you should provide it here. In there it is possible to define ressource usage, software deployment method and much more!
+2.  If you have a [site-specific config](https://github.com/bio-raum/nf-configs/blob/main/doc/config.md) you should provide it here. In there it is possible to define ressource usage, software deployment method and much more!
 3.  The `-r` argument is always required, you can either provide `-r main` to use the last pipeline version or pin a release with e.g. `-r 1.0.0` (recommended).
 4.  This instructs the pipeline to build the reference database.
-5. The reference database path can also be part of a [site-specific config]((https://github.com/bio-raum/nf-configs/blob/main/doc/config.md)). Then it can be omitted here.
+5. The reference database path can also be part of a [site-specific config](https://github.com/bio-raum/nf-configs/blob/main/doc/config.md). Then it can be omitted here.
 
 
 !!! info Nextflow arguments and pipeline options
