@@ -7,7 +7,7 @@ applications in the analyis of food and feed products authenticity, or similar m
 
 It is designed to be easily installed and used, and work on a wide range of configuration.
 
-*The full documentation is available from the [homepage](https://bio-raum.github.io/FooDMe2/)*
+*The full documentation is available from the [homepage](https://bio-raum.github.io/FooDMe2/latest)*
 
 ## Highlights
 
