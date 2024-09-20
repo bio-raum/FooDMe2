@@ -4,9 +4,9 @@ This is a very short list of steps required to get your started with FooDMe2. Pl
 
 ## Installation
 
-This pipeline is written in [Nextflow](https://nextflow.io/) and requires a fairly recent [version](https://github.com/nextflow-io/nextflow/releases) of Nextflow on your system. In addition, a software provisioning tool is needed (Docker, Conda, etc). If you need help with this, see [here](https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md).
+This pipeline is written in [Nextflow](https://nextflow.io/) and requires a fairly recent [version](https://github.com/nextflow-io/nextflow/releases) of Nextflow on your system. In addition, a software provisioning tool is needed (Docker, Conda, etc). If you need help with this, see [here]((https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md)).
 
-We recommend you also contribute a config file for your setup to our [central config repository](https://github.com/bio-raum/nf-configs/blob/main/doc/config.md). This will save you time down the road by setting certain options automatically based on your compute environment. 
+We recommend you also contribute a config file for your setup to our [central config repository]((https://github.com/bio-raum/nf-configs/blob/main/doc/config.md)). This will save you time down the road by setting certain options automatically based on your compute environment. 
 
 For the example below, we will assume you use Conda (although we highly recommend using a container framework like Apptainer or Singularity!).
 
