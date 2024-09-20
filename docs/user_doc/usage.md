@@ -269,3 +269,19 @@ The minimum size an amplicon is expected to have. Data that falls below this thr
 
 #### `--amplicon_max_length` [ default = 100 ]
 The maximum size an amplicon is expected to have. Data that lies above this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 
+
+### Resources
+
+The following options can be set to control resource usage outside of a site-specific [config](https://github.com/bio-raum/nf-configs) file.
+
+#### `--max_cpus` [ default = 16]
+
+The maximum number of cpus a single job can request. This is typically the maximum number of cores available on a compute node or your local (development) machine. 
+
+#### `--max_memory` [ default = 128.GB ]
+
+The maximum amount of memory a single job can request. This is typically the maximum amount of RAM available on a compute node or your local (development) machine, minus a few percent to prevent the machine from running out of memory while running basic background tasks.
+
+#### `--max_time`[ default = 240.h ]
+
+The maximum allowed run/wall time a single job can request. This is mostly relevant for environments where run time is restricted, such as in a computing cluster with active resource manager or possibly some cloud environments.  
