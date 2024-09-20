@@ -64,4 +64,3 @@ jobs:
       - name: Run the pipeline
         run: |
           nextflow run main.nf -profile conda --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv --max_cpus 4 --max_memory 12.GB
-
