@@ -28,6 +28,7 @@ theme:
   name: material
   custom_dir: docs/overrides
   logo: img/pipelinelogo.png
+  favicon: img/favicon.png
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -45,7 +46,6 @@ theme:
         name: Switch to light mode
   icon:
     repo: fontawesome/brands/github
-    favicon: img/favicon.png
     annotation: material/help-circle
   features:
     - navigation.instant
@@ -57,6 +57,19 @@ theme:
     - toc.follow
     - content.code.copy
     - content.code.annotate
+
+strict: true
+
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    anchors: warn
+    absolute_links: warn
+    unrecognized_links: warn
 
 plugins:
   - search
