@@ -26,6 +26,7 @@ workflow CUTADAPT_WORKFLOW {
     ch_primers_rc = FASTX_REVERSE_COMPLEMENT.out.fasta
     ch_versions = ch_versions.mix(FASTX_REVERSE_COMPLEMENT.out.versions)
 
+    // Run Cutadapt to remove PCR primers
     CUTADAPT(
         reads,
         ch_primers_disambiguated.collect(),
@@ -34,6 +35,10 @@ workflow CUTADAPT_WORKFLOW {
     ch_versions         = ch_versions.mix(CUTADAPT.out.versions)
     ch_qc               = ch_qc.mix(CUTADAPT.out.report)
 
+    /*
+    Samples with low reads should be flagged/removed
+    This is controlled by params.min_reads
+    */
     CUTADAPT.out.reads.branch { m, r ->
         paired: !m.single_end
         single: m.single_end
@@ -57,6 +62,7 @@ workflow CUTADAPT_WORKFLOW {
     ch_failed_reads     = ch_failed_reads.mix(ch_reads_pe_with_status.fail, ch_reads_se_with_status.fail)
     ch_pass_reads       = ch_pass_reads.mix(ch_reads_pe_with_status.pass, ch_reads_se_with_status.pass)
 
+    // Warn about failed samples based on a minimum number of required sequences
     ch_failed_reads.subscribe { m, r ->
         log.warn "Too few reads - stopping sample ${m.sample_id} after PCR primer removal!"
     }
