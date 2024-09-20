@@ -62,7 +62,7 @@ This pipeline has a built-in test to quickly check that your local setup is work
 nextflow run bio-raum/FooDMe2 -profile myprofile,test
 ```
 
-where `myprofile` can either be a site-specific config file or one of the built-in [profiles](installation/#software-provisioning). This test requires an active internet connection to download the test data. 
+where `myprofile` can either be a site-specific config file or one of the built-in [profiles](installation.md#software-provisioning). This test requires an active internet connection to download the test data. 
 
 ## Command-line option
 
