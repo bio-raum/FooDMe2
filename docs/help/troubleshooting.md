@@ -4,7 +4,7 @@
 
 This error suggests that no or too few reads survived the PCR primer removal. Several things could cause this:
 
-- Too few reads to begin with (see [requirements](requirements.md))
+- Too few reads to begin with (see [requirements](../user_doc/requirements.md))
 - The provided primer sequences are incorrect
 - The reads were already trimmed; we only allow reads to pass that have been successfully primer trimmed inside of FooDMe2 to ensure high data quality
 
@@ -28,5 +28,5 @@ Most likely you saw something like this:
 ERROR ~ No such file or directory: 
 ```
 
-This is most likely happening because you passed the `reference_base` option from a custom config file via the "-c" argument. There is currently a [known bug](https://github.com/nextflow-io/nextflow/issues/2662) in Nextflow which prevents the correct passing of parameters from a custom config file to the workflow. Please use the command line argument `--reference_base` instead or consider contributing a site-specific [config file](https://github.com/marchoeppner/nf-configs). 
+This is most likely happening because you passed the `reference_base` option from a custom config file via the "-c" argument. There is currently a [known bug](https://github.com/nextflow-io/nextflow/issues/2662) in Nextflow which prevents the correct passing of parameters from a custom config file to the workflow. Please use the command line argument `--reference_base` instead or consider contributing a site-specific [config file](https://github.com/bio-raum/nf-configs). 
 

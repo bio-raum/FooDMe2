@@ -7,42 +7,46 @@ repo_url: https://github.com/bio-raum/FooDMe2
 nav:
   - Welcome: index.md
   - User Guide:
-    - Quickstart: quickstart.md
-    - Installation: installation.md
-    - Usage: usage.md
-    - Pipeline: piepline.md
-    - Output: output.md
+    - Quickstart: user_doc/quickstart.md
+    - Requirements: user_doc/requirements.md
+    - Installation: user_doc/installation.md
+    - Usage: user_doc/usage.md
+    - Pipeline: user_doc/pipeline.md
+    - Output: user_doc/output.md
+    - Validation: user_doc/validation.md
   - Help:
-    - Migration: migration.md
-    - Troobleshooting: toobleshooting.md
+    - Migration: help/migration.md
+    - Troobleshooting: help/troubleshooting.md
   - Developer Guide: developer.md
   - About:
-    - Contibutingg: about/contributing.md
+    - Contibuting: about/contributing.md
     - Software: about/software.md
     - License: about/license.md
     - Release notes: about/changelog.md
 
 theme:
   name: material
-  logo: assets/pipelinelogo.png
+  custom_dir: docs/overrides
+  logo: img/pipelinelogo.png
+  favicon: img/favicon.png
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: light blue
+      primary: indigo
       accent: deep orange
       toggle:
         icon: material/eye
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate 
-      primary: light blue
+      primary: indigo
       accent: deep orange
       toggle:
         icon: material/eye-outline
         name: Switch to light mode
   icon:
     repo: fontawesome/brands/github
-    favicon: material/dna
+    annotation: material/help-circle
   features:
     - navigation.instant
     - navigation.tracking
@@ -53,6 +57,19 @@ theme:
     - toc.follow
     - content.code.copy
     - content.code.annotate
+
+strict: true
+
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    anchors: warn
+    absolute_links: warn
+    unrecognized_links: warn
 
 plugins:
   - search
@@ -67,6 +84,8 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - tables
+  - toc:
+      toc_depth: 3
   - admonition
   - pymdownx.highlight:
       anchor_linenums: true
@@ -76,6 +95,8 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 copyright:
   Copyrigth &copy; GNU-GPL - 2024 Grégoire Denay and Marc Höppner

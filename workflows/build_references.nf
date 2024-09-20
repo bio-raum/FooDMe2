@@ -1,3 +1,6 @@
+/*
+Include Modules
+*/
 include { UNZIP as UNZIP_MIDORI }           from './../modules/unzip'
 include { GUNZIP as GUNZIP_TAXONOMY }       from './../modules/gunzip'
 include { GUNZIP as GUNZIP_REFSEQ }         from './../modules/gunzip'
@@ -137,7 +140,9 @@ workflow BUILD_REFERENCES {
     }
     }
 
-workflow.onComplete = {
-    log.info 'Installation complete - deleting staged files. '
-    workDir.resolve("stage-${workflow.sessionId}").deleteDir()
+if (params.build_references) {
+    workflow.onComplete = {
+        log.info 'Installation complete - deleting staged files. '
+        workDir.resolve("stage-${workflow.sessionId}").deleteDir()
+    }
 }

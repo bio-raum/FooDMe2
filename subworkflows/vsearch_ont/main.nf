@@ -37,16 +37,24 @@ workflow VSEARCH_ONT_WORKFLOW {
     /*
     Cluster unique sequences
     */
-    VSEARCH_CLUSTER_UNOISE(
-        VSEARCH_FASTXUNIQUES.out.fasta
+    VSEARCH_CLUSTER_SIZE(
+       VSEARCH_FASTXUNIQUES.out.fasta
     )
-    ch_versions = ch_versions.mix(VSEARCH_CLUSTER_UNOISE.out.versions)
+    ch_versions = ch_versions.mix(VSEARCH_CLUSTER_SIZE.out.versions)
+
+    /*
+    Cluster unique sequences
+    */
+    // VSEARCH_CLUSTER_UNOISE(
+    //    VSEARCH_FASTXUNIQUES.out.fasta
+    //)
+    //ch_versions = ch_versions.mix(VSEARCH_CLUSTER_UNOISE.out.versions)
 
     /*
     Detect chimeras denovo and remove from OTU set
     */
     VSEARCH_UCHIME_DENOVO(
-        VSEARCH_CLUSTER_UNOISE.out.fasta
+        VSEARCH_CLUSTER_SIZE.out.fasta
     )
     ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
     ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)

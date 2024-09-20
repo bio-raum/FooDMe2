@@ -1,0 +1,80 @@
+name: "🐛 Bug Report"
+description: Create a new ticket for a bug.
+title: "🐛 [BUG] - <title>"
+labels: [
+  "bug"
+]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: Please enter an explicit description of your issue
+      placeholder: Short and explicit description of your incident...
+    validations:
+      required: true
+  - type: input
+    id: nextflow-ver
+    attributes:
+      label: "Nextflow version"
+      description: Please the version of Nextflow used
+      placeholder: 24.04.4
+    validations:
+      required: true
+  - type: input
+    id: foodme-ver
+    attributes:
+      label: "Pipeline version"
+      description: Please the version of the pipeline used
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: reprod
+    attributes:
+      label: "Reproduction steps"
+      description: Please enter an explicit description of your issue. This will be automatically formatted into code, so no need for backticks.
+      value: |
+        nextflow run ...
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Logs"
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: bash
+    validations:
+      required: false
+  - type: dropdown
+    id: deploy-method
+    attributes:
+      label: "Deployment"
+      description: What deployment method was used ?
+      multiple: true
+      options:
+        - Conda/Mamba
+        - Docker
+        - Singularity
+        - Apptainer
+        - Podman
+        - other (in description)
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: "OS"
+      description: What is the impacted environment ?
+      multiple: true
+      options:
+        - Windows
+        - Linux
+        - Mac
+    validations:
+      required: false

@@ -135,6 +135,8 @@ workflow BLAST_TAXONOMY {
     consensus = HELPER_FIND_CONSENSUS.out.json
     versions = ch_versions
     composition = HELPER_SAMPLE_COMPO.out.tsv
+    composition_json = HELPER_SAMPLE_COMPO.out.json
     qc = ch_qc_files
     tax_json = ch_tax_json
+    filtered_blast = HELPER_BLAST_FILTER_BITSCORE.out.json
     }

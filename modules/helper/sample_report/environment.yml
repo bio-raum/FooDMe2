@@ -1,0 +1,7 @@
+name: helper_sample_report
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::biokit=0.5.0

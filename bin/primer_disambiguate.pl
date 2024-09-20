@@ -5,6 +5,7 @@ use Getopt::Long;
 use Bio::PrimarySeq;
 use Bio::Tools::IUPAC;
 use Bio::SeqIO;
+use Data::Dumper;
 
 my $usage = qq{
 perl primer_disambiguate.pl
@@ -40,16 +41,22 @@ if ($help) {
 my $seqin = Bio::SeqIO->new(-file => $fasta, -format => "Fasta");
 my $seqout = Bio::SeqIO->new(-file => ">$outfile", -format => "Fasta");
 
-# Get the IUPAC code for proteins
-my %iupac_prot = Bio::Tools::IUPAC->new->iupac_iup;
- 
+# All valid IUPAC bases
+my %iupac_nuc = Bio::Tools::IUPAC->new->iupac_iub;
+
 while (my $seq = $seqin->next_seq) {
 
-    #my $ambiseq = Bio::PrimarySeq->new(-seq => $seq, -alphabet => 'dna');
     my $id = $seq->display_id();
     my $count = 0;
 
-   # printf STDERR $id . "\n";
+    # Check if the sequence contains non-IUPAC bases
+    my @nucleotides = split(//, $seq->seq());
+    foreach my $n (@nucleotides) {
+        if (!defined $iupac_nuc{$n}) {
+            die "Your primer sequence contains non-IUPAC characters ($n)\nPlease fix this.\n";
+        }
+    }
+
    # Create all possible non-degenerate sequences
     my $iupac = Bio::Tools::IUPAC->new(-seq => $seq);
     while (my $uniqueseq = $iupac->next_seq()) {

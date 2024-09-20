@@ -15,7 +15,6 @@ report_comment: >
     This report has been generated automatically by bio-raum/FooDMe2.
     For help interpreting the outputs, please see: https://github.com/bio-raum/FooDMe2
 report_header_info:
-    - Contact E-mail: "mphoeppner@gmail.com"
     - Application Type: "Taxonomic profiling from amplicons"
 
 top_modules:

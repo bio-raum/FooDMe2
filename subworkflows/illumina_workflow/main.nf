@@ -15,7 +15,7 @@ include { CUTADAPT_WORKFLOW }   from './../cutadapt'
 
 ch_versions     = Channel.from([])
 multiqc_files   = Channel.from([])
-ch_jsons        = Channel.from([])
+ch_clusterjsons = Channel.from([])
 ch_otus         = Channel.from([])
 
 /*
@@ -81,7 +81,7 @@ workflow ILLUMINA_WORKFLOW {
         ch_primers
     )
     ch_versions         = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
-    multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc)
+    multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc.map { m,j -> j })
     ch_reads_trimmed    = CUTADAPT_WORKFLOW.out.trimmed
 
     /*
@@ -94,6 +94,7 @@ workflow ILLUMINA_WORKFLOW {
         ch_otus         = VSEARCH_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(VSEARCH_WORKFLOW.out.qc)
+        ch_clusterjsons = VSEARCH_WORKFLOW.out.qc
     } else {
         DADA2_WORKFLOW(
             ch_reads_trimmed
@@ -101,12 +102,15 @@ workflow ILLUMINA_WORKFLOW {
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(DADA2_WORKFLOW.out.qc)
+        ch_clusterjsons = DADA2_WORKFLOW.out.qc
     }
 
     emit:
-    otus        = ch_otus
-    versions    = ch_versions
-    qc          = multiqc_files
+    otus          = ch_otus
+    versions      = ch_versions
+    qc            = multiqc_files
+    cutadapt_json = CUTADAPT_WORKFLOW.out.qc
+    cluster_json  = ch_clusterjsons
 }
 
 /*

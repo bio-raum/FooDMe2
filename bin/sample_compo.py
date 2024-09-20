@@ -9,11 +9,12 @@ import pandas as pd
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--json", help="Path to blast report as json with delta-bitscore values")
-parser.add_argument("--output")
+parser.add_argument("--output_tsv")
+parser.add_argument("--output_json")
 args = parser.parse_args()
 
 
-def main(json_in, output):
+def main(json_in, output_tsv, output_json):
     with open(json_in, "r") as fi:
         j = json.load(fi)
 
@@ -38,8 +39,15 @@ def main(json_in, output):
 
     df = pd.read_json(json.dumps(d), orient="record")
     df = df.sort_values("proportion", ascending=False)
-    df.to_csv(output, sep="\t", index=False)
+    df.to_csv(output_tsv, sep="\t", index=False)
+
+    aggd = {}
+    for entry in d:
+        aggd.setdefault(entry["sample"], []).append({k: v for k, v in entry.items() if k != "sample"})
+
+    with open(output_json, "w") as fo:
+        json.dump(aggd, fo, indent=4)
 
 
 if __name__ == '__main__':
-    main(args.json, args.output)
+    main(args.json, args.output_tsv, args.output_json)
