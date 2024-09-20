@@ -274,11 +274,11 @@ The maximum size an amplicon is expected to have. Data that lies above this thre
 
 The following options can be set to control resource usage outside of a site-specific [config](https://github.com/bio-raum/nf-configs) file.
 
-#### `--max_cpus` [ default = 16]
+#### `--max_cpus` [ default = 8]
 
 The maximum number of cpus a single job can request. This is typically the maximum number of cores available on a compute node or your local (development) machine. 
 
-#### `--max_memory` [ default = 128.GB ]
+#### `--max_memory` [ default = 16.GB ]
 
 The maximum amount of memory a single job can request. This is typically the maximum amount of RAM available on a compute node or your local (development) machine, minus a few percent to prevent the machine from running out of memory while running basic background tasks.
 
