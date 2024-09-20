@@ -54,7 +54,7 @@ body:
   - type: dropdown
     id: deploy-method
     attributes:
-      label: "Browsers"
+      label: "Deployment"
       description: What deployment method was used ?
       multiple: true
       options:
