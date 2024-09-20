@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: FooDMe discussion Q&A
+    url: https://github.com/bio-raum/FooDMe2/discussions/categories/q-a
+    about: Please ask and answer questions here.
+  - name: FooDMe discussion Ideas
+    url: https://github.com/bio-raum/FooDMe2/discussions/categories/ideas
+    about: Please ask and answer questions here.
