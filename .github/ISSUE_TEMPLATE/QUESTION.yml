@@ -1,0 +1,30 @@
+name: "❓  Question"
+description: Ask a question
+title: "❓  [Question] - <title>"
+labels: [
+  "question"
+]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your interest in FooDMe2! We will try to quickly answer any question.
+        First make sure that you:
+        - [ ] checked the project's documentation
+        - [ ] checked the project's issues
+  - type: textarea
+    id: question
+    attributes:
+      label: "Questions"
+      description: Describe you question
+      placeholder: How can I ... ?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: "Additional context"
+      description: Add any other context here
+      placeholder: Short and explicit description...
+    validations:
+      required: false
