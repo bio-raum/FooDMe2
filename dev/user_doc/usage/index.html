@@ -1423,9 +1423,9 @@ This example will additionally reverse complement your primer sequences and chec
 <p>The maximum size an amplicon is expected to have. Data that lies above this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. </p>
 <h3 id="resources">Resources</h3>
 <p>The following options can be set to control resource usage outside of a site-specific <a href="https://github.com/bio-raum/nf-configs">config</a> file.</p>
-<h4 id="-max_cpus-default-16"><code>--max_cpus</code> [ default = 16]</h4>
+<h4 id="-max_cpus-default-8"><code>--max_cpus</code> [ default = 8]</h4>
 <p>The maximum number of cpus a single job can request. This is typically the maximum number of cores available on a compute node or your local (development) machine. </p>
-<h4 id="-max_memory-default-128gb"><code>--max_memory</code> [ default = 128.GB ]</h4>
+<h4 id="-max_memory-default-16gb"><code>--max_memory</code> [ default = 16.GB ]</h4>
 <p>The maximum amount of memory a single job can request. This is typically the maximum amount of RAM available on a compute node or your local (development) machine, minus a few percent to prevent the machine from running out of memory while running basic background tasks.</p>
 <h4 id="-max_time-default-240h"><code>--max_time</code>[ default = 240.h ]</h4>
 <p>The maximum allowed run/wall time a single job can request. This is mostly relevant for environments where run time is restricted, such as in a computing cluster with active resource manager or possibly some cloud environments.  </p>
