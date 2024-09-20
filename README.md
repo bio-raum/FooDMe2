@@ -9,7 +9,7 @@ It is designed to be easily installed and used, and work on a wide range of conf
 
 ![schema](docs/img/Foodme2_schema_v3.png)
 
-*The full documentation is available from the [homepage](https://bio-raum.github.io/FooDMe2/latest)*
+*The full documentation is available from the [homepage](https://bio-raum.github.io/FooDMe2)*
 
 ## Highlights
 
