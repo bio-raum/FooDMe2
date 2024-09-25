@@ -727,6 +727,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-required-reference-directory-was-not-found-on-your-system-exiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      The required reference directory was not found on your system, exiting!
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blast-searches-run-out-of-memory" class="md-nav__link">
     <span class="md-ellipsis">
       BLAST searches run out of memory
@@ -963,6 +972,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-required-reference-directory-was-not-found-on-your-system-exiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      The required reference directory was not found on your system, exiting!
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blast-searches-run-out-of-memory" class="md-nav__link">
     <span class="md-ellipsis">
       BLAST searches run out of memory
@@ -1010,11 +1028,16 @@
 <p>If you see this warning, it means that there is a good chance that your reads contain PCR primer sites at both ends. This is because the insert size, i.e. the size of the sequenced fragment is smaller or roughly the same size as the individual paired-end reads. If your results look very noisy or fragmented, try re-running the analysis with the trimming option <code>--cutadapt_trim_3p</code> enabled. </p>
 <h2 id="xy-read-sets-are-classified-as-single-end-this-typically-requires-cutadapt_trim_3p"><code>XY read sets are classified as single-end - this typically requires --cutadapt_trim_3p.</code></h2>
 <p>This warning is similar to the previous one. The pipeline has detected single-end data, which makes it very likely that individual reads contain PCR primer sites at both ends. If your results look very noisy or fragmented, try re-running the analysis with the trimming option <code>--cutadapt_trim_3p</code> enabled. </p>
+<h2 id="the-required-reference-directory-was-not-found-on-your-system-exiting"><code>The required reference directory was not found on your system, exiting!</code></h2>
+<p>Make sure that you provided the path to the <strong>base directory</strong> where reference are installed. This is the exact same path you provided when running <code>--build_references</code>. For example if the folder structure is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/home/user/reference_base/foodme/1.0/...
+</span></code></pre></div>
+<p>You should provide <code>--reference_base /home/user/reference_base</code> </p>
 <h2 id="blast-searches-run-out-of-memory">BLAST searches run out of memory</h2>
 <p>This error is most likely to occur when screening against the GenBank NT database (<code>--db genbank</code>) in combination with a fairly "deep" taxonomic root (<code>-taxid_filter</code>). The larger the slice of GenBank that BLAST is asked to search against, the larger the available memory needs to be. For example, searching against all amniotes (mammals and birds) will require around 80GB of RAM (at the time of writing - this value will grow as GenBank grows). </p>
 <h2 id="the-pipeline-immediately-fails-with-a-no-such-file-error">The pipeline immediately fails with a "no such file" error</h2>
 <p>Most likely you saw something like this:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ERROR<span class="w"> </span>~<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory:<span class="w"> </span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ERROR<span class="w"> </span>~<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory:<span class="w"> </span>
 </span></code></pre></div>
 <p>This is most likely happening because you passed the <code>reference_base</code> option from a custom config file via the "-c" argument. There is currently a <a href="https://github.com/nextflow-io/nextflow/issues/2662">known bug</a> in Nextflow which prevents the correct passing of parameters from a custom config file to the workflow. Please use the command line argument <code>--reference_base</code> instead or consider contributing a site-specific <a href="https://github.com/bio-raum/nf-configs">config file</a>. </p>
 
