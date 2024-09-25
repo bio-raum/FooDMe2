@@ -16,6 +16,16 @@ If you see this warning, it means that there is a good chance that your reads co
 
 This warning is similar to the previous one. The pipeline has detected single-end data, which makes it very likely that individual reads contain PCR primer sites at both ends. If your results look very noisy or fragmented, try re-running the analysis with the trimming option `--cutadapt_trim_3p` enabled. 
 
+## `The required reference directory was not found on your system, exiting!`
+
+Make sure that you provided the path to the **base directory** where reference are installed. This is the exact same path you provided when running `--build_references`. For example if the folder structure is:
+
+```
+/home/user/reference_base/foodme/1.0/...
+```
+
+You should provide `--reference_base /home/user/reference_base` 
+
 ## BLAST searches run out of memory
 
 This error is most likely to occur when screening against the GenBank NT database (`--db genbank`) in combination with a fairly "deep" taxonomic root (`-taxid_filter`). The larger the slice of GenBank that BLAST is asked to search against, the larger the available memory needs to be. For example, searching against all amniotes (mammals and birds) will require around 80GB of RAM (at the time of writing - this value will grow as GenBank grows). 
