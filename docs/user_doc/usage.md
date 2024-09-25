@@ -12,7 +12,7 @@ A basic execution of the pipeline looks as follows:
     nextflow run bio-raum/FooDMe2 \
       -profile conda \ # (1)!
       -r main \ # (2)!
-      --input samples.csv \
+      --input samples.tsv \
       --reference_base /path/to/references \ # (3)!
       --run_name pipeline-test \
       --primer_set amniotes_dobrovolny
@@ -28,7 +28,7 @@ A basic execution of the pipeline looks as follows:
     nextflow run bio-raum/FooDMe2 
       -profile myprofile \ # (1)!
       -r main \ # (2)!
-      --input samples.csv \
+      --input samples.tsv \
       --run_name pipeline-test \
       --primer_set amniotes_dobrovolny
     ```
@@ -49,7 +49,7 @@ nextflow clean -f
 If you are running this pipeline in a production setting, you will want to lock the pipeline to a specific version. This is natively supported through nextflow with the `-r` argument:
 
 ``` bash
-nextflow run bio-raum/FooDMe2 -profile myprofile -r 1.0 <other options here>
+nextflow run bio-raum/FooDMe2 -profile myprofile -r 1.0.0 <other options here>
 ```
 
 The `-r` option specifies a github [release tag](https://github.com/bio-raum/FooDMe2/releases) or branch, so could also point to `main` for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be [installed](installation.md) separately.
@@ -70,7 +70,7 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
 #### `--input samples.tsv` [default = null]
 
-This pipeline expects a TSV-formatted sample sheet to properly pull various meta data through the processes. The required format looks as follows:
+This pipeline expects a TSV-formatted sample sheet (tabulation-delimited text file) to properly pull various meta data through the processes. The required format looks as follows:
 
 ```TSV
 sample  fq1 fq2
