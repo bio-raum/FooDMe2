@@ -25,7 +25,8 @@ You can choose one of the following options:
 [Apptainer](https://apptainer.org/)
 
 The pipeline comes with simple pre-set profiles for all of these as described below; if you plan to use this pipeline regularly, consider adding your own custom profile to our [central repository](https://github.com/bio-raum/nf-configs) to better leverage your available resources. Advantages of using custom profile include:
-- possibility to reusue intalled environements and containers
+
+- possibility to cache environements and containers
 - control ressources usage
 - use additional container/package managers not pre-configured in FooDMe2, as described [here](https://www.nextflow.io/docs/latest/container.html).
 

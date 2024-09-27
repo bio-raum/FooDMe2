@@ -1,3 +1,10 @@
+## dev
+
+### Documentation
+
+- Added ressource usage arguments to usage documentation
+- Added some information on the `reference_base` argument in the troobleshooting section
+
 ## 1.0.0
 
 First release.
