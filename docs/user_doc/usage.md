@@ -202,9 +202,9 @@ is at a maximum given rank and it's predicted (and expected) proportion in the s
 
 Benchmarking is activated by providing following arguments:
 
-:   `--ground_truth` [default = false]
+`--ground_truth` [default = false]
 
-Path to a tab-delimited text file giving expected sample composition. The file must be formatted as follows:
+:   Path to a tab-delimited text file giving expected sample composition. The file must be formatted as follows:
 
     ```TSV
     sample	taxid	proportion
@@ -214,11 +214,9 @@ Path to a tab-delimited text file giving expected sample composition. The file m
 	S200	9313	0.2
     ```
 
-- `sample`: Sample name
-
-- `taxid`:Taxonomic identifier 
-
-- `proportion`: Expected proportion in the [0-1] interval, **not** in percent
+    - `sample`: Sample name
+    - `taxid`:Taxonomic identifier 
+    - `proportion`: Expected proportion in the [0-1] interval, **not** in percent
 
 `--benchmark_rank` [default = 'genus']
 
