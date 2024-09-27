@@ -1402,33 +1402,23 @@ Please make sure that your primer sequences only contain <a href="https://www.bi
 <p>It is possible to benchmark the pipelines performance against a set of known samples (e.g. for validation).
 Therefore, predicted and expected components will be matched in a 'least distance' manner. A match will be deemed positive if the last common ancestor of both components
 is at a maximum given rank and it's predicted (and expected) proportion in the sample is at least at a certain threshold.</p>
+<p>Benchmarking is activated by providing following arguments:</p>
 <dl>
-<dt>Benchmarking is activated by providing following arguments:</dt>
+<dt><code>--ground_truth</code> [default = false]</dt>
 <dd>
-<p><code>--ground_truth</code> [default = false]</p>
-</dd>
-</dl>
 <p>Path to a tab-delimited text file giving expected sample composition. The file must be formatted as follows:</p>
-<div class="language-text highlight"><pre><span></span><code>```TSV
-sample  taxid   proportion
-S100    9303    0.9
-S100    9013    0.1
-S200    9303    0.8
-S200    9313    0.2
-```
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sample  taxid   proportion
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>S100    9303    0.9
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>S100    9013    0.1
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>S200    9303    0.8
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>S200    9313    0.2
+</span></code></pre></div>
 <ul>
-<li>
-<p><code>sample</code>: Sample name</p>
-</li>
-<li>
-<p><code>taxid</code>:Taxonomic identifier </p>
-</li>
-<li>
-<p><code>proportion</code>: Expected proportion in the [0-1] interval, <strong>not</strong> in percent</p>
-</li>
+<li><code>sample</code>: Sample name</li>
+<li><code>taxid</code>:Taxonomic identifier </li>
+<li><code>proportion</code>: Expected proportion in the [0-1] interval, <strong>not</strong> in percent</li>
 </ul>
-<dl>
+</dd>
 <dt><code>--benchmark_rank</code> [default = 'genus']</dt>
 <dd>
 <p>Maximum rank for a predicted match to be positive</p>
