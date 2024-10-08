@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.38">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
     
     
       
@@ -1208,7 +1208,24 @@
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>S100    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
 </span></code></pre></div>
 <p>If the pipeline sees more than one set of reads for a given sample ID (i.e. from multi-lane sequencing runs), it will concatenate them automatically at the appropriate time.</p>
+<p>This option is the preferred way to provide data to FooDMe2 and it is mutually exclusive with <code>--reads</code>.</p>
 </dd>
+<dt><code>--reads</code> [ default = null ]</dt>
+<dd>
+<p>This option is an alternative (but discouraged!) way to load data into FooDMe2 and expects a wildcard pattern to specify the location of files and how to group them. </p>
+</dd>
+</dl>
+<p>Given a set of paired-end reads:</p>
+<div class="language-text highlight"><pre><span></span><code>Libary1-S01_R1_001.fastq.gz
+Libary1-S01_R2_001.fastq.gz
+Libary2-S02_R1_001.fastq.gz
+Libary2-S02_R1_001.fastq.gz
+</code></pre></div>
+<p>data can be loaded like so (note the single-quotes around the search pattern!):</p>
+<div class="language-text highlight"><pre><span></span><code>nextflow run bio-raum/FooDMe2 -profile singularity --reads &#39;/path/to/reads/*_R{1,2}_001.fastq.gz&#39;
+</code></pre></div>
+<p>which will be in interpreted as two samples, Library1-S01 and Library2-S02, in paired-end configuration. It avoids having to create a samplesheet, but requires a well-constructed wildcard pattern to correctly match all the data as well as provides essentially no options to specifically name your samples or group reads across lanes. Read more about the underlying logic and options <a href="https://www.nextflow.io/docs/latest/reference/channel.html#fromfilepairs">here</a>.</p>
+<dl>
 <dt><code>--reference_base</code> [default = null ]</dt>
 <dd>
 <p>The location where the pipeline references are installed on your system. This will typically be pre-set in your site-specific config file and is only needed when you run without one.</p>
@@ -1558,7 +1575,7 @@ This example will additionally reverse complement your primer sequences and chec
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.path", "toc.follow", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d6f25eb3.min.js"></script>
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
       
     
   </body>
