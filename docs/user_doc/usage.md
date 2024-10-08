@@ -92,14 +92,18 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
     Given a set of paired-end reads:
 
-        Libary1-S01_R1_001.fastq.gz
-        Libary1-S01_R2_001.fastq.gz
-        Libary2-S02_R1_001.fastq.gz
-        Libary2-S02_R1_001.fastq.gz
-        
+    ```
+    Libary1-S01_R1_001.fastq.gz
+    Libary1-S01_R2_001.fastq.gz
+    Libary2-S02_R1_001.fastq.gz
+    Libary2-S02_R1_001.fastq.gz
+    ```
+
     data can be loaded like so (note the single-quotes around the search pattern!):
     
+    ```
     nextflow run bio-raum/FooDMe2 -profile singularity --reads '/path/to/reads/*_R{1,2}_001.fastq.gz'
+    ```
 
     which will be in interpreted as two samples, Library1-S01 and Library2-S02, in paired-end configuration. It avoids having to create a samplesheet, but requires a well-constructed wildcard pattern to correctly match all the data as well as provides essentially no options to specifically name your samples or group reads across lanes. Read more about the underlying logic and options [here](https://www.nextflow.io/docs/latest/reference/channel.html#fromfilepairs).
 
@@ -108,9 +112,11 @@ where `myprofile` can either be a site-specific config file or one of the built-
     === "Illumina"
 
         Illumina paired-end file naming follows the convention:
-
-            SampleName_SX_LYYY_R1_001.fastq.gz
-            SampleName_SX_LYYY_R2_001.fastq.gz
+    
+        ```
+        SampleName_SX_LYYY_R1_001.fastq.gz
+        SampleName_SX_LYYY_R2_001.fastq.gz
+        ```
 
         Where SX is the sample number and LYYY the lane number.
         These names can be parsed with the following pattern:
@@ -125,9 +131,11 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
         Data downloaded from online archives like SRA or ENA follow the convention:
 
-            SampleName_1.fastq.gz
-            SampleName_2.fastq.gz
-
+        ```
+        SampleName_1.fastq.gz
+        SampleName_2.fastq.gz
+        ```
+        
         Which can be parsed with:
 
         ```
