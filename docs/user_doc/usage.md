@@ -134,7 +134,7 @@ where `myprofile` can either be a site-specific config file or one of the built-
         '/path/to/reads/*_{1,2}.fastq.gz'
         ``` 
 
-    === Single-end data
+    === "Single-end data"
 
         Collecting single-end data is also possible and fairly straightforward:
 
