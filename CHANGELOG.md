@@ -1,9 +1,18 @@
 ## dev
 
+### Feature
+
+- New argument `--reads` is mutually exclusive with `--input` and takes a glob path as argument. File names are parsed with the glob pattern and paired. This allows bypassing the need for a sample-sheet. It is not recommended way to provide input data but can be helpful in many cases.
+  
+  ```
+  nextflow run bio-raum/FooDMe2 -profile singularity --reads '/path/to/reads/*_R{1,2}_001.fastq.gz'
+  ```
+
 ### Documentation
 
 - Added ressource usage arguments to usage documentation
 - Added some information on the `reference_base` argument in the troobleshooting section
+- Added information on the new `--reads` argument
 
 ## 1.0.0
 
