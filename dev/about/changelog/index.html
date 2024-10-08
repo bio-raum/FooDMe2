@@ -853,6 +853,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Feature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       Documentation
@@ -935,6 +944,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Feature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       Documentation
@@ -987,10 +1005,17 @@
   <h1>Release notes</h1>
 
 <h2 id="dev">dev</h2>
+<h3 id="feature">Feature</h3>
+<ul>
+<li>New argument <code>--reads</code> is mutually exclusive with <code>--input</code> and takes a glob path as argument. File names are parsed with the glob pattern and paired. This allows bypassing the need for a sample-sheet. It is not recommended way to provide input data but can be helpful in many cases.</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow run bio-raum/FooDMe2 -profile singularity --reads &#39;/path/to/reads/*_R{1,2}_001.fastq.gz&#39;
+</span></code></pre></div>
 <h3 id="documentation">Documentation</h3>
 <ul>
 <li>Added ressource usage arguments to usage documentation</li>
 <li>Added some information on the <code>reference_base</code> argument in the troobleshooting section</li>
+<li>Added information on the new <code>--reads</code> argument</li>
 </ul>
 <h2 id="100">1.0.0</h2>
 <p>First release.</p>
