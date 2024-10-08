@@ -85,18 +85,58 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
 :    This option is an alternative (but discouraged!) way to load data into FooDMe2 and expects a wildcard pattern to specify the location of files and how to group them. 
 
-Given a set of paired-end reads:
+    Given a set of paired-end reads:
 
-    Libary1-S01_R1_001.fastq.gz
-    Libary1-S01_R2_001.fastq.gz
-    Libary2-S02_R1_001.fastq.gz
-    Libary2-S02_R1_001.fastq.gz
-    
-data can be loaded like so (note the single-quotes around the search pattern!):
+        Libary1-S01_R1_001.fastq.gz
+        Libary1-S01_R2_001.fastq.gz
+        Libary2-S02_R1_001.fastq.gz
+        Libary2-S02_R1_001.fastq.gz
+        
+    data can be loaded like so (note the single-quotes around the search pattern!):
     
     nextflow run bio-raum/FooDMe2 -profile singularity --reads '/path/to/reads/*_R{1,2}_001.fastq.gz'
 
-which will be in interpreted as two samples, Library1-S01 and Library2-S02, in paired-end configuration. It avoids having to create a samplesheet, but requires a well-constructed wildcard pattern to correctly match all the data as well as provides essentially no options to specifically name your samples or group reads across lanes. Read more about the underlying logic and options [here](https://www.nextflow.io/docs/latest/reference/channel.html#fromfilepairs).
+    which will be in interpreted as two samples, Library1-S01 and Library2-S02, in paired-end configuration. It avoids having to create a samplesheet, but requires a well-constructed wildcard pattern to correctly match all the data as well as provides essentially no options to specifically name your samples or group reads across lanes. Read more about the underlying logic and options [here](https://www.nextflow.io/docs/latest/reference/channel.html#fromfilepairs).
+
+    Here are few patterns for common file naming patterns:
+
+    === "Illumina"
+
+        Illumina paired-end file naming follows the convention:
+
+            SampleName_SX_LYYY_R1_001.fastq.gz
+            SampleName_SX_LYYY_R2_001.fastq.gz
+
+        Where SX is the sample number and LYYY the lane number.
+        These names can be parsed with the following pattern:
+
+        ```
+        '/path/to/reads/*_R{1,2}_001.fastq.gz'
+        ```
+
+        resulting in sample names being parsed as `SampleName_SX_LYYY`
+
+    === "SRA/ENA"
+
+        Data downloaded from online archives like SRA or ENA follow the convention:
+
+            SampleName_1.fastq.gz
+            SampleNAme_2.fastq.gz
+
+        Which can be parsed with:
+
+        ```
+        '/path/to/reads/*_{1,2}.fastq.gz'
+        ``` 
+
+    === Single-end data
+
+        Collecting single-end data is also possible and fairly straightforward:
+
+        ```
+        '/path/to/reads/*.fastq.gz'
+        ```
+
 
 `--reference_base` [default = null ]
 
