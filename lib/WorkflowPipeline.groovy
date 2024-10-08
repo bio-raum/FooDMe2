@@ -32,7 +32,7 @@ class WorkflowPipeline {
             log.info 'Must provide a run_name (--run_name)'
             System.exit(1)
         }
-        if (!params.input && !params.build_references) {
+        if (!params.input && !params.reads && !params.build_references) {
             log.info 'This pipeline requires a sample sheet as input (--input)'
             System.exit(1)
         }
@@ -81,6 +81,13 @@ class WorkflowPipeline {
             if (params.taxid_filter && !params.taxid_filter.toString().isInteger()) {
                 log.warn 'The argument for --taxid_filter must be numeric (i.e. a taxonomy id from NCBI)!'
                 System.exit(1)
+            }
+            if (params.reads && params.input) {
+                log.warn 'Only one input option is allowed (--input, --reads)!'
+                System.exit(1)
+            }
+            if (params.reads) {
+                log.warn 'Using read wildcards as input is discouraged - consider providing a samplesheet to avoid errors!'
             }
         }
     }

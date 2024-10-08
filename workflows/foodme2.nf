@@ -18,6 +18,7 @@ include { REPORTING }                   from './../subworkflows/reporting'
 Set default channels and values
 */
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
+reads       = params.reads ? Channel.fromFilePairs(params.reads, size: -1) : Channel.value([])
 database    = null
 ch_blast_db = Channel.from([])
 
@@ -25,7 +26,7 @@ ch_blast_db = Channel.from([])
 We make this conditional on input being specified so as to not create issues with
 the competing --build_references workflow during which all this would be evaluated also
 */
-if (params.input) {
+if (params.input || params.reads) {
     /*
     Make sure the local reference directory exists
     */
@@ -109,11 +110,21 @@ workflow FOODME2 {
     Validate the input samplesheet and
     alert users to any formatting issues
     */
-    INPUT_CHECK(samplesheet)
+    if (params.input) {
+        INPUT_CHECK(samplesheet)
+        ch_reads = INPUT_CHECK.out.reads
+    } else if (params.reads) {
+        reads.map { s,r -> 
+            def meta = [:]
+            meta.sample_id = s
+            meta.single_end = r.size() == 1 ? true : false
+            tuple(meta,r)
+        }.set { ch_reads }
+    }
 
     // Check if we have single-end data that likely requires 3prime trimming.
     if (!params.cutadapt_trim_3p) {
-        INPUT_CHECK.out.reads.filter { m, r -> m.single_end }.count().filter { c -> c > 0 }.map { c ->
+        ch_reads.filter { m, r -> m.single_end }.count().filter { c -> c > 0 }.map { c ->
             log.warn "$c read sets are classified as single-end - this typically requires --cutadapt_trim_3p."
         }
     }
@@ -127,7 +138,7 @@ workflow FOODME2 {
     // reads are ONT
     } else if (params.ont) {
         ONT_WORKFLOW(
-            INPUT_CHECK.out.reads,
+            ch_reads,
             ch_primers,
             fasta
         )
@@ -139,7 +150,7 @@ workflow FOODME2 {
     // reads are IonTorrent
     } else if (params.iontorrent) {
         ILLUMINA_WORKFLOW(
-            INPUT_CHECK.out.reads,
+            ch_reads,
             ch_primers
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
@@ -150,7 +161,7 @@ workflow FOODME2 {
     // reads are Illumina (or Illumina-like)
     } else {
         ILLUMINA_WORKFLOW(
-            INPUT_CHECK.out.reads,
+            ch_reads,
             ch_primers
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
