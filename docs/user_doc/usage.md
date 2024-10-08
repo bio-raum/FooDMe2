@@ -81,6 +81,11 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
     This option is the preferred way to provide data to FooDMe2 and it is mutually exclusive with `--reads`.
 
+    !!! tip Automated sample sheet generation
+
+        If you want to automatically generate sample sheets from files in a folder, check out the 
+        `create_sampleSheet.sh` script from the BfR ABC Pipelines available [here](https://gitlab.com/bfr_bioinformatics/AQUAMIS/-/blob/master/scripts/create_sampleSheet.sh?ref_type=heads).
+
 `--reads` [ default = null ]
 
 :    This option is an alternative (but discouraged!) way to load data into FooDMe2 and expects a wildcard pattern to specify the location of files and how to group them. 
@@ -121,7 +126,7 @@ where `myprofile` can either be a site-specific config file or one of the built-
         Data downloaded from online archives like SRA or ENA follow the convention:
 
             SampleName_1.fastq.gz
-            SampleNAme_2.fastq.gz
+            SampleName_2.fastq.gz
 
         Which can be parsed with:
 
