@@ -1227,8 +1227,8 @@
 <p>data can be loaded like so (note the single-quotes around the search pattern!):</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>nextflow run bio-raum/FooDMe2 -profile singularity --reads &#39;/path/to/reads/*_R{1,2}_001.fastq.gz&#39;
 </span></code></pre></div>
-<p>which will be in interpreted as two samples, Library1-S01 and Library2-S02, in paired-end configuration. It avoids having to create a samplesheet, but requires a well-constructed wildcard pattern to correctly match all the data as well as provides essentially no options to specifically name your samples or group reads across lanes. Read more about the underlying logic and options <a href="https://www.nextflow.io/docs/latest/reference/channel.html#fromfilepairs">here</a>.</p>
-<p>Here are few patterns for common file naming patterns:</p>
+<p>which will be interpreted as two samples, Library1-S01 and Library2-S02, in paired-end configuration. It avoids having to create a samplesheet, but requires a well-constructed wildcard pattern to correctly match all the data as well as provides essentially no options to specifically name your samples or group reads across lanes. Read more about the underlying logic and options <a href="https://www.nextflow.io/docs/latest/reference/channel.html#fromfilepairs">here</a>.</p>
+<p>Here are a few examples for common file naming patterns:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Illumina</label><label for="__tabbed_2_2">SRA/ENA</label><label for="__tabbed_2_3">Single-end data</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1240,7 +1240,7 @@
 These names can be parsed with the following pattern:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>&#39;/path/to/reads/*_R{1,2}_001.fastq.gz&#39;
 </span></code></pre></div>
-<p>resulting in sample names being parsed as <code>SampleName_SX_LYYY</code></p>
+<p>resulting in sample names being parsed as <code>SampleName_SX_LYYY</code>. However, as mentioned, there is no way to parse common sample names across lanes so you would need to merge multi-lane reads before using this input approach. </p>
 </div>
 <div class="tabbed-block">
 <p>Data downloaded from online archives like SRA or ENA follow the convention:</p>
