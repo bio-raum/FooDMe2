@@ -105,9 +105,9 @@ where `myprofile` can either be a site-specific config file or one of the built-
     nextflow run bio-raum/FooDMe2 -profile singularity --reads '/path/to/reads/*_R{1,2}_001.fastq.gz'
     ```
 
-    which will be in interpreted as two samples, Library1-S01 and Library2-S02, in paired-end configuration. It avoids having to create a samplesheet, but requires a well-constructed wildcard pattern to correctly match all the data as well as provides essentially no options to specifically name your samples or group reads across lanes. Read more about the underlying logic and options [here](https://www.nextflow.io/docs/latest/reference/channel.html#fromfilepairs).
+    which will be interpreted as two samples, Library1-S01 and Library2-S02, in paired-end configuration. It avoids having to create a samplesheet, but requires a well-constructed wildcard pattern to correctly match all the data as well as provides essentially no options to specifically name your samples or group reads across lanes. Read more about the underlying logic and options [here](https://www.nextflow.io/docs/latest/reference/channel.html#fromfilepairs).
 
-    Here are few patterns for common file naming patterns:
+    Here are a few examples for common file naming patterns:
 
     === "Illumina"
 
@@ -125,7 +125,7 @@ where `myprofile` can either be a site-specific config file or one of the built-
         '/path/to/reads/*_R{1,2}_001.fastq.gz'
         ```
 
-        resulting in sample names being parsed as `SampleName_SX_LYYY`
+        resulting in sample names being parsed as `SampleName_SX_LYYY`. However, as mentioned, there is no way to parse common sample names across lanes so you would need to merge multi-lane reads before using this input approach. 
 
     === "SRA/ENA"
 
