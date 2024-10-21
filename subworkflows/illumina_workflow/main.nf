@@ -5,7 +5,6 @@ Import modules
 */
 include { FASTP }               from './../../modules/fastp'
 include { CAT_FASTQ }           from './../../modules/cat_fastq'
-include { FASTQC }              from './../../modules/fastqc'
 
 /*
 Import sub workflows
@@ -39,14 +38,6 @@ workflow ILLUMINA_WORKFLOW {
     ch_versions     = ch_versions.mix(FASTP.out.versions)
     multiqc_files   = multiqc_files.mix(FASTP.out.json.map { m, j -> j })
 
-    /*
-    FastQC generates complementary quality metrics that FastP is not emitting
-    */
-    FASTQC(
-        FASTP.out.reads
-    )
-    ch_versions     = ch_versions.mix(FASTQC.out.versions)
-    multiqc_files   = multiqc_files.mix(FASTQC.out.zip.map { m,z -> z})
 
     /*
     Split trimmed reads by sample to find multi-lane data sets
