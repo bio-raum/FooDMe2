@@ -44,9 +44,9 @@ def main(output):
     # Track cell positions
     row = 0
 
-    ws.append(["Sample", "Taxon", "Percentage"])
+    ws.append(["Sample", "Taxon", "Percentage", "Reads"])
 
-    for r in ws["A1:C1"]:
+    for r in ws["A1:D1"]:
         for cell in r:
             cell.font = ft
 
@@ -71,11 +71,15 @@ def main(output):
             row += 1
             name = hit["name"]
             perc = round(float(hit["proportion"]), 4)*100
-            ws.append([sample, name, perc])
+            reads = hit["reads"]
+        
+            ws.append([sample, name, perc, reads])
 
             ws["A"+str(ws._current_row)].fill = bgcolor
             ws["B"+str(ws._current_row)].fill = bgcolor
             ws["C"+str(ws._current_row)].fill = bgcolor
+            ws["D"+str(ws._current_row)].fill = bgcolor
+
 
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws)

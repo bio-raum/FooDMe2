@@ -33,6 +33,7 @@ def main(json_in, output_tsv, output_json):
             "sample": sample,
             "name": name[id],
             "taxid": id,
+            "reads" : sum([int(i) for i in size[id]]),
             "rank": rank[id],
             "proportion": round(sum([float(i) for i in size[id]])/float(total), 4)
     } for id in size.keys()]
