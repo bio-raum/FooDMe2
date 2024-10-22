@@ -72,15 +72,14 @@ def main(output):
             name = hit["name"]
             perc = round(float(hit["proportion"]), 4)*100
             reads = hit["reads"]
-        
+
             ws.append([sample, name, perc, reads])
 
             ws["A"+str(ws._current_row)].fill = bgcolor
             ws["B"+str(ws._current_row)].fill = bgcolor
             ws["C"+str(ws._current_row)].fill = bgcolor
             ws["D"+str(ws._current_row)].fill = bgcolor
-
-
+            
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws)
 
