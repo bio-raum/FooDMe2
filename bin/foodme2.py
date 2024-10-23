@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import plotly.express as px
-import plotly.graph_objects as go
 from jinja2 import Template
 import pandas as pd
 import os,json,re
@@ -95,11 +94,9 @@ def main(template, output):
     data["Taxa"] = fig.to_html(full_html=False)
 
     # The insert size distribution
-    plot_labels = { "index": "Samples", "values": "Percentage"}
+    plot_labels = { "index": "Basepairs", "values": "Count"}
     hdata = pd.DataFrame(insert_size_list)
-
-    hfig = px.line(hdata, )
-
+    hfig = px.line(hdata, labels=plot_labels)
     data["Insertsizes"] = hfig.to_html(full_html=False)
 
     with open(output, "w", encoding="utf-8") as output_file:
@@ -107,41 +104,6 @@ def main(template, output):
             j2_template = Template(template_file.read())
             output_file.write(j2_template.render(data))
 
-def check_assembly(taxon,size):
-    if taxon in references["genomes"]:
-        ref = float(references["genomes"][taxon]["size"])
-        if (size >= (ref*0.9)) and (size <= (ref*1.1)):
-            return status["pass"]
-        elif (size >= (ref*0.8) and size <= (ref*1.2)):
-            return status["warn"]
-        else:
-            return status["fail"]
-    else:
-        return status["missing"]
-
-def check_contigs(taxon,contigs):
-    if taxon in references["genomes"]:
-        ref = int(references["genomes"][taxon]["max_contigs"])
-        if contigs <= ref:
-            return status["pass"]
-        elif contigs <= (ref*1.1):
-            return status["warn"]
-        else:
-            return status["fail"]
-    else:
-        return status["missing"]
-
-def check_n50(taxon,n50):
-    if taxon in references["genomes"]:
-        ref = int(references["genomes"][taxon]["n50"])
-        if n50 >= ref:
-            return status["pass"]
-        elif n50 >= (ref*0.9):
-            return status["warn"]
-        else:
-            return status["fail"]
-    else:
-        return status["missing"] 
 
 if __name__ == '__main__':
     main( args.template, args.output)
