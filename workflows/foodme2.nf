@@ -85,12 +85,18 @@ if (params.input || params.reads) {
         ch_multiqc_config   = params.multiqc_config ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
         ch_multiqc_logo     = params.multiqc_logo   ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
     }
-    }
+
+}
 
 /*
 Set a taxonomy block list to remove unwanted taxa
 */
 ch_blocklist        = Channel.fromPath(params.blocklist, checkIfExists: true)
+
+/*
+Set the Jinja template for the HTML report
+*/
+ch_template         = Channel.fromPath(params.template, checkIfExists: true).collect()
 
 /*
 Setting default channels
@@ -201,7 +207,8 @@ workflow FOODME2 {
         ch_cluster_json,
         BLAST_TAXONOMY.out.filtered_blast,
         BLAST_TAXONOMY.out.consensus,
-        CUSTOM_DUMPSOFTWAREVERSIONS.out.yml
+        CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
+        ch_template
     )
 
     /*

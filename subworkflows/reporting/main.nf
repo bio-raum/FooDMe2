@@ -4,6 +4,7 @@ include { KRONA_HTML }                      from './../../modules/krona/'
 include { HELPER_BENCHMARK }                from './../../modules/helper/benchmark'
 include { HELPER_BENCHMARK_XLSX }           from './../../modules/helper/benchmark_xlsx'
 include { HELPER_SAMPLE_REPORT }            from './../../modules/helper/sample_report'
+include { HELPER_HTML_REPORT }              from './../../modules/helper/html_report'
 
 ch_versions = Channel.from([])
 ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
@@ -18,6 +19,8 @@ workflow REPORTING {
     ch_blast
     ch_consensus
     ch_versions
+    ch_template  // Jinja tempalte for custom HTML report
+    
 
     main:
 
@@ -55,6 +58,15 @@ workflow REPORTING {
         ch_reports_grouped,
         ch_clustering.collect(),
         ch_versions.collect()
+    )
+    
+    /*
+    Write a summary report across all samples using
+    a customizable jinja2 template
+    */
+    HELPER_HTML_REPORT(
+        HELPER_SAMPLE_REPORT.out.json.map {m,j -> j}.collect(),
+        ch_template
     )
 
     // Benchmark
