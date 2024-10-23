@@ -12,6 +12,7 @@
     h2 {background: lightslategray; color: white; padding-left: 5px ;}
     .ground {background: white ; display: block; padding: 5px; height: fit-content}
     .impressum {background: lightgrey; display: block; padding: 5px; vertical-align: bottom; font-size: 10px;}
+    .info { font-size: 10px; color: grey; }
     td, td, th { padding: 5px;}
     tr td[scope="row"] {background-color: lightgray;}
     tr td[scope="sample-id"] {background-color: lightgray; font-weight: bold;}
@@ -49,6 +50,7 @@
     <tr>
         <td><a href="#summary">Summary</a></td>
         <td><a href="#taxa">Taxonomic composition</a></td>
+        <td><a href="#insertsizes">Insert sizes</a></td>
     </tr>
 </table>
 <!--
@@ -59,10 +61,13 @@ The summary table with all key metrics per sample
     <tr>
         <th scope="col">Sample</th>
         <th scope="col"><div class="tooltip">Status<span class="tooltiptext">The overall analysis status: pass: ok to use, warn: potential issues found, fail: most probably not usable</span></div></th>
+        <th scope="col"><div class="tooltip">Reads total<span class="tooltiptext">The number of reads before any processing</span></div></th>
+        <th scope="col"><div class="tooltip">Reads Q30 (%)<span class="tooltiptext">Fraction of input reads >= Q30</span></div></th>
         <th scope="col"><div class="tooltip">Reads passing<span class="tooltiptext">The number of reads passing the adapter and quality trimming</span></div></th>
         <th scope="col"><div class="tooltip">Reads filtered<span class="tooltiptext">The number of reads not passing the adapter and quality trimming</span></div></th>
         <th scope="col"><div class="tooltip">Reads after clustering<span class="tooltiptext">The number of reads remaining after clustering</span></div></th>
         <th scope="col"><div class="tooltip">Chimeric reads<span class="tooltiptext">Reads classified as chimeria during the clustering</span></div></th>
+        <th scope="col"><div class="tooltip">Insert size (bp)<span class="tooltiptext">The peak insert size</span></div></th>
     </tr>
 
 <!--
@@ -73,10 +78,13 @@ all the information for one sample
     <tr>
         <td scope="sample-id">{{row.sample}}</td>
         <td scope={{row.status}}>{{row.status}}</td>
+        <td>{{row.reads_total}}</td>
+        <td>{{row.reads_q30}}</td>
         <td>{{row.reads_passing}}</td>
         <td>{{row.reads_filtered}}</td>
         <td>{{row.reads_after_clustering}}</td>
         <td>{{row.reads_chimera}}</td>
+        <td>{{row.insert_size}}</td>
     </tr>
 {% endfor %}
 </table>
@@ -89,7 +97,17 @@ all the information for one sample
 
 {{Taxa}}
 
+<div class="info">
 *Showing taxa with an abundance of >= 1%. Please consult the detailed reports in JSON and XLSX format for a finer resolution. 
+</div>
+
+<p></p>
+<a href="#navigation">top</a>
+
+<div id="insertsizes"></div>
+<h2>Insert size distribution</h2>
+
+{{Insertsizes}}
 
 <p></p>
 <a href="#navigation">top</a>

@@ -17,6 +17,7 @@ parser.add_argument("--clustering", help="either dada_mqc or vsearch_mqc json")
 parser.add_argument("--blast", help="blast_filtered json")
 parser.add_argument("--consensus", help="consensus json")
 parser.add_argument("--versions", help="versions yaml")
+parser.add_argument("--fastp", nargs='?', const=False, help="FastP JSON")
 parser.add_argument("--output")
 args = parser.parse_args()
 
@@ -27,12 +28,14 @@ def parse_json(handle):
         return json.load(fi)
 
 
-def main(sample_id, run_name, compo, cutadapt, clustering, blast, consensus, versions, output):
+def main(sample_id, run_name, compo, cutadapt, clustering, blast, consensus, versions, fastp, output):
     cutadapt_dict = parse_json(cutadapt)
     cluster_dict = parse_json(clustering)
     blast_dict = parse_json(blast)
     consensus_dict = parse_json(consensus)
     compo_dict = parse_json(compo)
+    fastp_dict = parse_json(fastp) if fastp else {}
+
 
     with open(versions, "r") as fi:
         versions_dict = yaml.safe_load(fi)
@@ -46,7 +49,8 @@ def main(sample_id, run_name, compo, cutadapt, clustering, blast, consensus, ver
         "clustering": cluster_dict["data"][sample_id],
         "blast": blast_dict,
         "consensus": consensus_dict,
-        "versions": versions_dict
+        "versions": versions_dict,
+        "fastp": fastp_dict
     }
 
     with open(output, "w") as fo:
@@ -62,4 +66,5 @@ if __name__ == '__main__':
          args.blast,
          args.consensus,
          args.versions,
+         args.fastp,
          args.output)

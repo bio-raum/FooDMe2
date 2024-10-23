@@ -38,3 +38,17 @@ remove_sections:
     - fastp-seq-content-gc
     - fastp-seq-content-n
 
+table_columns_visible:
+  fastp:
+    after_filtering_q30_rate: True
+
+table_sample_merge:
+  "Read 1":
+    - "_R1"
+    - type: regex
+      pattern: "[_.-][rR]?1$"
+  "Read 2":
+    - "_R2"
+    - type: regex
+      pattern: "[_.-][rR]?2$"
+

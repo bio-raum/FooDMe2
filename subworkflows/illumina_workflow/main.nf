@@ -112,6 +112,7 @@ workflow ILLUMINA_WORKFLOW {
     qc            = multiqc_files
     cutadapt_json = CUTADAPT_WORKFLOW.out.qc
     cluster_json  = ch_clusterjsons
+    fastp_json    = FASTP.out.json
 }
 
 /*

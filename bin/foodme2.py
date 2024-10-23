@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import plotly.express as px
+import plotly.graph_objects as go
 from jinja2 import Template
 import pandas as pd
 import os,json,re
@@ -30,6 +31,8 @@ def main(template, output):
 
     samples = []
 
+    insert_size_list = {}
+
     for idx, json_file in enumerate(json_files):
 
         rtable = {}
@@ -52,6 +55,14 @@ def main(template, output):
             reads_after_clustering = jdata["clustering"]["passing"]
             reads_chimera = jdata["clustering"]["chimeras"]
 
+            if ("fastp" in jdata):
+                fastp = jdata["fastp"]
+                insert_size = fastp["insert_size"]["peak"]
+                reads_total = int(int(fastp["summary"]["before_filtering"]["total_reads"])/2)
+                q30 = round(float(fastp["summary"]["before_filtering"]["q30_rate"]),2)*100
+
+                insert_size_list[sample] = fastp["insert_size"]["histogram"]
+
             # sample-level dictionary
             rtable = { 
                 "sample": sample,
@@ -59,7 +70,10 @@ def main(template, output):
                 "reads_passing": reads_passing,
                 "reads_filtered": reads_filtered,
                 "reads_after_clustering": reads_after_clustering,
-                "reads_chimera": reads_chimera
+                "reads_chimera": reads_chimera,
+                "insert_size": insert_size,
+                "reads_total": reads_total,
+                "reads_q30": q30
             }
 
             this_taxon_data = {}
@@ -73,12 +87,20 @@ def main(template, output):
         
         data["summary"].append(rtable)    
 
+    # The taxonomic composition as stacked bar plot
     tdata = pd.DataFrame(data=taxon_data,index=samples)
     plot_labels = { "index": "Samples", "value": "Percentage"}
     h = len(samples)*20 if len(samples) > 10 else 400
     fig = px.bar(tdata,orientation='h',labels=plot_labels, height=h)
-
     data["Taxa"] = fig.to_html(full_html=False)
+
+    # The insert size distribution
+    plot_labels = { "index": "Samples", "values": "Percentage"}
+    hdata = pd.DataFrame(insert_size_list)
+
+    hfig = px.line(hdata, )
+
+    data["Insertsizes"] = hfig.to_html(full_html=False)
 
     with open(output, "w", encoding="utf-8") as output_file:
         with open(template) as template_file:

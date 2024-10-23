@@ -19,6 +19,7 @@ workflow REPORTING {
     ch_blast
     ch_consensus
     ch_versions
+    ch_fastp_json
     ch_template  // Jinja tempalte for custom HTML report
     
 
@@ -41,6 +42,7 @@ workflow REPORTING {
 
     /*
     Here we group all the sample-specific reports by meta hash
+    the fastp report is optional in case of ONT data, so we need to account for that
     */
     ch_compo_json.join(
         ch_cutadapt
@@ -48,6 +50,8 @@ workflow REPORTING {
         ch_blast
     ).join(
         ch_consensus
+    ).join(
+        ch_fastp_json, remainder: true
     ).set { ch_reports_grouped }
 
     /*

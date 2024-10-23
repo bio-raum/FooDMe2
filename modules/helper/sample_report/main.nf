@@ -8,7 +8,7 @@ process HELPER_SAMPLE_REPORT {
         'quay.io/biocontainers/biokit:0.5.0--pyh5e36f6f_0' }"
 
     input:
-    tuple val(meta), path(composition), path(cutadapt), path(blast), path(consensus)
+    tuple val(meta), path(composition), path(cutadapt), path(blast), path(consensus),path(fastp)
     path(clustering)
     path(versions)                    // versions yaml
 
@@ -16,8 +16,10 @@ process HELPER_SAMPLE_REPORT {
     tuple val(meta), path('*.report.json') , emit: json
 
     script:
+
     def prefix = task.ext.prefix ?: consensus.getSimpleName()
     def run_name = task.ext.prefix ?: params.run_name
+    def fastp_args = fastp ? "--fastp $fastp" : ""
 
     """
     sample_report.py --sample_id ${meta.sample_id} \
@@ -28,6 +30,7 @@ process HELPER_SAMPLE_REPORT {
         --blast $blast \
         --consensus $consensus \
         --versions $versions \
+        $fastp_args \
         --output ${prefix}.report.json
     """
 }
