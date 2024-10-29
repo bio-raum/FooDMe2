@@ -2,11 +2,12 @@ process HELPER_HTML_REPORT {
     tag "All"
 
     conda "${moduleDir}/environment.yml"
-    container "${ 'quarto2forge/python:latest' }"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/dajin2:0.5.5--pyhdfd78af_0' :
+        'quay.io/biocontainers/dajin2:0.5.5--pyhdfd78af_0' }"
 
     input:
     path(reports)
-    path(krona)
     path(template)
 
     output:
@@ -19,8 +20,7 @@ process HELPER_HTML_REPORT {
     result = prefix + '.html'
 
     """
-    quarto render $template --to html \
-    --execute \
+    foodme2.py --template $template \
     $args \
     --output $result
 

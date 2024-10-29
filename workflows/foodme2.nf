@@ -212,7 +212,7 @@ workflow FOODME2 {
         BLAST_TAXONOMY.out.consensus,
         CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
         ch_fastp_json,
-        ch_template
+        ch_template,
     )
 
     /*

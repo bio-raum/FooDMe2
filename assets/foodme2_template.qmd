@@ -1,0 +1,211 @@
+---
+title: "FooDMe2"
+subtitle: "Taxonomic profiling of metabarcoding data"
+date: now
+date-format: YYYY-MM-DD, HH:mm
+format:
+    html:
+        embed-resources: true
+        self-contained-math: true
+        toc: true
+        toc-expand: 2
+        toc-location: left
+        theme: lumen
+        max-width: 2000px
+execute:
+    echo: false
+jupyter: python3
+---
+
+Report generated automatically by bio-raum/FooDMe2. Please check out our [documentation](https://bio-raum.github.io/FooDMe2/latest/).
+
+```{python}
+#| label: imports
+import os
+import json
+import yaml
+import pandas as pd
+import plotly.express as px
+from IPython.display import Markdown, IFrame
+from tabulate import tabulate
+```
+
+```{python}
+#| label: collect-sample-reports
+json_files = [pos_json for pos_json in os.listdir('.') if pos_json.endswith('.report.json')]
+```
+
+# Summary
+
+```{python}
+#| label: collect-summary
+summary = []
+
+for json_file in json_files:
+    with open(json_file) as f:
+        jdata = json.load(f)
+
+    sample = jdata["sample"]
+    insert_size = jdata["fastp"]["insert_size"]["peak"]
+    reads_total = int(int(jdata["fastp"]["summary"]["before_filtering"]["total_reads"])/2)
+    q30 = round(float(jdata["fastp"]["summary"]["before_filtering"]["q30_rate"]),2)*100
+
+    # Track the sample status
+    this_status = "pass"
+    try:
+        reads_passing = jdata["cutadapt"]["Reads passing filters"]
+        reads_filtered = jdata["cutadapt"]["Filtered reads (uncategorized)"]
+    except KeyError:
+        reads_passing = 0
+        reads_filtered = 0
+        this_status = "fail"
+    try:
+        reads_after_clustering = jdata["clustering"]["passing"]
+        reads_chimera = jdata["clustering"]["chimeras"]
+    except KeyError:
+        reads_after_clustering = 0
+        reads_chimera = 0
+        this_status = "fail"
+
+    # sample-level dictionary
+    headers = [
+        "Sample",
+        "Status",
+        "Reads total",
+        "Reads Q30 (%)",
+        "Insert size peak",
+        "Reads passing",
+        "Reads filtered",
+        "Reads after clustering",
+        "Chimeric reads"
+        ]
+    summary.append([
+        sample,
+        this_status,
+        reads_total,
+        q30,
+        insert_size,
+        f"{reads_passing} ({round((reads_passing/reads_total)*100, 2)}%)",
+        f"{reads_filtered} ({round((reads_filtered/reads_total)*100, 2)}%)",
+        f"{reads_after_clustering} ({round((reads_after_clustering/reads_total)*100, 2)}%)",
+        f"{reads_chimera} ({round((reads_chimera/reads_total)*100, 2)}%)",
+    ])
+```
+
+```{python}
+#| label: tbl-summary
+Markdown(tabulate(
+  summary,
+  headers=headers
+))
+```
+
+# Taxonomic composition
+
+```{python}
+#| label: krona
+krona = [fi for fi in os.listdir('.') if fi.endswith('_krona.html')]
+IFrame(src=krona[0], width="100%", height="500px")
+```
+
+# Input quality checking
+
+Overview of input data quality before any processing.
+
+## Insert size distribution
+
+Insert size estimation of sampled reads.
+
+```{python}
+#| label: insert-size
+
+frames = []
+
+for json_file in json_files:
+    with open(json_file) as f:
+        jdata = json.load(f)
+    sample = jdata["sample"]
+    try:
+        # catch missing data if sample stopped
+        counts = jdata["fastp"]["insert_size"]["histogram"]
+    except KeyError:
+        sdf = pd.DataFrame(columns=["sample", "size", "count"])
+        frames.append(sdf)
+        continue
+    sdf = pd.DataFrame(
+            list(zip([sample]*len(counts), range(1, len(counts)+1), counts)),
+            columns=["sample", "size", "count"]
+        )
+    frames.append(sdf)
+
+df = pd.concat(frames)
+
+fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample", line_shape="spline")
+fig.show()
+```
+
+## Sequence Quality
+
+Average sequencing quality over each base of all reads.
+
+::: {.panel-tabset}
+
+### Read1: Before filtering
+
+### Read1: After filtering
+
+### Read2: Before filtering
+
+### Read2: After filtering
+
+:::
+
+# Reads pre-processing
+
+Removing low quality reads and removing primers.
+
+## Filtered reads
+
+Filtering low quality reads
+
+::: {.panel-tabset}
+
+### Counts
+
+### Percentages
+
+:::
+
+## Primer trimming
+
+Find and remove primer sequences
+
+::: {.panel-tabset}
+
+### Counts
+
+### Percentages
+
+:::
+
+# Clustering
+
+Dynamic description depending on workflow
+
+::: {.panel-tabset}
+
+### Counts
+
+### Percentages
+
+:::
+
+# Taxonomic assignment
+
+Taxonomic assignment of cluster sequences
+
+# Software versions
+
+Collected at run time from the software output.
+
+TBD: collect versions over all sample reports and produce a table like for summary

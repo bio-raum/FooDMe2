@@ -1,0 +1,7 @@
+name: html_report
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::dajin2=0.5.5

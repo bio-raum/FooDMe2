@@ -9,6 +9,7 @@ include { HELPER_HTML_REPORT }              from './../../modules/helper/html_re
 ch_versions = Channel.from([])
 ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
 
+
 workflow REPORTING {
     take:
     ch_tax_json // The filtered taxonomy JSON
@@ -21,7 +22,7 @@ workflow REPORTING {
     ch_versions
     ch_fastp_json
     ch_template  // Jinja tempalte for custom HTML report
-    
+
 
     main:
 
@@ -63,14 +64,15 @@ workflow REPORTING {
         ch_clustering.collect(),
         ch_versions.collect()
     )
-    
+
     /*
     Write a summary report across all samples using
     a customizable jinja2 template
     */
     HELPER_HTML_REPORT(
         HELPER_SAMPLE_REPORT.out.json.map {m,j -> j}.collect(),
-        ch_template
+        KRONA_HTML.out.html,
+        ch_template,
     )
 
     // Benchmark

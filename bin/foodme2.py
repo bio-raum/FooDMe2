@@ -4,7 +4,9 @@ from jinja2 import Template
 import pandas as pd
 import os,json,re
 import argparse
+import datetime
 
+# Missing: date
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--template", help="A JINJA2 template")
@@ -24,6 +26,7 @@ def main(template, output):
     json_files = [pos_json for pos_json in os.listdir('.') if pos_json.endswith('.json')]
 
     data = {}
+    data["date"] = datetime.datetime.now()
     data["summary"] = [ ]
 
     taxon_data = []

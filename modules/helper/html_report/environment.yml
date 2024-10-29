@@ -1,7 +1,20 @@
 name: html_report
 channels:
   - conda-forge
-  - bioconda
-  - defaults
 dependencies:
-  - bioconda::dajin2=0.5.5
+  - python=3.10
+  - quarto
+  - ipykernel
+  - nbformat
+  - nbclient
+  - numpy
+  - scipy
+  - pandas
+  - statsmodels
+  - pingouin
+  - scikit-learn
+  - scikit-image
+  - matplotlib
+  - seaborn
+  - bokeh
+  - plotly
