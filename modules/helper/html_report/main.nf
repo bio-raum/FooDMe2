@@ -2,7 +2,7 @@ process HELPER_HTML_REPORT {
     tag "All"
 
     conda "${moduleDir}/environment.yml"
-    container "${ 'quarto2forge/python:latest' }"
+    container "${ 'quarto2forge/jupyter:latest' }"
 
     input:
     path(reports)

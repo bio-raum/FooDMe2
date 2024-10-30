@@ -140,7 +140,7 @@ for json_file in json_files:
 
 df = pd.concat(frames)
 
-fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample", line_shape="spline")
+fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample", line_shape="spline", template="simple_white")
 fig.show()
 ```
 
