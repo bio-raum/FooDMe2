@@ -1,4 +1,4 @@
----
+1---
 title: "FooDMe2"
 subtitle: "Taxonomic profiling of metabarcoding data"
 date: now
@@ -21,6 +21,7 @@ Report generated automatically by bio-raum/FooDMe2. Please check out our [docume
 
 ```{python}
 #| label: imports
+
 import os
 import json
 import yaml
@@ -32,6 +33,7 @@ from tabulate import tabulate
 
 ```{python}
 #| label: collect-sample-reports
+
 json_files = [pos_json for pos_json in os.listdir('.') if pos_json.endswith('.report.json')]
 ```
 
@@ -39,6 +41,7 @@ json_files = [pos_json for pos_json in os.listdir('.') if pos_json.endswith('.re
 
 ```{python}
 #| label: collect-summary
+
 summary = []
 
 for json_file in json_files:
@@ -94,6 +97,7 @@ for json_file in json_files:
 
 ```{python}
 #| label: tbl-summary
+
 Markdown(tabulate(
   summary,
   headers=headers
@@ -104,6 +108,7 @@ Markdown(tabulate(
 
 ```{python}
 #| label: krona
+
 krona = [fi for fi in os.listdir('.') if fi.endswith('_krona.html')]
 IFrame(src=krona[0], width="100%", height="500px")
 ```
@@ -140,7 +145,9 @@ for json_file in json_files:
 
 df = pd.concat(frames)
 
-fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample", line_shape="spline", template="simple_white")
+fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
+    labels={"size": "Insert size (bp)", "count": "Read count"},
+    line_shape="spline", template="simple_white")
 fig.show()
 ```
 
@@ -148,15 +155,86 @@ fig.show()
 
 Average sequencing quality over each base of all reads.
 
+```{python}
+#| label: prep-read_quality
+
+def get_qual(read_label):
+    frames = []
+
+    for json_file in json_files:
+        with open(json_file) as f:
+            jdata = json.load(f)
+        sample = jdata["sample"]
+        try:
+            # catch missing data if sample stopped
+            qual = jdata["fastp"][read_label]["quality_curves"]["mean"]
+        except KeyError:
+            sdf = pd.DataFrame(columns=["sample", "position", "qual"])
+            frames.append(sdf)
+            continue
+        sdf = pd.DataFrame(
+                list(zip([sample]*len(qual), range(1, len(qual)+1), qual)),
+                columns=["sample", "position", "qual"]
+            )
+        frames.append(sdf)
+
+    df = pd.concat(frames)
+    return df
+```
+
 ::: {.panel-tabset}
 
 ### Read1: Before filtering
 
+```{python}
+#| label: read1_before
+
+df = get_qual("read1_before_filtering")
+
+fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
+    labels={"position": "Read position", "qual": "Sequence quality"},
+    line_shape="spline", template="simple_white")
+fig.show()
+```
+
 ### Read1: After filtering
+
+```{python}
+#| label: read1_after
+
+df = get_qual("read1_after_filtering")
+
+fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
+    labels={"position": "Read position", "qual": "Sequence quality"},
+    line_shape="spline", template="simple_white")
+fig.show()
+```
 
 ### Read2: Before filtering
 
+```{python}
+#| label: read2_before
+
+df = get_qual("read2_before_filtering")
+
+fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
+    labels={"position": "Read position", "qual": "Sequence quality"},
+    line_shape="spline", template="simple_white")
+fig.show()
+```
+
 ### Read2: After filtering
+
+```{python}
+#| label: read2_after
+
+df = get_qual("read2_after_filtering")
+
+fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
+    labels={"position": "Read position", "qual": "Sequence quality"},
+    line_shape="spline", template="simple_white")
+fig.show()
+```
 
 :::
 
@@ -172,7 +250,53 @@ Filtering low quality reads
 
 ### Counts
 
+```{python}
+#| label: filt-counts
+
+frames = []
+
+for json_file in json_files:
+    with open(json_file) as f:
+        jdata = json.load(f)
+    sample = jdata["sample"]
+    try:
+        # catch missing data if sample stopped
+        data = jdata["fastp"]["filtering_result"]
+    except KeyError:
+        sdf = pd.DataFrame(columns=["sample", "label", "count"])
+        frames.append(sdf)
+        continue
+    labels, values = zip(*data.items())
+    sdf = pd.DataFrame(
+            list(zip([sample]*len(labels), labels, values)),
+            columns=["sample", "label", "count"]
+        )
+    frames.append(sdf)
+
+df = pd.concat(frames)
+
+fig = px.bar(df, x="count", y= "sample", color="label", hover_name="sample",
+    labels={"count": "Read number", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''})
+fig.show()
+```
+
 ### Percentages
+
+```{python}
+#| label: filt-perc
+pd.concat([
+    df[["sample", "label"]],
+    df.groupby("sample")[["count"]].transform(lambda x: (x/sum(x))*100)
+], axis = 1)
+
+fig = px.bar(df, x="count", y= "sample", color="label", hover_name="sample",
+    labels={"count": "Read proportion (%)", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''})
+fig.show()
+```
 
 :::
 
@@ -190,7 +314,7 @@ Find and remove primer sequences
 
 # Clustering
 
-Dynamic description depending on workflow
+Clustering amplicon sequences
 
 ::: {.panel-tabset}
 
