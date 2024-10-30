@@ -2,7 +2,7 @@ process HELPER_HTML_REPORT {
     tag "All"
 
     conda "${moduleDir}/environment.yml"
-    container "${ 'mhoeppner/quarto:latest' }"
+    container "${ 'mhoeppner/quarto:1.5.57' }"
 
     input:
     path(reports)
