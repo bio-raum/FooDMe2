@@ -1,4 +1,4 @@
-1---
+---
 title: "FooDMe2"
 subtitle: "Taxonomic profiling of metabarcoding data"
 date: now
@@ -286,13 +286,11 @@ fig.show()
 
 ```{python}
 #| label: filt-perc
-pd.concat([
-    df[["sample", "label"]],
-    df.groupby("sample")[["count"]].transform(lambda x: (x/sum(x))*100)
-], axis = 1)
 
-fig = px.bar(df, x="count", y= "sample", color="label", hover_name="sample",
-    labels={"count": "Read proportion (%)", "sample": ""},
+df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
+
+fig = px.bar(df, x="prop", y= "sample", color="label", hover_name="sample",
+    labels={"prop": "Read proportion (%)", "sample": ""},
     orientation='h', template="simple_white")
 fig.update_layout(legend={'title_text':''})
 fig.show()
@@ -308,7 +306,51 @@ Find and remove primer sequences
 
 ### Counts
 
+```{python}
+#| label: trim-counts
+
+frames = []
+
+for json_file in json_files:
+    with open(json_file) as f:
+        jdata = json.load(f)
+    sample = jdata["sample"]
+    try:
+        # catch missing data if sample stopped
+        data = jdata["cutadapt"]
+    except KeyError:
+        sdf = pd.DataFrame(columns=["sample", "label", "count"])
+        frames.append(sdf)
+        continue
+    labels, values = zip(*data.items())
+    sdf = pd.DataFrame(
+            list(zip([sample]*len(labels), labels, values)),
+            columns=["sample", "label", "count"]
+        )
+    frames.append(sdf)
+
+df = pd.concat(frames)
+
+fig = px.bar(df, x="count", y= "sample", color="label", hover_name="sample",
+    labels={"count": "Read number", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''})
+fig.show()
+```
+
 ### Percentages
+
+```{python}
+#| label: trim-perc
+
+df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
+
+fig = px.bar(df, x="prop", y= "sample", color="label", hover_name="sample",
+    labels={"prop": "Read proportion (%)", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''})
+fig.show()
+```
 
 :::
 
@@ -320,7 +362,51 @@ Clustering amplicon sequences
 
 ### Counts
 
+```{python}
+#| label: clus-counts
+
+frames = []
+
+for json_file in json_files:
+    with open(json_file) as f:
+        jdata = json.load(f)
+    sample = jdata["sample"]
+    try:
+        # catch missing data if sample stopped
+        data = jdata["clustering"]
+    except KeyError:
+        sdf = pd.DataFrame(columns=["sample", "label", "count"])
+        frames.append(sdf)
+        continue
+    labels, values = zip(*data.items())
+    sdf = pd.DataFrame(
+            list(zip([sample]*len(labels), labels, values)),
+            columns=["sample", "label", "count"]
+        )
+    frames.append(sdf)
+
+df = pd.concat(frames)
+
+fig = px.bar(df, x="count", y= "sample", color="label", hover_name="sample",
+    labels={"count": "Read number", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''})
+fig.show()
+```
+
 ### Percentages
+
+```{python}
+#| label: clus-perc
+
+df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
+
+fig = px.bar(df, x="prop", y= "sample", color="label", hover_name="sample",
+    labels={"prop": "Read proportion (%)", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''})
+fig.show()
+```
 
 :::
 
