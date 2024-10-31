@@ -82,6 +82,8 @@ for json_file in json_files:
     # Check discarded proportion for warnings
     # simple check if at least 80% of reads and more than 10000 available for assignment
     if this_status == "pass":
+        if "composition" not in jdata.keys():
+            this_status = "fail"
         if reads_after_clustering < 0.8 * reads_total or reads_after_clustering < 10000:
             this_status = "warn"
 
@@ -150,7 +152,7 @@ s = df.style.map(
 show(
     s,
     classes="display compact",
-    scrollY="1200px",
+    scrollY="600px",
     scrollCollapse=True,
     paging=False,
     buttons=["copyHtml5", "csvHtml5", "excelHtml5"]
@@ -571,7 +573,7 @@ full = full.reset_index().set_axis(["Module", "Software", "Version"], axis=1)
 show(
     full,
     classes="display compact",
-    scrollY="1200px",
+    scrollY="600px",
     scrollCollapse=True,
     paging=False,
     buttons=["copyHtml5", "csvHtml5"]
