@@ -80,7 +80,10 @@ for json_file in json_files:
         this_status = "fail"
 
     # Check discarded proportion for warnings
-        # not implemented
+    # simple check if at least 80% of reads and more than 10000 available for assignment
+    if this_status == "pass":
+        if reads_after_clustering < 0.8 * reads_total or reads_after_clustering < 10000:
+            this_status = "warn"
 
     # sample-level dictionary
     headers = [
@@ -559,11 +562,12 @@ for json_file in json_files:
     df = pd.DataFrame(df_data.loc[0].values, index=index, columns=["versions"])
     if not full.empty:
         full = pd.merge(full, df, how='outer', left_index=True, right_index=True)
+        # use max to fill NaN
+        full = full.apply(max, axis=1).to_frame()
     else:
         full = df
-# fill NA and keep only one col
-full = full.apply(max, axis=1).reset_index().set_axis(["Module", "Software", "Version"], axis=1)
 
+full = full.reset_index().set_axis(["Module", "Software", "Version"], axis=1)
 show(
     full,
     classes="display compact",
