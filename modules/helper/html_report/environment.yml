@@ -1,4 +1,4 @@
-name: html_report
+name: helper_html_report
 channels:
   - conda-forge
 dependencies:
@@ -18,3 +18,4 @@ dependencies:
   - seaborn
   - bokeh
   - plotly
+  - itables=2.2.2

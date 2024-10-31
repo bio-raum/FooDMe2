@@ -38,7 +38,7 @@ theme:
         icon: material/eye
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
-      scheme: slate 
+      scheme: slate
       primary: indigo
       accent: deep orange
       toggle:

@@ -3,6 +3,8 @@ title: "FooDMe2"
 subtitle: "Taxonomic profiling of metabarcoding data"
 date: now
 date-format: YYYY-MM-DD, HH:mm
+title-block-banner: "#3F51B5"
+title-block-banner-color: white
 format:
     html:
         embed-resources: true
@@ -11,7 +13,13 @@ format:
         toc-expand: 2
         toc-location: left
         theme: lumen
-        max-width: 2000px
+        other-links:
+            - text: Documentation
+              icon: lightbulb
+              href: https://bio-raum.github.io/FooDMe2/
+            - text: Online repository
+              icon: github
+              href: https://github.com/bio-raum/FooDMe2
 execute:
     echo: false
 jupyter: python3
@@ -27,8 +35,9 @@ import json
 import yaml
 import pandas as pd
 import plotly.express as px
-from IPython.display import Markdown, IFrame
+from IPython.display import Markdown, IFrame, display, HTML
 from tabulate import tabulate
+from itables import show
 ```
 
 ```{python}
@@ -70,6 +79,9 @@ for json_file in json_files:
         reads_chimera = 0
         this_status = "fail"
 
+    # Check discarded proportion for warnings
+        # not implemented
+
     # sample-level dictionary
     headers = [
         "Sample",
@@ -93,25 +105,66 @@ for json_file in json_files:
         f"{reads_after_clustering} ({round((reads_after_clustering/reads_total)*100, 2)}%)",
         f"{reads_chimera} ({round((reads_chimera/reads_total)*100, 2)}%)",
     ])
+
+df = pd.DataFrame(summary, columns=headers)
 ```
 
+::: {.column-screen-inset-right}
 ```{python}
 #| label: tbl-summary
 
-Markdown(tabulate(
-  summary,
-  headers=headers
-))
+def color_status(val):
+    if val == "pass":
+        color = "green"
+    elif val == "warn":
+        color = "orange"
+    elif val == "fail":
+        color = "red"
+    return f"background-color: {color}"
+
+ttips = pd.DataFrame(
+    {
+        "Status": "The overall analysis status: pass: ok to use, warn: potential issues found, fail: most probably not usable",
+        "Reads total": "The number of reads before any processing",
+        "Reads Q30 (%)": "Fraction of input reads >= Q30",
+        "Insert size peak": "The peak insert size",
+        "Reads passing": "The number of reads passing the primer and quality trimming",
+        "Reads filtered": "The number of reads not passing the primer and quality trimming",
+        "Reads after clustering": "The number of reads remaining after clustering",
+        "Chimeric reads": "Reads classified as chimera during the clustering"
+    },
+    index=df.index
+)
+
+s = df.style.map(
+    color_status, subset=pd.IndexSlice[:, ["Status"]]
+).set_tooltips(
+    ttips
+).format(
+    {"Reads Q30 (%)": "{:.2f}"}
+)
+
+show(
+    s,
+    classes="display compact",
+    scrollY="1200px",
+    scrollCollapse=True,
+    paging=False,
+    buttons=["copyHtml5", "csvHtml5", "excelHtml5"]
+)
 ```
+:::
 
 # Taxonomic composition
 
+::: {.column-screen-inset-right}
 ```{python}
 #| label: krona
 
 krona = [fi for fi in os.listdir('.') if fi.endswith('_krona.html')]
 IFrame(src=krona[0], width="100%", height="500px")
 ```
+:::
 
 # Input quality checking
 
@@ -121,6 +174,7 @@ Overview of input data quality before any processing.
 
 Insert size estimation of sampled reads.
 
+::: {.column-screen-inset-right}
 ```{python}
 #| label: insert-size
 
@@ -148,13 +202,17 @@ df = pd.concat(frames)
 fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
     labels={"size": "Insert size (bp)", "count": "Read count"},
     line_shape="spline", template="simple_white")
+fig.update_traces(hovertemplate="%{y} reads")
+fig.update_layout(hovermode="x unified")
 fig.show()
 ```
+:::
 
 ## Sequence Quality
 
 Average sequencing quality over each base of all reads.
 
+::: {.column-screen-inset-right}
 ```{python}
 #| label: prep-read_quality
 
@@ -181,8 +239,9 @@ def get_qual(read_label):
     df = pd.concat(frames)
     return df
 ```
+:::
 
-::: {.panel-tabset}
+::: {.panel-tabset .column-screen-inset-right}
 
 ### Read1: Before filtering
 
@@ -194,6 +253,8 @@ df = get_qual("read1_before_filtering")
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
     line_shape="spline", template="simple_white")
+fig.update_traces(hovertemplate="%{y}")
+fig.update_layout(hovermode="x unified")
 fig.show()
 ```
 
@@ -207,6 +268,8 @@ df = get_qual("read1_after_filtering")
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
     line_shape="spline", template="simple_white")
+fig.update_traces(hovertemplate="%{y}")
+fig.update_layout(hovermode="x unified")
 fig.show()
 ```
 
@@ -220,6 +283,8 @@ df = get_qual("read2_before_filtering")
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
     line_shape="spline", template="simple_white")
+fig.update_traces(hovertemplate="%{y}")
+fig.update_layout(hovermode="x unified")
 fig.show()
 ```
 
@@ -233,6 +298,8 @@ df = get_qual("read2_after_filtering")
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
     line_shape="spline", template="simple_white")
+fig.update_traces(hovertemplate="%{y}")
+fig.update_layout(hovermode="x unified")
 fig.show()
 ```
 
@@ -246,7 +313,7 @@ Removing low quality reads and removing primers.
 
 Filtering low quality reads
 
-::: {.panel-tabset}
+::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
 
 ### Counts
 
@@ -275,10 +342,11 @@ for json_file in json_files:
 
 df = pd.concat(frames)
 
-fig = px.bar(df, x="count", y= "sample", color="label", hover_name="sample",
+fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label", hover_name="sample",
     labels={"count": "Read number", "sample": ""},
     orientation='h', template="simple_white")
 fig.update_layout(legend={'title_text':''})
+fig.update_traces(hovertemplate="%{customdata}<br>%{x}<extra></extra>")
 fig.show()
 ```
 
@@ -289,10 +357,11 @@ fig.show()
 
 df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
 
-fig = px.bar(df, x="prop", y= "sample", color="label", hover_name="sample",
+fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label", hover_name="sample",
     labels={"prop": "Read proportion (%)", "sample": ""},
     orientation='h', template="simple_white")
 fig.update_layout(legend={'title_text':''})
+fig.update_traces(hovertemplate="%{customdata}<br>%{x}%<extra></extra>")
 fig.show()
 ```
 
@@ -302,7 +371,7 @@ fig.show()
 
 Find and remove primer sequences
 
-::: {.panel-tabset}
+::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
 
 ### Counts
 
@@ -331,10 +400,11 @@ for json_file in json_files:
 
 df = pd.concat(frames)
 
-fig = px.bar(df, x="count", y= "sample", color="label", hover_name="sample",
+fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label", hover_name="sample",
     labels={"count": "Read number", "sample": ""},
     orientation='h', template="simple_white")
 fig.update_layout(legend={'title_text':''})
+fig.update_traces(hovertemplate="%{customdata}<br>%{x}<extra></extra>")
 fig.show()
 ```
 
@@ -345,10 +415,11 @@ fig.show()
 
 df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
 
-fig = px.bar(df, x="prop", y= "sample", color="label", hover_name="sample",
+fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label", hover_name="sample",
     labels={"prop": "Read proportion (%)", "sample": ""},
     orientation='h', template="simple_white")
 fig.update_layout(legend={'title_text':''})
+fig.update_traces(hovertemplate="%{customdata}<br>%{x}%<extra></extra>")
 fig.show()
 ```
 
@@ -358,7 +429,7 @@ fig.show()
 
 Clustering amplicon sequences
 
-::: {.panel-tabset}
+::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
 
 ### Counts
 
@@ -387,10 +458,11 @@ for json_file in json_files:
 
 df = pd.concat(frames)
 
-fig = px.bar(df, x="count", y= "sample", color="label", hover_name="sample",
+fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label", hover_name="sample",
     labels={"count": "Read number", "sample": ""},
     orientation='h', template="simple_white")
 fig.update_layout(legend={'title_text':''})
+fig.update_traces(hovertemplate="%{customdata}<br>%{x} reads<extra></extra>")
 fig.show()
 ```
 
@@ -401,10 +473,11 @@ fig.show()
 
 df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
 
-fig = px.bar(df, x="prop", y= "sample", color="label", hover_name="sample",
+fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label", hover_name="sample",
     labels={"prop": "Read proportion (%)", "sample": ""},
     orientation='h', template="simple_white")
 fig.update_layout(legend={'title_text':''})
+fig.update_traces(hovertemplate="%{customdata}<br>%{x}%<extra></extra>")
 fig.show()
 ```
 
@@ -414,8 +487,89 @@ fig.show()
 
 Taxonomic assignment of cluster sequences
 
+::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
+
+### Counts
+
+```{python}
+#| label: ass-count
+
+frames = []
+
+for json_file in json_files:
+    with open(json_file) as f:
+        jdata = json.load(f)
+    sample = jdata["sample"]
+    try:
+        # catch missing data if sample stopped
+        data = jdata["composition"]
+    except KeyError:
+        sdf = pd.DataFrame(columns=["sample", "name", "taxid", "reads", "rank", "proportion"])
+        frames.append(sdf)
+        continue
+    sdf = pd.DataFrame(
+            data,
+        )
+    sdf["sample"] = sample
+    frames.append(sdf)
+
+df = pd.concat(frames)
+df = df. groupby(["sample", "rank"])[["reads", "proportion"]].sum().reset_index()
+df["proportion"] = df["proportion"]*100
+
+fig = px.bar(df, x="reads", y= "sample", color="rank", custom_data="rank", hover_name="sample",
+    labels={"reads": "Read number", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''})
+fig.update_traces(hovertemplate="%{customdata}<br>%{x} reads<extra></extra>")
+fig.show()
+```
+
+### Percentages
+
+```{python}
+#| label: ass-perc
+
+fig = px.bar(df, x="proportion", y= "sample", color="rank", custom_data="rank", hover_name="sample",
+    labels={"prop": "Read proportion (%)", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''})
+fig.update_traces(hovertemplate="%{customdata}<br>%{x}%<extra></extra>")
+fig.show()
+```
+
+:::
+
 # Software versions
 
 Collected at run time from the software output.
 
-TBD: collect versions over all sample reports and produce a table like for summary
+```{python}
+#| label: versions
+
+full = pd.DataFrame()
+
+for json_file in json_files:
+    with open(json_file) as f:
+        jdata = json.load(f)
+    sample = jdata["sample"]
+    data = jdata["versions"]
+    df_data = pd.json_normalize(data)
+    index = pd.MultiIndex.from_arrays(zip(*[n.split(".") for n in df_data.columns]))
+    df = pd.DataFrame(df_data.loc[0].values, index=index, columns=["versions"])
+    if not full.empty:
+        full = pd.merge(full, df, how='outer', left_index=True, right_index=True)
+    else:
+        full = df
+# fill NA and keep only one col
+full = full.apply(max, axis=1).reset_index().set_axis(["Module", "Software", "Version"], axis=1)
+
+show(
+    full,
+    classes="display compact",
+    scrollY="1200px",
+    scrollCollapse=True,
+    paging=False,
+    buttons=["copyHtml5", "csvHtml5"]
+)
+```

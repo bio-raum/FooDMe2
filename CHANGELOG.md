@@ -2,6 +2,7 @@
 
 ### Features
 
+- Complete rwork of the HTML report: now uses a fully customized markdown template.
 - Added read counts to the excel report
 - New argument `--reads` is mutually exclusive with `--input` and takes a glob path as argument. File names are parsed with the glob pattern and paired. This allows bypassing the need for a sample-sheet. It is not recommended way to provide input data but can be helpful in many cases.
   
