@@ -347,11 +347,12 @@ for json_file in json_files:
 
 df = pd.concat(frames)
 
-fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label", hover_name="sample",
+fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label",
     labels={"count": "Read number", "sample": ""},
     orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''})
-fig.update_traces(hovertemplate="%{customdata}<br>%{x}<extra></extra>")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}: %{x}<extra></extra>")
 fig.show()
 ```
 
@@ -362,11 +363,12 @@ fig.show()
 
 df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
 
-fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label", hover_name="sample",
+fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label",
     labels={"prop": "Read proportion (%)", "sample": ""},
     orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''})
-fig.update_traces(hovertemplate="%{customdata}<br>%{x}%<extra></extra>")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}: %{x}%<extra></extra>")
 fig.show()
 ```
 
@@ -405,11 +407,12 @@ for json_file in json_files:
 
 df = pd.concat(frames)
 
-fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label", hover_name="sample",
+fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label",
     labels={"count": "Read number", "sample": ""},
     orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''})
-fig.update_traces(hovertemplate="%{customdata}<br>%{x}<extra></extra>")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}: %{x}<extra></extra>")
 fig.show()
 ```
 
@@ -420,11 +423,12 @@ fig.show()
 
 df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
 
-fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label", hover_name="sample",
+fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label",
     labels={"prop": "Read proportion (%)", "sample": ""},
     orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''})
-fig.update_traces(hovertemplate="%{customdata}<br>%{x}%<extra></extra>")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}: %{x}%<extra></extra>")
 fig.show()
 ```
 
@@ -463,11 +467,12 @@ for json_file in json_files:
 
 df = pd.concat(frames)
 
-fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label", hover_name="sample",
+fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label",
     labels={"count": "Read number", "sample": ""},
     orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''})
-fig.update_traces(hovertemplate="%{customdata}<br>%{x} reads<extra></extra>")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}:%{x} reads<extra></extra>")
 fig.show()
 ```
 
@@ -478,11 +483,12 @@ fig.show()
 
 df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
 
-fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label", hover_name="sample",
+fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label",
     labels={"prop": "Read proportion (%)", "sample": ""},
     orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''})
-fig.update_traces(hovertemplate="%{customdata}<br>%{x}%<extra></extra>")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}: %{x}%<extra></extra>")
 fig.show()
 ```
 
@@ -522,11 +528,12 @@ df = pd.concat(frames)
 df = df. groupby(["sample", "rank"])[["reads", "proportion"]].sum().reset_index()
 df["proportion"] = df["proportion"]*100
 
-fig = px.bar(df, x="reads", y= "sample", color="rank", custom_data="rank", hover_name="sample",
+fig = px.bar(df, x="reads", y= "sample", color="rank", custom_data="rank",
     labels={"reads": "Read number", "sample": ""},
     orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''})
-fig.update_traces(hovertemplate="%{customdata}<br>%{x} reads<extra></extra>")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}: %{x} reads<extra></extra>")
 fig.show()
 ```
 
@@ -535,11 +542,12 @@ fig.show()
 ```{python}
 #| label: ass-perc
 
-fig = px.bar(df, x="proportion", y= "sample", color="rank", custom_data="rank", hover_name="sample",
+fig = px.bar(df, x="proportion", y= "sample", color="rank", custom_data="rank",
     labels={"prop": "Read proportion (%)", "sample": ""},
     orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''})
-fig.update_traces(hovertemplate="%{customdata}<br>%{x}%<extra></extra>")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}: %{x}%<extra></extra>")
 fig.show()
 ```
 
