@@ -79,7 +79,7 @@ def main(output):
             ws["B"+str(ws._current_row)].fill = bgcolor
             ws["C"+str(ws._current_row)].fill = bgcolor
             ws["D"+str(ws._current_row)].fill = bgcolor
-            
+
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws)
 

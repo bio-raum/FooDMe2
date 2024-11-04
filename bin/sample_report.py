@@ -36,7 +36,6 @@ def main(sample_id, run_name, compo, cutadapt, clustering, blast, consensus, ver
     compo_dict = parse_json(compo)
     fastp_dict = parse_json(fastp) if fastp else {}
 
-
     with open(versions, "r") as fi:
         versions_dict = yaml.safe_load(fi)
 
