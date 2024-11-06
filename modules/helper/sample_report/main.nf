@@ -8,7 +8,7 @@ process HELPER_SAMPLE_REPORT {
         'quay.io/biocontainers/biokit:0.5.0--pyh5e36f6f_0' }"
 
     input:
-    tuple val(meta), path(composition), path(cutadapt), path(blast), path(consensus),path(fastp)
+    tuple val(meta), path(composition), path(cutadapt), path(blast), path(consensus), path(fastp)
     path(clustering)
     path(versions)                    // versions yaml
 
