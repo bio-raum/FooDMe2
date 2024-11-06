@@ -93,13 +93,13 @@ for json_file in json_files:
         reads_chimera = 0
         this_status = "fail"
 
-    # Check discarded proportion for warnings
+    # Check discarded proportion for warnings - Disabled for now
     # simple check if at least 80% of reads and more than 10000 available for assignment
-    if this_status == "pass":
-        if "composition" not in jdata.keys():
-            this_status = "fail"
-        if reads_after_clustering < 0.8 * reads_total or reads_after_clustering < 10000:
-            this_status = "warn"
+    # if this_status == "pass":
+    #    if "composition" not in jdata.keys():
+    #        this_status = "fail"
+    #    if reads_after_clustering < 0.8 * reads_total or reads_after_clustering < 10000:
+    #        this_status = "warn"
 
     # sample-level dictionary
     headers = [
