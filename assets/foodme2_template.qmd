@@ -221,8 +221,8 @@ df = pd.concat(frames)
 fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
     labels={"size": "Insert size (bp)", "count": "Read count"},
     line_shape="spline", template="simple_white")
-fig.update_traces(hovertemplate="%{y} reads")
-fig.update_layout(hovermode="x unified")
+fig.update_traces(hovertemplate="%{x}bp: %{y} reads")
+fig.update_layout(hovermode="closest")
 fig.show()
 ```
 :::
@@ -272,8 +272,8 @@ df = get_qual("read1_before_filtering")
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
     line_shape="spline", template="simple_white")
-fig.update_traces(hovertemplate="%{y}")
-fig.update_layout(hovermode="x unified")
+fig.update_traces(hovertemplate="#%{x}: %{y}")
+fig.update_layout(hovermode="closest")
 fig.show()
 ```
 
@@ -287,8 +287,8 @@ df = get_qual("read1_after_filtering")
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
     line_shape="spline", template="simple_white")
-fig.update_traces(hovertemplate="%{y}")
-fig.update_layout(hovermode="x unified")
+fig.update_traces(hovertemplate="#%{x}: %{y}")
+fig.update_layout(hovermode="closest")
 fig.show()
 ```
 
@@ -302,8 +302,8 @@ df = get_qual("read2_before_filtering")
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
     line_shape="spline", template="simple_white")
-fig.update_traces(hovertemplate="%{y}")
-fig.update_layout(hovermode="x unified")
+fig.update_traces(hovertemplate="#%{x}: %{y}")
+fig.update_layout(hovermode="closest")
 fig.show()
 ```
 
@@ -317,8 +317,8 @@ df = get_qual("read2_after_filtering")
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
     line_shape="spline", template="simple_white")
-fig.update_traces(hovertemplate="%{y}")
-fig.update_layout(hovermode="x unified")
+fig.update_traces(hovertemplate="#%{x}: %{y}")
+fig.update_layout(hovermode="closest")
 fig.show()
 ```
 
