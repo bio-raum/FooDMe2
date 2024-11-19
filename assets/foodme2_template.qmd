@@ -134,11 +134,11 @@ df = pd.DataFrame(summary, columns=headers)
 
 def color_status(val):
     if val == "pass":
-        color = "green"
+        color = "limegreen"
     elif val == "warn":
         color = "orange"
     elif val == "fail":
-        color = "red"
+        color = "lightcoral"
     return f"background-color: {color}"
 
 ttips = pd.DataFrame(
