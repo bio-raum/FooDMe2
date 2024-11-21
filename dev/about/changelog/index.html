@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../../img/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.44">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.45">
     
     
       
@@ -1025,7 +1025,7 @@
 <h2 id="dev">dev</h2>
 <h3 id="features">Features</h3>
 <ul>
-<li>Complete rwork of the HTML report: now uses a fully customized markdown template.</li>
+<li>Complete rework of the HTML report: now uses a fully customized markdown template.</li>
 <li>Added read counts to the excel report</li>
 <li>New argument <code>--reads</code> is mutually exclusive with <code>--input</code> and takes a glob path as argument. File names are parsed with the glob pattern and paired. This allows bypassing the need for a sample-sheet. It is not recommended way to provide input data but can be helpful in many cases.</li>
 </ul>
@@ -1038,6 +1038,9 @@
 <li>Added information on the new <code>--reads</code> argument</li>
 </ul>
 <h3 id="bugs">Bugs</h3>
+<ul>
+<li>Fix conda environment definition path for module DADA2:RMCHIMERA that could lead to a failure to genreate the environment for conda user depending on the channel settings.</li>
+</ul>
 <h2 id="100">1.0.0</h2>
 <p>First release.</p>
 <p>Re-implements FooDMe1 functions in a Nextflow pipeline. We designed FooDMe 2 to be more flexible and take away some of the complexity encountered in FooDMe 1. This not only concerns the installation procedure, which is vastly streamlined now, but also the process of configuring and starting individual analysis runs. The new implementation also maes it easier to deploy, maintain, and to add additonal functionalities in the future.
