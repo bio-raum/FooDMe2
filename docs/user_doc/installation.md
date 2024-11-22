@@ -134,7 +134,8 @@ Site-specific config-files for our pipeline ecosystem are stored centrally on [g
 
 ## Local configuration file
 
-If you do not wish to use a site specific configuration, it is alos possible to use a local configuration file. This possibilities is however limited to defining nextflow execution parameters and does not allow to define workflow-specific parameters such as `--reference_base`.
+If you do not wish to use a site specific configuration, it is also possible to use a local configuration file. 
+This possibility is however limited to defining nextflow execution parameters and does not allow to define workflow-specific parameters such as `--reference_base`.
 
 === "Worflow run"
 
@@ -147,7 +148,7 @@ If you do not wish to use a site specific configuration, it is alos possible to 
     ```
 
     1. When using a local configuraiton, you do not need to specify a profile
-    2. It is not possible to define workflow-specific arguments when using a local configuration
+    2. It is not possible to define workflow-specific arguments within a local configuration file
 
 === "`local.config`"
 
