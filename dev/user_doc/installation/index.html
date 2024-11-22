@@ -1103,7 +1103,8 @@
 <p>If you run on anything other than a local system, this pipeline requires a site-specific configuration file to be able to talk to your cluster or compute infrastructure. Nextflow supports a wide range of such infrastructures, including Slurm, LSF and SGE - but also Kubernetes and AWS. For more information, see <a href="https://www.nextflow.io/docs/latest/executor.html">here</a>. In addition, a site-specific config file allows you to pre-set certain options specifically for your system and removes some of the complexity of the command line calls.</p>
 <p>Site-specific config-files for our pipeline ecosystem are stored centrally on <a href="https://github.com/bio-raum/nf-configs">github</a>. Please <a href="https://github.com/bio-raum/nf-configs/issues/new">talk to us</a> if you want to add your system.</p>
 <h2 id="local-configuration-file">Local configuration file</h2>
-<p>If you do not wish to use a site specific configuration, it is alos possible to use a local configuration file. This possibilities is however limited to defining nextflow execution parameters and does not allow to define workflow-specific parameters such as <code>--reference_base</code>.</p>
+<p>If you do not wish to use a site specific configuration, it is also possible to use a local configuration file. 
+This possibility is however limited to defining nextflow execution parameters and does not allow to define workflow-specific parameters such as <code>--reference_base</code>.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Worflow run</label><label for="__tabbed_3_2"><code>local.config</code></label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1115,7 +1116,7 @@
 </span></code></pre></div>
 <ol>
 <li>When using a local configuraiton, you do not need to specify a profile</li>
-<li>It is not possible to define workflow-specific arguments when using a local configuration</li>
+<li>It is not possible to define workflow-specific arguments within a local configuration file</li>
 </ol>
 </div>
 <div class="tabbed-block">
