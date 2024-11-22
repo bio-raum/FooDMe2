@@ -564,6 +564,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#local-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Local configuration file
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -962,6 +971,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#local-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Local configuration file
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -981,7 +999,7 @@
 
 
 <h1 id="installation">Installation</h1>
-<p>If you are new to our pipeline ecosystem, we recommend you first check out our general setup guide <a href="https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md">here</a>. </p>
+<p>If you are new to our pipeline ecosystem, we recommend you first check out our general setup guide <a href="https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md">here</a>.</p>
 <h2 id="installing-nextflow">Installing nextflow</h2>
 <p>Nextflow is a highly portable pipeline engine. Please see the official <a href="https://www.nextflow.io/docs/latest/getstarted.html#installation">installation guide</a> to learn how to set it up.</p>
 <p>This pipeline expects Nextflow version 24.04.4, available <a href="https://github.com/nextflow-io/nextflow/releases/tag/v24.04.4">here</a>.</p>
@@ -1079,11 +1097,55 @@
 <p>Please note that the build process will create a pipeline-specific subfolder (<code>foodme2</code>) that must not be given as part of the <code>--reference_base</code> argument. FooDMe2 is part of a collection of pipelines that use a shared reference directory and it will choose the appropriate subfolder by itself.</p>
 <div class="admonition warning skip genbank">
 <p class="admonition-title">Warning</p>
-<p>In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank core_nt database, which has a final size of over 250GB (and growing), and will need around 0.5TB during installation. If your application works with single gene <a href="../usage/#database">databases</a>, you can skip installing this database with <code>--skip_genbank</code>. </p>
+<p>In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank core_nt database, which has a final size of over 250GB (and growing), and will need around 0.5TB during installation. If your application works with single gene <a href="../usage/#database">databases</a>, you can skip installing this database with <code>--skip_genbank</code>.</p>
 </div>
 <h2 id="site-specific-config-file">Site-specific config file</h2>
-<p>If you run on anything other than a local system, this pipeline requires a site-specific configuration file to be able to talk to your cluster or compute infrastructure. Nextflow supports a wide range of such infrastructures, including Slurm, LSF and SGE - but also Kubernetes and AWS. For more information, see <a href="https://www.nextflow.io/docs/latest/executor.html">here</a>. In addition, a site-specific config file allows you to pre-set certain options specifically for your system and removes some of the complexity of the command line calls. </p>
+<p>If you run on anything other than a local system, this pipeline requires a site-specific configuration file to be able to talk to your cluster or compute infrastructure. Nextflow supports a wide range of such infrastructures, including Slurm, LSF and SGE - but also Kubernetes and AWS. For more information, see <a href="https://www.nextflow.io/docs/latest/executor.html">here</a>. In addition, a site-specific config file allows you to pre-set certain options specifically for your system and removes some of the complexity of the command line calls.</p>
 <p>Site-specific config-files for our pipeline ecosystem are stored centrally on <a href="https://github.com/bio-raum/nf-configs">github</a>. Please <a href="https://github.com/bio-raum/nf-configs/issues/new">talk to us</a> if you want to add your system.</p>
+<h2 id="local-configuration-file">Local configuration file</h2>
+<p>If you do not wish to use a site specific configuration, it is alos possible to use a local configuration file. This possibilities is however limited to defining nextflow execution parameters and does not allow to define workflow-specific parameters such as <code>--reference_base</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Worflow run</label><label for="__tabbed_3_2"><code>local.config</code></label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w">  </span><span class="se">\ </span><span class="c1"># (1)!</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>-r<span class="w"> </span>main<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>-c<span class="w"> </span>/path/to/local.config<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--run_name<span class="w"> </span>name<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>--reference_base<span class="w"> </span>/path/to/references<span class="w"> </span><span class="c1"># (2)!</span>
+</span></code></pre></div>
+<ol>
+<li>When using a local configuraiton, you do not need to specify a profile</li>
+<li>It is not possible to define workflow-specific arguments when using a local configuration</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<div class="language-java highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">params</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="n">max_cpus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="n">max_memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">16.</span><span class="n">GB</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">}</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">process</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">&#39;</span><span class="n">local</span><span class="err">&#39;</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="p">}</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="n">executor</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="n">queueSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">}</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="n">conda</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">  </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">  </span><span class="n">cacheDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;$HOME/nextflow_envs_cache&quot;</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="p">}</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="n">singularity</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">  </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">  </span><span class="n">cacheDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;$HOME/nextflow_envs_cache&quot;</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="p">}</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>See the <a href="https://www.nextflow.io/docs/latest/config.html">nextflow documentation</a> for more informations on local configuration.</p>
 
 
 
