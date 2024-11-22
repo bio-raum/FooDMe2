@@ -1,6 +1,6 @@
 # Installation
 
-If you are new to our pipeline ecosystem, we recommend you first check out our general setup guide [here](https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md). 
+If you are new to our pipeline ecosystem, we recommend you first check out our general setup guide [here](https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md).
 
 ## Installing nextflow
 
@@ -124,10 +124,56 @@ Please note that the build process will create a pipeline-specific subfolder (`f
 
 !!! warning Skip Genbank
 
-    In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank core_nt database, which has a final size of over 250GB (and growing), and will need around 0.5TB during installation. If your application works with single gene [databases](usage.md#database), you can skip installing this database with `--skip_genbank`. 
+    In either case, this will download and format the various databases available through this pipeline. Please note that one of these databases is the full GenBank core_nt database, which has a final size of over 250GB (and growing), and will need around 0.5TB during installation. If your application works with single gene [databases](usage.md#database), you can skip installing this database with `--skip_genbank`.
 
 ## Site-specific config file
 
-If you run on anything other than a local system, this pipeline requires a site-specific configuration file to be able to talk to your cluster or compute infrastructure. Nextflow supports a wide range of such infrastructures, including Slurm, LSF and SGE - but also Kubernetes and AWS. For more information, see [here](https://www.nextflow.io/docs/latest/executor.html). In addition, a site-specific config file allows you to pre-set certain options specifically for your system and removes some of the complexity of the command line calls. 
+If you run on anything other than a local system, this pipeline requires a site-specific configuration file to be able to talk to your cluster or compute infrastructure. Nextflow supports a wide range of such infrastructures, including Slurm, LSF and SGE - but also Kubernetes and AWS. For more information, see [here](https://www.nextflow.io/docs/latest/executor.html). In addition, a site-specific config file allows you to pre-set certain options specifically for your system and removes some of the complexity of the command line calls.
 
 Site-specific config-files for our pipeline ecosystem are stored centrally on [github](https://github.com/bio-raum/nf-configs). Please [talk to us](https://github.com/bio-raum/nf-configs/issues/new) if you want to add your system.
+
+## Local configuration file
+
+If you do not wish to use a site specific configuration, it is alos possible to use a local configuration file. This possibilities is however limited to defining nextflow execution parameters and does not allow to define workflow-specific parameters such as `--reference_base`.
+
+=== "Worflow run"
+
+    ```bash
+    nextflow run bio-raum/FooDMe2  \ # (1)!
+      -r main \
+      -c /path/to/local.config \
+      --run_name name \
+      --reference_base /path/to/references # (2)!
+    ```
+
+    1. When using a local configuraiton, you do not need to specify a profile
+    2. It is not possible to define workflow-specific arguments when using a local configuration
+
+=== "`local.config`"
+
+    ```java
+    params {
+      max_cpus = 4
+      max_memory = 16.GB
+    }
+
+    process {
+      executor = 'local'
+    }
+
+    executor {
+      queueSize = 5
+    }
+
+    conda {
+      enabled = true
+      cacheDir = "$HOME/nextflow_envs_cache"
+    }
+
+    singularity {
+      enabled = false
+      cacheDir = "$HOME/nextflow_envs_cache"
+    }
+    ```
+
+See the [nextflow documentation](https://www.nextflow.io/docs/latest/config.html) for more informations on local configuration.

@@ -13,8 +13,9 @@
 ### Documentation
 
 - Added ressource usage arguments to usage documentation
-- Added some information on the `reference_base` argument in the troobleshooting section
+- Added some information on the `--reference_base` argument in the troobleshooting section
 - Added information on the new `--reads` argument
+- Added information on the use of a local configuration file
 
 ### Bugs
 
