@@ -1492,15 +1492,15 @@ is at a maximum given rank and it's predicted (and expected) proportion in the s
 <dt><code>--disable_low_complexity</code> [default = false]</dt>
 <dd>
 <p>By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.</p>
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-ram/FooDMe2<span class="w"> </span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-ram/FooDMe2<span class="w"> </span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>-profile<span class="w"> </span>apptainer<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>--input<span class="w"> </span>samples.tsv<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>--disable_low_complexity<span class="w"> </span>...
 </span></code></pre></div>
-<code>--non_overlapping</code> [default = false]</p>
 </dd>
+<dt><code>--non_overlapping</code> [default = false]</dt>
 <dd>
-<p>Toggle read concatenation instead of merging with an overlapping sequence. Works for both VSEARCH and DADA2 with paired-end reads. THis is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. Note that this applies to <strong>all</strong> reads.</p>
+<p>Toggle read concatenation instead of merging with an overlapping sequence. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. Note that this applies to <strong>all</strong> reads.</p>
 </dd>
 <dt><code>--vsearch</code> [ default = false ]</dt>
 <dd>
