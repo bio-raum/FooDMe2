@@ -1498,7 +1498,7 @@ is at a maximum given rank and it's predicted (and expected) proportion in the s
 </dl>
 <h3 id="advanced-pcr-primer-trimming-options">Advanced PCR primer trimming options</h3>
 <p>Some possible usage examples:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Default</label><label for="__tabbed_3_2">Custom primers</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Default</label><label for="__tabbed_3_2">Custom primers</label><label for="__tabbed_3_3">Trim 3' ends</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\-</span>profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
@@ -1515,17 +1515,16 @@ is at a maximum given rank and it's predicted (and expected) proportion in the s
 </span></code></pre></div>
 <p>This example uses your custom primers, performs PCR primer site removal with cutadapt and performs taxonomic profiling against the srRNA database.</p>
 </div>
+<div class="tabbed-block">
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>--primer_set<span class="w"> </span>amniotes_dobrovolny<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>--cutadapt_trim_3p<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>--run_name<span class="w"> </span>cutadapt-test
+</span></code></pre></div>
+This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.</p>
 </div>
 </div>
-<p>=== Trim 3' ends</p>
-<div class="language-text highlight"><pre><span></span><code>```bash
-nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
---primer_set amniotes_dobrovolny \\
---cutadapt_trim_3p \\
---run_name cutadapt-test
-```
-This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.
-</code></pre></div>
+</div>
 <dl>
 <dt><code>--cutadapt_trim_3p</code> [ default = false ]</dt>
 <dd>
@@ -1550,7 +1549,7 @@ This example will additionally reverse complement your primer sequences and chec
 </dl>
 <h3 id="advanced-clustering-options">Advanced clustering options</h3>
 <dl>
-<dt><code>--non_overlapping</code> [default = false]</dt>
+<dt><code>--non_overlapping</code> [ default = false]</dt>
 <dd>
 <p>Toggle read concatenation instead of merging with an overlapping sequence. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. Note that this applies to <strong>all</strong> reads.</p>
 </dd>
