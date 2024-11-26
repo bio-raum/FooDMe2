@@ -1589,7 +1589,7 @@ The default of 98 seems to work quite well for our data, but will occasionally f
 <dd>
 <p>Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe2 uses a built-in <a href="https://raw.githubusercontent.com/bio-raum/FooDMe2/main/assets/blocklist.txt">block list</a> - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits. Consider merging your list with the built-in block list to make sure you mask previously identified problematic taxa. </p>
 </dd>
-<dt><code>--disable_low_complexity</code> [default = false]</dt>
+<dt><code>--disable_low_complexity</code> [ default = false]</dt>
 <dd>
 <p>By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs. Effectively deactivates DUST fileter and soft masking.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-ram/FooDMe2<span class="w"> </span>
@@ -1598,23 +1598,23 @@ The default of 98 seems to work quite well for our data, but will occasionally f
 </span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>--disable_low_complexity<span class="w"> </span>...
 </span></code></pre></div>
 </dd>
-<dt><code>--blast_evalue</code> [default = "1e-20" ]</dt>
+<dt><code>--blast_evalue</code> [ default = "1e-20" ]</dt>
 <dd>
 <p>Maximal e-value of BLAST results</p>
 </dd>
-<dt><code>--blast_qcov</code> [default = "100" ]</dt>
+<dt><code>--blast_qcov</code> [ default = "100" ]</dt>
 <dd>
 <p>Amount of the query that has to be covered by a BLAST hit, in percent.</p>
 </dd>
-<dt><code>--blast_perc_id</code> [default = "97" ]</dt>
+<dt><code>--blast_perc_id</code> [ default = "97" ]</dt>
 <dd>
 <p>Minimal identity level between query and BLAST hit, in percent</p>
 </dd>
-<dt><code>--blast_bitscore_diff</code> [default = 4 ]</dt>
+<dt><code>--blast_bitscore_diff</code> [ default = 4 ]</dt>
 <dd>
 <p>Maximal difference between the best BLAST hit's bitscore and the other hits to be kept.</p>
 </dd>
-<dt><code>--blast_min_consensus</code> [default = 0.51 ]</dt>
+<dt><code>--blast_min_consensus</code> [ default = 0.51 ]</dt>
 <dd>
 <p>Minimal consensus level between all BLAST results for a given query to be assigned to a taxonomic node.</p>
 </dd>
