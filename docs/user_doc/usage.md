@@ -394,7 +394,7 @@ Some possible usage examples:
 
 :   Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe2 uses a built-in [block list](https://raw.githubusercontent.com/bio-raum/FooDMe2/main/assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits. Consider merging your list with the built-in block list to make sure you mask previously identified problematic taxa. 
 
-`--disable_low_complexity` [default = false]
+`--disable_low_complexity` [ default = false]
 
 :   By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs. Effectively deactivates DUST fileter and soft masking.
 
@@ -405,23 +405,23 @@ Some possible usage examples:
 	--disable_low_complexity ...
 	```
 
-`--blast_evalue` [default = "1e-20" ]
+`--blast_evalue` [ default = "1e-20" ]
 
 :   Maximal e-value of BLAST results
 
-`--blast_qcov` [default = "100" ]
+`--blast_qcov` [ default = "100" ]
 
 :   Amount of the query that has to be covered by a BLAST hit, in percent.
 
-`--blast_perc_id` [default = "97" ]
+`--blast_perc_id` [ default = "97" ]
 
 :   Minimal identity level between query and BLAST hit, in percent
 
-`--blast_bitscore_diff` [default = 4 ]
+`--blast_bitscore_diff` [ default = 4 ]
 
 :   Maximal difference between the best BLAST hit's bitscore and the other hits to be kept.
 
-`--blast_min_consensus` [default = 0.51 ]
+`--blast_min_consensus` [ default = 0.51 ]
 
 :   Minimal consensus level between all BLAST results for a given query to be assigned to a taxonomic node.
 
