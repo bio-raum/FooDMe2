@@ -298,28 +298,62 @@ Benchmarking is activated by providing following arguments:
 
 :   Minimum proportion to be considered predicted
 
-### Expert options
+### Advanced PCR primer trimming options
 
-Most users probably will not need to touch these options.
+Some possible usage examples:
+
+=== "Default"
+
+    ```bash
+    nextflow run bio-raum/FooDMe2 \-profile standard,conda --input samples.csv \\
+    --primer_set amniotes_dobrovolny \\
+    --run_name cutadapt-test
+    ```
+
+    This example uses a built-in primer set to perform primer removal.
+
+=== "Custom primers"
+
+    ```bash
+    nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
+    --primers_fa my_primers.fasta \\
+    --db srna \\
+    --run_name cutadapt-test
+    ```
+
+    This example uses your custom primers, performs PCR primer site removal with cutadapt and performs taxonomic profiling against the srRNA database.
+
+=== Trim 3' ends
+
+    ```bash
+    nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
+    --primer_set amniotes_dobrovolny \\
+    --cutadapt_trim_3p \\
+    --run_name cutadapt-test
+    ```
+    This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.
+
+`--cutadapt_trim_3p` [ default = false ]
+
+:   Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect. 
 
 `--store_reads` [ default = false ]
 
 :   Emit the primer-trimmed reads into the result folder. This option is mostly useful to debug errors that are related to failed primer site removal. This option is set to false by default to save storage space. 
 
-`--blocklist`
+`--cutadapt_options` [ default = "" ]
 
-:   Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe2 uses a built-in [block list](https://raw.githubusercontent.com/bio-raum/FooDMe2/main/assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits. Consider merging your list with the built-in block list to make sure you mask previously identified problematic taxa. 
+:   Any additional options you feel should be passed to Cutadapt. Use at your own risk. 
 
-`--disable_low_complexity` [default = false]
+`--amplicon_min_length` [ default = 70 ]
 
-:   By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.
+:   The minimum size an amplicon is expected to have. Data that falls below this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 
 
-	```bash
-	nextflow run bio-ram/FooDMe2 
-	-profile apptainer \
-	--input samples.tsv \
-	--disable_low_complexity ...
-	```
+`--amplicon_max_length` [ default = 100 ]
+
+:   The maximum size an amplicon is expected to have. Data that lies above this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 
+
+### Advanced clustering options
 
 `--non_overlapping` [default = false]
 
@@ -338,47 +372,56 @@ Most users probably will not need to touch these options.
 :   The percentage similarity for ASUs to be collapsed into OTUs. If you set this to 100, ASUs will not be collapsed at all, which will generate a higher resolution call set at the cost of added noise. In turn, setting this value too low may collapse separate species into "hybrid" OTUs.
 	The default of 98 seems to work quite well for our data, but will occasionally fragment individual taxa into multiple OTUs if sequencing error rate is high. For the TSV output, OTUs with identical taxonimic assignments will be counted as one, whereas the JSON output leaves this step to the user.
 
-### PCR primer trimming
+`--remove_chimera` [ default = true ]
 
-Some possible usage examples:
+:   Toggle chimera filtering step on or off.
 
-```bash
-nextflow run bio-raum/FooDMe2 \-profile standard,conda --input samples.csv \\
---primer_set amniotes_dobrovolny \\
---run_name cutadapt-test
-```
+`--max_expected_errors` [ default = 2 ]
 
-This example uses a built-in primer set to perform primer removal.
+:   Maximum allowed amount of expected errors in reads.
 
-```bash
-nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
---primers_fa my_primers.fasta \\
---db srna \\
---run_name cutadapt-test
-```
+`--max_ns` [ default = 0 ]
 
-This example uses your custom primers, performs PCR primer site removal with cutadapt and performs taxonomic profiling against the srRNA database.
+:   Maximum allowed number of undetermined ('N') nucleotides in reads.
 
-```bash
-nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
---primer_set amniotes_dobrovolny \\
---cutadapt_trim_3p \\
---run_name cutadapt-test
-```
-This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.
+`--merging_max_mismatch` [ default = 1 ]
 
-`--cutadapt_trim_3p` [ default = false ]
+:   Maximum allowed number of mismatches in the overlap region for read merging. Only for paired-end reads.
 
-:   Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect. 
+### Advanced BLAST options
 
-`--cutadapt_options` [ default = "" ]
+`--blocklist`
 
-:   Any additional options you feel should be passed to Cutadapt. Use at your own risk. 
+:   Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe2 uses a built-in [block list](https://raw.githubusercontent.com/bio-raum/FooDMe2/main/assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits. Consider merging your list with the built-in block list to make sure you mask previously identified problematic taxa. 
 
-`--amplicon_min_length` [ default = 70 ]
+`--disable_low_complexity` [default = false]
 
-:   The minimum size an amplicon is expected to have. Data that falls below this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 
+:   By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs. Effectively deactivates DUST fileter and soft masking.
 
-`--amplicon_max_length` [ default = 100 ]
+	```bash
+	nextflow run bio-ram/FooDMe2 
+	-profile apptainer \
+	--input samples.tsv \
+	--disable_low_complexity ...
+	```
 
-:   The maximum size an amplicon is expected to have. Data that lies above this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 
+`--blast_evalue` [default = "1e-20" ]
+
+:   Maximal e-value of BLAST results
+
+`--blast_qcov` [default = "100" ]
+
+:   Amount of the query that has to be covered by a BLAST hit, in percent.
+
+`--blast_perc_id` [default = "97" ]
+
+:   Minimal identity level between query and BLAST hit, in percent
+
+`--blast_bitscore_diff` [default = 4 ]
+
+:   Maximal difference between the best BLAST hit's bitscore and the other hits to be kept.
+
+`--blast_min_consensus` [default = 0.51 ]
+
+:   Minimal consensus level between all BLAST results for a given query to be assigned to a taxonomic node.
+
