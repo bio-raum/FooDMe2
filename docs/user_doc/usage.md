@@ -323,7 +323,7 @@ Some possible usage examples:
 
     This example uses your custom primers, performs PCR primer site removal with cutadapt and performs taxonomic profiling against the srRNA database.
 
-=== Trim 3' ends
+=== "Trim 3' ends"
 
     ```bash
     nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
@@ -355,7 +355,7 @@ Some possible usage examples:
 
 ### Advanced clustering options
 
-`--non_overlapping` [default = false]
+`--non_overlapping` [ default = false]
 
 :   Toggle read concatenation instead of merging with an overlapping sequence. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. Note that this applies to **all** reads.
 
