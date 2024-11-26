@@ -310,7 +310,7 @@ Most users probably will not need to touch these options.
 
 :   Provide a list of NCBI taxonomy IDs (one per line) that should be masked from the BLAST database (and thus the result). FooDMe2 uses a built-in [block list](https://raw.githubusercontent.com/bio-raum/FooDMe2/main/assets/blocklist.txt) - but you can use this option to overwrite it, if need be. A typical use case would be a list of taxa that you know for a fact to be false positive hits. Consider merging your list with the built-in block list to make sure you mask previously identified problematic taxa. 
 
-`--disable_low_complexity [default = false]`
+`--disable_low_complexity` [default = false]
 
 :   By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs.
 
@@ -320,6 +320,9 @@ Most users probably will not need to touch these options.
 	--input samples.tsv \
 	--disable_low_complexity ...
 	```
+`--non_overlapping` [default = false]
+
+:   Toggle read concatenation instead of merging with an overlapping sequence. Works for both VSEARCH and DADA2 with paired-end reads. THis is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. Note that this applies to **all** reads.
 
 `--vsearch` [ default = false ]
 

@@ -18,7 +18,7 @@ process DADA2_MERGE {
     path("ASV_table.tsv")  , emit: asv
     path("ASV_seqs.fasta") , emit: fasta
     path("DADA2_table.rds"), emit: rds
-    path 'versions.yml'      , emit: versions
+    path 'versions.yml'    , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

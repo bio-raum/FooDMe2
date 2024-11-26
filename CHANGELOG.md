@@ -9,6 +9,7 @@
   ```
   nextflow run bio-raum/FooDMe2 -profile singularity --reads '/path/to/reads/*_R{1,2}_001.fastq.gz'
   ```
+- Add the parameter `--non_overlapping` to simply concatenate R1 and R2 reads instead of merging with an overlapping sequence. This is useful in case the amplicon or seuqnce length produce reads with no overlaps.
 
 ### Documentation
 

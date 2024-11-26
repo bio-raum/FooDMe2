@@ -25,6 +25,9 @@ process DADA2_DENOISING {
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
 
+    def concatenate = params.non_overlapping ? 'TRUE' : 'FALSE'
+    
+
     if (meta.single_end) {
         """
         #!/usr/bin/env Rscript
@@ -73,7 +76,7 @@ process DADA2_DENOISING {
         sink(file = NULL)
 
         #make table
-        mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, $args2, verbose=TRUE)
+        mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, $args2, verbose=TRUE, justConcatenate = $concatenate)
         saveRDS(mergers, "${meta.sample_id}.mergers.rds")
         seqtab <- makeSequenceTable(mergers)
         saveRDS(seqtab, "${meta.sample_id}.seqtab.rds")

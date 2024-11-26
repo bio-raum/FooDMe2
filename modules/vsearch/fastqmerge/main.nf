@@ -21,18 +21,33 @@ process VSEARCH_FASTQMERGE {
 
     merged = prefix + '.merged.fastq'
 
-    """
-    vsearch --fastq_merge $fwd --reverse $rev \
-    --fastqout $merged \
-    --threads ${task.cpus} \
-    --fastq_eeout \
-    --relabel ${meta.sample_id}. \
-    --sample ${meta.sample_id} \
-    $args
+    // --fastq_join takes less args than --fastq_merge
+    if (params.non_overlapping){
+        """
+        vsearch --fastq_merge $fwd --reverse $rev \
+        --fastqout $merged \
+        --threads ${task.cpus} \
+        --fastq_eeout \
+        --relabel ${meta.sample_id}. \
+        --sample ${meta.sample_id} \
+        $args
 
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        vsearch: \$(vsearch --version 2>&1 | head -n 1 | sed 's/vsearch //g' | sed 's/,.*//g' | sed 's/^v//' | sed 's/_.*//')
-    END_VERSIONS
-    """
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            vsearch: \$(vsearch --version 2>&1 | head -n 1 | sed 's/vsearch //g' | sed 's/,.*//g' | sed 's/^v//' | sed 's/_.*//')
+        END_VERSIONS
+        """
+    } else {
+        """
+        vsearch --fastq_join $fwd --reverse $rev \
+        --fastqout $merged \
+        --threads ${task.cpus} \
+        --relabel ${meta.sample_id}. 
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            vsearch: \$(vsearch --version 2>&1 | head -n 1 | sed 's/vsearch //g' | sed 's/,.*//g' | sed 's/^v//' | sed 's/_.*//')
+        END_VERSIONS
+        """
+    }
 }
