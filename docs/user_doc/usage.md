@@ -320,9 +320,10 @@ Most users probably will not need to touch these options.
 	--input samples.tsv \
 	--disable_low_complexity ...
 	```
+
 `--non_overlapping` [default = false]
 
-:   Toggle read concatenation instead of merging with an overlapping sequence. Works for both VSEARCH and DADA2 with paired-end reads. THis is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. Note that this applies to **all** reads.
+:   Toggle read concatenation instead of merging with an overlapping sequence. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. Note that this applies to **all** reads.
 
 `--vsearch` [ default = false ]
 
