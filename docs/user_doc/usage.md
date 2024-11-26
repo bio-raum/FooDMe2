@@ -305,7 +305,7 @@ Some possible usage examples:
 === "Default"
 
     ```bash
-    nextflow run bio-raum/FooDMe2 \-profile standard,conda --input samples.csv \\
+    nextflow run bio-raum/FooDMe2 -profile standard,conda --input samples.csv \\
     --primer_set amniotes_dobrovolny \\
     --run_name cutadapt-test
     ```
