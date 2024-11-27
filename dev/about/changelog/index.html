@@ -1029,15 +1029,18 @@
 <li>Added read counts to the excel report</li>
 <li>New argument <code>--reads</code> is mutually exclusive with <code>--input</code> and takes a glob path as argument. File names are parsed with the glob pattern and paired. This allows bypassing the need for a sample-sheet. It is not recommended way to provide input data but can be helpful in many cases.</li>
 </ul>
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow run bio-raum/FooDMe2 -profile singularity --reads &#39;/path/to/reads/*_R{1,2}_001.fastq.gz&#39;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow run bio-raum/FooDMe2 -profile singularity --reads &#39;/path/to/reads/*_R{1,2}_001.fastq.gz&#39;
 </span></code></pre></div>
-- Add the parameter <code>--non_overlapping</code> to simply concatenate R1 and R2 reads instead of merging with an overlapping sequence. This is useful in case the amplicon or seuqnce length produce reads with no overlaps.</p>
+<ul>
+<li>Add the parameter <code>--non_overlapping</code> to simply concatenate R1 and R2 reads instead of merging with an overlapping sequence. This is useful in case the amplicon or seuqnce length produce reads with no overlaps.</li>
+</ul>
 <h3 id="documentation">Documentation</h3>
 <ul>
 <li>Added ressource usage arguments to usage documentation</li>
 <li>Added some information on the <code>--reference_base</code> argument in the troobleshooting section</li>
 <li>Added information on the new <code>--reads</code> argument</li>
 <li>Added information on the use of a local configuration file</li>
+<li>Added information on BLAST, and clustering-specific arguments</li>
 </ul>
 <h3 id="bugs">Bugs</h3>
 <ul>
