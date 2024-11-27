@@ -5,10 +5,11 @@
 - Complete rework of the HTML report: now uses a fully customized markdown template.
 - Added read counts to the excel report
 - New argument `--reads` is mutually exclusive with `--input` and takes a glob path as argument. File names are parsed with the glob pattern and paired. This allows bypassing the need for a sample-sheet. It is not recommended way to provide input data but can be helpful in many cases.
-  
+
   ```
   nextflow run bio-raum/FooDMe2 -profile singularity --reads '/path/to/reads/*_R{1,2}_001.fastq.gz'
   ```
+
 - Add the parameter `--non_overlapping` to simply concatenate R1 and R2 reads instead of merging with an overlapping sequence. This is useful in case the amplicon or seuqnce length produce reads with no overlaps.
 
 ### Documentation
@@ -17,6 +18,7 @@
 - Added some information on the `--reference_base` argument in the troobleshooting section
 - Added information on the new `--reads` argument
 - Added information on the use of a local configuration file
+- Added information on BLAST, and clustering-specific arguments
 
 ### Bugs
 
