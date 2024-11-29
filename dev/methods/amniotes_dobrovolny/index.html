@@ -801,20 +801,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#validation" class="md-nav__link">
     <span class="md-ellipsis">
       Validation
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1070,20 +1064,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#validation" class="md-nav__link">
     <span class="md-ellipsis">
       Validation
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1113,7 +1101,7 @@
 <li>Read-length: paired-end 150bp or longer</li>
 <li>Targets: mammals, birds</li>
 </ul>
-<p>:graduation_cap: <strong>Relevant publications:</strong></p>
+<p><img alt="🎓" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f393.svg" title=":mortar_board:" /> <strong>Relevant publications:</strong></p>
 <ul>
 <li><a href="https://pubmed.ncbi.nlm.nih.gov/30309555/">Development of a DNA metabarcoding method for the identification of fifteen mammalian and six poultry species in food </a></li>
 <li><a href="https://pubmed.ncbi.nlm.nih.gov/34829156/">Identification of Mammalian and Poultry Species in Food and Pet Food Samples Using 16S rDNA Metabarcoding</a></li>
@@ -1122,7 +1110,7 @@
 </ul>
 <p><img alt="📜" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f4dc.svg" title=":scroll:" /> <strong>Official Methods:</strong></p>
 <ul>
-<li>Amtliche Sammlung von Untersuchungsverfahren: L 00.00-184</li>
+<li>Amtliche Sammlung von Untersuchungsverfahren: <a href="https://www.dinmedia.de/de/technische-regel/bvl-l-00-00-184/367584412">BVL L 00.00-184</a> (German)</li>
 </ul>
 <h2 id="configuration">Configuration</h2>
 <p>Following parameters are set to a different value than default when running this method:</p>
@@ -1135,7 +1123,7 @@
 <li><code>taxid_filter</code>: 32524 (Amniotes)</li>
 <li><code>cutadapt_trim_3p</code>: true</li>
 </ul>
-<h3 id="validation">Validation</h3>
+<h2 id="validation">Validation</h2>
 <p>Mammals and birds 16S Illumina metabarcoding, method from <a href="https://pubmed.ncbi.nlm.nih.gov/30309555/">Dobrovolny paper</a> with the dataset from the <a href="https://pubmed.ncbi.nlm.nih.gov/36900485/">FooDMe1 paper</a>.</p>
 <p>For this method, a benchmarking (or validation) profile is provided in the FooDMe2 distribution:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
