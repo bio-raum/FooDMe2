@@ -8,7 +8,7 @@
 * Read-length: paired-end 150bp or longer
 * Targets: mammals, birds
 
-:graduation_cap: **Relevant publications:**
+:mortar_board: **Relevant publications:**
 
 * [Development of a DNA metabarcoding method for the identification of fifteen mammalian and six poultry species in food ](https://pubmed.ncbi.nlm.nih.gov/30309555/)
 * [Identification of Mammalian and Poultry Species in Food and Pet Food Samples Using 16S rDNA Metabarcoding](https://pubmed.ncbi.nlm.nih.gov/34829156/)
@@ -17,7 +17,7 @@
 
 :scroll: **Official Methods:**
 
-* Amtliche Sammlung von Untersuchungsverfahren: L 00.00-184
+* Amtliche Sammlung von Untersuchungsverfahren: [BVL L 00.00-184](https://www.dinmedia.de/de/technische-regel/bvl-l-00-00-184/367584412) (German)
 
 
 ## Configuration
@@ -32,7 +32,7 @@ Following parameters are set to a different value than default when running this
 * `taxid_filter`: 32524 (Amniotes)
 * `cutadapt_trim_3p`: true
 
-### Validation
+## Validation
 
 Mammals and birds 16S Illumina metabarcoding, method from [Dobrovolny paper](https://pubmed.ncbi.nlm.nih.gov/30309555/) with the dataset from the [FooDMe1 paper](https://pubmed.ncbi.nlm.nih.gov/36900485/).
 
