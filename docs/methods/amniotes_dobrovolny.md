@@ -33,7 +33,7 @@ nextflow run bio-raum/FooDMe2 \
   --primer_set amniotes_dobrovolny
 ```
 
-1. See the [installation guide](../user_doc/installation/) for more details on this parameter
+1. See the [installation guide](../user_doc/installation.md) for more details on this parameter
 
 ## Configuration
 
