@@ -14,6 +14,7 @@
 * [Identification of Mammalian and Poultry Species in Food and Pet Food Samples Using 16S rDNA Metabarcoding](https://pubmed.ncbi.nlm.nih.gov/34829156/)
 * [Benchmarking and Validation of a Bioinformatics Workflow for Meat Species Identification Using 16S rDNA Metabarcoding ](https://pubmed.ncbi.nlm.nih.gov/36900485/)
 * [Interlaboratory Validation of a DNA Metabarcoding Assay for Mammalian and Poultry Species to Detect Food Adulteration](https://pubmed.ncbi.nlm.nih.gov/35454695/)
+* [Detection of adulterated meat products by a next-generation sequencing-based metabarcoding analysis within the framework of the operation OPSON X: a cooperative project of the German National Reference Centre for Authentic Food (NRZ-Authent) and the competent German food control authorities](https://www.openagrar.de/receive/openagrar_mods_00087058)
 
 :scroll: **Official Methods:**
 
