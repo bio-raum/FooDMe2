@@ -7,8 +7,8 @@ repo_url: https://github.com/bio-raum/FooDMe2
 nav:
   - Home:
     - Welcome: index.md
-    - Contibuting: home/contributing.md
-    - Release notes: home/changelog.md
+    - Contibuting: about/contributing.md
+    - Release notes: about/changelog.md
   - User Guide:
     - Quickstart: user_doc/quickstart.md
     - Requirements: user_doc/requirements.md
