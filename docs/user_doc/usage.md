@@ -199,7 +199,7 @@ The following options can be set to control resource usage outside of a site-spe
 
 :   The name of the pre-configured primer set to use for read clipping. More sets will be added over time
 
-    Available options [here](../methods.md).
+    Available options [here](../methods/methods.md).
 
     A list of pre-configured primer sets is also available from the pipeline directly, with `--list_primers`
 
