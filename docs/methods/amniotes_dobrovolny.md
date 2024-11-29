@@ -19,6 +19,21 @@
 
 * Amtliche Sammlung von Untersuchungsverfahren: [BVL L 00.00-184](https://www.dinmedia.de/de/technische-regel/bvl-l-00-00-184/367584412) (German)
 
+:gear: **Run with:**
+
+`--primer_set amniotes_dobrovolny`
+
+For example:
+
+```bash
+nextflow run bio-raum/FooDMe2 \
+  -r main \
+  -profile myprofile \ # (1)!
+  --input samples.tsv \
+  --primer_set amniotes_dobrovolny
+```
+
+1. See the [installation guide](../user_doc/installation/) for more details on this parameter
 
 ## Configuration
 
