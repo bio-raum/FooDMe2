@@ -5,7 +5,10 @@ site_author: Grégoire Denay and Marc Höppner
 repo_url: https://github.com/bio-raum/FooDMe2
 
 nav:
-  - Welcome: index.md
+  - Home:
+    - Welcome: index.md
+    - Contibuting: home/contributing.md
+    - Release notes: home/changelog.md
   - User Guide:
     - Quickstart: user_doc/quickstart.md
     - Requirements: user_doc/requirements.md
@@ -13,16 +16,16 @@ nav:
     - Usage: user_doc/usage.md
     - Pipeline: user_doc/pipeline.md
     - Output: user_doc/output.md
-    - Validation: user_doc/validation.md
+  - Methods:
+    - Standard methods: methods/methods.md
+    - Illumina Mammals and birds: methods/amniotes_dobrovolny.md
   - Help:
     - Migration: help/migration.md
     - Troobleshooting: help/troubleshooting.md
   - Developer Guide: developer.md
   - About:
-    - Contibuting: about/contributing.md
     - Software: about/software.md
     - License: about/license.md
-    - Release notes: about/changelog.md
 
 theme:
   name: material

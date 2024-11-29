@@ -199,9 +199,7 @@ The following options can be set to control resource usage outside of a site-spe
 
 :   The name of the pre-configured primer set to use for read clipping. More sets will be added over time
 
-    Available options:
-
-    - amniotes_dobrovolny (mammals and birds, as published by [Dobrovolny et al.](https://pubmed.ncbi.nlm.nih.gov/30309555/))
+    Available options [here](../methods.md).
 
     A list of pre-configured primer sets is also available from the pipeline directly, with `--list_primers`
 
@@ -266,6 +264,8 @@ Databases for taxonomic assignment can be specified in one of two ways - from th
 
     Please note that the higher the node (i.e. the broader the search space), the more RAM will be required. This is not a concern for the single gene databases (e.g. Midori), but will be a significant factor when screening against GenBank NT. If you need to use GenBank NT and find that your jobs crash due to an out-of-memory error, consider using a shallower taxonomic node. 
 
+## Advanced options
+
 ### Benchmarking
 
 It is possible to benchmark the pipelines performance against a set of known samples (e.g. for validation).
@@ -298,7 +298,7 @@ Benchmarking is activated by providing following arguments:
 
 :   Minimum proportion to be considered predicted
 
-### Advanced PCR primer trimming options
+### PCR primer trimming
 
 Some possible usage examples:
 
@@ -353,7 +353,7 @@ Some possible usage examples:
 
 :   The maximum size an amplicon is expected to have. Data that lies above this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. 
 
-### Advanced clustering options
+### Clustering configuration
 
 `--non_overlapping` [ default = false]
 
@@ -388,7 +388,7 @@ Some possible usage examples:
 
 :   Maximum allowed number of mismatches in the overlap region for read merging. Only for paired-end reads.
 
-### Advanced BLAST options
+### BLAST configuration
 
 `--blocklist`
 
