@@ -27,9 +27,11 @@ process CUTADAPT {
     def trimmed  = meta.single_end ? "-o ${prefix}.trim.fastq.gz" : "-o ${prefix}_1.trim.fastq.gz -p ${prefix}_2.trim.fastq.gz"
     def options_5p = ''
     def options_3p = ''
+    def read_config = "--interleaved"
     if (meta.single_end) {
         options_5p = "-g ^file:${primers}"
         options_3p = "-a file\$:${primers_rc}"
+        read_config = ""
     } else {
         options_5p = "-g file:${primers} -G file:${primers}"
         options_3p = "-a file\$:${primers_rc} -A file\$:${primers_rc}"
@@ -37,14 +39,14 @@ process CUTADAPT {
 
     if (params.cutadapt_trim_3p) {
         """
-        cutadapt --interleaved \\
+        cutadapt $read_config \\
             --discard-untrimmed \\
             --cores $task.cpus \\
             $args \\
             $reads \\
             $options_5p \\
             --json=${prefix}_forward.json \\
-        | cutadapt --interleaved \\
+        | cutadapt $read_config \\
             --discard-untrimmed \\
             $args \\
             --cores $task.cpus \\

@@ -52,8 +52,9 @@ while (my $seq = $seqin->next_seq) {
     # Check if the sequence contains non-IUPAC bases
     my @nucleotides = split(//, $seq->seq());
     foreach my $n (@nucleotides) {
-        if (!defined $iupac_nuc{$n}) {
-            die "Your primer sequence contains non-IUPAC characters ($n)\nPlease fix this.\n";
+        my $nuc = uc($n);
+        if (!defined $iupac_nuc{$nuc}) {
+            die "Your primer sequence contains non-IUPAC characters ($n in $id)\nPlease fix this.\n";
         }
     }
 

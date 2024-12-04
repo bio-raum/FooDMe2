@@ -77,11 +77,16 @@ workflow VSEARCH_WORKFLOW {
     /*
     Detect chimeras denovo and remove from OTU set
     */
-    VSEARCH_UCHIME_DENOVO(
-        VSEARCH_CLUSTER_SIZE.out.fasta
-    )
-    ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
-    ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)
+    if (params.remove_chimera) {
+        VSEARCH_UCHIME_DENOVO(
+            VSEARCH_CLUSTER_SIZE.out.fasta
+        )
+        ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
+        ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)
+    } else {
+        // setting the chimera file to null if removal is undesired
+        ch_reporting = ch_reporting.join(VSEARCH_CLUSTER_SIZE.out.fasta)
+    }
 
     /*
     Clustering statistics

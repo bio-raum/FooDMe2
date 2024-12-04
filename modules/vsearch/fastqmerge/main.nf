@@ -24,13 +24,10 @@ process VSEARCH_FASTQMERGE {
     // --fastq_join takes less args than --fastq_merge
     if (params.non_overlapping){
         """
-        vsearch --fastq_merge $fwd --reverse $rev \
+        vsearch --fastq_join $fwd --reverse $rev \
         --fastqout $merged \
         --threads ${task.cpus} \
-        --fastq_eeout \
-        --relabel ${meta.sample_id}. \
-        --sample ${meta.sample_id} \
-        $args
+        --relabel ${meta.sample_id}. 
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
@@ -39,10 +36,13 @@ process VSEARCH_FASTQMERGE {
         """
     } else {
         """
-        vsearch --fastq_join $fwd --reverse $rev \
+        vsearch --fastq_merge $fwd --reverse $rev \
         --fastqout $merged \
         --threads ${task.cpus} \
-        --relabel ${meta.sample_id}. 
+        --fastq_eeout \
+        --relabel ${meta.sample_id}. \
+        --sample ${meta.sample_id} \
+        $args
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":

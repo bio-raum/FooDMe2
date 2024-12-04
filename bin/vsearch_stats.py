@@ -40,6 +40,7 @@ def main(sample_id, fwd, merged, filtered, nonchimera, output):
     # Non-chimeric reads
     # this is after dereplication, parse headers to get read numbers
     non_chimeric = 0
+
     with open(nonchimera, "r") as handle:
         for record in SeqIO.parse(handle, "fasta"):
             non_chimeric += int(record.id.split(";size=")[1])
