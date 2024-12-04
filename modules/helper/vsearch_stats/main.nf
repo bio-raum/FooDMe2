@@ -8,7 +8,7 @@ process HELPER_VSEARCH_STATS {
         'quay.io/biocontainers/aminoextract:0.3.1--pyhdfd78af_0' }"
 
     input:
-    tuple val(meta), path(fwd), path(rev), path(merged), path(filtered), path(nonchimera) // Trimmed fastq, merged fastq, filtered fasta,non-chimeric fasta
+    tuple val(meta), path(fwd), path(rev), path(merged), path(filtered), path(nonchimera, stageAs: 'nonchim*/*' ) // Trimmed fastq, merged fastq, filtered fasta,non-chimeric fasta
 
     output:
     tuple val(meta), path('*.vsearch_stats.json'), emit: json

@@ -41,9 +41,14 @@ def main(sample_id, fwd, merged, filtered, nonchimera, output):
     # this is after dereplication, parse headers to get read numbers
     non_chimeric = 0
 
+    # If we do not perform chimera removal, we instead use the filtered file
+    # which lacks the size= information; so we just add 1
     with open(nonchimera, "r") as handle:
         for record in SeqIO.parse(handle, "fasta"):
-            non_chimeric += int(record.id.split(";size=")[1])
+            if "size=" in record.id:
+                non_chimeric += int(record.id.split(";size=")[1])
+            else:
+                non_chimeric += 1
 
     # JSON output
     d = {

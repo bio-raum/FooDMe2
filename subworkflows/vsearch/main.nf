@@ -85,7 +85,7 @@ workflow VSEARCH_WORKFLOW {
         ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)
     } else {
         // setting the chimera file to null if removal is undesired
-        ch_reporting = ch_reporting.join(VSEARCH_CLUSTER_SIZE.out.fasta)
+        ch_reporting = ch_reporting.join(VSEARCH_FASTQFILTER.out.fasta)
     }
 
     /*
