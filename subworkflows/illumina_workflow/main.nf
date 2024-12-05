@@ -56,14 +56,16 @@ workflow ILLUMINA_WORKFLOW {
     if (!params.cutadapt_trim_3p) {
         FASTP.out.json.filter { m, j -> !m.single_end }.map { m, j ->
             def metrics = get_metrics(j)
-            m.insert_size = metrics[0]
-            m.mean_read_length = metrics[1]
-            tuple(m, j)
+            def new_meta =  [:]
+            new_meta.sample_id = m.sample_id
+            new_meta.insert_size = metrics[0]
+            new_meta.mean_read_length = metrics[1]
+            tuple(new_meta, j)
         }.set { ch_json_with_insert_size }
 
         ch_json_with_insert_size.filter { m, j -> m.insert_size > (m.mean_read_length - 20) }.subscribe { m, j ->
             log.warn "${m.sample_id} - the mean insert size seems to be close to or greater than the mean read length. Should you perhaps use --cutadapt_trim_3p?"
-    }
+        }
     }
 
     /*

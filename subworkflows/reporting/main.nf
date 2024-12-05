@@ -26,6 +26,8 @@ workflow REPORTING {
 
     main:
 
+    ch_fastp_json.view()
+
     // Excel report
     HELPER_REPORT_XLSX(
         ch_compo.map { m, t -> t }.collect()
