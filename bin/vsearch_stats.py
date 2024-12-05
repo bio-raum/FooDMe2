@@ -42,7 +42,7 @@ def main(sample_id, fwd, merged, filtered, nonchimera, output):
     non_chimeric = 0
 
     # If we do not perform chimera removal, we instead use the filtered file
-    # which lacks the size= information; so we just add 1
+    # which lacks the size= information; so we just add 1 for each entry
     with open(nonchimera, "r") as handle:
         for record in SeqIO.parse(handle, "fasta"):
             if "size=" in record.id:

@@ -76,6 +76,9 @@ workflow VSEARCH_WORKFLOW {
 
     /*
     Detect chimeras denovo and remove from OTU set
+    If we do not want to detect chimeria, we short-circuit this step
+    and just pass the filtered fasta file; the reporting script has been updated
+    to be able to deal with that. 
     */
     if (params.remove_chimera) {
         VSEARCH_UCHIME_DENOVO(
@@ -84,7 +87,6 @@ workflow VSEARCH_WORKFLOW {
         ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
         ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)
     } else {
-        // setting the chimera file to null if removal is undesired
         ch_reporting = ch_reporting.join(VSEARCH_FASTQFILTER.out.fasta)
     }
 
