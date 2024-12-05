@@ -46,11 +46,11 @@ workflow REPORTING {
     the fastp report is optional in case of ONT data, so we need to account for that
     */
     ch_compo_json.join(
-        ch_cutadapt
+        ch_cutadapt, remainder: true
     ).join(
-        ch_blast
+        ch_blast, remainder: true
     ).join(
-        ch_consensus
+        ch_consensus, remainder: true
     ).join(
         ch_fastp_json, remainder: true
     ).set { ch_reports_grouped }
@@ -61,7 +61,7 @@ workflow REPORTING {
     }.set { ch_reports_grouped_with_status }
     
     ch_reports_grouped_with_status.failed.subscribe { it ->
-        log.warn "${it[0].sample_id} classified as failed - not generating a report."
+        log.warn "${it[0].sample_id} classified as failed - will only created partial report."
     }
 
     /*
@@ -69,7 +69,7 @@ workflow REPORTING {
     summary metrics from the clustering as well as software versions
     */
     HELPER_SAMPLE_REPORT(
-        ch_reports_grouped_with_status.pass,
+        ch_reports_grouped_with_status.pass.mix(ch_reports_grouped_with_status.failed),
         ch_clustering.collect(),
         ch_versions.collect()
     )
