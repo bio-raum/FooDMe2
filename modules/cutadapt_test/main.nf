@@ -77,8 +77,13 @@ process CUTADAPT {
             $trimmed \\
             $reads \\
             $options_5p \\
-            --json=${meta.sample_id}.cutadapt.json \\
+            --json=${meta.sample_id}_forward.json \\
             > ${prefix}.cutadapt.log
+
+        cutadapt_sum_json.py --sample ${meta.sample_id} \\
+        --forward ${prefix}_forward.json \\
+        --output ${meta.sample_id}.cutadapt_mqc.json
+
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
             cutadapt: \$(cutadapt --version)

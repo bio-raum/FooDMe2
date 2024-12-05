@@ -6,7 +6,7 @@ import argparse
 import json
 
 
-parser = argparse.ArgumentParser(description="Script options")
+parser = argparse.ArgumentParser(description="Script options", argument_default=None)
 parser.add_argument("--sample")
 parser.add_argument("--forward")
 parser.add_argument("--reverse")
@@ -32,16 +32,25 @@ def main(sample, fwd, rev, output):
     reads_in = 0
     reads_out = 0
 
-    with open(fwd) as fjson:
-        fwd_data = json.load(fjson)
+    if fwd:
+        with open(fwd) as fjson:
+            fwd_data = json.load(fjson)
 
-    with open(rev) as rjson:
-        rev_data = json.load(rjson)
+    if rev:
+        with open(rev) as rjson:
+            rev_data = json.load(rjson)
 
     data = {}
+    
+    reads_in = 0
+    reads_out = 0
 
-    reads_in = fwd_data["read_counts"]["input"]
-    reads_out = rev_data["read_counts"]["output"]
+    if rev:
+        reads_in = fwd_data["read_counts"]["input"]
+        reads_out = rev_data["read_counts"]["output"]
+    else:
+        reads_in = fwd_data["read_counts"]["input"]
+        reads_out = fwd_data["read_counts"]["output"]
 
     passing = reads_out
     failed = reads_in-reads_out

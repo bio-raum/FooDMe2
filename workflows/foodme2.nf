@@ -219,7 +219,7 @@ workflow FOODME2 {
     MULTIQC
     */
     multiqc_files   = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
-
+    
     MULTIQC(
         multiqc_files.collect(),
         ch_multiqc_config,

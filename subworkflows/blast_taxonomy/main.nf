@@ -117,7 +117,7 @@ workflow BLAST_TAXONOMY {
     HELPER_FIND_CONSENSUS.out.json.map { meta, json ->
         json
     }.set { ch_json_nometa }
-
+    
     HELPER_ASSIGNEMENT_MULTIQC(
         ch_json_nometa.collect()
     )

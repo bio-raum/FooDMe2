@@ -56,8 +56,8 @@ workflow REPORTING {
     ).set { ch_reports_grouped }
 
     ch_reports_grouped.branch { it ->
-        failed: it[1] == null
-        pass: it[1] != null
+        failed: it.contains(null)
+        pass: !it.contains(null)
     }.set { ch_reports_grouped_with_status }
     
     ch_reports_grouped_with_status.failed.subscribe { it ->
@@ -69,7 +69,7 @@ workflow REPORTING {
     summary metrics from the clustering as well as software versions
     */
     HELPER_SAMPLE_REPORT(
-        ch_reports_grouped_with_status.pass.mix(ch_reports_grouped_with_status.failed),
+        ch_reports_grouped_with_status.pass,
         ch_clustering.collect(),
         ch_versions.collect()
     )
