@@ -57,21 +57,13 @@ workflow REPORTING {
         ch_fastp_json, remainder: true
     ).set { ch_reports_grouped }
 
-    ch_reports_grouped.branch { it ->
-        failed: it.contains(null)
-        pass: !it.contains(null)
-    }.set { ch_reports_grouped_with_status }
-    
-    ch_reports_grouped_with_status.failed.subscribe { it ->
-        log.warn "${it[0].sample_id} classified as failed - will only created partial report."
-    }
-
     /*
     Make a pretty JSON using the sample-specific reports and
     summary metrics from the clustering as well as software versions
     */
     HELPER_SAMPLE_REPORT(
-        ch_reports_grouped_with_status.pass,
+        ch_reports_grouped,
+        // ch_reports_grouped_with_status.pass,
         ch_clustering.collect(),
         ch_versions.collect()
     )
