@@ -25,7 +25,7 @@ A basic execution of the pipeline looks as follows:
 === "Site-specific profile"
 
     ``` bash
-    nextflow run bio-raum/FooDMe2 
+    nextflow run bio-raum/FooDMe2
       -profile myprofile \ # (1)!
       -r main \ # (2)!
       --input samples.tsv \
@@ -33,10 +33,10 @@ A basic execution of the pipeline looks as follows:
       --primer_set amniotes_dobrovolny
     ```
 
-    1.  In this example, both `--reference_base` and the choice of software provisioning are already set in the  configuration `lsh` and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc. It is highly recommended to [set up](installation.md) such a config file. 
+    1.  In this example, both `--reference_base` and the choice of software provisioning are already set in the  configuration `lsh` and don't have to provided as command line argument. In addition, in your site-specific configuration, you can set additional site-specific parameters, such as your local resource manager, node configuration (CPU, RAM, wall time), desired cache directory for the configured package/container software etc. It is highly recommended to [set up](installation.md) such a config file.
     2.  We highly recommend pinning a release number(e.g. `-r 1.0.0`) instead of using the latest commit.
 
-### Removing temporary data
+## Removing temporary data
 
 Nextflow stores all the process data in a folder structure inside the `work` directory. All the relevant results are subsequently copied to the designated results folder (`--outdir`). The work directory is needed to resume completed or failed pipeline runs, but should be removed once you are satisified with the analysis to save space. To do so, run:
 
@@ -48,11 +48,23 @@ nextflow clean -f
 
 If you are running this pipeline in a production setting, you will want to lock the pipeline to a specific version. This is natively supported through nextflow with the `-r` argument:
 
-``` bash
+```bash
 nextflow run bio-raum/FooDMe2 -profile myprofile -r 1.0.0 <other options here>
 ```
 
 The `-r` option specifies a github [release tag](https://github.com/bio-raum/FooDMe2/releases) or branch, so could also point to `main` for the very latest code release. Please note that every major release of this pipeline (1.0, 2.0 etc) comes with a new reference data set, which has the be [installed](installation.md) separately.
+
+If you are feeling adventurous, you can also provide a specific commit hash, for example: `-r 59a710b`.
+
+## Updating to a new release
+
+To use a new release, you simply have to tell Nextflow to pull the last version from the source (e.g. Github):
+
+```bash
+nextflow pull bio-raum/FooDMe2
+```
+
+Then use the `-r` argument as explained above to run the workflow using the new release.
 
 ## Running a test
 
@@ -100,7 +112,7 @@ where `myprofile` can either be a site-specific config file or one of the built-
     ```
 
     data can be loaded like so (note the single-quotes around the search pattern!):
-    
+
     ```
     nextflow run bio-raum/FooDMe2 -profile singularity --reads '/path/to/reads/*_R{1,2}_001.fastq.gz'
     ```
@@ -112,7 +124,7 @@ where `myprofile` can either be a site-specific config file or one of the built-
     === "Illumina"
 
         Illumina paired-end file naming follows the convention:
-    
+
         ```
         SampleName_SX_LYYY_R1_001.fastq.gz
         SampleName_SX_LYYY_R2_001.fastq.gz
@@ -125,7 +137,7 @@ where `myprofile` can either be a site-specific config file or one of the built-
         '/path/to/reads/*_R{1,2}_001.fastq.gz'
         ```
 
-        resulting in sample names being parsed as `SampleName_SX_LYYY`. However, as mentioned, there is no way to parse common sample names across lanes so you would need to merge multi-lane reads before using this input approach. 
+        resulting in sample names being parsed as `SampleName_SX_LYYY`. However, as mentioned, there is no way to parse common sample names across lanes so you would need to merge multi-lane reads before using this input approach.
 
     === "SRA/ENA"
 
@@ -135,12 +147,12 @@ where `myprofile` can either be a site-specific config file or one of the built-
         SampleName_1.fastq.gz
         SampleName_2.fastq.gz
         ```
-        
+
         Which can be parsed with:
 
         ```
         '/path/to/reads/*_{1,2}.fastq.gz'
-        ``` 
+        ```
 
     === "Single-end data"
 
@@ -149,7 +161,6 @@ where `myprofile` can either be a site-specific config file or one of the built-
         ```
         '/path/to/reads/*.fastq.gz'
         ```
-
 
 `--reference_base` [default = null ]
 
@@ -183,7 +194,7 @@ The following options can be set to control resource usage outside of a site-spe
 
 `--max_time`[ default = 240.h ]
 
-:   The maximum allowed run/wall time a single job can request. This is mostly relevant for environments where run time is restricted, such as in a computing cluster with active resource manager or possibly some cloud environments.  
+:   The maximum allowed run/wall time a single job can request. This is mostly relevant for environments where run time is restricted, such as in a computing cluster with active resource manager or possibly some cloud environments.
 
 ### PCR primers
 
@@ -212,13 +223,13 @@ The following options can be set to control resource usage outside of a site-spe
 
 Databases for taxonomic assignment can be specified in one of two ways - from the pre-installed references or as a user-supplied option.
 
-`--list_dbs` 
+`--list_dbs`
 
 :   You can get a list of available databases and their origin as follows:
 
     ```bash
     nextflow run bio-raum/FooDMe2 --list_dbs
-    ``` 
+    ```
 
 `--db` [default = null]
 
