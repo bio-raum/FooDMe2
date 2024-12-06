@@ -543,6 +543,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reporting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       Documentation
@@ -1095,6 +1104,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reporting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       Documentation
@@ -1158,16 +1176,19 @@
 <h2 id="dev">dev</h2>
 <h3 id="features">Features</h3>
 <ul>
-<li>Complete rework of the HTML report: now uses a fully customized markdown template.</li>
-<li>Added read counts to the excel report</li>
 <li>New argument <code>--reads</code> is mutually exclusive with <code>--input</code> and takes a glob path as argument. File names are parsed with the glob pattern and paired. This allows bypassing the need for a sample-sheet. It is not recommended way to provide input data but can be helpful in many cases.</li>
 </ul>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow run bio-raum/FooDMe2 -profile singularity --reads &#39;/path/to/reads/*_R{1,2}_001.fastq.gz&#39;
 </span></code></pre></div>
 <ul>
 <li>Add the parameter <code>--non_overlapping</code> to simply concatenate R1 and R2 reads instead of merging with an overlapping sequence. This is useful in case the amplicon or seuqnce length produce reads with no overlaps.</li>
+</ul>
+<h3 id="reporting">Reporting</h3>
+<ul>
+<li>Complete rework of the HTML report: now uses a fully customized markdown template.</li>
 <li>Disabled hard filtering of samples based on read number after the primer trimming step. Samples will now soft fail in subsequent steps (e.g. clustering) or keep going to the end.</li>
 <li>All samples (including) failed samples now appear in the end report. Samples where no primmer trimming or clustering could be performed are marked as fail.</li>
+<li>Added read counts to the excel report</li>
 </ul>
 <h3 id="documentation">Documentation</h3>
 <ul>
