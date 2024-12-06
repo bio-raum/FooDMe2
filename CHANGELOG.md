@@ -2,8 +2,6 @@
 
 ### Features
 
-- Complete rework of the HTML report: now uses a fully customized markdown template.
-- Added read counts to the excel report
 - New argument `--reads` is mutually exclusive with `--input` and takes a glob path as argument. File names are parsed with the glob pattern and paired. This allows bypassing the need for a sample-sheet. It is not recommended way to provide input data but can be helpful in many cases.
 
   ```
@@ -11,8 +9,13 @@
   ```
 
 - Add the parameter `--non_overlapping` to simply concatenate R1 and R2 reads instead of merging with an overlapping sequence. This is useful in case the amplicon or seuqnce length produce reads with no overlaps.
+
+### Reporting
+
+- Complete rework of the HTML report: now uses a fully customized markdown template.
 - Disabled hard filtering of samples based on read number after the primer trimming step. Samples will now soft fail in subsequent steps (e.g. clustering) or keep going to the end.
 - All samples (including) failed samples now appear in the end report. Samples where no primmer trimming or clustering could be performed are marked as fail.
+- Added read counts to the excel report
 
 ### Documentation
 

@@ -9,6 +9,7 @@ include { HELPER_DADA_MULTIQC }         from './../../modules/helper/dada_multiq
 ch_versions = Channel.from([])
 ch_qc_files = Channel.from([])
 ch_reporting = Channel.from([])
+ch_asvs = Channel.from([])
 
 workflow DADA2_WORKFLOW {
     take:
@@ -44,17 +45,21 @@ workflow DADA2_WORKFLOW {
     ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
 
     // Remove chimera
-    DADA2_RMCHIMERA(
-        DADA2_DENOISING.out.seqtab
-    )
-    ch_versions = ch_versions.mix(DADA2_RMCHIMERA.out.versions)
-
+    if (params.remove_chimera) {
+        DADA2_RMCHIMERA(
+            DADA2_DENOISING.out.seqtab
+        )
+        ch_versions = ch_versions.mix(DADA2_RMCHIMERA.out.versions)
+        ch_asvs = ch_asvs.mix(DADA2_RMCHIMERA.out.rds)
+    } else {
+        ch_asvs = ch_asvs.mix(DADA2_DENOISING.out.seqtab)
+    }
     // Convert Dada2 Seq table to FASTA file
     HELPER_SEQTABLE_TO_FASTA(
-        DADA2_RMCHIMERA.out.rds
+        ch_asvs
     )
 
-    ch_reporting = DADA2_DENOISING.out.mergers.join(DADA2_RMCHIMERA.out.rds)
+    ch_reporting = DADA2_DENOISING.out.mergers.join(ch_asvs)
 
     // Denoising stats
     HELPER_DADA_STATS(
