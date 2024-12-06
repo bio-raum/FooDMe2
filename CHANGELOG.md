@@ -28,6 +28,7 @@
 ### Bugs
 
 - Fix conda environment definition path for module DADA2:RMCHIMERA that could lead to a failure to genreate the environment for conda user depending on the channel settings.
+- Actually implements chimera removal skipping behaviour for `--remove_chimera false`
 
 ## 1.0.0
 
