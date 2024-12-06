@@ -52,7 +52,7 @@ def main(sample_id, run_name, compo, cutadapt, clustering, blast, consensus, ver
         "fastp": fastp_dict
     }
 
-    outfil = {k: v for k,v in out.items() if v}
+    outfil = {k: v for k, v in out.items() if v}
 
     with open(output, "w") as fo:
         json.dump(outfil, fo, indent=4)

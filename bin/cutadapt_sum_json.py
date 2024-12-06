@@ -41,7 +41,7 @@ def main(sample, fwd, rev, output):
             rev_data = json.load(rjson)
 
     data = {}
-    
+
     reads_in = 0
     reads_out = 0
 
