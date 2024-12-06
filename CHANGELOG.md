@@ -11,6 +11,8 @@
   ```
 
 - Add the parameter `--non_overlapping` to simply concatenate R1 and R2 reads instead of merging with an overlapping sequence. This is useful in case the amplicon or seuqnce length produce reads with no overlaps.
+- Disabled hard filtering of samples based on read number after the primer trimming step. Samples will now soft fail in subsequent steps (e.g. clustering) or keep going to the end.
+- All samples (including) failed samples now appear in the end report. Samples where no primmer trimming or clustering could be performed are marked as fail.
 
 ### Documentation
 
