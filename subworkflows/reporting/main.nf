@@ -21,15 +21,19 @@ workflow REPORTING {
     ch_consensus
     ch_versions
     ch_fastp_json
-    ch_template  // Jinja tempalte for custom HTML report
+    ch_template  // Quarto tempalte for custom HTML report
 
 
     main:
+    ch_report = Channel.from([])
+    ch_xlsx   = Channel.from([])
 
     // Excel report
     HELPER_REPORT_XLSX(
         ch_compo.map { m, t -> t }.collect()
     )
+
+    ch_xlsx = ch_xlsx.mix(HELPER_REPORT_XLSX.out.xlsx)
 
     // Krona
     HELPER_KRONA_TABLE(
@@ -76,6 +80,8 @@ workflow REPORTING {
         ch_template,
     )
 
+    ch_report = ch_report.mix(HELPER_HTML_REPORT.out.html)
+
     // Benchmark
     if (params.ground_truth) {
         ch_compo_agg = ch_compo.map { m, t -> t }.collectFile(name: 'composition.tsv', keepHeader: true)
@@ -95,4 +101,6 @@ workflow REPORTING {
 
     emit:
     versions = ch_versions
+    xlsx     = ch_xlsx
+    report   = ch_report
 }
