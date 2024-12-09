@@ -374,6 +374,12 @@ Some possible usage examples:
 
 :   Toggle read concatenation instead of merging with an overlapping sequence. A short N spacer will be added between the forward and reverse read sequences. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. **This applies to all reads.** Trying to analyze datasets with a mixture of overlapping and non-overlappingreads is highly discouraged.
 
+    !!! warming "Non-overlappingreads and BLAST"
+
+        Concatenation of non-overlapping reads with a N spacer still allows BLAST to find most similar sequences based on local alignemnt.
+        You should however keep in mind that the query coverage will then be drastically lower than for overlapping reads, since the non-sequenced portion of the amplicon will not be part of the alignement.
+        Make sure you choose a value for `--blast_qcov` that is adapted to your application.
+
 `--vsearch` [ default = false ]
 
 :   The default tool to compute OTUs/ASVs is DADA2. Use this option to run VSEARCH instead (short reads only).

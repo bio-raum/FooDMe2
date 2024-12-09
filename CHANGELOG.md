@@ -30,7 +30,10 @@
 
 - Fix conda environment definition path for module DADA2:RMCHIMERA that could lead to a failure to genreate the environment for conda user depending on the channel settings.
 - Actually implements chimera removal skipping behaviour for `--remove_chimera false`
-- Filtering of sequences based on expected amplicon size (`amplicon_min_size` and `amplicon_max_size`) now correctly happens **after** read merging instead on being applied to the read length.
+- Enforce similar filtering procedure for both VSEARCH and DADA2 workflows:
+  - Filtering of sequences based on expected amplicon size (`amplicon_min_size` and `amplicon_max_size`) now correctly happens **after** read merging instead on being applied to the read length.
+  - Filtering based on maxEE and maxNs now happens at the read level, prior to merging for VSEARCH
+  - For both Workflows, read pairs are filtered baed on MaxEE and MaxNs, then merged, then merged pairs are filtered for expected size
 
 ## 1.0.0
 
