@@ -1699,30 +1699,34 @@ This example will additionally reverse complement your primer sequences and chec
 <dl>
 <dt><code>--cutadapt_trim_3p</code> [ default = false ]</dt>
 <dd>
-<p>Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect. </p>
+<p>Use this option if you know that your read length is as long or longer than your PCR product. In this case, the reads will carry both the forward and reverse primer site - something that Cutadapt will normally fail to detect.</p>
+</dd>
+<dt><code>--cutadapt_trim_flex</code> [ default = false ]</dt>
+<dd>
+<p>Similar to <code>--cutadapt_trim_3p</code> but performs <strong>optional</strong> trimming on the 3' end. Usefull if you expect a mix of amplicons longer and shorter than the read length.</p>
 </dd>
 <dt><code>--store_reads</code> [ default = false ]</dt>
 <dd>
-<p>Emit the primer-trimmed reads into the result folder. This option is mostly useful to debug errors that are related to failed primer site removal. This option is set to false by default to save storage space. </p>
+<p>Emit the primer-trimmed reads into the result folder. This option is mostly useful to debug errors that are related to failed primer site removal. This option is set to false by default to save storage space.</p>
 </dd>
 <dt><code>--cutadapt_options</code> [ default = "" ]</dt>
 <dd>
-<p>Any additional options you feel should be passed to Cutadapt. Use at your own risk. </p>
-</dd>
-<dt><code>--amplicon_min_length</code> [ default = 70 ]</dt>
-<dd>
-<p>The minimum size an amplicon is expected to have. Data that falls below this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. </p>
-</dd>
-<dt><code>--amplicon_max_length</code> [ default = 100 ]</dt>
-<dd>
-<p>The maximum size an amplicon is expected to have. Data that lies above this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles. </p>
+<p>Any additional options you feel should be passed to Cutadapt. Use at your own risk.</p>
 </dd>
 </dl>
 <h3 id="clustering-configuration">Clustering configuration</h3>
 <dl>
+<dt><code>--amplicon_min_length</code> [ default = 70 ]</dt>
+<dd>
+<p>The minimum size an amplicon is expected to have. Data that falls below this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles.</p>
+</dd>
+<dt><code>--amplicon_max_length</code> [ default = 100 ]</dt>
+<dd>
+<p>The maximum size an amplicon is expected to have. Data that lies above this threshold will be discarded. This option does not need to be touched for pre-configured primer profiles.</p>
+</dd>
 <dt><code>--non_overlapping</code> [ default = false]</dt>
 <dd>
-<p>Toggle read concatenation instead of merging with an overlapping sequence. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. Note that this applies to <strong>all</strong> reads.</p>
+<p>Toggle read concatenation instead of merging with an overlapping sequence. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. Note that this applies to <strong>all</strong> reads. Trying to analyze datasets with a mixture of overlapping and non-overlappingreads is highly discouraged.</p>
 </dd>
 <dt><code>--vsearch</code> [ default = false ]</dt>
 <dd>
