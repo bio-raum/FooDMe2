@@ -5,6 +5,7 @@ include { VSEARCH_FASTQMERGE }          from './../../modules/vsearch/fastqmerge
 include { VSEARCH_DEREPFULL }           from './../../modules/vsearch/derep'
 include { VSEARCH_SORTBYSIZE }          from './../../modules/vsearch/sortbysize'
 include { VSEARCH_FASTQFILTER }         from './../../modules/vsearch/fastqfilter'
+include { VSEARCH_FASTQFILTER_READS }   from './../../modules/vsearch/fastqfilter_reads'
 include { VSEARCH_CLUSTER_SIZE  }       from './../../modules/vsearch/cluster_size'
 include { VSEARCH_CLUSTER_UNOISE }      from './../../modules/vsearch/unoise'
 include { VSEARCH_UCHIME_DENOVO }       from './../../modules/vsearch/uchime/denovo'
@@ -23,12 +24,18 @@ workflow VSEARCH_WORKFLOW {
     reads
 
     main:
+    /*
+    Quality filtr fastq prior to merging
+    */
+    VSEARCH_FASTQFILTER_READS(
+        reads
+    )
 
     /*
     Find paired-end files
     TODO: Deal with unpaired files
     */
-    reads.branch { m, r ->
+    VSEARCH_FASTQFILTER_READS.out.reads.branch { m, r ->
         paired: !m.single_end
         unpaired: m.single_end
     }.set { ch_trimmed_reads }

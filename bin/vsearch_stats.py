@@ -21,7 +21,7 @@ args = parser.parse_args()
 def main(sample_id, fwd, merged, filtered, nonchimera, output):
     # Total reads
     total_reads = 0
-    with gzip.open(fwd, "rt") as handle:
+    with open(fwd, "rt") as handle:
         for _ in SeqIO.parse(handle, "fastq"):
             total_reads += 1
 
