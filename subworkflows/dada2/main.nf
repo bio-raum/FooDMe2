@@ -45,6 +45,8 @@ workflow DADA2_WORKFLOW {
     )
     ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
 
+    ch_reporting = ch_reporting.mix(DADA2_DENOISING.out.mergers)
+
     /*
     Filter by merged read size
     */
@@ -52,26 +54,28 @@ workflow DADA2_WORKFLOW {
         DADA2_DENOISING.out.seqtab
     )
 
+    ch_reporting = ch_reporting.join(DADA2_FILTERSIZE.out.filtered)
+
     // Remove chimera
     if (params.remove_chimera) {
         DADA2_RMCHIMERA(
-            DADA2_FILTERSIZE.out.seqtab
+            DADA2_FILTERSIZE.out.filtered
         )
         ch_versions = ch_versions.mix(DADA2_RMCHIMERA.out.versions)
         ch_asvs = ch_asvs.mix(DADA2_RMCHIMERA.out.rds)
     } else {
-        ch_asvs = ch_asvs.mix(DADA2_DENOISING.out.seqtab)
+        ch_asvs = ch_asvs.mix(DADA2_FILTERSIZE.out.filtered)
     }
     // Convert Dada2 Seq table to FASTA file
     HELPER_SEQTABLE_TO_FASTA(
         ch_asvs
     )
 
-    ch_reporting = DADA2_DENOISING.out.mergers.join(ch_asvs)
+    ch_reporting = ch_reporting.join(ch_asvs)
 
     // Denoising stats
     HELPER_DADA_STATS(
-        ch_reporting.filter { m, r, t -> !m.single_end }
+        ch_reporting.filter { m, r, f, t -> !m.single_end }
     )
 
     HELPER_DADA_STATS.out.json.map { meta, json ->
