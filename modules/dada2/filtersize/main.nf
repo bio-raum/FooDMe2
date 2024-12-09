@@ -21,8 +21,6 @@ process DADA2_FILTERSIZE {
     script:
     def minLen = params.amplicon_min_length
     def maxLen = params.amplicon_max_length
-    def noSamples    = 1
-    def firstSample  = meta.sample_id
     """
     #!/usr/bin/env Rscript
     suppressPackageStartupMessages(library(dada2))
