@@ -1726,10 +1726,10 @@ This example will additionally reverse complement your primer sequences and chec
 </dd>
 <dt><code>--non_overlapping</code> [ default = false]</dt>
 <dd>
-<p>Toggle read concatenation instead of merging with an overlapping sequence. A short N spacer will be added between the forward and reverse read sequences. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. <strong>This applies to all reads.</strong> Trying to analyze datasets with a mixture of overlapping and non-overlappingreads is highly discouraged.</p>
-<div class="admonition warming">
-<p class="admonition-title">Non-overlappingreads and BLAST</p>
-<p>Concatenation of non-overlapping reads with a N spacer still allows BLAST to find most similar sequences based on local alignemnt.
+<p>Toggle read concatenation instead of merging with an overlapping sequence. A short N spacer will be added between the forward and reverse read sequences. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. <strong>This applies to all reads.</strong> Trying to analyze datasets with a mixture of overlapping and non-overlapping reads is highly discouraged.</p>
+<div class="admonition warning">
+<p class="admonition-title">Non-overlapping reads and BLAST</p>
+<p>Concatenation of non-overlapping reads with a N spacer still allows BLAST to find most similar sequences based on local alignment.
 You should however keep in mind that the query coverage will then be drastically lower than for overlapping reads, since the non-sequenced portion of the amplicon will not be part of the alignement.
 Make sure you choose a value for <code>--blast_qcov</code> that is adapted to your application.</p>
 </div>
