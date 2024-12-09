@@ -17,7 +17,6 @@ process VSEARCH_FASTQFILTER_READS {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: reads.first().getBaseName()
 
     r1 = reads.first()
 

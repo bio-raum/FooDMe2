@@ -4,7 +4,6 @@
 
 import argparse
 import json
-import gzip
 from Bio import SeqIO
 
 
