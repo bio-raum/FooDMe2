@@ -60,12 +60,40 @@ process CUTADAPT {
         --forward ${prefix}_forward.json \\
         --reverse ${prefix}_reverse.json \\
         --output ${meta.sample_id}.cutadapt_mqc.json
-        
+
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
             cutadapt: \$(cutadapt --version)
         END_VERSIONS
 
+        """
+    } else if (params.cutadapt_trim_flex) {
+        """
+        cutadapt $read_config \\
+            --discard-untrimmed \\
+            --cores $task.cpus \\
+            $args \\
+            $reads \\
+            $options_5p \\
+            --json=${prefix}_forward.json \\
+        | cutadapt $read_config \\
+            $args \\
+            --cores $task.cpus \\
+            $trimmed \\
+            $options_3p \\
+            --json=${prefix}_reverse.json \\
+            -Z - \\
+            > ${prefix}.cutadapt.log
+
+        cutadapt_sum_json.py --sample ${meta.sample_id} \\
+        --forward ${prefix}_forward.json \\
+        --reverse ${prefix}_reverse.json \\
+        --output ${meta.sample_id}.cutadapt_mqc.json
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            cutadapt: \$(cutadapt --version)
+        END_VERSIONS
         """
     } else {
         """

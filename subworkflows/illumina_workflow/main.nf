@@ -53,7 +53,7 @@ workflow ILLUMINA_WORKFLOW {
     We alert users in case that the insert size is larger than the read
     length - if --cutadapt_trim_3p was not specified
     */
-    if (!params.cutadapt_trim_3p) {
+    if (!(params.cutadapt_trim_3p || params.cutadapt_trim_flex)) {
         FASTP.out.json.filter { m, j -> !m.single_end }.map { m, j ->
             def metrics = get_metrics(j)
             def new_meta =  [:]

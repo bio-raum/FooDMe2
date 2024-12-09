@@ -121,7 +121,7 @@ workflow FOODME2 {
         INPUT_CHECK(samplesheet)
         ch_reads = INPUT_CHECK.out.reads
     } else if (params.reads) {
-        reads.map { s,r -> 
+        reads.map { s,r ->
             def meta = [:]
             meta.sample_id = s
             meta.single_end = r.size() == 1 ? true : false
@@ -219,7 +219,7 @@ workflow FOODME2 {
     MULTIQC
     */
     multiqc_files   = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
-    
+
     MULTIQC(
         multiqc_files.collect(),
         ch_multiqc_config,
