@@ -22,7 +22,7 @@ process HELPER_SEQTABLE_TO_FASTA {
 
     seqtab = readRDS("${rds}")
 
-    asv <- data.frame(t(seqtab))
+    asv <- data.frame(seqtab)
     colnames(asv) <- c("count")
     asv <- cbind(asv, name = sprintf("ASV_%s", seq(1:dim(asv)[1])))
     asv <- cbind(asv, sequence = rownames(asv))

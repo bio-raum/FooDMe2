@@ -30,7 +30,7 @@ process DADA2_RMCHIMERA {
 
     #remove chimera
     seqtab.nochim <- removeBimeraDenovo(seqtab, $args, multithread=$task.cpus, verbose=TRUE)
-    if ( ${noSamples} == 1 ) { rownames(seqtab.nochim) <- "${firstSample}" }
+    # if ( ${noSamples} == 1 ) { rownames(seqtab.nochim) <- "${firstSample}" }
     saveRDS(seqtab.nochim,"${meta.sample_id}.ASVtable.rds")
 
     write.table('removeBimeraDenovo\t$args', file = "removeBimeraDenovo.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')

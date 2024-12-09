@@ -1,6 +1,7 @@
 include { DADA2_FILTNTRIM }             from './../../modules/dada2/filterntrim'
 include { DADA2_ERROR }                 from './../../modules/dada2/error'
 include { DADA2_DENOISING }             from './../../modules/dada2/denoising'
+include { DADA2_FILTERSIZE }             from './../../modules/dada2/filtersize'
 include { DADA2_RMCHIMERA }             from './../../modules/dada2/rmchimera'
 include { HELPER_SEQTABLE_TO_FASTA }    from './../../modules/helper/seqtable_to_fasta'
 include { HELPER_DADA_STATS }           from './../../modules/helper/dada_stats'
@@ -44,10 +45,17 @@ workflow DADA2_WORKFLOW {
     )
     ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
 
+    /*
+    Filter by merged read size
+    */
+    DADA2_FILTERSIZE(
+        DADA2_DENOISING.out.seqtab
+    )
+
     // Remove chimera
     if (params.remove_chimera) {
         DADA2_RMCHIMERA(
-            DADA2_DENOISING.out.seqtab
+            DADA2_FILTERSIZE.out.seqtab
         )
         ch_versions = ch_versions.mix(DADA2_RMCHIMERA.out.versions)
         ch_asvs = ch_asvs.mix(DADA2_RMCHIMERA.out.rds)

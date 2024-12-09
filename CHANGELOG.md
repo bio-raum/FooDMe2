@@ -9,6 +9,7 @@
   ```
 
 - Add the parameter `--non_overlapping` to simply concatenate R1 and R2 reads instead of merging with an overlapping sequence. This is useful in case the amplicon or seuqnce length produce reads with no overlaps.
+- Add the argument `--cutadapt_trim_flex` to attempt trimming on both 5' and 3' of reads but also keep reads where only a 5' trimming was performed.
 
 ### Reporting
 
