@@ -2,7 +2,6 @@
 Import modules
 */
 include { INPUT_CHECK }                 from './../modules/input_check'
-// include { MULTIQC }                     from './../modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 include { UNZIP }                       from './../modules/unzip'
 
@@ -81,9 +80,6 @@ if (params.input || params.reads) {
         ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
 
         ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
-
-        // ch_multiqc_config   = params.multiqc_config ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
-        // ch_multiqc_logo     = params.multiqc_logo   ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
     }
 
 }
@@ -102,7 +98,6 @@ ch_template         = Channel.fromPath(params.template, checkIfExists: true).col
 Setting default channels
 */
 ch_versions      = Channel.from([]) // all version yml files
-// multiqc_files    = Channel.from([]) // all files to go to MultiQC
 ch_otus          = Channel.from([]) // all the OTUs
 ch_bitscore      = Channel.from([]) // all the blast reports
 ch_consensus     = Channel.from([]) // all consensus
@@ -151,7 +146,6 @@ workflow FOODME2 {
         )
         ch_versions     = ch_versions.mix(ONT_WORKFLOW.out.versions)
         ch_otus         = ch_otus.mix(ONT_WORKFLOW.out.otus)
-        // multiqc_files   = multiqc_files.mix(ONT_WORKFLOW.out.qc)
         ch_trimfil_json = ch_trimfil_json.mix(ONT_WORKFLOW.out.cutadapt_json)
         ch_cluster_json = ch_cluster_json.mix(ONT_WORKFLOW.out.cluster_json)
     // reads are IonTorrent
@@ -161,7 +155,6 @@ workflow FOODME2 {
             ch_primers
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
-        // multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
         ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
         ch_fastp_json   = ch_fastp_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
         ch_trimfil_json = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
@@ -173,7 +166,6 @@ workflow FOODME2 {
             ch_primers
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
-        // multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
         ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
         ch_trimfil_json = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
         ch_fastp_json   = ch_fastp_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
@@ -192,7 +184,6 @@ workflow FOODME2 {
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)
-    // multiqc_files  = multiqc_files.mix(BLAST_TAXONOMY.out.qc)
 
     // Create list of software packages used
     CUSTOM_DUMPSOFTWAREVERSIONS(
@@ -214,17 +205,6 @@ workflow FOODME2 {
         ch_fastp_json,
         ch_template,
     )
-
-    /*
-    MULTIQC
-    */
-    // multiqc_files   = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
-
-    // MULTIQC(
-    //     multiqc_files.collect(),
-    //     ch_multiqc_config,
-    //     ch_multiqc_logo
-    // )
 
     emit:
     report = REPORTING.out.report

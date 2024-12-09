@@ -65,7 +65,6 @@ workflow REPORTING {
     */
     HELPER_SAMPLE_REPORT(
         ch_reports_grouped,
-        // ch_reports_grouped_with_status.pass,
         ch_clustering.collect(),
         ch_versions.collect()
     )
