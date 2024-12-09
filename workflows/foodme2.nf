@@ -48,7 +48,7 @@ if (params.input || params.reads) {
         version                 = params.references.databases[database].version
 
     // If the users specifies a custom primer set as FASTA instead
-    } else if (params.input && params.primers_fa) {
+    } else if ((params.input || params.reads) && params.primers_fa) {
         ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
 
         // If the user requests one of the installed databases
