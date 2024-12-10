@@ -37,12 +37,12 @@ def main(json_in, output_tsv, output_json):
             "rank": rank[id],
             "proportion": round(sum([float(i) for i in size[id]])/float(total), 4)
     } for id in size.keys()]
-    
+
     if d:
         df = pd.read_json(json.dumps(d), orient="record")
         df = df.sort_values("proportion", ascending=False)
     else:
-        df = pd.DataFrame(columns = ["sample", "name", "taxid", "reads", "rank", "proportion"])
+        df = pd.DataFrame(columns=["sample", "name", "taxid", "reads", "rank", "proportion"])
     df.to_csv(output_tsv, sep="\t", index=False)
 
     aggd = {}

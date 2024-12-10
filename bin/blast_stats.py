@@ -25,10 +25,11 @@ HEADER = [
     "gaps"
 ]
 
+
 def main(json_in, output):
     with open(json_in, "r") as fi:
         jd = json.load(fi)
-    if not jd :
+    if not jd:
         df = pd.DataFrame(columns=HEADER)
     else:
         df = pd.read_json(json_in, orient="record")
