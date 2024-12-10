@@ -20,8 +20,6 @@ process DADA2_RMCHIMERA {
 
     script:
     def args = task.ext.args ?: 'method="consensus", minSampleFraction = 0.9, ignoreNNegatives = 1, minFoldParentOverAbundance = 2, minParentAbundance = 8, allowOneOff = FALSE, minOneOffParentDistance = 4, maxShift = 16'
-    def noSamples    = 1
-    def firstSample  = meta.sample_id
     """
     #!/usr/bin/env Rscript
     suppressPackageStartupMessages(library(dada2))
