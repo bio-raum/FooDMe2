@@ -22,13 +22,17 @@ process HELPER_SEQTABLE_TO_FASTA {
 
     seqtab = readRDS("${rds}")
 
-    asv <- data.frame(seqtab)
-    colnames(asv) <- c("count")
-    asv <- cbind(asv, name = sprintf("ASV_%s", seq(1:dim(asv)[1])))
-    asv <- cbind(asv, sequence = rownames(asv))
-    rownames(asv) <- seq(1:dim(asv)[1])
-    fn <- function(x) paste0(">", x[2], ";size=", trimws(x[1]), "\n", x[3])
-    asfasta <- apply(asv, MARGIN=1, fn)
+    if (is.null(seqtab)) {
+        asfasta <- ""
+    } else {
+        asv <- data.frame(seqtab)
+        colnames(asv) <- c("count")
+        asv <- cbind(asv, name = sprintf("ASV_%s", seq(1:dim(asv)[1])))
+        asv <- cbind(asv, sequence = rownames(asv))
+        rownames(asv) <- seq(1:dim(asv)[1])
+        fn <- function(x) paste0(">", x[2], ";size=", trimws(x[1]), "\n", x[3])
+        asfasta <- apply(asv, MARGIN=1, fn)
+    }
     writeLines(asfasta, "${meta.sample_id}_ASVs.fasta")
 
     writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")) ), "versions.yml")

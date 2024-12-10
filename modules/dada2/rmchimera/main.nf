@@ -28,11 +28,13 @@ process DADA2_RMCHIMERA {
 
     seqtab = readRDS("${seqtab}")
 
-    #remove chimera
-    seqtab.nochim <- removeBimeraDenovo(seqtab, $args, multithread=$task.cpus, verbose=TRUE)
-    # if ( ${noSamples} == 1 ) { rownames(seqtab.nochim) <- "${firstSample}" }
-    saveRDS(seqtab.nochim,"${meta.sample_id}.ASVtable.rds")
-
+    if (is.null(seqtab)) {
+        saveRDS(c(),"${meta.sample_id}.ASVtable.rds")
+    } else {
+        #remove chimera
+        seqtab.nochim <- removeBimeraDenovo(seqtab, $args, multithread=$task.cpus, verbose=TRUE)
+        saveRDS(seqtab.nochim,"${meta.sample_id}.ASVtable.rds")
+    }
     write.table('removeBimeraDenovo\t$args', file = "removeBimeraDenovo.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
     writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
     """

@@ -12,10 +12,10 @@ process DADA2_ERROR {
 
     output:
     tuple val(meta), path('*.err.rds'), emit: errormodel
-    tuple val(meta), path('*.err.pdf'), emit: pdf
-    tuple val(meta), path('*.err.svg'), emit: svg
-    tuple val(meta), path('*.err.log'), emit: log
-    tuple val(meta), path('*.err.convergence.txt'), emit: convergence
+    tuple val(meta), path('*.err.pdf'), emit: pdf, optional: true
+    tuple val(meta), path('*.err.svg'), emit: svg, optional: true
+    tuple val(meta), path('*.err.log'), emit: log, optional: true
+    tuple val(meta), path('*.err.convergence.txt'), emit: convergence, optional: true
     path 'versions.yml'               , emit: versions
     path '*.args.txt'                 , emit: args
 
@@ -35,23 +35,29 @@ process DADA2_ERROR {
         set.seed($seed) # Initialize random number generator for reproducibility
 
         fnFs <- sort(list.files(".", pattern = ".fastq.gz", full.names = TRUE))
-
         sink(file = "${meta.sample_id}.err.log")
-        errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
-        saveRDS(errF, "${meta.sample_id}.err.rds")
-        sink(file = NULL)
 
-        pdf("${meta.sample_id}.err.pdf")
-        plotErrors(errF, nominalQ = TRUE)
-        dev.off()
-        svg("${meta.sample_id}.err.svg")
-        plotErrors(errF, nominalQ = TRUE)
-        dev.off()
+        # Check if file is empty
+        n_lines <- as.integer(system(sprintf('gunzip -c %s | wc -l', fnFs), intern= TRUE))
+        # fastq has at least 4 lines, save empty arrray if empty input
+        if (n_lines < 4 ) {
+            saveRDS(c(), "${meta.sample_id}.err.rds")
+        } else {
+            errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
+            saveRDS(errF, "${meta.sample_id}.err.rds")
+            sink(file = NULL)
 
-        sink(file = "${meta.sample_id}.err.convergence.txt")
-        dada2:::checkConvergence(errF)
-        sink(file = NULL)
+            pdf("${meta.sample_id}.err.pdf")
+            plotErrors(errF, nominalQ = TRUE)
+            dev.off()
+            svg("${meta.sample_id}.err.svg")
+            plotErrors(errF, nominalQ = TRUE)
+            dev.off()
 
+            sink(file = "${meta.sample_id}.err.convergence.txt")
+            dada2:::checkConvergence(errF)
+            sink(file = NULL)
+        }
         write.table('learnErrors\t$args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
         writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
         """
@@ -65,34 +71,43 @@ process DADA2_ERROR {
         fnRs <- sort(list.files(".", pattern = "_2.filt.fastq.gz", full.names = TRUE))
 
         sink(file = "${meta.sample_id}.err.log")
-        errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
-        saveRDS(errF, "${meta.sample_id}_1.err.rds")
-        errR <- learnErrors(fnRs, $args, multithread = $task.cpus, verbose = TRUE)
-        saveRDS(errR, "${meta.sample_id}_2.err.rds")
-        sink(file = NULL)
 
-        pdf("${meta.sample_id}_1.err.pdf")
-        plotErrors(errF, nominalQ = TRUE)
-        dev.off()
-        svg("${meta.sample_id}_1.err.svg")
-        plotErrors(errF, nominalQ = TRUE)
-        dev.off()
+        
+        # Check if file is empty
+        n_lines <- as.integer(system(sprintf('gunzip -c %s | wc -l', fnFs), intern= TRUE))
+        # fastq has at least 4 lines, save empty arrray if empty input
+        if (n_lines < 4 ) {
+            saveRDS(c(), "${meta.sample_id}_1.err.rds")
+            saveRDS(c(), "${meta.sample_id}_2.err.rds")
+        } else {
+            errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
+            saveRDS(errF, "${meta.sample_id}_1.err.rds")
+            errR <- learnErrors(fnRs, $args, multithread = $task.cpus, verbose = TRUE)
+            saveRDS(errR, "${meta.sample_id}_2.err.rds")
+            sink(file = NULL)
 
-        pdf("${meta.sample_id}_2.err.pdf")
-        plotErrors(errR, nominalQ = TRUE)
-        dev.off()
-        svg("${meta.sample_id}_2.err.svg")
-        plotErrors(errR, nominalQ = TRUE)
-        dev.off()
+            pdf("${meta.sample_id}_1.err.pdf")
+            plotErrors(errF, nominalQ = TRUE)
+            dev.off()
+            svg("${meta.sample_id}_1.err.svg")
+            plotErrors(errF, nominalQ = TRUE)
+            dev.off()
 
-        sink(file = "${meta.sample_id}_1.err.convergence.txt")
-        dada2:::checkConvergence(errF)
-        sink(file = NULL)
+            pdf("${meta.sample_id}_2.err.pdf")
+            plotErrors(errR, nominalQ = TRUE)
+            dev.off()
+            svg("${meta.sample_id}_2.err.svg")
+            plotErrors(errR, nominalQ = TRUE)
+            dev.off()
 
-        sink(file = "${meta.sample_id}_2.err.convergence.txt")
-        dada2:::checkConvergence(errR)
-        sink(file = NULL)
+            sink(file = "${meta.sample_id}_1.err.convergence.txt")
+            dada2:::checkConvergence(errF)
+            sink(file = NULL)
 
+            sink(file = "${meta.sample_id}_2.err.convergence.txt")
+            dada2:::checkConvergence(errR)
+            sink(file = NULL)
+        }
         write.table('learnErrors\t$args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
         writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
         """
