@@ -28,7 +28,7 @@ process DADA2_RMCHIMERA {
 
     seqtab = readRDS("${seqtab}")
 
-    if (is.null(seqtab)) {
+    if (is.null(seqtab) || length(seqtab) == 0) {
         saveRDS(c(),"${meta.sample_id}.ASVtable.rds")
     } else {
         #remove chimera

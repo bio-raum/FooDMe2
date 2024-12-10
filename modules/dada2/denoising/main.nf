@@ -26,7 +26,6 @@ process DADA2_DENOISING {
     def args2 = task.ext.args2 ?: ''
 
     def concatenate = params.non_overlapping ? 'TRUE' : 'FALSE'
-    
 
     if (meta.single_end) {
         """
