@@ -2,7 +2,6 @@
 Import modules
 */
 include { INPUT_CHECK }                 from './../modules/input_check'
-include { MULTIQC }                     from './../modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 include { UNZIP }                       from './../modules/unzip'
 
@@ -18,6 +17,7 @@ include { REPORTING }                   from './../subworkflows/reporting'
 Set default channels and values
 */
 samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
+reads       = params.reads ? Channel.fromFilePairs(params.reads, size: -1) : Channel.value([])
 database    = null
 ch_blast_db = Channel.from([])
 
@@ -25,7 +25,7 @@ ch_blast_db = Channel.from([])
 We make this conditional on input being specified so as to not create issues with
 the competing --build_references workflow during which all this would be evaluated also
 */
-if (params.input) {
+if (params.input || params.reads) {
     /*
     Make sure the local reference directory exists
     */
@@ -47,14 +47,14 @@ if (params.input) {
         version                 = params.references.databases[database].version
 
     // If the users specifies a custom primer set as FASTA instead
-    } else if (params.input && params.primers_fa) {
+    } else if ((params.input || params.reads) && params.primers_fa) {
         ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
 
         // If the user requests one of the installed databases
         if (params.db) {
             database    = params.db
             blast_db    = file(params.references.databases[database].blast_db, checkIfExists: true)
-            fasta       = file(params.references.databases[database].fasta, checkIfExists: true)
+            fasta       = null
             version     = params.references.databases[database].version
         // Or allow users to provide their own database
         } else if (params.blast_db) {
@@ -80,11 +80,9 @@ if (params.input) {
         ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
 
         ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
+    }
 
-        ch_multiqc_config   = params.multiqc_config ? Channel.fromPath(params.multiqc_config, checkIfExists: true).collect()    : []
-        ch_multiqc_logo     = params.multiqc_logo   ? Channel.fromPath(params.multiqc_logo, checkIfExists: true).collect()      : []
-    }
-    }
+}
 
 /*
 Set a taxonomy block list to remove unwanted taxa
@@ -92,15 +90,20 @@ Set a taxonomy block list to remove unwanted taxa
 ch_blocklist        = Channel.fromPath(params.blocklist, checkIfExists: true)
 
 /*
+Set the Jinja template for the HTML report
+*/
+ch_template         = Channel.fromPath(params.template, checkIfExists: true).collect()
+
+/*
 Setting default channels
 */
 ch_versions      = Channel.from([]) // all version yml files
-multiqc_files    = Channel.from([]) // all files to go to MultiQC
 ch_otus          = Channel.from([]) // all the OTUs
 ch_bitscore      = Channel.from([]) // all the blast reports
 ch_consensus     = Channel.from([]) // all consensus
 ch_trimfil_json  = Channel.from([]) // all cutadapt mqc reports
 ch_cluster_json  = Channel.from([]) // all clustering mqc reports
+ch_fastp_json    = Channel.from([]) // all FastP Json reports
 
 workflow FOODME2 {
     main:
@@ -109,11 +112,21 @@ workflow FOODME2 {
     Validate the input samplesheet and
     alert users to any formatting issues
     */
-    INPUT_CHECK(samplesheet)
+    if (params.input) {
+        INPUT_CHECK(samplesheet)
+        ch_reads = INPUT_CHECK.out.reads
+    } else if (params.reads) {
+        reads.map { s,r ->
+            def meta = [:]
+            meta.sample_id = s
+            meta.single_end = r.size() == 1 ? true : false
+            tuple(meta,r)
+        }.set { ch_reads }
+    }
 
     // Check if we have single-end data that likely requires 3prime trimming.
     if (!params.cutadapt_trim_3p) {
-        INPUT_CHECK.out.reads.filter { m, r -> m.single_end }.count().filter { c -> c > 0 }.map { c ->
+        ch_reads.filter { m, r -> m.single_end }.count().filter { c -> c > 0 }.map { c ->
             log.warn "$c read sets are classified as single-end - this typically requires --cutadapt_trim_3p."
         }
     }
@@ -127,36 +140,35 @@ workflow FOODME2 {
     // reads are ONT
     } else if (params.ont) {
         ONT_WORKFLOW(
-            INPUT_CHECK.out.reads,
+            ch_reads,
             ch_primers,
             fasta
         )
         ch_versions     = ch_versions.mix(ONT_WORKFLOW.out.versions)
         ch_otus         = ch_otus.mix(ONT_WORKFLOW.out.otus)
-        multiqc_files   = multiqc_files.mix(ONT_WORKFLOW.out.qc)
         ch_trimfil_json = ch_trimfil_json.mix(ONT_WORKFLOW.out.cutadapt_json)
         ch_cluster_json = ch_cluster_json.mix(ONT_WORKFLOW.out.cluster_json)
     // reads are IonTorrent
     } else if (params.iontorrent) {
         ILLUMINA_WORKFLOW(
-            INPUT_CHECK.out.reads,
+            ch_reads,
             ch_primers
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
-        multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
         ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
+        ch_fastp_json   = ch_fastp_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
         ch_trimfil_json = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
         ch_cluster_json = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
     // reads are Illumina (or Illumina-like)
     } else {
         ILLUMINA_WORKFLOW(
-            INPUT_CHECK.out.reads,
+            ch_reads,
             ch_primers
         )
         ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
-        multiqc_files   = multiqc_files.mix(ILLUMINA_WORKFLOW.out.qc)
         ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
         ch_trimfil_json = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
+        ch_fastp_json   = ch_fastp_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
         ch_cluster_json = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
     }
 
@@ -172,7 +184,6 @@ workflow FOODME2 {
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)
-    multiqc_files  = multiqc_files.mix(BLAST_TAXONOMY.out.qc)
 
     // Create list of software packages used
     CUSTOM_DUMPSOFTWAREVERSIONS(
@@ -190,20 +201,12 @@ workflow FOODME2 {
         ch_cluster_json,
         BLAST_TAXONOMY.out.filtered_blast,
         BLAST_TAXONOMY.out.consensus,
-        CUSTOM_DUMPSOFTWAREVERSIONS.out.yml
-    )
-
-    /*
-    MULTIQC
-    */
-    multiqc_files   = multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml)
-
-    MULTIQC(
-        multiqc_files.collect(),
-        ch_multiqc_config,
-        ch_multiqc_logo
+        CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
+        ch_fastp_json,
+        ch_template,
     )
 
     emit:
-    qc = MULTIQC.out.html
+    report = REPORTING.out.report
+    xlsx   = REPORTING.out.xlsx
 }

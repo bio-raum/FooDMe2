@@ -19,10 +19,10 @@ It is designed to be easily installed and used, and work on a wide range of conf
 
 ## Overview
 
-![schema](img/Foodme2_schema_v3.png){ align=right }
-
 FooDMe2 is a complete rewrite of [FooDMe](https://github.com/CVUA-RRW/FooDMe). We designed FooDMe 2 to be more flexible and take away some of the complexity encountered in FooDMe 1. This not only concerns the installation procedure, which is vastly streamlined now, but also the process of configuring and starting individual analysis runs.
 The new implementation also maes it easier to deploy, maintain, and to add additonal functionalities in the future.
+
+![schema](img/pipeline_dag.png)
 
 ## Citation
 

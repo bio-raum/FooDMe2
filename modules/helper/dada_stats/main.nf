@@ -8,7 +8,7 @@ process HELPER_DADA_STATS {
         'biocontainers/bioconductor-dada2:1.28.0--r43hf17093f_0' }"
 
     input:
-    tuple val(meta), path(mergers), path(seqtab)  // mergers rds
+    tuple val(meta), path(mergers), path(filtered), path(seqtab)  // mergers rds
 
     output:
     tuple val(meta), path('*.dada_stats.json')  , emit: json
@@ -26,14 +26,18 @@ process HELPER_DADA_STATS {
     total_pairs <- sum(mergers["abundance"])
     merged <- sum(mergers[mergers[, "accept"]==TRUE, ]["abundance"])
 
+    filttab <- readRDS("${filtered}")
+    filtered <- sum(filttab)
+
     seqtab <- readRDS("${seqtab}")
     nonchimeric <- sum(seqtab)
 
     json <- sprintf(
-        '{"${sample_id}": {"passing": %d, "no_merged": %d, "chimeras": %d}}',
+        '{"${sample_id}": {"passing": %d, "no_merged": %d, "filtered": %d, "chimeras": %d}}',
         nonchimeric,
         total_pairs - merged,
-        merged - nonchimeric)
+        merged - filtered,
+        filtered - nonchimeric)
     write(json, file="${prefix}.dada_stats.json")
     writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
     """

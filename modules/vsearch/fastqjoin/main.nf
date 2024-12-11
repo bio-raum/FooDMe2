@@ -1,4 +1,4 @@
-process VSEARCH_FASTQMERGE {
+process VSEARCH_FASTQJOIN {
     tag "${meta.sample_id}"
 
     label 'short_serial'
@@ -22,17 +22,16 @@ process VSEARCH_FASTQMERGE {
     merged = prefix + '.merged.fastq'
 
     """
-    vsearch --fastq_merge $fwd --reverse $rev \
+    vsearch --fastq_join $fwd --reverse $rev \
     --fastqout $merged \
     --threads ${task.cpus} \
-    --fastq_eeout \
     --relabel ${meta.sample_id}. \
-    --sample ${meta.sample_id} \
-    $args
+    $args 
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         vsearch: \$(vsearch --version 2>&1 | head -n 1 | sed 's/vsearch //g' | sed 's/,.*//g' | sed 's/^v//' | sed 's/_.*//')
     END_VERSIONS
     """
+    
 }

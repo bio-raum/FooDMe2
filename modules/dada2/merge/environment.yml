@@ -1,8 +1,0 @@
-name: dada2_merge
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - bioconda::bioconductor-dada2=1.22.0 
-  - conda-forge::r-digest=0.6.30

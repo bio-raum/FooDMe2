@@ -32,8 +32,7 @@ def main(report, output, bit_diff):
     ]
 
     if stat(report).st_size == 0:
-        header.append("size")
-        json_out = {e: "" for e in header}
+        json_out = {}
     else:
         df = pd.read_csv(report, sep="\t", names=header)
         if not df.empty:

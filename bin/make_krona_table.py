@@ -25,7 +25,7 @@ def main(table, tax, output):
             except taxidTools.InvalidNodeError:
                 lineage_string = "Undetermined"
             finally:
-                fo.write(f"{line.split("\t")[4].strip()}\t{lineage_string}\n")
+                fo.write(f"{line.split("\t")[5].strip()}\t{lineage_string}\n")
 
 
 if __name__ == '__main__':

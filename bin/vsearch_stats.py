@@ -4,7 +4,6 @@
 
 import argparse
 import json
-import gzip
 from Bio import SeqIO
 
 
@@ -21,7 +20,7 @@ args = parser.parse_args()
 def main(sample_id, fwd, merged, filtered, nonchimera, output):
     # Total reads
     total_reads = 0
-    with gzip.open(fwd, "rt") as handle:
+    with open(fwd, "rt") as handle:
         for _ in SeqIO.parse(handle, "fastq"):
             total_reads += 1
 
@@ -40,9 +39,15 @@ def main(sample_id, fwd, merged, filtered, nonchimera, output):
     # Non-chimeric reads
     # this is after dereplication, parse headers to get read numbers
     non_chimeric = 0
+
+    # If we do not perform chimera removal, we instead use the filtered file
+    # which lacks the size= information; so we just add 1 for each entry
     with open(nonchimera, "r") as handle:
         for record in SeqIO.parse(handle, "fasta"):
-            non_chimeric += int(record.id.split(";size=")[1])
+            if "size=" in record.id:
+                non_chimeric += int(record.id.split(";size=")[1])
+            else:
+                non_chimeric += 1
 
     # JSON output
     d = {

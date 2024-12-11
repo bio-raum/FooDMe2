@@ -4,9 +4,11 @@ include { KRONA_HTML }                      from './../../modules/krona/'
 include { HELPER_BENCHMARK }                from './../../modules/helper/benchmark'
 include { HELPER_BENCHMARK_XLSX }           from './../../modules/helper/benchmark_xlsx'
 include { HELPER_SAMPLE_REPORT }            from './../../modules/helper/sample_report'
+include { HELPER_HTML_REPORT }              from './../../modules/helper/html_report'
 
 ch_versions = Channel.from([])
 ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
+
 
 workflow REPORTING {
     take:
@@ -18,13 +20,20 @@ workflow REPORTING {
     ch_blast
     ch_consensus
     ch_versions
+    ch_fastp_json
+    ch_template  // Quarto tempalte for custom HTML report
+
 
     main:
+    ch_report = Channel.from([])
+    ch_xlsx   = Channel.from([])
 
     // Excel report
     HELPER_REPORT_XLSX(
         ch_compo.map { m, t -> t }.collect()
     )
+
+    ch_xlsx = ch_xlsx.mix(HELPER_REPORT_XLSX.out.xlsx)
 
     // Krona
     HELPER_KRONA_TABLE(
@@ -38,13 +47,16 @@ workflow REPORTING {
 
     /*
     Here we group all the sample-specific reports by meta hash
+    the fastp report is optional in case of ONT data, so we need to account for that
     */
     ch_compo_json.join(
-        ch_cutadapt
+        ch_cutadapt, remainder: true
     ).join(
-        ch_blast
+        ch_blast, remainder: true
     ).join(
-        ch_consensus
+        ch_consensus, remainder: true
+    ).join(
+        ch_fastp_json, remainder: true
     ).set { ch_reports_grouped }
 
     /*
@@ -56,6 +68,18 @@ workflow REPORTING {
         ch_clustering.collect(),
         ch_versions.collect()
     )
+
+    /*
+    Write a summary report across all samples using
+    a customizable jinja2 template
+    */
+    HELPER_HTML_REPORT(
+        HELPER_SAMPLE_REPORT.out.json.map {m,j -> j}.collect(),
+        KRONA_HTML.out.html,
+        ch_template,
+    )
+
+    ch_report = ch_report.mix(HELPER_HTML_REPORT.out.html)
 
     // Benchmark
     if (params.ground_truth) {
@@ -76,4 +100,6 @@ workflow REPORTING {
 
     emit:
     versions = ch_versions
+    xlsx     = ch_xlsx
+    report   = ch_report
 }

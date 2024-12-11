@@ -27,9 +27,11 @@ process CUTADAPT {
     def trimmed  = meta.single_end ? "-o ${prefix}.trim.fastq.gz" : "-o ${prefix}_1.trim.fastq.gz -p ${prefix}_2.trim.fastq.gz"
     def options_5p = ''
     def options_3p = ''
+    def read_config = "--interleaved"
     if (meta.single_end) {
         options_5p = "-g ^file:${primers}"
         options_3p = "-a file\$:${primers_rc}"
+        read_config = ""
     } else {
         options_5p = "-g file:${primers} -G file:${primers}"
         options_3p = "-a file\$:${primers_rc} -A file\$:${primers_rc}"
@@ -37,14 +39,14 @@ process CUTADAPT {
 
     if (params.cutadapt_trim_3p) {
         """
-        cutadapt --interleaved \\
+        cutadapt $read_config \\
             --discard-untrimmed \\
             --cores $task.cpus \\
             $args \\
             $reads \\
             $options_5p \\
             --json=${prefix}_forward.json \\
-        | cutadapt --interleaved \\
+        | cutadapt $read_config \\
             --discard-untrimmed \\
             $args \\
             --cores $task.cpus \\
@@ -58,12 +60,40 @@ process CUTADAPT {
         --forward ${prefix}_forward.json \\
         --reverse ${prefix}_reverse.json \\
         --output ${meta.sample_id}.cutadapt_mqc.json
-        
+
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
             cutadapt: \$(cutadapt --version)
         END_VERSIONS
 
+        """
+    } else if (params.cutadapt_trim_flex) {
+        """
+        cutadapt $read_config \\
+            --discard-untrimmed \\
+            --cores $task.cpus \\
+            $args \\
+            $reads \\
+            $options_5p \\
+            --json=${prefix}_forward.json \\
+        | cutadapt $read_config \\
+            $args \\
+            --cores $task.cpus \\
+            $trimmed \\
+            $options_3p \\
+            --json=${prefix}_reverse.json \\
+            -Z - \\
+            > ${prefix}.cutadapt.log
+
+        cutadapt_sum_json.py --sample ${meta.sample_id} \\
+        --forward ${prefix}_forward.json \\
+        --reverse ${prefix}_reverse.json \\
+        --output ${meta.sample_id}.cutadapt_mqc.json
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            cutadapt: \$(cutadapt --version)
+        END_VERSIONS
         """
     } else {
         """
@@ -75,8 +105,13 @@ process CUTADAPT {
             $trimmed \\
             $reads \\
             $options_5p \\
-            --json=${meta.sample_id}.cutadapt.json \\
+            --json=${meta.sample_id}_forward.json \\
             > ${prefix}.cutadapt.log
+
+        cutadapt_sum_json.py --sample ${meta.sample_id} \\
+        --forward ${prefix}_forward.json \\
+        --output ${meta.sample_id}.cutadapt_mqc.json
+
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
             cutadapt: \$(cutadapt --version)

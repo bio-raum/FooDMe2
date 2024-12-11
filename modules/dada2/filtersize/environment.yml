@@ -1,7 +1,7 @@
-name: multiqc
+name: dada2_filterntrim
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::multiqc=1.22
+  - bioconda::bioconductor-dada2=1.28.0

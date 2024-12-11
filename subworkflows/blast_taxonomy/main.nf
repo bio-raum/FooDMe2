@@ -77,21 +77,11 @@ workflow BLAST_TAXONOMY {
     )
     ch_versions     = ch_versions.mix(BLAST_BLASTN.out.versions)
 
-    // Catch all the empty reports and discard the branch
-    BLAST_BLASTN.out.txt.branch { m, r ->
-        pass: r.size() > 0
-        fail: r.size() == 0
-    }.set { ch_blast_with_status }
-
-    ch_blast_with_status.fail.subscribe { m, r ->
-        log.warn "No valid blast hits - stopping sample ${m.sample_id}."
-    }
-
     /*
     Filter the Blast hits to remove low-scoring hits
     */
     HELPER_BLAST_FILTER_BITSCORE(
-        ch_blast_with_status.pass
+        BLAST_BLASTN.out.txt
     )
 
     ch_blast_and_otus = HELPER_BLAST_FILTER_BITSCORE.out.json.join(otus)
@@ -117,7 +107,7 @@ workflow BLAST_TAXONOMY {
     HELPER_FIND_CONSENSUS.out.json.map { meta, json ->
         json
     }.set { ch_json_nometa }
-
+    
     HELPER_ASSIGNEMENT_MULTIQC(
         ch_json_nometa.collect()
     )

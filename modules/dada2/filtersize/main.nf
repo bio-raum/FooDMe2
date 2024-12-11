@@ -1,4 +1,4 @@
-process DADA2_RMCHIMERA {
+process DADA2_FILTERSIZE {
     tag "$meta.sample_id"
     label 'process_medium'
 
@@ -11,28 +11,26 @@ process DADA2_RMCHIMERA {
     tuple val(meta), path(seqtab)
 
     output:
-    tuple val(meta), path('*.ASVtable.rds') , emit: rds
-    path 'versions.yml'                     , emit: versions
-    path '*.args.txt'                       , emit: args
+    tuple val(meta), path('*.ASVtable.filt.rds') , emit: filtered
+    path 'versions.yml'                          , emit: versions
+    path '*.args.txt'                            , emit: args
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: 'method="consensus", minSampleFraction = 0.9, ignoreNNegatives = 1, minFoldParentOverAbundance = 2, minParentAbundance = 8, allowOneOff = FALSE, minOneOffParentDistance = 4, maxShift = 16'
+    def minLen = params.amplicon_min_length
+    def maxLen = params.amplicon_max_length
     """
     #!/usr/bin/env Rscript
     suppressPackageStartupMessages(library(dada2))
 
     seqtab = readRDS("${seqtab}")
 
-    if (is.null(seqtab) || length(seqtab) == 0) {
-        saveRDS(c(),"${meta.sample_id}.ASVtable.rds")
-    } else {
-        #remove chimera
-        seqtab.nochim <- removeBimeraDenovo(seqtab, $args, multithread=$task.cpus, verbose=TRUE)
-        saveRDS(seqtab.nochim,"${meta.sample_id}.ASVtable.rds")
-    }
+    # filter
+    seqtab.filt <- seqtab[,nchar(colnames(seqtab)) %in% seq($minLen,$maxLen)]
+    saveRDS(seqtab.filt,"${meta.sample_id}.ASVtable.filt.rds")
+
     write.table('removeBimeraDenovo\t$args', file = "removeBimeraDenovo.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
     writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
     """

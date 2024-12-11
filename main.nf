@@ -29,14 +29,14 @@ WorkflowPipeline.initialise(params, log)
 include { FOODME2 }            from './workflows/foodme2'
 include { BUILD_REFERENCES }    from './workflows/build_references'
 
-multiqc_report = Channel.from([])
+qc_report = Channel.from([])
 
 workflow {
     if (params.build_references) {
         BUILD_REFERENCES()
     } else {
         FOODME2()
-        multiqc_report = multiqc_report.mix(FOODME2.out.qc).toList()
+        qc_report = qc_report.mix(FOODME2.out.report).toList()
     }
 }
 
@@ -111,13 +111,13 @@ workflow.onComplete {
     subject = "Pipeline finished ($run_name)."
 
     if (params.email) {
-        mqcReport = null
+        qcReport = null
         try {
-            if (workflow.success && !params.skip_multiqc) {
-                mqcReport = multiqc_report.getVal()
-                if (mqcReport.getClass() == ArrayList) {
-                    log.warn "[FooDMe2] Found multiple reports from process 'multiqc', will use only one"
-                    mqcReport = mqcReport[0]
+            if (workflow.success ) {
+                qcReport = qc_report.getVal()
+                if (qcReport.getClass() == ArrayList) {
+                    log.warn "[FooDMe2] Found multiple reports from process 'report', will use only one"
+                    qcReport = qcReport[0]
                 }
             }
         } catch (all) {
@@ -125,7 +125,7 @@ workflow.onComplete {
         }
 
         smailFields = [ email: params.email, subject: subject, emailText: emailText,
-            emailHtml: emailHtml, baseDir: "$baseDir", mqcFile: mqcReport,
+            emailHtml: emailHtml, baseDir: "$baseDir", mqcFile: qcReport,
             mqcMaxSize: params.maxMultiqcEmailFileSize.toBytes()
         ]
         sf = new File("$baseDir/assets/sendmailTemplate.txt")

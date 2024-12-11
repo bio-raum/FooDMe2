@@ -1,6 +1,7 @@
 include { DADA2_FILTNTRIM }             from './../../modules/dada2/filterntrim'
 include { DADA2_ERROR }                 from './../../modules/dada2/error'
 include { DADA2_DENOISING }             from './../../modules/dada2/denoising'
+include { DADA2_FILTERSIZE }             from './../../modules/dada2/filtersize'
 include { DADA2_RMCHIMERA }             from './../../modules/dada2/rmchimera'
 include { HELPER_SEQTABLE_TO_FASTA }    from './../../modules/helper/seqtable_to_fasta'
 include { HELPER_DADA_STATS }           from './../../modules/helper/dada_stats'
@@ -9,6 +10,7 @@ include { HELPER_DADA_MULTIQC }         from './../../modules/helper/dada_multiq
 ch_versions = Channel.from([])
 ch_qc_files = Channel.from([])
 ch_reporting = Channel.from([])
+ch_asvs = Channel.from([])
 
 workflow DADA2_WORKFLOW {
     take:
@@ -43,22 +45,37 @@ workflow DADA2_WORKFLOW {
     )
     ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
 
-    // Remove chimera
-    DADA2_RMCHIMERA(
+    ch_reporting = ch_reporting.mix(DADA2_DENOISING.out.mergers)
+
+    /*
+    Filter by merged read size
+    */
+    DADA2_FILTERSIZE(
         DADA2_DENOISING.out.seqtab
     )
-    ch_versions = ch_versions.mix(DADA2_RMCHIMERA.out.versions)
 
+    ch_reporting = ch_reporting.join(DADA2_FILTERSIZE.out.filtered)
+
+    // Remove chimera
+    if (params.remove_chimera) {
+        DADA2_RMCHIMERA(
+            DADA2_FILTERSIZE.out.filtered
+        )
+        ch_versions = ch_versions.mix(DADA2_RMCHIMERA.out.versions)
+        ch_asvs = ch_asvs.mix(DADA2_RMCHIMERA.out.rds)
+    } else {
+        ch_asvs = ch_asvs.mix(DADA2_FILTERSIZE.out.filtered)
+    }
     // Convert Dada2 Seq table to FASTA file
     HELPER_SEQTABLE_TO_FASTA(
-        DADA2_RMCHIMERA.out.rds
+        ch_asvs
     )
 
-    ch_reporting = DADA2_DENOISING.out.mergers.join(DADA2_RMCHIMERA.out.rds)
+    ch_reporting = ch_reporting.join(ch_asvs)
 
     // Denoising stats
     HELPER_DADA_STATS(
-        ch_reporting.filter { m, r, t -> !m.single_end }
+        ch_reporting.filter { m, r, f, t -> !m.single_end }
     )
 
     HELPER_DADA_STATS.out.json.map { meta, json ->
