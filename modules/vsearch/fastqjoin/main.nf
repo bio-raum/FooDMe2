@@ -25,7 +25,8 @@ process VSEARCH_FASTQJOIN {
     vsearch --fastq_join $fwd --reverse $rev \
     --fastqout $merged \
     --threads ${task.cpus} \
-    --relabel ${meta.sample_id}. 
+    --relabel ${meta.sample_id}. \
+    $args 
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
