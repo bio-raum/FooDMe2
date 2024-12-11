@@ -2,6 +2,7 @@
 Include Modules
 */
 include { VSEARCH_FASTQMERGE }          from './../../modules/vsearch/fastqmerge'
+include { VSEARCH_FASTQJOIN }           from './../../modules/vsearch/fastqjoin'
 include { VSEARCH_DEREPFULL }           from './../../modules/vsearch/derep'
 include { VSEARCH_SORTBYSIZE }          from './../../modules/vsearch/sortbysize'
 include { VSEARCH_FASTQFILTER }         from './../../modules/vsearch/fastqfilter'
@@ -43,24 +44,37 @@ workflow VSEARCH_WORKFLOW {
     /*
     Merge PE files
     */
-    VSEARCH_FASTQMERGE(
-        ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }
-    )
-    ch_versions = ch_versions.mix(VSEARCH_FASTQMERGE.out.versions)
-    ch_reporting = ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }.join(VSEARCH_FASTQMERGE.out.fastq)
+    if (params.non_overlapping) {
+        // Join reads when reads are not overlapping
+        // this should be avoided by using longer read lengths!
+        VSEARCH_FASTQJOIN(
+            ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }
+        )
+        ch_versions = ch_versions.mix(VSEARCH_FASTQJOIN.out.versions)
+        ch_reporting = ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }.join(VSEARCH_FASTQJOIN.out.fastq)
+        ch_merged_reads = VSEARCH_FASTQJOIN.out.fastq
+    } else {
+        // merge overlapping reads - this should be the default
+        VSEARCH_FASTQMERGE(
+            ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }
+        )
+        ch_versions = ch_versions.mix(VSEARCH_FASTQMERGE.out.versions)
+        ch_reporting = ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }.join(VSEARCH_FASTQMERGE.out.fastq)
+        ch_merged_reads = VSEARCH_FASTQMERGE.out.fastq
+    }
 
     /*
     paired and unpaired reads after optional merging and read name tagging
     we now have [ meta, fastq ]
     */
-    ch_merged_reads = VSEARCH_FASTQMERGE.out.fastq.mix(ch_trimmed_reads.unpaired)
+    ch_merged_reads = ch_merged_reads.mix(ch_trimmed_reads.unpaired)
 
     /*
     Filter merged reads using static parameters
     This is not ideal and could be improved!
     */
     VSEARCH_FASTQFILTER(
-        VSEARCH_FASTQMERGE.out.fastq
+        ch_merged_reads
     )
     ch_versions = ch_versions.mix(VSEARCH_FASTQFILTER.out.versions)
     ch_reporting = ch_reporting.join(VSEARCH_FASTQFILTER.out.fasta)
