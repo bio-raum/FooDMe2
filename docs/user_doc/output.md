@@ -15,6 +15,10 @@
 
     - `name_of_pipeline_run_krona.html`: A multi-sample Krona report to visualize taxonomic composition of samples. 
 
+    ![krona](../img/doc_krona_report.png)
+
+    The Krona report displays the taxonomic composition of a given as a circular plot, divided into levels of taxonomy. 
+
 === "Summary"
 
     - `name_of_pipeline_run.html`: A graphical and interactive report of various QC steps and results
