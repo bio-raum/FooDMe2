@@ -15,11 +15,17 @@
 
     - `name_of_pipeline_run_krona.html`: A multi-sample Krona report to visualize taxonomic composition of samples. 
 
-=== "MultiQC"
+=== "Summary"
 
-    - `name_of_pipeline_run_multiqc_report.html`: A graphical and interactive report of various QC steps and results
+    - `name_of_pipeline_run.html`: A graphical and interactive report of various QC steps and results
+
+    ![summary](../img/doc_summary_report.png)
+
+    The summary report contains a variety of information about QC measures as well as the final results. Some of the key metrics are shown at the top, in the section labelled `Summary`. The status column aims to highlight the overall quality of a given sample, although users are advised to develop their own relevant cutoff metrics for the various processing stages, such as a minimum number of reads required after clustering for a sample to be considered for analysis, or the maximum amount of chimeric reads that are tolerated for a particular application. 
 
 ## Per-sample outputs
+
+Sample-level reports can be found in the folder `results/samples/sample_id`. 
 
 === "Clustering"
 
