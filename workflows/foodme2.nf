@@ -54,7 +54,7 @@ if (params.input || params.reads) {
         if (params.db) {
             database    = params.db
             blast_db    = file(params.references.databases[database].blast_db, checkIfExists: true)
-            fasta       = file(params.references.databases[database].fasta, checkIfExists: true)
+            fasta       = null
             version     = params.references.databases[database].version
         // Or allow users to provide their own database
         } else if (params.blast_db) {
