@@ -112,17 +112,30 @@ for json_file in json_files:
         "Reads after clustering",
         "Chimeric reads"
         ]
-    summary.append([
-        sample,
-        this_status,
-        reads_total,
-        q30,
-        insert_size,
-        f"{reads_passing} ({round((reads_passing/reads_total)*100, 2)}%)",
-        f"{reads_filtered} ({round((reads_filtered/reads_total)*100, 2)}%)",
-        f"{reads_after_clustering} ({round((reads_after_clustering/reads_total)*100, 2)}%)",
-        f"{reads_chimera} ({round((reads_chimera/reads_total)*100, 2)}%)",
-    ])
+    try:
+        summary.append([
+            sample,
+            this_status,
+            reads_total,
+            q30,
+            insert_size,
+            f"{reads_passing} ({round((reads_passing/reads_total)*100, 2)}%)",
+            f"{reads_filtered} ({round((reads_filtered/reads_total)*100, 2)}%)",
+            f"{reads_after_clustering} ({round((reads_after_clustering/reads_total)*100, 2)}%)",
+            f"{reads_chimera} ({round((reads_chimera/reads_total)*100, 2)}%)",
+        ])
+    except ZeroDivisionError:
+        summary.append([
+            sample,
+            this_status,
+            reads_total,
+            q30,
+            insert_size,
+            f"{reads_passing}",
+            f"{reads_filtered}",
+            f"{reads_after_clustering}",
+            f"{reads_chimera}",
+        ])
 
 df = pd.DataFrame(summary, columns=headers)
 ```

@@ -1,3 +1,9 @@
+## dev
+
+### Bugs
+
+- Fix a ZeroDivisionError in the report creation when attempting to analyse a sample with no reads.
+
 ## 1.1.0
 
 ### Features
