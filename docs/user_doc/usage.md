@@ -446,3 +446,9 @@ Some possible usage examples:
 
 :   Minimal consensus level between all BLAST results for a given query to be assigned to a taxonomic node.
 
+### Read trimming
+
+`--fastp_options` [ default = "-l 50 -3 --cut_tail_window_size 4 --cut_tail_mean_quatlity 25"]
+
+:   Options for basic read trimming using [fastP](https://github.com/OpenGene/fastp?tab=readme-ov-file#input-and-output). You can overwrite the defaults if your data requires
+it. Make sure to re-set any options you want to keep. 
