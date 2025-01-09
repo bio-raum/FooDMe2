@@ -97,13 +97,14 @@ ch_template         = Channel.fromPath(params.template, checkIfExists: true).col
 /*
 Setting default channels
 */
-ch_versions      = Channel.from([]) // all version yml files
-ch_otus          = Channel.from([]) // all the OTUs
-ch_bitscore      = Channel.from([]) // all the blast reports
-ch_consensus     = Channel.from([]) // all consensus
-ch_trimfil_json  = Channel.from([]) // all cutadapt mqc reports
-ch_cluster_json  = Channel.from([]) // all clustering mqc reports
-ch_fastp_json    = Channel.from([]) // all FastP Json reports
+ch_versions          = Channel.from([]) // all version yml files
+ch_otus              = Channel.from([]) // all the OTUs
+ch_bitscore          = Channel.from([]) // all the blast reports
+ch_consensus         = Channel.from([]) // all consensus
+ch_trimfil_json      = Channel.from([]) // all cutadapt mqc reports
+ch_cluster_json      = Channel.from([]) // all clustering mqc reports
+ch_fastp_input_json  = Channel.from([]) // all FastP Json reports pre trimming
+ch_fastp_trim_json   = Channel.from([]) // all FastP Json reports pre trimming
 
 workflow FOODME2 {
     main:
@@ -154,22 +155,24 @@ workflow FOODME2 {
             ch_reads,
             ch_primers
         )
-        ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
-        ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
-        ch_fastp_json   = ch_fastp_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
-        ch_trimfil_json = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
-        ch_cluster_json = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
+        ch_versions           = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
+        ch_otus               = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
+        ch_fastp_input_json   = ch_fastp_input_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
+        ch_fastp_trim_json    = ch_fastp_trim_json.mix(ILLUMINA_WORKFLOW.out.post_trim_json)
+        ch_trimfil_json       = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
+        ch_cluster_json       = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
     // reads are Illumina (or Illumina-like)
     } else {
         ILLUMINA_WORKFLOW(
             ch_reads,
             ch_primers
         )
-        ch_versions     = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
-        ch_otus         = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
-        ch_trimfil_json = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
-        ch_fastp_json   = ch_fastp_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
-        ch_cluster_json = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
+        ch_versions           = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
+        ch_otus               = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
+        ch_trimfil_json       = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
+        ch_fastp_input_json   = ch_fastp_input_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
+        ch_fastp_trim_json    = ch_fastp_trim_json.mix(ILLUMINA_WORKFLOW.out.post_trim_json)
+        ch_cluster_json       = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
     }
 
     /*
@@ -202,7 +205,8 @@ workflow FOODME2 {
         BLAST_TAXONOMY.out.filtered_blast,
         BLAST_TAXONOMY.out.consensus,
         CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
-        ch_fastp_json,
+        ch_fastp_input_json,
+        ch_fastp_trim_json,
         ch_template,
     )
 
