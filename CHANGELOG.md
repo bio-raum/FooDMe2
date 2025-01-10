@@ -1,5 +1,14 @@
 ## dev
 
+### Features
+
+- The initial FASTP step (prior to primer trimming) now only perfoms adapter detection and metrics output. A new FASTP step was added after primer trimming which can be used to perform additonal trimming and filtering operations using the `--fastp_options` argument. The default value of this argument performs sliding window 3' quality trimming and filters reads absed on size (see usage documentation).
+
+### Reporting
+
+- Added a tabset to the insert size histogram to show fragment size after primer trimming.
+- The summary table, read quality plots, and filtering barchart now show the results of the newly added FASTP step.
+
 ### Bugs
 
 - Fix a ZeroDivisionError in the report creation when attempting to analyse a sample with no reads.

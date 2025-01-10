@@ -358,7 +358,14 @@ Some possible usage examples:
 
 `--cutadapt_options` [ default = "" ]
 
-:   Any additional options you feel should be passed to Cutadapt. Use at your own risk.
+:   Any additional options you feel should be passed to [Cutadapt](https://cutadapt.readthedocs.io/en/stable/reference.html#command-line-options). Use at your own risk.
+
+### Read trimming
+
+`--fastp_options` [ default = "-l 50 -3 --cut_tail_window_size 4 --cut_tail_mean_quatlity 25"]
+
+:   Options for basic read trimming using [fastP](https://github.com/OpenGene/fastp?tab=readme-ov-file#input-and-output). You can overwrite the defaults if your data requires
+it. Make sure to re-set any options you want to keep. 
 
 ### Clustering configuration
 
@@ -445,10 +452,3 @@ Some possible usage examples:
 `--blast_min_consensus` [ default = 0.51 ]
 
 :   Minimal consensus level between all BLAST results for a given query to be assigned to a taxonomic node.
-
-### Read trimming
-
-`--fastp_options` [ default = "-l 50 -3 --cut_tail_window_size 4 --cut_tail_mean_quatlity 25"]
-
-:   Options for basic read trimming using [fastP](https://github.com/OpenGene/fastp?tab=readme-ov-file#input-and-output). You can overwrite the defaults if your data requires
-it. Make sure to re-set any options you want to keep. 
