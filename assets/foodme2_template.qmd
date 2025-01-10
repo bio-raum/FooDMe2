@@ -71,6 +71,7 @@ for json_file in json_files:
     with open(json_file) as f:
         jdata = json.load(f)
 
+    # Note: FASTP considers both R1 + R2 for its read count. Need to /2
     sample = jdata["sample"]
     insert_size = jdata["fastp"]["insert_size"]["peak"]
     reads_total = int(int(jdata["fastp"]["summary"]["before_filtering"]["total_reads"])/2)
@@ -79,15 +80,16 @@ for json_file in json_files:
     # Track the sample status
     this_status = "pass"
     try:
-        reads_passing = jdata["cutadapt"]["Reads passing filters"]
-        reads_filtered = jdata["cutadapt"]["Filtered reads (uncategorized)"]
+        reads_passing = int(int(jdata["fastp_trimmed"]["summary"]["after_filtering"]["total_reads"])/2)
+        # Count all filtered reads, i.e. primer trimming + quality
+        reads_filtered = reads_total - reads_passing
     except KeyError:
         reads_passing = 0
         reads_filtered = 0
         this_status = "fail"
     try:
-        reads_after_clustering = jdata["clustering"]["passing"]
-        reads_chimera = jdata["clustering"]["chimeras"]
+        reads_after_clustering = int(jdata["clustering"]["passing"])
+        reads_chimera = int(jdata["clustering"]["chimeras"])
     except KeyError:
         reads_after_clustering = 0
         reads_chimera = 0
@@ -207,28 +209,54 @@ Insert size estimation of sampled reads.
 
 ::: {.column-screen-inset-right}
 ```{python}
-#| label: insert-size
+#| label: prep_insert-size
 
-frames = []
+def get_insert_hist(fastp_label):
+    frames = []
 
-for json_file in json_files:
-    with open(json_file) as f:
-        jdata = json.load(f)
-    sample = jdata["sample"]
-    try:
-        # catch missing data if sample stopped
-        counts = jdata["fastp"]["insert_size"]["histogram"]
-    except KeyError:
-        sdf = pd.DataFrame(columns=["sample", "size", "count"])
+    for json_file in json_files:
+        with open(json_file) as f:
+            jdata = json.load(f)
+        sample = jdata["sample"]
+        try:
+            # catch missing data if sample stopped
+            counts = jdata[fastp_label]["insert_size"]["histogram"]
+        except KeyError:
+            sdf = pd.DataFrame(columns=["sample", "size", "count"])
+            frames.append(sdf)
+            continue
+        sdf = pd.DataFrame(
+                list(zip([sample]*len(counts), range(1, len(counts)+1), counts)),
+                columns=["sample", "size", "count"]
+            )
         frames.append(sdf)
-        continue
-    sdf = pd.DataFrame(
-            list(zip([sample]*len(counts), range(1, len(counts)+1), counts)),
-            columns=["sample", "size", "count"]
-        )
-    frames.append(sdf)
 
-df = pd.concat(frames)
+    df = pd.concat(frames)
+    return df
+```
+:::
+
+::: {.panel-tabset .column-screen-inset-right}
+
+### Before trimming
+
+```{python}
+#| label: insert_size_before
+df = get_insert_hist("fastp")
+
+fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
+    labels={"size": "Insert size (bp)", "count": "Read count"},
+    line_shape="spline", template="simple_white")
+fig.update_traces(hovertemplate="%{x}bp: %{y} reads")
+fig.update_layout(hovermode="closest")
+fig.show()
+```
+
+### After trimming
+
+```{python}
+#| label: insert_size_fater
+df = get_insert_hist("fastp_trimmed")
 
 fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
     labels={"size": "Insert size (bp)", "count": "Read count"},
@@ -247,7 +275,7 @@ Average sequencing quality over each base of all reads.
 ```{python}
 #| label: prep-read_quality
 
-def get_qual(read_label):
+def get_qual(fastp_label, read_label):
     frames = []
 
     for json_file in json_files:
@@ -256,7 +284,7 @@ def get_qual(read_label):
         sample = jdata["sample"]
         try:
             # catch missing data if sample stopped
-            qual = jdata["fastp"][read_label]["quality_curves"]["mean"]
+            qual = jdata[fastp_label][read_label]["quality_curves"]["mean"]
         except KeyError:
             sdf = pd.DataFrame(columns=["sample", "position", "qual"])
             frames.append(sdf)
@@ -279,7 +307,7 @@ def get_qual(read_label):
 ```{python}
 #| label: read1_before
 
-df = get_qual("read1_before_filtering")
+df = get_qual("fastp", "read1_before_filtering")
 
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
@@ -294,7 +322,7 @@ fig.show()
 ```{python}
 #| label: read1_after
 
-df = get_qual("read1_after_filtering")
+df = get_qual("fastp_trimmed", "read1_after_filtering")
 
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
@@ -309,7 +337,7 @@ fig.show()
 ```{python}
 #| label: read2_before
 
-df = get_qual("read2_before_filtering")
+df = get_qual("fastp", "read2_before_filtering")
 
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
@@ -324,7 +352,7 @@ fig.show()
 ```{python}
 #| label: read2_after
 
-df = get_qual("read2_after_filtering")
+df = get_qual("fastp_trimmed", "read2_after_filtering")
 
 fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
     labels={"position": "Read position", "qual": "Sequence quality"},
@@ -339,66 +367,6 @@ fig.show()
 # Reads pre-processing
 
 Removing low quality reads and removing primers.
-
-## Filtered reads
-
-Filtering low quality reads
-
-::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
-
-### Counts
-
-```{python}
-#| label: filt-counts
-
-frames = []
-
-for json_file in json_files:
-    with open(json_file) as f:
-        jdata = json.load(f)
-    sample = jdata["sample"]
-    try:
-        # catch missing data if sample stopped
-        data = jdata["fastp"]["filtering_result"]
-    except KeyError:
-        sdf = pd.DataFrame(columns=["sample", "label", "count"])
-        frames.append(sdf)
-        continue
-    labels, values = zip(*data.items())
-    sdf = pd.DataFrame(
-            list(zip([sample]*len(labels), labels, values)),
-            columns=["sample", "label", "count"]
-        )
-    frames.append(sdf)
-
-df = pd.concat(frames)
-
-fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label",
-    labels={"count": "Read number", "sample": ""},
-    orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''}, hovermode="y unified")
-fig.update_yaxes(showspikes=False)
-fig.update_traces(hovertemplate="%{customdata}: %{x}<extra></extra>")
-fig.show()
-```
-
-### Percentages
-
-```{python}
-#| label: filt-perc
-
-df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
-
-fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label",
-    labels={"prop": "Read proportion (%)", "sample": ""},
-    orientation='h', template="simple_white")
-fig.update_layout(legend={'title_text':''}, hovermode="y unified")
-fig.update_yaxes(showspikes=False)
-fig.update_traces(hovertemplate="%{customdata}: %{x}%<extra></extra>")
-fig.show()
-```
-
-:::
 
 ## Primer trimming
 
@@ -446,6 +414,66 @@ fig.show()
 
 ```{python}
 #| label: trim-perc
+
+df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
+
+fig = px.bar(df, x="prop", y= "sample", color="label", custom_data="label",
+    labels={"prop": "Read proportion (%)", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}: %{x}%<extra></extra>")
+fig.show()
+```
+
+:::
+
+## Filtered reads
+
+Filtering low quality reads
+
+::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
+
+### Counts
+
+```{python}
+#| label: filt-counts
+
+frames = []
+
+for json_file in json_files:
+    with open(json_file) as f:
+        jdata = json.load(f)
+    sample = jdata["sample"]
+    try:
+        # catch missing data if sample stopped
+        data = jdata["fastp_trimmed"]["filtering_result"]
+    except KeyError:
+        sdf = pd.DataFrame(columns=["sample", "label", "count"])
+        frames.append(sdf)
+        continue
+    labels, values = zip(*data.items())
+    sdf = pd.DataFrame(
+            list(zip([sample]*len(labels), labels, values)),
+            columns=["sample", "label", "count"]
+        )
+    frames.append(sdf)
+
+df = pd.concat(frames)
+
+fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label",
+    labels={"count": "Read number", "sample": ""},
+    orientation='h', template="simple_white")
+fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+fig.update_yaxes(showspikes=False)
+fig.update_traces(hovertemplate="%{customdata}: %{x}<extra></extra>")
+fig.show()
+```
+
+### Percentages
+
+```{python}
+#| label: filt-perc
 
 df["prop"] = 100*df["count"] / df.groupby("sample")["count"].transform("sum")
 
