@@ -781,6 +781,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#read-trimming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Read trimming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#clustering-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       Clustering configuration
@@ -793,15 +802,6 @@
   <a href="#blast-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       BLAST configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#read-trimming" class="md-nav__link">
-    <span class="md-ellipsis">
-      Read trimming
     </span>
   </a>
   
@@ -1302,6 +1302,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#read-trimming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Read trimming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#clustering-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       Clustering configuration
@@ -1314,15 +1323,6 @@
   <a href="#blast-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       BLAST configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#read-trimming" class="md-nav__link">
-    <span class="md-ellipsis">
-      Read trimming
     </span>
   </a>
   
@@ -1729,7 +1729,15 @@ This example will additionally reverse complement your primer sequences and chec
 </dd>
 <dt><code>--cutadapt_options</code> [ default = "" ]</dt>
 <dd>
-<p>Any additional options you feel should be passed to Cutadapt. Use at your own risk.</p>
+<p>Any additional options you feel should be passed to <a href="https://cutadapt.readthedocs.io/en/stable/reference.html#command-line-options">Cutadapt</a>. Use at your own risk.</p>
+</dd>
+</dl>
+<h3 id="read-trimming">Read trimming</h3>
+<dl>
+<dt><code>--fastp_options</code> [ default = "-l 50 -3 --cut_tail_window_size 4 --cut_tail_mean_quatlity 25"]</dt>
+<dd>
+<p>Options for basic read trimming using <a href="https://github.com/OpenGene/fastp?tab=readme-ov-file#input-and-output">fastP</a>. You can overwrite the defaults if your data requires
+it. Make sure to re-set any options you want to keep. </p>
 </dd>
 </dl>
 <h3 id="clustering-configuration">Clustering configuration</h3>
@@ -1816,14 +1824,6 @@ The default of 98 seems to work quite well for our data, but will occasionally f
 <dt><code>--blast_min_consensus</code> [ default = 0.51 ]</dt>
 <dd>
 <p>Minimal consensus level between all BLAST results for a given query to be assigned to a taxonomic node.</p>
-</dd>
-</dl>
-<h3 id="read-trimming">Read trimming</h3>
-<dl>
-<dt><code>--fastp_options</code> [ default = "-l 50 -3 --cut_tail_window_size 4 --cut_tail_mean_quatlity 25"]</dt>
-<dd>
-<p>Options for basic read trimming using <a href="https://github.com/OpenGene/fastp?tab=readme-ov-file#input-and-output">fastP</a>. You can overwrite the defaults if your data requires
-it. Make sure to re-set any options you want to keep. </p>
 </dd>
 </dl>
 
