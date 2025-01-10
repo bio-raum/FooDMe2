@@ -3,9 +3,9 @@ import groovy.json.JsonSlurper
 /*
 Import modules
 */
-include { FASTP_METRICS }       from './../../modules/fastp/fastp_metrics'
-include { FASTP_TRIM }          from './../../modules/fastp/fastp_trim'
-include { CAT_FASTQ }           from './../../modules/cat_fastq'
+include { FASTP as FASTP_METRICS }      from './../../modules/fastp'
+include { FASTP as FASTP_TRIM }         from './../../modules/fastp'
+include { CAT_FASTQ }                   from './../../modules/cat_fastq'
 
 /*
 Import sub workflows

@@ -1,4 +1,4 @@
-process FASTP_TRIM {
+process FASTP {
     tag "${meta.sample_id}"
 
     label 'short_parallel'
@@ -20,11 +20,10 @@ process FASTP_TRIM {
 
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    def trimmed  = meta.single_end ? "--out1 ${prefix}.trim.fastq.gz" : "--out1 ${prefix}_1.trim.fastq.gz --out2 ${prefix}_2.trim.fastq.gz"
+    def suffix = task.ext.suffix ?: "trim.fastq.gz"
+    def trimmed  = meta.single_end ? "--out1 ${prefix}.trim.${suffix}" : "--out1 ${prefix}_1.${suffix} --out2 ${prefix}_2.${suffix}"
 
     r1 = reads.first()
-
-    suffix = '_trim.fastq.gz'
 
     json = prefix + '.fastp.json'
     html = prefix + '.fastp.html'
