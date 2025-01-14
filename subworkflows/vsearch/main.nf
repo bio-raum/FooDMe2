@@ -2,6 +2,7 @@
 Include Modules
 */
 include { VSEARCH_FASTQMERGE }          from './../../modules/vsearch/fastqmerge'
+include { VSEARCH_FASTQMERGE as VSEARCH_FASTQMERGE_FOR_JOIN } from './../../modules/vsearch/fastqmerge'
 include { VSEARCH_FASTQJOIN }           from './../../modules/vsearch/fastqjoin'
 include { VSEARCH_DEREPFULL }           from './../../modules/vsearch/derep'
 include { VSEARCH_SORTBYSIZE }          from './../../modules/vsearch/sortbysize'
@@ -47,12 +48,38 @@ workflow VSEARCH_WORKFLOW {
     if (params.non_overlapping) {
         // Join reads when reads are not overlapping
         // this should be avoided by using longer read lengths!
-        VSEARCH_FASTQJOIN(
+
+        // First, all mergable reads are merged
+        VSEARCH_FASTQMERGE_FOR_JOIN(
             ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }
         )
+        ch_merged_reads = VSEARCH_FASTQMERGE_FOR_JOIN.out.fastq
+
+        // then all unmergable reads are joined
+        VSEARCH_FASTQJOIN(
+            VSEARCH_FASTQMERGE_FOR_JOIN.out.unmerged_reads
+        )
+        ch_joined_reads = VSEARCH_FASTQJOIN.out.fastq
         ch_versions = ch_versions.mix(VSEARCH_FASTQJOIN.out.versions)
         ch_reporting = ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }.join(VSEARCH_FASTQJOIN.out.fastq)
-        ch_merged_reads = VSEARCH_FASTQJOIN.out.fastq
+
+        // Combine merged and joined reads into one fastq file
+        // this loses us the meta hash, but we get it back later...
+        ch_merged_reads
+        .mix(ch_joined_reads)
+        .collectFile { meta, fastq ->
+            [ "${meta.sample_id}.combined.fastq", fastq ]
+        }.map { fastq ->
+            [ fastq.simpleName ,fastq]
+        }.set { ch_all_reads }
+
+        // Rejoin the merged reads with the meta hash
+        ch_trimmed_reads.paired.map { m,r -> 
+            [ m.sample_id, m]
+        }.join(ch_all_reads).map { key,m,f ->
+            [ m,f ]
+        }.set { ch_merged_reads }
+
     } else {
         // merge overlapping reads - this should be the default
         VSEARCH_FASTQMERGE(

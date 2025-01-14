@@ -13,6 +13,7 @@ process VSEARCH_FASTQMERGE {
 
     output:
     tuple val(meta), path(merged), emit: fastq
+    tuple val(meta), path(fwd_u), path(rev_u), emit: unmerged_reads
     path("versions.yml"), emit: versions
 
     script:
@@ -20,6 +21,8 @@ process VSEARCH_FASTQMERGE {
     def prefix = task.ext.prefix ?: meta.sample_id
 
     merged = prefix + '.merged.fastq'
+    fwd_u = prefix + '_unmerged_R1.fastq'
+    rev_u = prefix + '_unmerged_R2.fastq'
 
     """
     vsearch --fastq_merge $fwd --reverse $rev \
@@ -28,6 +31,8 @@ process VSEARCH_FASTQMERGE {
     --fastq_eeout \
     --relabel ${meta.sample_id}. \
     --sample ${meta.sample_id} \
+    --fastqout_notmerged_fwd $fwd_u \
+    --fastqout_notmerged_rev $rev_u \
     $args
 
     cat <<-END_VERSIONS > versions.yml
