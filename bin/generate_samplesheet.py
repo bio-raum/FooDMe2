@@ -14,18 +14,49 @@ parser.add_argument("--output", "-o", help="Path to output file")
 args = parser.parse_args()
 
 
-def main(folder, output):
+EXTENSIONS = ["*.fastq.gz", "*.fq.gz", "*.fastq", "*.fq"]
 
-    ss = open(output, "w+")
 
-    ss.write("sample\tfq1\tfq2\n")
+def stripext(filename, extlist=EXTENSIONS):
+    for ext in extlist:
+        if filename.endswith(ext):
+            return filename[: -len(ext)]
+    return filename
 
-    # Get all files ending in fastq.gz or fq.gz
-    files = [os.path.abspath(f) for f in glob.glob(folder + "/*.fastq.gz") + glob.glob(folder + "/*.fq.gz")]
-    files.sort()
+
+# A function to derive a grouping variable from file names
+def getgroup(path):
+
+    filename = os.path.basename(path)
+
+    # Regexps to try
+    sra = re.compile("^[E,S]RR[0-9]*.*")  # ERR202156_1.fastq.gz
+    illumina = re.compile("^.*_S[0-9]*_L00[0-9]_R[1,2].*")  # samplename_S01_L001_R1_001.fastq.gz
+
+    if sra.match(filename):
+        return filename.split("_")[0]  # ERR20215
+    elif illumina.match(filename):
+        return re.split(r"_R[1-2]", filename)[0]  # samplename_S01_L001
+    else:
+        # If we cannot guess the format, we remove extension
+        # and then check if the remaining name ends on what might be the indicator of a read pair (_1, _2) - which we remove, if so.
+        bsplit = stripext(filename)
+        pair = re.compile(r"_[,R][1,2]|$")
+        if pair.search(bsplit):
+            return re.split(pair, bsplit)[0]
+        else:
+            return bsplit
+
+
+def main(folder, output, extlist=EXTENSIONS):
+    # Get all files endings from EXTENSIONS
+    files = [os.path.abspath(f) for ext in extlist for f in glob.glob(os.path.join(folder, ext))]
 
     samples = {}
 
+    ss = ["sample\tfq1\tfq2"]
+
+    # pair files by name - handles single end too
     for file in files:
         grouping = getgroup(file)
         if grouping in samples:
@@ -38,6 +69,7 @@ def main(folder, output):
         # if this library has a lane indicator (L00x), make sure to group by lane
         if lanes.search(lib):
             trimmed_lib = lib.split("_L00")[0]
+            sname = re.split(re.compile(r"_S[0-9]*"), trimmed_lib)[0]  # also remove sample number if present
             reads_by_lane = {}
             for read in reads:
                 lane = read.split("L00")[-1][0]
@@ -47,42 +79,20 @@ def main(folder, output):
                     reads_by_lane[lane] = [read]
             for lane, lreads in reads_by_lane.items():
                 if (len(lreads) > 2):
-                    sys.exit(f"Dataset {lib} has more than two read files - something went wrong :/")
-                rdata = "   ".join(lreads)
-                ss.write(f"{trimmed_lib}\t{rdata}\n")
+                    raise ValueError(f"Dataset {lib} has more than two read files - something went wrong")
+                rdata = "\t".join(lreads)
+                ss.append(f"{sname}\t{rdata}")
         # If no lane indicator is found, just go ahead.
         else:
             if (len(reads) > 2):
-                sys.exit(f"Dataset {lib} has more than two read files - something went wrong :/")
-            rdata = "   ".join(reads)
-            ss.write(f"{lib}\t{rdata}\n")
+                raise ValueError(f"Dataset {lib} has more than two read files - something went wrong")
+            rdata = "\t".join(reads)
+            ss.append(f"{lib}\t{rdata}")
 
-    ss.close()
-
-
-# A function to derive a grouping variable from read names
-def getgroup(read):
-
-    readname = os.path.basename(read)
-
-    # Regexps to try
-    sra = re.compile("^[E,S]RR[0-9]*.*")
-    illumina = re.compile("^.*_S[0-9]*_L00[0-9]_R[1,2].*")
-
-    if sra.match(readname):
-        return readname.split("_")[0]
-    elif illumina.match(readname):
-        return re.split(r"_R[1-2]", readname)[0]
-    else:
-        # If we cannot guess the format, we remove the most likely extension (.fastq,.fq)
-        # and then check if the remaining name ends on what might be the indicator of a read pair (_1, _2) - which we remove, if so.
-        extensions = re.compile(r"\.[fastq,fq]")
-        bsplit = re.split(extensions, readname)[0]
-        pair = re.compile(r"_[,R][1,2]|$")
-        if pair.search(bsplit):
-            return re.split(pair, bsplit)[0]
-        else:
-            return bsplit
+    # write to file
+    with open(output, "w") as fo:
+        for line in ss:
+            fo.write(f"{line}\n")
 
 
 if __name__ == '__main__':
