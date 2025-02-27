@@ -22,7 +22,8 @@ def main(folder, output):
 
     # Get all files ending in fastq.gz or fq.gz
     files = [os.path.abspath(f) for f in glob.glob(folder + "/*.fastq.gz") + glob.glob(folder + "/*.fq.gz")]
-
+    files.sort()
+    
     samples = {}
 
     for file in files:
