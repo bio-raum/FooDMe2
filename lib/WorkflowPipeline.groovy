@@ -50,10 +50,7 @@ class WorkflowPipeline {
                 log.info 'If you do not think that you will need this database, skip it with --skip_genbank'
             }
         } else if (params.generate_samplesheet) {
-            if (!params.read_folder) {
-                log.info "Must point to a folder with reads to build a samplesheet (--reads_folder)"
-                System.exit(1)
-            }
+            // place holder so the general options aren't evaluated
         } else {
             if (params.ont && params.db == 'genbank' || params.ont && params.db == 'ncbi_its' || params.ont && params.blast_db) {
                 log.info 'Sorry, it is not currently possible to analyse ONT data against large NCBI or custom databases...'

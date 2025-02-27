@@ -1,6 +1,6 @@
 include { HELPER_GENERATE_SAMPLESHEET } from './../modules/helper/generate_samplesheet'
 
-ch_read_folder = params.read_folder ? Channel.fromPath(params.read_folder, checkIfExists: true) : Channel.from([])
+ch_read_folder = params.generate_samplesheet ? Channel.fromPath(params.generate_samplesheet, checkIfExists: true) : Channel.from([])
 
 workflow GENERATE_SAMPLESHEET {
 
