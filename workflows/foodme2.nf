@@ -43,7 +43,7 @@ if (params.input || params.reads) {
         database                = params.primers[params.primer_set].database
         ch_primers              = Channel.fromPath(file(params.primers[params.primer_set].fasta, checkIfExits: true)).collect()
         blast_db                = file(params.references.databases[database].blast_db, checkIfExists: true)
-        fasta                   = file(params.references.databases[database].fasta, checkIfExists: true)
+        fasta                   = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
         version                 = params.references.databases[database].version
 
     // If the users specifies a custom primer set as FASTA instead
@@ -54,7 +54,7 @@ if (params.input || params.reads) {
         if (params.db) {
             database    = params.db
             blast_db    = file(params.references.databases[database].blast_db, checkIfExists: true)
-            fasta       = null
+            fasta       = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
             version     = params.references.databases[database].version
         // Or allow users to provide their own database
         } else if (params.blast_db) {

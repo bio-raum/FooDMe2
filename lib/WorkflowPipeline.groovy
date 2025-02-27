@@ -28,11 +28,11 @@ class WorkflowPipeline {
             }
             System.exit(1)
         }
-        if (!params.run_name) {
+        if (!params.run_name && !params.generate_samplesheet && !params.build_references) {
             log.info 'Must provide a run_name (--run_name)'
             System.exit(1)
         }
-        if (!params.input && !params.reads && !params.build_references) {
+        if (!params.input && !params.reads && !params.build_references && !params.generate_samplesheet) {
             log.info 'This pipeline requires a sample sheet as input (--input)'
             System.exit(1)
         }
@@ -48,6 +48,11 @@ class WorkflowPipeline {
             if (!params.skip_genbank) {
                 log.info 'WARNING: This will install the GenBank core nt database - over 200GB of storage will be required!'
                 log.info 'If you do not think that you will need this database, skip it with --skip_genbank'
+            }
+        } else if (params.generate_samplesheet) {
+            if (!params.read_folder) {
+                log.info "Must point to a folder with reads to build a samplesheet (--reads_folder)"
+                System.exit(1)
             }
         } else {
             if (params.ont && params.db == 'genbank' || params.ont && params.db == 'ncbi_its' || params.ont && params.blast_db) {
