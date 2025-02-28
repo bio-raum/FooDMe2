@@ -1495,8 +1495,14 @@ These names can be parsed with the following pattern:</p>
 </dd>
 <dt><code>--generate_samplesheet</code> [default = null]</dt>
 <dd>
-<p>A small utility to generate a FoooDMe2 compliant sample sheet from a folder of reads. Cannot be combined with <code>--build_references</code> or <code>--input</code>. This function is still under development, so please check the results.</p>
+<p>A small utility to generate a FoooDMe2 compliant sample sheet from a folder of reads. This option takes a path to a folder with FastQ files as arument.</p>
 </dd>
+</dl>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>myprofile<span class="w"> </span>--generate_samplesheet<span class="w"> </span>/path/to/reads
+</span></code></pre></div>
+<p>Results are written to <code>results/samples.tsv</code>.</p>
+<p>This option cannot be combined with <code>--build_references</code> or <code>--input</code>. Note: This function is still under development, so please check the results.</p>
+<dl>
 <dt><code>--reference_base</code> [default = null ]</dt>
 <dd>
 <p>The location where the pipeline references are installed on your system. This will typically be pre-set in your site-specific config file and is only needed when you run without one.</p>
@@ -1536,7 +1542,7 @@ These names can be parsed with the following pattern:</p>
 <dt><code>--list_primers</code> [ default = false]</dt>
 <dd>
 <p>Get a list of pre-configured primer sets.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>--list_primers
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>--list_primers
 </span></code></pre></div>
 </dd>
 <dt><code>--primer_set</code> [default = null]</dt>
@@ -1557,7 +1563,7 @@ Please make sure that your primer sequences only contain <a href="https://www.bi
 <dt><code>--list_dbs</code></dt>
 <dd>
 <p>You can get a list of available databases and their origin as follows:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>--list_dbs
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>--list_dbs
 </span></code></pre></div>
 </dd>
 <dt><code>--db</code> [default = null]</dt>
@@ -1693,11 +1699,11 @@ is at a maximum given rank and it's predicted (and expected) proportion in the s
 <dt><code>--ground_truth</code> [default = false]</dt>
 <dd>
 <p>Path to a tab-delimited text file giving expected sample composition. The file must be formatted as follows:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>sample  taxid   proportion
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>S100    9303    0.9
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>S100    9013    0.1
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>S200    9303    0.8
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>S200    9313    0.2
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sample  taxid   proportion
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>S100    9303    0.9
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>S100    9013    0.1
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>S200    9303    0.8
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>S200    9313    0.2
 </span></code></pre></div>
 <ul>
 <li><code>sample</code>: Sample name</li>
@@ -1719,25 +1725,25 @@ is at a maximum given rank and it's predicted (and expected) proportion in the s
 <div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Default</label><label for="__tabbed_3_2">Custom primers</label><label for="__tabbed_3_3">Trim 3' ends</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>--primer_set<span class="w"> </span>amniotes_dobrovolny<span class="w"> </span><span class="se">\\</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>--run_name<span class="w"> </span>cutadapt-test
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>--primer_set<span class="w"> </span>amniotes_dobrovolny<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>--run_name<span class="w"> </span>cutadapt-test
 </span></code></pre></div>
 <p>This example uses a built-in primer set to perform primer removal.</p>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>--primers_fa<span class="w"> </span>my_primers.fasta<span class="w"> </span><span class="se">\\</span>
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>--db<span class="w"> </span>srna<span class="w"> </span><span class="se">\\</span>
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>--run_name<span class="w"> </span>cutadapt-test
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>--primers_fa<span class="w"> </span>my_primers.fasta<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>--db<span class="w"> </span>srna<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>--run_name<span class="w"> </span>cutadapt-test
 </span></code></pre></div>
 <p>This example uses your custom primers, performs PCR primer site removal with cutadapt and performs taxonomic profiling against the srRNA database.</p>
 </div>
 <div class="tabbed-block">
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>--primer_set<span class="w"> </span>amniotes_dobrovolny<span class="w"> </span><span class="se">\\</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>--cutadapt_trim_3p<span class="w"> </span><span class="se">\\</span>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>--run_name<span class="w"> </span>cutadapt-test
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>standard,conda<span class="w"> </span>--input<span class="w"> </span>samples.csv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>--primer_set<span class="w"> </span>amniotes_dobrovolny<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>--cutadapt_trim_3p<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>--run_name<span class="w"> </span>cutadapt-test
 </span></code></pre></div>
 This example will additionally reverse complement your primer sequences and check for primer binding sites at both ends of each read.</p>
 </div>
@@ -1828,10 +1834,10 @@ The default of 98 seems to work quite well for our data, but will occasionally f
 <dt><code>--disable_low_complexity</code> [ default = false]</dt>
 <dd>
 <p>By default, Blast with filter/main low complexity sequences. If your amplicons have very low complexity, you may wish to set this option to disable the masking of low complexity motifs. Effectively deactivates DUST fileter and soft masking.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-ram/FooDMe2<span class="w"> </span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>-profile<span class="w"> </span>apptainer<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>--input<span class="w"> </span>samples.tsv<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>--disable_low_complexity<span class="w"> </span>...
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-ram/FooDMe2<span class="w"> </span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>-profile<span class="w"> </span>apptainer<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>--input<span class="w"> </span>samples.tsv<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>--disable_low_complexity<span class="w"> </span>...
 </span></code></pre></div>
 </dd>
 <dt><code>--blast_evalue</code> [ default = "1e-20" ]</dt>

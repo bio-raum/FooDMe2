@@ -1284,6 +1284,7 @@
 <h3 id="features">Features</h3>
 <ul>
 <li>The initial FASTP step (prior to primer trimming) now only perfoms adapter detection and metrics output. A new FASTP step was added after primer trimming which can be used to perform additonal trimming and filtering operations using the <code>--fastp_options</code> argument. The default value of this argument performs sliding window 3' quality trimming and filters reads absed on size (see usage documentation).</li>
+<li>Added a workflow to produce a sample sheet from a folder of fastq files <code>--generate_samplesheet</code>.</li>
 </ul>
 <h3 id="reporting">Reporting</h3>
 <ul>
