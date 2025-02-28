@@ -169,7 +169,15 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
 `--generate_samplesheet` [default = null]
 
-:   A small utility to generate a FoooDMe2 compliant sample sheet from a folder of reads. Cannot be combined with `--build_references` or `--input`. This function is still under development, so please check the results.
+:   A small utility to generate a FoooDMe2 compliant sample sheet from a folder of reads. This option takes a path to a folder with FastQ files as arument.
+
+```bash
+nextflow run bio-raum/FooDMe2 -profile myprofile --generate_samplesheet /path/to/reads
+```
+
+Results are written to `results/samples.tsv`.
+
+This option cannot be combined with `--build_references` or `--input`. Note: This function is still under development, so please check the results.
 
 `--reference_base` [default = null ]
 
