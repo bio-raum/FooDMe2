@@ -58,7 +58,7 @@ def main(sample_id, run_name, compo, cutadapt, clustering, blast, consensus, ver
     outfil = {k: v for k, v in out.items() if v}
 
     with open(output, "w") as fo:
-        json.dump(outfil, fo, indent=4)
+        json.dump(outfil, fo, indent=4, sort_keys=True)
 
 
 if __name__ == '__main__':
