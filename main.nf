@@ -32,6 +32,10 @@ include { GENERATE_SAMPLESHEET }    from './workflows/generate_samplesheet'
 
 qc_report = Channel.from([])
 
+if (!workflow.containerEngine) {
+    log.info "Running with Conda is strongly discouraged!\nConda environments are not guaranteed to be reproducible - for a discussion, see https://pubmed.ncbi.nlm.nih.gov/29953862/."
+}
+
 workflow {
     if (params.build_references) {
         BUILD_REFERENCES()
