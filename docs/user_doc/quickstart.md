@@ -8,7 +8,7 @@ This pipeline is written in [Nextflow](https://nextflow.io/) and requires a fair
 
 We recommend you also contribute a config file for your setup to our [central config repository](https://github.com/bio-raum/nf-configs/blob/main/doc/config.md). This will save you time down the road by setting certain options automatically based on your compute environment. 
 
-For the example below, we will assume you use Conda (although we highly recommend using a container framework like Apptainer or Singularity!).
+For the example below, we will assume you use Appainer, although other container framework like Docker or Singularityare supported, as well as conda.
 
 ## Pipeline references
 
@@ -16,7 +16,7 @@ FooDMe2 requires locally stored, formatted databases. The pipeline has a [built-
 
 ``` bash
 nextflow run bio-raum/FooDMe2 \ # (1)!
-  -profile conda \ # (2)!
+  -profile appainer \ # (2)!
   -r main \ # (3)!
   --build_references \ # (4)!
   --reference_base /path/to/references \ # (5)!
@@ -42,9 +42,9 @@ Once everything is set up, you can run a short test to see if everything works a
 
 ``` bash
 nextflow run bio-raum/FooDMe2 \
-  -profile conda,test 
+  -profile appainer,test 
   -r main 
   --reference_base /path/to/references
 ```
 
-where the conda profile can be replaced by whatever your [software provider](usage.md#running-the-pipeline) of choice is, e.g. `-profile singularity,test` or `-profile docker,test`.
+where the apptainer profile can be replaced by whatever your [software provider](usage.md#running-the-pipeline) of choice is, e.g. `-profile singularity,test` or `-profile docker,test`.

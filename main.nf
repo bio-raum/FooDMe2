@@ -22,6 +22,15 @@ summary = [:]
 
 run_name = (params.run_name == false) ? "${workflow.sessionId}" : "${params.run_name}"
 
+log.info """
+            ███████╗ ██████╗  ██████╗ ██████╗ ███╗   ███╗███████╗██████╗ 
+            ██╔════╝██╔═══██╗██╔═══██╗██╔══██╗████╗ ████║██╔════╝╚════██╗
+            █████╗  ██║   ██║██║   ██║██║  ██║██╔████╔██║█████╗   █████╔╝
+            ██╔══╝  ██║   ██║██║   ██║██║  ██║██║╚██╔╝██║██╔══╝  ██╔═══╝ 
+            ██║     ╚██████╔╝╚██████╔╝██████╔╝██║ ╚═╝ ██║███████╗███████╗
+            ╚═╝      ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝
+"""
+
 WorkflowMain.initialise(workflow, params, log)
 
 WorkflowPipeline.initialise(params, log)
@@ -33,7 +42,7 @@ include { GENERATE_SAMPLESHEET }    from './workflows/generate_samplesheet'
 qc_report = Channel.from([])
 
 if (!workflow.containerEngine) {
-    log.info "Running with Conda is strongly discouraged!\nConda environments are not guaranteed to be reproducible - for a discussion, see https://pubmed.ncbi.nlm.nih.gov/29953862/."
+    log.info "\033[1;31mRunning with Conda is not recommended in production!\033[0m\n\033[0;31mConda environments are not guaranteed to be reproducible - for a discussion, see https://pubmed.ncbi.nlm.nih.gov/29953862/.\033[0m"
 }
 
 workflow {

@@ -14,13 +14,13 @@ This pipeline is set up to work with a range of software provisioning technologi
 
 You can choose one of the following options:
 
+[Apptainer](https://apptainer.org/)
+
 [Docker](https://docs.docker.com/engine/install/)
 
 [Singularity](https://docs.sylabs.io/guides/3.11/admin-guide/)
 
 [Podman](https://podman.io/docs/installation)
-
-[Apptainer](https://apptainer.org/)
 
 It is also possible to run FooDMe2 with the Conda/Mamba package manager, but this is **strongly** discouraged in production. For a discussion, see [here](https://pubmed.ncbi.nlm.nih.gov/29953862/).
 
@@ -34,11 +34,11 @@ The pipeline comes with simple pre-set profiles for all of these as described be
 
 Select the appropriate profile with the `-profile`argument:
 
-=== "Conda/Mamba"
+=== "Apptainer"
 
     ``` bash
     nextflow run bio-raum/FooDMe2 \
-      -profile conda \
+      -profile apptainer \
       -r main \
       --reference_base /path/to/references
     ```
@@ -70,11 +70,11 @@ Select the appropriate profile with the `-profile`argument:
       --reference_base /path/to/references
     ```
 
-=== "Apptainer"
+=== "Conda/Mamba"
 
     ``` bash
     nextflow run bio-raum/FooDMe2 \
-      -profile apptainer \
+      -profile conda \
       -r main \
       --reference_base /path/to/references
     ```
@@ -99,7 +99,7 @@ This pipeline requires locally stored references from [Midori](https://www.refer
 === "Default profile"
 
     ``` bash
-    nextflow run bio-raum/FooDMe2 -profile conda \
+    nextflow run bio-raum/FooDMe2 -profile apptainer \
       -r main \
       --build_references \
       --run_name build_refs \
@@ -168,12 +168,12 @@ This possibility is however limited to defining nextflow execution parameters an
       queueSize = 5
     }
 
-    conda {
+    apptainer {
       enabled = true
       cacheDir = "$HOME/nextflow_envs_cache"
     }
 
-    singularity {
+    conda {
       enabled = false
       cacheDir = "$HOME/nextflow_envs_cache"
     }

@@ -10,7 +10,7 @@ A basic execution of the pipeline looks as follows:
 
     ``` bash
     nextflow run bio-raum/FooDMe2 \
-      -profile conda \ # (1)!
+      -profile apptainer \ # (1)!
       -r main \ # (2)!
       --input samples.tsv \
       --reference_base /path/to/references \ # (3)!

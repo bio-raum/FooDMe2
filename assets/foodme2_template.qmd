@@ -139,7 +139,7 @@ for json_file in json_files:
             f"{reads_chimera}",
         ])
 
-df = pd.DataFrame(summary, columns=headers)
+df = pd.DataFrame(summary, columns=headers).sort_values(by=["Sample"], ignore_index=True)
 ```
 
 ::: {.column-screen-inset-right}
