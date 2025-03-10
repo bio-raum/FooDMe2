@@ -1121,11 +1121,11 @@
 <h2 id="installation">Installation</h2>
 <p>This pipeline is written in <a href="https://nextflow.io/">Nextflow</a> and requires a fairly recent <a href="https://github.com/nextflow-io/nextflow/releases">version</a> of Nextflow on your system. In addition, a software provisioning tool is needed (Docker, Conda, etc). If you need help with this, see <a href="https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md">here</a>.</p>
 <p>We recommend you also contribute a config file for your setup to our <a href="https://github.com/bio-raum/nf-configs/blob/main/doc/config.md">central config repository</a>. This will save you time down the road by setting certain options automatically based on your compute environment. </p>
-<p>For the example below, we will assume you use Conda (although we highly recommend using a container framework like Apptainer or Singularity!).</p>
+<p>For the example below, we will assume you use Appainer, although other container framework like Docker or Singularityare supported, as well as conda.</p>
 <h2 id="pipeline-references">Pipeline references</h2>
 <p>FooDMe2 requires locally stored, formatted databases. The pipeline has a <a href="../installation/#installing-the-references">built-in</a> option to install these. </p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\ </span><span class="c1"># (1)!</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>-profile<span class="w"> </span>conda<span class="w"> </span><span class="se">\ </span><span class="c1"># (2)!</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>-profile<span class="w"> </span>appainer<span class="w"> </span><span class="se">\ </span><span class="c1"># (2)!</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span>-r<span class="w"> </span>main<span class="w"> </span><span class="se">\ </span><span class="c1"># (3)!</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span>--build_references<span class="w"> </span><span class="se">\ </span><span class="c1"># (4)!</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span>--reference_base<span class="w"> </span>/path/to/references<span class="w"> </span><span class="se">\ </span><span class="c1"># (5)!</span>
@@ -1147,11 +1147,11 @@ Those that start with a single dash (<code>-profile</code>, <code>-r</code>) are
 <h2 id="run-the-test">Run the test</h2>
 <p>Once everything is set up, you can run a short test to see if everything works as expected. </p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-profile<span class="w"> </span>conda,test<span class="w"> </span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-profile<span class="w"> </span>appainer,test<span class="w"> </span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-r<span class="w"> </span>main<span class="w"> </span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--reference_base<span class="w"> </span>/path/to/references
 </span></code></pre></div>
-<p>where the conda profile can be replaced by whatever your <a href="../usage/#running-the-pipeline">software provider</a> of choice is, e.g. <code>-profile singularity,test</code> or <code>-profile docker,test</code>.</p>
+<p>where the apptainer profile can be replaced by whatever your <a href="../usage/#running-the-pipeline">software provider</a> of choice is, e.g. <code>-profile singularity,test</code> or <code>-profile docker,test</code>.</p>
 
 
 
