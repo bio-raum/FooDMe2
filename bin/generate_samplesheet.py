@@ -19,8 +19,8 @@ EXTENSIONS = ["*.fastq.gz", "*.fq.gz", "*.fastq", "*.fq"]
 
 def stripext(filename, extlist=EXTENSIONS):
     for ext in extlist:
-        if filename.endswith(ext):
-            return filename[: -len(ext)]
+        if filename.endswith(ext[1:]):  # match without the '*'
+            return filename[: -len(ext[1:])]
     return filename
 
 
@@ -54,7 +54,7 @@ def main(folder, output, extlist=EXTENSIONS):
 
     samples = {}
 
-    ss = ["sample\tfq1\tfq2"]
+    ss = []
 
     # pair files by name - handles single end too
     for file in files:
@@ -90,8 +90,10 @@ def main(folder, output, extlist=EXTENSIONS):
             ss.append(f"{lib}\t{rdata}")
 
     # write to file
+
     with open(output, "w") as fo:
-        for line in ss:
+        fo.write("sample\tfq1\tfq2\n")
+        for line in sorted(ss):
             fo.write(f"{line}\n")
 
 
