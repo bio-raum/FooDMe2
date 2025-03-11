@@ -44,12 +44,21 @@ workflow DADA2_WORKFLOW {
     /*
     DADA2 denoise and merge reads
     */
-    DADA2_DENOISING(
-        ch_reads_with_errors
-    )
-    ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
-    ch_reporting = ch_reporting.mix(DADA2_DENOISING.out.mergers)
-    ch_seqtab = ch_seqtab.mix(DADA2_DENOISING.out.seqtab)
+    if (params.non_overlapping) {
+        DADA2_DENOISING_FOR_JOIN(
+            ch_reads_with_errors
+        )
+        ch_versions = ch_versions.mix(DADA2_DENOISING_FOR_JOIN.out.versions)
+        ch_reporting = ch_reporting.mix(DADA2_DENOISING_FOR_JOIN.out.mergers)
+        ch_seqtab = ch_seqtab.mix(DADA2_DENOISING_FOR_JOIN.out.seqtab)
+    } else {
+        DADA2_DENOISING(
+            ch_reads_with_errors
+        )
+        ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
+        ch_reporting = ch_reporting.mix(DADA2_DENOISING.out.mergers)
+        ch_seqtab = ch_seqtab.mix(DADA2_DENOISING.out.seqtab)
+    }
     /*
     Filter by merged read size
     */

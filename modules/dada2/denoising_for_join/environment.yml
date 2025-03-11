@@ -1,0 +1,7 @@
+name: dada2_denoising_for_join
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::bioconductor-dada2=1.30.0
