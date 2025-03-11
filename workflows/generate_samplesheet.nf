@@ -21,7 +21,14 @@ workflow GENERATE_SAMPLESHEET {
 def parse_samplesheet(ss) {
 
     lines = file(ss).readLines()
-    samples = lines.size()-1
-    log.info "Found $samples samples - please make sure this is correct!"
+    header = lines.pop()
+    samples = []
+    // a sample may have more than one pair of files, so we count unique sample ids rather than just lines
+    lines.each { line ->
+        sample = line.split("\t")[0]
+        samples << sample
+    }
+    nsamples = samples.unique().size()
+    log.info "Found $nsamples samples - please make sure this is correct!"
     
 }

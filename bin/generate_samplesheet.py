@@ -80,12 +80,14 @@ def main(folder, output, extlist=EXTENSIONS):
             for lane, lreads in reads_by_lane.items():
                 if (len(lreads) > 2):
                     raise ValueError(f"Dataset {lib} has more than two read files - something went wrong")
+                lreads.sort()
                 rdata = "\t".join(lreads)
                 ss.append(f"{sname}\t{rdata}")
         # If no lane indicator is found, just go ahead.
         else:
             if (len(reads) > 2):
                 raise ValueError(f"Dataset {lib} has more than two read files - something went wrong")
+            reads.sort()
             rdata = "\t".join(reads)
             ss.append(f"{lib}\t{rdata}")
 
