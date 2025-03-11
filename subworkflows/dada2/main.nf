@@ -1,7 +1,8 @@
 include { DADA2_FILTNTRIM }             from './../../modules/dada2/filterntrim'
 include { DADA2_ERROR }                 from './../../modules/dada2/error'
 include { DADA2_DENOISING }             from './../../modules/dada2/denoising'
-include { DADA2_FILTERSIZE }             from './../../modules/dada2/filtersize'
+include { DADA2_DENOISING_FOR_JOIN }    from './../../modules/dada2/denoising_for_join'
+include { DADA2_FILTERSIZE }            from './../../modules/dada2/filtersize'
 include { DADA2_RMCHIMERA }             from './../../modules/dada2/rmchimera'
 include { HELPER_SEQTABLE_TO_FASTA }    from './../../modules/helper/seqtable_to_fasta'
 include { HELPER_DADA_STATS }           from './../../modules/helper/dada_stats'
@@ -11,6 +12,8 @@ ch_versions = Channel.from([])
 ch_qc_files = Channel.from([])
 ch_reporting = Channel.from([])
 ch_asvs = Channel.from([])
+ch_seqtab = Channel.from([])
+ch_filtered_reads = Channel.from([])
 
 workflow DADA2_WORKFLOW {
     take:
@@ -24,18 +27,19 @@ workflow DADA2_WORKFLOW {
     DADA2_FILTNTRIM(
         reads
     )
+    ch_filtered_reads = ch_filtered_reads.mix(DADA2_FILTNTRIM.out.filtered_reads)
     ch_versions = ch_versions.mix(DADA2_FILTNTRIM.out.versions)
 
     /*
     DADA2 Error model calculation
     */
     DADA2_ERROR(
-        DADA2_FILTNTRIM.out.filtered_reads
+        ch_filtered_reads
     )
     ch_versions = ch_versions.mix(DADA2_ERROR.out.versions)
 
-    // Join reads with the corresponding error model
-    ch_reads_with_errors = reads.join(DADA2_ERROR.out.errormodel)
+    // Join filtered reads with the corresponding error model
+    ch_reads_with_errors = ch_filtered_reads.join(DADA2_ERROR.out.errormodel)
 
     /*
     DADA2 denoise and merge reads
@@ -44,14 +48,13 @@ workflow DADA2_WORKFLOW {
         ch_reads_with_errors
     )
     ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
-
     ch_reporting = ch_reporting.mix(DADA2_DENOISING.out.mergers)
-
+    ch_seqtab = ch_seqtab.mix(DADA2_DENOISING.out.seqtab)
     /*
     Filter by merged read size
     */
     DADA2_FILTERSIZE(
-        DADA2_DENOISING.out.seqtab
+        ch_seqtab
     )
 
     ch_reporting = ch_reporting.join(DADA2_FILTERSIZE.out.filtered)

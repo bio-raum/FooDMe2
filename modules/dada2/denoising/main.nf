@@ -75,8 +75,8 @@ process DADA2_DENOISING {
             saveRDS(c(), "${meta.sample_id}.mergers.rds")
             saveRDS(c(), "${meta.sample_id}.seqtab.rds")
         } else {
-            filtFs <- sort(list.files("./filtered/", pattern = "_1.trim.fastq.gz", full.names = TRUE))
-            filtRs <- sort(list.files("./filtered/", pattern = "_2.trim.fastq.gz", full.names = TRUE))
+            filtFs <- sort(list.files("./filtered/", pattern = "_1.filt.fastq.gz", full.names = TRUE))
+            filtRs <- sort(list.files("./filtered/", pattern = "_2.filt.fastq.gz", full.names = TRUE))
 
             #denoising
             dadaFs <- dada(filtFs, err = errF, $args, multithread = $task.cpus)
