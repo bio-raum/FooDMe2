@@ -23,6 +23,8 @@ def main(json_in, output_tsv, output_json):
     size = {}
     rank, name = {}, {}
     total = 0
+
+    # merging results over taxid called
     for e in j:
         size.setdefault(e["taxid"], []).append(e["size"])
         rank.setdefault(e["taxid"], e["rank"])
@@ -35,7 +37,7 @@ def main(json_in, output_tsv, output_json):
         "taxid": id,
         "reads": sum([int(i) for i in size[id]]),
         "rank": rank[id],
-        "proportion": round(sum([float(i) for i in size[id]]) / float(total), 4)
+        "proportion": round(sum([float(i) for i in size[id]]) / float(total), 4),
     } for id in size.keys()]
 
     if d:
