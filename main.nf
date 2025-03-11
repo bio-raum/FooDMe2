@@ -37,7 +37,6 @@ WorkflowPipeline.initialise(params, log)
 
 include { FOODME2 }                 from './workflows/foodme2'
 include { BUILD_REFERENCES }        from './workflows/build_references'
-include { GENERATE_SAMPLESHEET }    from './workflows/generate_samplesheet'
 
 qc_report = Channel.from([])
 
@@ -48,8 +47,6 @@ if (!workflow.containerEngine) {
 workflow {
     if (params.build_references) {
         BUILD_REFERENCES()
-    } else if (params.generate_samplesheet) {
-        GENERATE_SAMPLESHEET()
     } else {
         FOODME2()
         qc_report = qc_report.mix(FOODME2.out.report).toList()
