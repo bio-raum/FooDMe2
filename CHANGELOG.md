@@ -3,6 +3,7 @@
 ### Features
 
 - The initial FASTP step (prior to primer trimming) now only perfoms adapter detection and metrics output. A new FASTP step was added after primer trimming which can be used to perform additonal trimming and filtering operations using the `--fastp_options` argument. The default value of this argument performs sliding window 3' quality trimming and filters reads absed on size (see usage documentation).
+- The `--non_overlapping` option will now always try to merge reads first. Reads that cannot be merged with the provided rules (overlap size and number of mismatches for example) will be concatenated with an `N` stretch separating the forward and reverse sequences.
 
 ### Reporting
 
