@@ -1,7 +1,0 @@
-name: helper_generate_samplesheet
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - conda-forge::taxidtools=3.1.0

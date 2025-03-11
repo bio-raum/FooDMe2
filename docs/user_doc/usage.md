@@ -95,13 +95,13 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
     !!! tip Automated sample sheet generation
 
-        If you want to automatically generate sample sheets from files in a folder, you can use a built-in function of FooDMe2:
+        If you want to automatically generate sample sheets from files in a folder, you can use a companion pipeline of FooDMe2:
 
         ```bash
-        nextflow run bio-raum/FooDMe2 -profile myprofile --generate_samplesheet /path/to/folder
+        nextflow run bio-raum/samplesheet -profile myprofile --input /path/to/folder
         ```
 
-        The folder should contain reads with the extension .fastq.gz or .fq.gz. FooDMe2 will try to guess the proper grouping rules, but please check the resulting file (results/samples.tsv) for correctness. 
+        The folder should contain reads with the extension .fastq.gz or .fq.gz. The pipeline will try to guess the proper grouping rules, but please check the resulting file (results/samples.tsv) for correctness. 
 
 `--reads` [ default = null ]
 
@@ -166,18 +166,6 @@ where `myprofile` can either be a site-specific config file or one of the built-
         ```
         '/path/to/reads/*.fastq.gz'
         ```
-
-`--generate_samplesheet` [default = null]
-
-:   A small utility to generate a FoooDMe2 compliant sample sheet from a folder of reads. This option takes a path to a folder with FastQ files as arument.
-
-```bash
-nextflow run bio-raum/FooDMe2 -profile myprofile --generate_samplesheet /path/to/reads
-```
-
-Results are written to `results/samples.tsv`.
-
-This option cannot be combined with `--build_references` or `--input`. Note: This function is still under development, so please check the results.
 
 `--reference_base` [default = null ]
 
