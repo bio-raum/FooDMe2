@@ -1287,12 +1287,16 @@
 <li>The <code>--non_overlapping</code> option will now always try to merge reads first. Reads that cannot be merged with the provided rules (overlap size and number of mismatches for example) will be concatenated with an <code>N</code> stretch separating the forward and reverse sequences.</li>
 </ul>
 <h3 id="reporting">Reporting</h3>
-<p>Improved reporting in the Excel table to help user identify potentially problematic assignements:
-- Added reporting of the cluster sequence IDs making up a taxonomic call to the Excel report
-- Added a worksheet to the Excel report detailling taxonmic call support for each cluster sequence</p>
-<p>Improved QC reporting of the trimming and filtering steps:
-- Added a tabset to the insert size histogram to show fragment size after primer trimming.
-- The summary table, read quality plots, and filtering barchart now show the results of the newly added FASTP step.</p>
+<p>Improved reporting in the Excel table to help user identify potentially problematic assignements:</p>
+<ul>
+<li>Added reporting of the cluster sequence IDs making up a taxonomic call to the Excel report</li>
+<li>Added a worksheet to the Excel report detailling taxonmic call support for each cluster sequence</li>
+</ul>
+<p>Improved QC reporting of the trimming and filtering steps:</p>
+<ul>
+<li>Added a tabset to the insert size histogram to show fragment size after primer trimming.</li>
+<li>The summary table, read quality plots, and filtering barchart now show the results of the newly added FASTP step.</li>
+</ul>
 <h3 id="bugs">Bugs</h3>
 <ul>
 <li>Fix a ZeroDivisionError in the report creation when attempting to analyse a sample with no reads.</li>
