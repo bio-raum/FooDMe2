@@ -18,8 +18,8 @@ def get_hit_freq(taxid, hit_list):
     if not hit_list:
         return round(1., 2)
     for hit in hit_list:
-        if hit['taxid'] ==  taxid:
-            return round(hit['freq'],2)
+        if hit['taxid'] == taxid:
+            return round(hit['freq'], 2)
 
 
 def main(json_in, output_tsv, output_json):

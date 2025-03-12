@@ -99,7 +99,7 @@ def main(output):
         entries = []
         with open(report) as fd:
             bucket[sample] = json.load(fd)
-         
+
     # Track cell positions
     row = 0
     ws2.append(["Sample", "Cluster ID", "Size", "Call Name", "Call Ranks", "Call Taxid", "Call Support"])
@@ -133,7 +133,7 @@ def main(output):
 
             for col in ["A", "B", "C", "D" , "E", "F"]:
                 ws2[col+str(ws2._current_row)].fill = bgcolor
-        
+
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws2)
     for column in range(ws2.min_column, ws2.max_column + 1):
