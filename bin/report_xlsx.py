@@ -30,7 +30,7 @@ def main(output):
     cb_even = PatternFill(fill_type="solid", fgColor="d9e1f2")
     cb_uneven = PatternFill(fill_type="solid", fgColor="cdd1d9")
 
-    ## First sheet is the results per sample ================================
+    # First sheet is the results per sample ================================
     # Get all the TSV files in this directory
     reports = sorted(glob.glob("*.tsv"))
     bucket = {}
@@ -77,7 +77,7 @@ def main(output):
 
             ws.append([sample, name, perc, reads, cluster_ids])
 
-            for col in ["A", "B", "C", "D" , "E"]:
+            for col in ["A", "B", "C", "D", "E"]:
                 ws[col+str(ws._current_row)].fill = bgcolor
 
     # Auto-width for columns
@@ -87,7 +87,7 @@ def main(output):
     ws.column_dimensions = dim_holder
     ws.freeze_panes = ws["A2"]
 
-    ## Second sheet is the support for each sequence =========================
+    # Second sheet is the support for each sequence =========================
     # Start a new sheet
     ws2 = wb.create_sheet("CallSupport")
 
@@ -131,7 +131,7 @@ def main(output):
 
             ws2.append([sample, id, size, name, rank, taxid, support])
 
-            for col in ["A", "B", "C", "D" , "E", "F"]:
+            for col in ["A", "B", "C", "D", "E", "F"]:
                 ws2[col+str(ws2._current_row)].fill = bgcolor
 
     # Auto-width for columns
