@@ -102,8 +102,8 @@ def main(output):
          
     # Track cell positions
     row = 0
-    ws2.append(["Cluster ID", "Size", "Call Name", "Call Ranks", "Call Taxid", "Call Support"])
-    for r in ws2["A1:F1"]:
+    ws2.append(["Sample", "Cluster ID", "Size", "Call Name", "Call Ranks", "Call Taxid", "Call Support"])
+    for r in ws2["A1:G1"]:
         for cell in r:
             cell.font = ft
     this_sample = ""
@@ -129,7 +129,7 @@ def main(output):
             taxid = hit["taxid"]
             support = get_support(hit["tax_list"])
 
-            ws2.append([id, size, name, rank, taxid, support])
+            ws2.append([sample, id, size, name, rank, taxid, support])
 
             for col in ["A", "B", "C", "D" , "E", "F"]:
                 ws2[col+str(ws2._current_row)].fill = bgcolor
