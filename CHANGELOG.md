@@ -8,10 +8,12 @@
 ### Reporting
 
 Improved reporting in the Excel table to help user identify potentially problematic assignements:
+
 - Added reporting of the cluster sequence IDs making up a taxonomic call to the Excel report
 - Added a worksheet to the Excel report detailling taxonmic call support for each cluster sequence
 
 Improved QC reporting of the trimming and filtering steps:
+
 - Added a tabset to the insert size histogram to show fragment size after primer trimming.
 - The summary table, read quality plots, and filtering barchart now show the results of the newly added FASTP step.
 
