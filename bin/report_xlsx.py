@@ -18,7 +18,7 @@ args = parser.parse_args()
 
 
 def get_support(call_list):
-    sorted_call_list = sorted(call_list, key=lambda d: d['freq'])
+    sorted_call_list = sorted(call_list, key=lambda d: d['freq'], reverse=True)
     return "; ".join(
         [f"{call['name']}({call['taxid']})[{round(call['freq'], 2)}]" for call in sorted_call_list]
     )
@@ -77,7 +77,7 @@ def main(output):
 
             ws.append([sample, name, perc, reads, cluster_ids])
 
-            for col in ["A", "B", "C", "D", "E"]:
+            for col in ["A", "B", "C", "D", "E", "G"]:
                 ws[col+str(ws._current_row)].fill = bgcolor
 
     # Auto-width for columns
