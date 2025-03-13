@@ -14,14 +14,6 @@ parser.add_argument("--output_json")
 args = parser.parse_args()
 
 
-def get_hit_freq(taxid, hit_list):
-    if not hit_list:
-        return round(1., 2)
-    for hit in hit_list:
-        if hit['taxid'] == taxid:
-            return round(hit['freq'], 2)
-
-
 def main(json_in, output_tsv, output_json):
     with open(json_in, "r") as fi:
         j = json.load(fi)
@@ -39,7 +31,7 @@ def main(json_in, output_tsv, output_json):
         name.setdefault(cluster["taxid"], cluster["name"])
         cluster_names.setdefault(cluster["taxid"], []).append(
             # appending hit freq for this specific taxid to the sequence ID
-            f"{cluster['query']}[{get_hit_freq(cluster['taxid'], cluster['tax_list'])}]"
+            f"{cluster['query']}[{round(cluster['support'], 2)}]"
             )
         total += int(cluster["size"])
 

@@ -17,13 +17,6 @@ parser.add_argument("--output")
 args = parser.parse_args()
 
 
-def get_support(call_list):
-    sorted_call_list = sorted(call_list, key=lambda d: d['freq'], reverse=True)
-    return "; ".join(
-        [f"{call['name']}({call['taxid']})[{round(call['freq'], 2)}]" for call in sorted_call_list]
-    )
-
-
 def main(output):
     wb = Workbook()
     ft = Font(name="Sans", bold=True)
@@ -89,7 +82,7 @@ def main(output):
 
     # Second sheet is the support for each sequence =========================
     # Start a new sheet
-    ws2 = wb.create_sheet("CallSupport")
+    ws2 = wb.create_sheet("Call Support")
 
     # Get all the JSON files in this directory
     reports = sorted(glob.glob("*.json"))
@@ -102,14 +95,14 @@ def main(output):
 
     # Track cell positions
     row = 0
-    ws2.append(["Sample", "Cluster ID", "Size", "Call Name", "Call Ranks", "Call Taxid", "Call Support"])
-    for r in ws2["A1:G1"]:
+    ws2.append(["Sample", "Cluster ID", "Size", "Taxon", "Ranks", "Taxid", "Support [%]", "Consensus"])
+    for r in ws2["A1:H1"]:
         for cell in r:
             cell.font = ft
     this_sample = ""
     sample_counter = 0
 
-    # Iterate over each sample and get calls and support
+    # Iterate over each sample
     for sample in bucket:
         if sample != this_sample:
             this_sample = sample
@@ -119,20 +112,39 @@ def main(output):
         else:
             bgcolor = cb_even
 
-        hits = bucket[sample]
-        for hit in hits:
+        clusters = bucket[sample]
+        # iterate over each cluster and report each one
+        # Start with the actual call
+        for cluster in clusters:
+            id = cluster["query"]
+            size = cluster["size"]
+            name = cluster["name"]
+            rank = cluster["rank"]
+            calltaxid = cluster["taxid"]
+            support = round(cluster["support"]*100, 2)
+            call = True
+
             row += 1
-            id = hit["query"]
-            size = hit["size"]
-            name = hit["name"]
-            rank = hit["rank"]
-            taxid = hit["taxid"]
-            support = get_support(hit["tax_list"])
-
-            ws2.append([sample, id, size, name, rank, taxid, support])
-
-            for col in ["A", "B", "C", "D", "E", "F", "G"]:
+            ws2.append([sample, id, size, name, rank, calltaxid, support, call])
+            for col in ["A", "B", "C", "D", "E", "F", "G", "H"]:
                 ws2[col+str(ws2._current_row)].fill = bgcolor
+
+            # then go through the tax_list, but skip the taxid that was called
+            for hit in cluster["tax_list"]:
+                id = cluster["query"]
+                size = cluster["size"]
+                name = hit["name"]
+                rank = "species"  # Always species !
+                taxid = hit["taxid"]
+                support = round(hit["freq"]*100, 2)
+                call = False  # Always False
+
+                if taxid != calltaxid:
+                    row += 1
+                    ws2.append([sample, id, size, name, rank, calltaxid, support, call])
+                    for col in ["A", "B", "C", "D", "E", "F", "G", "H"]:
+                        ws2[col+str(ws2._current_row)].fill = bgcolor
+
 
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws2)
