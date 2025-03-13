@@ -145,7 +145,6 @@ def main(output):
                     for col in ["A", "B", "C", "D", "E", "F", "G", "H"]:
                         ws2[col+str(ws2._current_row)].fill = bgcolor
 
-
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws2)
     for column in range(ws2.min_column, ws2.max_column + 1):

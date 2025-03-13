@@ -72,7 +72,7 @@ def main(blast_report, otus_fasta, taxonomy, min_consensus, output):
             "freq": v/len(d["tax_list"])
             } for k, v in Counter(d["tax_list"]).items()
             ]
-        
+
         try:
             # Usual case, maybe some taxa missing
             consensus = tax.consensus(d["tax_list"], min_consensus, ignore_missing=True)
@@ -92,7 +92,7 @@ def main(blast_report, otus_fasta, taxonomy, min_consensus, output):
             d["name"] = name
             d["taxid"] = taxid
             d["support"] = support
-            d["tax_list"] = freqs       
+            d["tax_list"] = freqs
 
     with open(output, "w") as fo:
         json.dump(otus, fo, indent=4)
