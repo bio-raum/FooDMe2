@@ -77,7 +77,7 @@ def main(output):
 
             ws.append([sample, name, perc, reads, cluster_ids])
 
-            for col in ["A", "B", "C", "D", "E", "G"]:
+            for col in ["A", "B", "C", "D", "E"]:
                 ws[col+str(ws._current_row)].fill = bgcolor
 
     # Auto-width for columns
@@ -131,7 +131,7 @@ def main(output):
 
             ws2.append([sample, id, size, name, rank, taxid, support])
 
-            for col in ["A", "B", "C", "D", "E", "F"]:
+            for col in ["A", "B", "C", "D", "E", "F", "G"]:
                 ws2[col+str(ws2._current_row)].fill = bgcolor
 
     # Auto-width for columns
