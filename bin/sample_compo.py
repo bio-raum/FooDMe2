@@ -32,7 +32,7 @@ def main(json_in, output_tsv, output_json):
         cluster_names.setdefault(cluster["taxid"], []).append(
             # appending hit freq for this specific taxid to the sequence ID
             f"{cluster['query']}[{round(cluster['support'], 2)}]"
-            )
+        )
         total += int(cluster["size"])
 
     d = [{
