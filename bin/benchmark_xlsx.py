@@ -43,7 +43,7 @@ def main(results_in, output):
     sample_counter = 0
 
     # Iterate over each sample and get infos
-    for sample in results.keys().sort():
+    for sample in sorted(results.keys()):
 
         if sample != this_sample:
             this_sample = sample
