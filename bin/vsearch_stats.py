@@ -55,7 +55,7 @@ def main(sample_id, fwd, merged, filtered, nonchimera, output):
         "not_merged": total_reads - merged_reads,
         "filtered": merged_reads - filtered_reads,
         "chimeras": filtered_reads - non_chimeric
-        }
+    }
     with open(output, "w") as fo:
         json.dump({sample_id: d}, fo)
 

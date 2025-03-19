@@ -22,14 +22,27 @@ summary = [:]
 
 run_name = (params.run_name == false) ? "${workflow.sessionId}" : "${params.run_name}"
 
+log.info """
+            ███████╗ ██████╗  ██████╗ ██████╗ ███╗   ███╗███████╗██████╗ 
+            ██╔════╝██╔═══██╗██╔═══██╗██╔══██╗████╗ ████║██╔════╝╚════██╗
+            █████╗  ██║   ██║██║   ██║██║  ██║██╔████╔██║█████╗   █████╔╝
+            ██╔══╝  ██║   ██║██║   ██║██║  ██║██║╚██╔╝██║██╔══╝  ██╔═══╝ 
+            ██║     ╚██████╔╝╚██████╔╝██████╔╝██║ ╚═╝ ██║███████╗███████╗
+            ╚═╝      ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝
+"""
+
 WorkflowMain.initialise(workflow, params, log)
 
 WorkflowPipeline.initialise(params, log)
 
-include { FOODME2 }            from './workflows/foodme2'
-include { BUILD_REFERENCES }    from './workflows/build_references'
+include { FOODME2 }                 from './workflows/foodme2'
+include { BUILD_REFERENCES }        from './workflows/build_references'
 
 qc_report = Channel.from([])
+
+if (!workflow.containerEngine) {
+    log.info "\033[1;31mRunning with Conda is not recommended in production!\033[0m\n\033[0;31mConda environments are not guaranteed to be reproducible - for a discussion, see https://pubmed.ncbi.nlm.nih.gov/29953862/.\033[0m"
+}
 
 workflow {
     if (params.build_references) {

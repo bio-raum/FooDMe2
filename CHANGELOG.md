@@ -1,3 +1,30 @@
+## 1.2.0
+
+### Features
+
+- The initial FASTP step (prior to primer trimming) now only perfoms adapter detection and metrics output. A new FASTP step was added after primer trimming which can be used to perform additonal trimming and filtering operations using the `--fastp_options` argument. The default value of this argument performs sliding window 3' quality trimming and filters reads absed on size (see usage documentation).
+- The `--non_overlapping` option will now always try to merge reads first. Reads that cannot be merged with the provided rules (overlap size and number of mismatches for example) will be concatenated with an `N` stretch separating the forward and reverse sequences.
+- Conda users will now see a message warning against conda usage in production.
+
+
+### Reporting
+
+- Improved reporting in the Excel table to help user identify potentially problematic assignements:
+
+  - Added reporting of the cluster sequence IDs making up a taxonomic call to the Excel report
+  - Added a worksheet to the Excel report detailling taxonmic call support for each cluster sequence
+
+- Improved QC reporting of the trimming and filtering steps:
+
+  - Added a tabset to the insert size histogram to show fragment size after primer trimming.
+  - The summary table, read quality plots, and filtering barchart now show the results of the newly added FASTP step.
+
+- Reports files should be more systematically sorted.
+
+### Bugs
+
+- Fix a ZeroDivisionError in the report creation when attempting to analyse a sample with no reads.
+
 ## 1.1.0
 
 ### Features

@@ -12,18 +12,18 @@ process FASTP {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path('*trimmed.fastq.gz'), emit: reads
+    tuple val(meta), path('*trim.fastq.gz'), emit: reads
     tuple val(meta), path('*.json'), emit: json
     path('versions.yml'), emit: versions
 
     script:
 
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: reads.first().getBaseName()
+    def prefix = task.ext.prefix ?: "${meta.sample_id}"
+    def suffix = task.ext.suffix ?: "trim.fastq.gz"
+    def trimmed  = meta.single_end ? "--out1 ${prefix}.trim.${suffix}" : "--out1 ${prefix}_1.${suffix} --out2 ${prefix}_2.${suffix}"
 
     r1 = reads.first()
-
-    suffix = '_trimmed.fastq.gz'
 
     json = prefix + '.fastp.json'
     html = prefix + '.fastp.html'
@@ -32,7 +32,7 @@ process FASTP {
         r1_trim = r1.getBaseName() + suffix
         """
         fastp --in1 ${r1} \
-        --out1 $r1_trim \
+        $trimmed \
         -w ${task.cpus} \
         -j $json \
         -h $html $args
@@ -48,9 +48,7 @@ process FASTP {
         r2_trim = r2.getBaseName() + suffix
         """
         fastp --in1 ${r1} --in2 ${r2} \
-        --out1 $r1_trim \
-        --out2 $r2_trim \
-        --detect_adapter_for_pe \
+        $trimmed \
         -w ${task.cpus} \
         -j $json \
         -h $html \

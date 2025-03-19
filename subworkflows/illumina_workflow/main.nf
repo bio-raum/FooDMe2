@@ -3,8 +3,9 @@ import groovy.json.JsonSlurper
 /*
 Import modules
 */
-include { FASTP }               from './../../modules/fastp'
-include { CAT_FASTQ }           from './../../modules/cat_fastq'
+include { FASTP as FASTP_METRICS }      from './../../modules/fastp'
+include { FASTP as FASTP_TRIM }         from './../../modules/fastp'
+include { CAT_FASTQ }                   from './../../modules/cat_fastq'
 
 /*
 Import sub workflows
@@ -32,17 +33,17 @@ workflow ILLUMINA_WORKFLOW {
     /*
     Trim illumina reads
     */
-    FASTP(
+    FASTP_METRICS(
         reads
     )
-    ch_versions     = ch_versions.mix(FASTP.out.versions)
-    multiqc_files   = multiqc_files.mix(FASTP.out.json.map { m, j -> j })
+    ch_versions     = ch_versions.mix(FASTP_METRICS.out.versions)
+    multiqc_files   = multiqc_files.mix(FASTP_METRICS.out.json.map { m, j -> j })
 
 
     /*
     Split trimmed reads by sample to find multi-lane data sets
     */
-    FASTP.out.reads.groupTuple().branch { meta, reads ->
+    FASTP_METRICS.out.reads.groupTuple().branch { meta, reads ->
         single: reads.size() == 1
             return [ meta, reads.flatten()]
         multi: reads.size() > 1
@@ -54,7 +55,7 @@ workflow ILLUMINA_WORKFLOW {
     length - if --cutadapt_trim_3p was not specified
     */
     if (!(params.cutadapt_trim_3p || params.cutadapt_trim_flex)) {
-        FASTP.out.json.filter { m, j -> !m.single_end }.map { m, j ->
+        FASTP_METRICS.out.json.filter { m, j -> !m.single_end }.map { m, j ->
             def metrics = get_metrics(j)
             def new_meta =  [:]
             new_meta.sample_id = m.sample_id
@@ -88,11 +89,21 @@ workflow ILLUMINA_WORKFLOW {
     ch_reads_trimmed    = CUTADAPT_WORKFLOW.out.trimmed
 
     /*
+    FASTP quality trimming
+    */
+    FASTP_TRIM(
+        ch_reads_trimmed
+    )
+    ch_versions             = ch_versions.mix(FASTP_TRIM.out.versions)
+    multiqc_files           = multiqc_files.mix(FASTP_TRIM.out.json.map { m, j -> j })
+    ch_reads_full_trimmed   = FASTP_TRIM.out.reads
+
+    /*
     Cluster reads and produce OTUs/ASVs
     */
     if (params.vsearch) {
         VSEARCH_WORKFLOW(
-            ch_reads_trimmed
+            ch_reads_full_trimmed
         )
         ch_otus         = VSEARCH_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
@@ -100,7 +111,7 @@ workflow ILLUMINA_WORKFLOW {
         ch_clusterjsons = VSEARCH_WORKFLOW.out.qc
     } else {
         DADA2_WORKFLOW(
-            ch_reads_trimmed
+            ch_reads_full_trimmed
         )
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
@@ -109,12 +120,13 @@ workflow ILLUMINA_WORKFLOW {
     }
 
     emit:
-    otus          = ch_otus
-    versions      = ch_versions
-    qc            = multiqc_files
-    cutadapt_json = CUTADAPT_WORKFLOW.out.qc
-    cluster_json  = ch_clusterjsons
-    fastp_json    = FASTP.out.json
+    otus           = ch_otus
+    versions       = ch_versions
+    qc             = multiqc_files
+    cutadapt_json  = CUTADAPT_WORKFLOW.out.qc
+    cluster_json   = ch_clusterjsons
+    fastp_json     = FASTP_METRICS.out.json
+    post_trim_json = FASTP_TRIM.out.json
 }
 
 /*

@@ -27,6 +27,14 @@ def parse_headers(otus_fasta):
                 yield parsed[0], parsed[1].strip()
 
 
+def get_support(taxid, tax_list, taxonomy):
+    support = 0
+    for record in tax_list:
+        if (record["taxid"] == taxid) or (taxonomy.isDescendantOf(record["taxid"], taxid)):
+            support += record["freq"]
+    return support
+
+
 def main(blast_report, otus_fasta, taxonomy, min_consensus, output):
     if min_consensus <= 0.5 or min_consensus > 1:
         raise ValueError("'min_consensus' must be in the interval (0.5 , 1]")
@@ -56,22 +64,6 @@ def main(blast_report, otus_fasta, taxonomy, min_consensus, output):
         e["size"] = sizes[e["query"]]
 
     for d in otus:
-        try:
-            # Usual case, maybe some taxa missing
-            consensus = tax.consensus(d["tax_list"], min_consensus, ignore_missing=True)
-            rank = consensus.rank
-            name = consensus.name
-            taxid = consensus.taxid
-        except ValueError:
-            # All taxa missing or empty taxid_list: Value Error
-            consensus = "Undetermined"
-            taxid = "Undetermined"
-            rank = "Undetermined"
-            name = "Undetermined"
-        finally:
-            d["rank"] = rank
-            d["name"] = name
-            d["taxid"] = taxid
 
         # (freq, name) tuple to sort
         freqs = [{
@@ -81,7 +73,26 @@ def main(blast_report, otus_fasta, taxonomy, min_consensus, output):
             } for k, v in Counter(d["tax_list"]).items()
             ]
 
-        d["tax_list"] = freqs
+        try:
+            # Usual case, maybe some taxa missing
+            consensus = tax.consensus(d["tax_list"], min_consensus, ignore_missing=True)
+            rank = consensus.rank
+            name = consensus.name
+            taxid = consensus.taxid
+            support = get_support(consensus.taxid, freqs, tax)
+        except ValueError:
+            # All taxa missing or empty taxid_list: Value Error
+            consensus = "Undetermined"
+            taxid = "Undetermined"
+            rank = "Undetermined"
+            name = "Undetermined"
+            support = 1.
+        finally:
+            d["rank"] = rank
+            d["name"] = name
+            d["taxid"] = taxid
+            d["support"] = support
+            d["tax_list"] = freqs
 
     with open(output, "w") as fo:
         json.dump(otus, fo, indent=4)

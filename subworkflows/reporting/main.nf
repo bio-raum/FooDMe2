@@ -20,7 +20,8 @@ workflow REPORTING {
     ch_blast
     ch_consensus
     ch_versions
-    ch_fastp_json
+    ch_fastp_input_json
+    ch_fastp_trim_json
     ch_template  // Quarto tempalte for custom HTML report
 
 
@@ -30,7 +31,8 @@ workflow REPORTING {
 
     // Excel report
     HELPER_REPORT_XLSX(
-        ch_compo.map { m, t -> t }.collect()
+        ch_compo.map { m, t -> t }.collect(),
+        ch_consensus.map { m, t -> t}.collect()
     )
 
     ch_xlsx = ch_xlsx.mix(HELPER_REPORT_XLSX.out.xlsx)
@@ -56,7 +58,9 @@ workflow REPORTING {
     ).join(
         ch_consensus, remainder: true
     ).join(
-        ch_fastp_json, remainder: true
+        ch_fastp_input_json, remainder: true
+    ).join(
+        ch_fastp_trim_json, remainder: true
     ).set { ch_reports_grouped }
 
     /*

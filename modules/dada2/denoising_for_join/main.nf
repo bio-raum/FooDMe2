@@ -1,4 +1,4 @@
-process DADA2_DENOISING {
+process DADA2_DENOISING_FOR_JOIN {
     tag "$meta.sample_id"
     label 'parallel_short'
 
@@ -29,6 +29,8 @@ process DADA2_DENOISING {
         """
         #!/usr/bin/env Rscript
         suppressPackageStartupMessages(library(dada2))
+
+        # Note: Kept single workflow here in case, but normally won't be used in the non_overlapping configuration
 
         sink(file = "${meta.sample_id}.dada.log")
 
@@ -86,8 +88,22 @@ process DADA2_DENOISING {
             sink(file = NULL)
 
             #make table
-            mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, $args2, verbose=TRUE)
+            # First merge what can be merged
+            overlapmergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, $args2, verbose=TRUE, returnRejects=TRUE)
+            saveRDS(overlapmergers, "${meta.sample_id}.overlapmergers.rds")
+            # Then concatenate 
+            concatmergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, $args2, verbose=TRUE, justConcatenate=TRUE)
+            saveRDS(concatmergers, "${meta.sample_id}.concatmergers.rds")
+
+            # Now need to get the sequences from concatenation for all rejected merge
+            mergers <- rbind(
+                overlapmergers[overlapmergers[,'accept']==TRUE,],
+                concatmergers[overlapmergers[,'accept']==FALSE,]
+            )
+            mergers <- mergers[order(as.numeric(row.names(mergers))), ]
             saveRDS(mergers, "${meta.sample_id}.mergers.rds")
+
+            # Finally make seq tabs and join them
             seqtab <- makeSequenceTable(mergers)
             saveRDS(seqtab, "${meta.sample_id}.seqtab.rds")
         }

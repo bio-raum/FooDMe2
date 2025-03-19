@@ -13,7 +13,7 @@ process CUTADAPT {
     path(primers_rc)
 
     output:
-    tuple val(meta), path('*.trim.fastq.gz')  , emit: reads
+    tuple val(meta), path('*.primertrim.fastq.gz')  , emit: reads
     tuple val(meta), path('*.cutadapt*.json') , emit: report
     tuple val(meta), path('*.log')          , emit: log
     path 'versions.yml'                     , emit: versions
@@ -24,7 +24,7 @@ process CUTADAPT {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    def trimmed  = meta.single_end ? "-o ${prefix}.trim.fastq.gz" : "-o ${prefix}_1.trim.fastq.gz -p ${prefix}_2.trim.fastq.gz"
+    def trimmed  = meta.single_end ? "-o ${prefix}.primertrim.fastq.gz" : "-o ${prefix}_1.primertrim.fastq.gz -p ${prefix}_2.primertrim.fastq.gz"
     def options_5p = ''
     def options_3p = ''
     def read_config = "--interleaved"

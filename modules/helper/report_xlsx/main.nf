@@ -9,6 +9,7 @@ process HELPER_REPORT_XLSX {
 
     input:
     path(reports)   // List of tax ids in blast database
+    path(consensus_jsons)  // Taxid call JSON
 
     output:
     path('*.xlsx')      , emit: xlsx

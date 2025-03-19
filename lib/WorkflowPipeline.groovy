@@ -28,7 +28,7 @@ class WorkflowPipeline {
             }
             System.exit(1)
         }
-        if (!params.run_name) {
+        if (!params.run_name && !params.build_references) {
             log.info 'Must provide a run_name (--run_name)'
             System.exit(1)
         }

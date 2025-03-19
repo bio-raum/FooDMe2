@@ -1,4 +1,4 @@
-name: helper_seqtable_to_fasta
+name: dada2_denoising_for_join
 channels:
   - conda-forge
   - bioconda

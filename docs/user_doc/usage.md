@@ -10,7 +10,7 @@ A basic execution of the pipeline looks as follows:
 
     ``` bash
     nextflow run bio-raum/FooDMe2 \
-      -profile conda \ # (1)!
+      -profile apptainer \ # (1)!
       -r main \ # (2)!
       --input samples.tsv \
       --reference_base /path/to/references \ # (3)!
@@ -95,8 +95,13 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
     !!! tip Automated sample sheet generation
 
-        If you want to automatically generate sample sheets from files in a folder, check out the 
-        `create_sampleSheet.sh` script from the BfR ABC Pipelines available [here](https://gitlab.com/bfr_bioinformatics/AQUAMIS/-/blob/master/scripts/create_sampleSheet.sh?ref_type=heads).
+        If you want to automatically generate sample sheets from files in a folder, you can use a companion pipeline of FooDMe2:
+
+        ```bash
+        nextflow run bio-raum/samplesheet -profile myprofile --input /path/to/folder
+        ```
+
+        The folder should contain reads with the extension .fastq.gz or .fq.gz. The pipeline will try to guess the proper grouping rules, but please check the resulting file (results/samples.tsv) for correctness. 
 
 `--reads` [ default = null ]
 
@@ -358,7 +363,14 @@ Some possible usage examples:
 
 `--cutadapt_options` [ default = "" ]
 
-:   Any additional options you feel should be passed to Cutadapt. Use at your own risk.
+:   Any additional options you feel should be passed to [Cutadapt](https://cutadapt.readthedocs.io/en/stable/reference.html#command-line-options). Use at your own risk.
+
+### Read trimming
+
+`--fastp_options` [ default = "-l 50 -3 --cut_tail_window_size 4 --cut_tail_mean_quatlity 25"]
+
+:   Options for basic read trimming using [fastP](https://github.com/OpenGene/fastp?tab=readme-ov-file#input-and-output). You can overwrite the defaults if your data requires
+it. Make sure to re-set any options you want to keep. 
 
 ### Clustering configuration
 
@@ -445,4 +457,3 @@ Some possible usage examples:
 `--blast_min_consensus` [ default = 0.51 ]
 
 :   Minimal consensus level between all BLAST results for a given query to be assigned to a taxonomic node.
-

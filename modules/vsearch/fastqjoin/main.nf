@@ -19,13 +19,13 @@ process VSEARCH_FASTQJOIN {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
 
-    merged = prefix + '.merged.fastq'
+    merged = prefix + '.join.fastq'
 
     """
     vsearch --fastq_join $fwd --reverse $rev \
     --fastqout $merged \
     --threads ${task.cpus} \
-    --relabel ${meta.sample_id}. \
+    --relabel ${meta.sample_id}.Join. \
     $args 
 
     cat <<-END_VERSIONS > versions.yml
