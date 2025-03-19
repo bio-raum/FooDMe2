@@ -27,17 +27,17 @@ jobs:
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v1
 
-      - name: install singularity
-        uses: eWaterCycle/setup-singularity@v7
+      - name: Setup Apptainer
+        uses: eWaterCycle/setup-apptainer@4bb22c52d4f63406c49e94c804632975787312b3 # v2.0.0
         with:
-          singularity-version: 3.8.3
+          apptainer-version: 1.3.4
 
       - name: Run the pipeline
         env:
           NXF_SINGULARITY_CACHEDIR: ./
           NXF_SINGULARITY_HOME_MOUNT: true
         run: |
-          nextflow run main.nf -profile singularity --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv --max_cpus 4 --max_memory 12.GB
+          nextflow run main.nf -profile apptainer --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv --max_cpus 4 --max_memory 12.GB
   
   test_docker:
     runs-on: ubuntu-22.04
