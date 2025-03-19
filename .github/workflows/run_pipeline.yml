@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test_singularity:
+  test_apptainer:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
