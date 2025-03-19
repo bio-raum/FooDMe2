@@ -34,8 +34,8 @@ jobs:
 
       - name: Run the pipeline
         env:
-          NXF_SINGULARITY_CACHEDIR: ./
-          NXF_SINGULARITY_HOME_MOUNT: true
+          NXF_APPTAINER_CACHEDIR: ./
+          NXF_APPTAINER_HOME_MOUNT: true
         run: |
           nextflow run main.nf -profile apptainer --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv --max_cpus 4 --max_memory 12.GB
   
