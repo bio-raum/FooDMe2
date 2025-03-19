@@ -19,18 +19,13 @@ on:
 
 jobs:
   test_singularity:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v1
-
-      - name: install singularity
-        uses: eWaterCycle/setup-singularity@v7
-        with:
-          singularity-version: 3.8.3
 
       - name: install singularity
         uses: eWaterCycle/setup-singularity@v7
@@ -45,7 +40,7 @@ jobs:
           nextflow run main.nf -profile singularity --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv --max_cpus 4 --max_memory 12.GB
 
   test_conda:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
