@@ -185,22 +185,6 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
 :   An email address to which the MultiQC report is send after pipeline completion. This requires for the executing system to have [sendmail](https://rimuhosting.com/support/settingupemail.jsp?mta=sendmail) configured.
 
-### Resources
-
-The following options can be set to control resource usage outside of a site-specific [config](https://github.com/bio-raum/nf-configs) file.
-
-`--max_cpus` [ default = 8]
-
-:   The maximum number of cpus a single job can request. This is typically the maximum number of cores available on a compute node or your local (development) machine. 
-
-`--max_memory` [ default = 16.GB ]
-
-:   The maximum amount of memory a single job can request. This is typically the maximum amount of RAM available on a compute node or your local (development) machine, minus a few percent to prevent the machine from running out of memory while running basic background tasks.
-
-`--max_time`[ default = 240.h ]
-
-:   The maximum allowed run/wall time a single job can request. This is mostly relevant for environments where run time is restricted, such as in a computing cluster with active resource manager or possibly some cloud environments.
-
 ### PCR primers
 
 `--list_primers` [ default = false]

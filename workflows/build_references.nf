@@ -13,41 +13,42 @@ include { HELPER_FORMAT_GENBANK_TAXIDS }    from './../modules/helper/format_gen
 include { HELPER_FORMAT_UNITE }             from './../modules/helper/format_unite'
 include { HELPER_INSTALL_GENBANK }          from './../modules/helper/install_genbank'
 
-databases   = params.references.databases.keySet()
+workflow BUILD_REFERENCES {
 
-/*
-NCBI taxonomy files are needed to e.g. mask BLAST databases
-and to determine taxonomic consensus calls
-*/
-taxdb   = Channel.fromPath(params.references.taxonomy.taxdb_url)
-taxdump = Channel.fromPath(params.references.taxonomy.taxdump_url)
-taxid   = Channel.fromPath(params.references.taxonomy.taxid_url)
+    main:
 
-taxdb.mix(taxdump).map { f ->
-    def meta = [:]
-    meta.id = f.getSimpleName()
-    tuple(meta, f)
-}.set { tax_files }
+    databases   = params.references.databases.keySet()
 
-database_files = []
+    /*
+    NCBI taxonomy files are needed to e.g. mask BLAST databases
+    and to determine taxonomic consensus calls
+    */
+    taxdb   = Channel.fromPath(params.references.taxonomy.taxdb_url)
+    taxdump = Channel.fromPath(params.references.taxonomy.taxdump_url)
+    taxid   = Channel.fromPath(params.references.taxonomy.taxid_url)
 
-if (params.build_references) {
-    // For all genes of interest, recover supported tools and the corresponding database link
-    databases.each { db ->
-        // Genbank NT does not have an url, so we skip it here.
-        if (params.references.databases[db].url) {
-            database_files << [ [ id: db, tool: 'blast' ] ,
-                file(params.references.databases[db].url, checkIfExists: true)
-            ]
+    taxdb.mix(taxdump).map { f ->
+        def meta = [:]
+        meta.id = f.getSimpleName()
+        tuple(meta, f)
+    }.set { tax_files }
+
+    database_files = []
+
+    if (params.build_references) {
+        // For all genes of interest, recover supported tools and the corresponding database link
+        databases.each { db ->
+            // Genbank NT does not have an url, so we skip it here.
+            if (params.references.databases[db].url) {
+                database_files << [ [ id: db, tool: 'blast' ] ,
+                    file(params.references.databases[db].url, checkIfExists: true)
+                ]
+            }
         }
     }
-}
 
-ch_files = Channel.fromList(database_files)
-ch_blast_files = Channel.from([])
-
-workflow BUILD_REFERENCES {
-    main:
+    ch_files = Channel.fromList(database_files)
+    ch_blast_files = Channel.from([])
 
     ch_files.branch { m, r ->
         midori: r.toString().contains('MIDORI')
@@ -138,11 +139,12 @@ workflow BUILD_REFERENCES {
     if (!params.skip_genbank) {
         HELPER_INSTALL_GENBANK()
     }
-    }
 
-if (params.build_references) {
-    workflow.onComplete = {
-        log.info 'Installation complete - deleting staged files. '
-        workDir.resolve("stage-${workflow.sessionId}").deleteDir()
+    if (params.build_references) {
+        workflow.onComplete = {
+            log.info 'Installation complete - deleting staged files. '
+            workDir.resolve("stage-${workflow.sessionId}").deleteDir()
+        }
     }
 }
+

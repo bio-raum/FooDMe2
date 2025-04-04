@@ -28,7 +28,7 @@ process VSEARCH_FASTQFILTER_READS {
         vsearch --fastq_filter ${r1} \
         --threads ${task.cpus} \
         --sample ${meta.sample_id} \
-        -fastqout $filtered $args
+        -fastqout ${meta.sample_id}${suffix} $args
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":

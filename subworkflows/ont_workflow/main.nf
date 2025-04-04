@@ -15,9 +15,6 @@ include { NANOFILT }            from './../../modules/nanofilt'
 include { CAT_FASTQ }           from './../../modules/cat_fastq'
 include { VSEARCH_ORIENT }      from './../../modules/vsearch/orient'
 
-ch_versions = Channel.from([])
-ch_qc       = Channel.from([])
-
 workflow ONT_WORKFLOW {
     take:
     reads
@@ -25,6 +22,9 @@ workflow ONT_WORKFLOW {
     db
 
     main:
+
+    ch_versions = Channel.from([])
+    ch_qc       = Channel.from([])
 
     /*
     Remove Nanopore adapters
@@ -38,11 +38,11 @@ workflow ONT_WORKFLOW {
     /*
     Merge reads by sample
     */
-    PORECHOP_ABI.out.reads.groupTuple().branch { meta, reads ->
-        single: reads.size() == 1
-            return [ meta, reads.flatten()]
-        multi: reads.size() > 1
-            return [ meta, reads.flatten()]
+    PORECHOP_ABI.out.reads.groupTuple().branch { meta, fastq ->
+        single: fastq.size() == 1
+            return [ meta, fastq.flatten()]
+        multi: fastq.size() > 1
+            return [ meta, fastq.flatten()]
     }.set { ch_reads_ont }
 
     CAT_FASTQ(

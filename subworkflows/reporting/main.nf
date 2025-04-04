@@ -6,10 +6,6 @@ include { HELPER_BENCHMARK_XLSX }           from './../../modules/helper/benchma
 include { HELPER_SAMPLE_REPORT }            from './../../modules/helper/sample_report'
 include { HELPER_HTML_REPORT }              from './../../modules/helper/html_report'
 
-ch_versions = Channel.from([])
-ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
-
-
 workflow REPORTING {
     take:
     ch_tax_json // The filtered taxonomy JSON
@@ -26,8 +22,11 @@ workflow REPORTING {
 
 
     main:
+    
     ch_report = Channel.from([])
     ch_xlsx   = Channel.from([])
+    ch_versions = Channel.from([])
+    ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
 
     // Excel report
     HELPER_REPORT_XLSX(

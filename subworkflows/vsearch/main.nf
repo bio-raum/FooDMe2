@@ -14,18 +14,19 @@ include { VSEARCH_UCHIME_DENOVO }       from './../../modules/vsearch/uchime/den
 include { HELPER_VSEARCH_STATS }        from './../../modules/helper/vsearch_stats'
 include { HELPER_VSEARCH_MULTIQC }      from './../../modules/helper/vsearch_multiqc'
 
-/*
-Set default channels
-*/
-ch_versions = Channel.from([])
-ch_qc_files = Channel.from([])
-ch_reporting = Channel.from([])
-
 workflow VSEARCH_WORKFLOW {
     take:
     reads
 
     main:
+
+    /*
+    Set default channels
+    */
+    ch_versions = Channel.from([])
+    ch_qc_files = Channel.from([])
+    ch_reporting = Channel.from([])
+
     /*
     Quality filtr fastq prior to merging
     */

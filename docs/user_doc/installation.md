@@ -155,13 +155,10 @@ This possibility is however limited to defining nextflow execution parameters an
 === "`local.config`"
 
     ```java
-    params {
-      max_cpus = 4
-      max_memory = 16.GB
-    }
 
     process {
       executor = 'local'
+      resourceLimits = [ cpus: 8, memory: 32.GB, time: 72.h ]
     }
 
     executor {

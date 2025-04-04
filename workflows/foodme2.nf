@@ -13,101 +13,101 @@ include { BLAST_TAXONOMY }              from './../subworkflows/blast_taxonomy'
 include { ONT_WORKFLOW }                from './../subworkflows/ont_workflow'
 include { REPORTING }                   from './../subworkflows/reporting'
 
-/*
-Set default channels and values
-*/
-samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
-reads       = params.reads ? Channel.fromFilePairs(params.reads, size: -1) : Channel.value([])
-database    = null
-ch_blast_db = Channel.from([])
-
-/*
-We make this conditional on input being specified so as to not create issues with
-the competing --build_references workflow during which all this would be evaluated also
-*/
-if (params.input || params.reads) {
-    /*
-    Make sure the local reference directory exists
-    */
-    refDir = file(params.reference_base + "/foodme2/${params.reference_version}")
-    if (!refDir.exists()) {
-        log.info 'The required reference directory was not found on your system, exiting!'
-        System.exit(1)
-    }
-
-    /*
-    Primer sets are either pre-configured or can be supplied by user in FASTA format
-    */
-    // If we have a pre-configured primer set, get options from config
-    if (params.primer_set) {
-        database                = params.primers[params.primer_set].database
-        ch_primers              = Channel.fromPath(file(params.primers[params.primer_set].fasta, checkIfExits: true)).collect()
-        blast_db                = file(params.references.databases[database].blast_db, checkIfExists: true)
-        fasta                   = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
-        version                 = params.references.databases[database].version
-
-    // If the users specifies a custom primer set as FASTA instead
-    } else if ((params.input || params.reads) && params.primers_fa) {
-        ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
-
-        // If the user requests one of the installed databases
-        if (params.db) {
-            database    = params.db
-            blast_db    = file(params.references.databases[database].blast_db, checkIfExists: true)
-            fasta       = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
-            version     = params.references.databases[database].version
-        // Or allow users to provide their own database
-        } else if (params.blast_db) {
-            database    = file(params.blast_db).getSimpleName()
-            blast_db    = file(params.blast_db, checkIfExists: true)
-            version     = 'NA'
-            fasta       = null
-        }
-    }
-    Channel.fromPath(blast_db, checkIfExists: true).map { db ->
-        [[id: database, version: version], db]
-    }.set { ch_blast_db }
-
-    /*
-    The taxonomy database for this gene
-    */
-
-    if (params.reference_base) {
-        tax_nodes           = file(params.references.taxonomy.nodes, checkIfExists: true)          // ncbi taxnomy node file
-        tax_rankedlineage   = file(params.references.taxonomy.rankedlineage, checkIfExists: true)  // ncbi rankedlineage file
-        tax_merged          = file(params.references.taxonomy.merged, checkIfExists: true)         // ncbi merged file
-
-        ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
-
-        ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
-    }
-
-}
-
-/*
-Set a taxonomy block list to remove unwanted taxa
-*/
-ch_blocklist        = Channel.fromPath(params.blocklist, checkIfExists: true)
-
-/*
-Set the Jinja template for the HTML report
-*/
-ch_template         = Channel.fromPath(params.template, checkIfExists: true).collect()
-
-/*
-Setting default channels
-*/
-ch_versions          = Channel.from([]) // all version yml files
-ch_otus              = Channel.from([]) // all the OTUs
-ch_bitscore          = Channel.from([]) // all the blast reports
-ch_consensus         = Channel.from([]) // all consensus
-ch_trimfil_json      = Channel.from([]) // all cutadapt mqc reports
-ch_cluster_json      = Channel.from([]) // all clustering mqc reports
-ch_fastp_input_json  = Channel.from([]) // all FastP Json reports pre trimming
-ch_fastp_trim_json   = Channel.from([]) // all FastP Json reports pre trimming
-
 workflow FOODME2 {
     main:
+
+    /*
+    Set default channels and values
+    */
+    samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
+    reads       = params.reads ? Channel.fromFilePairs(params.reads, size: -1) : Channel.value([])
+    database    = null
+    ch_blast_db = Channel.from([])
+
+    /*
+    We make this conditional on input being specified so as to not create issues with
+    the competing --build_references workflow during which all this would be evaluated also
+    */
+    if (params.input || params.reads) {
+        /*
+        Make sure the local reference directory exists
+        */
+        refDir = file(params.reference_base + "/foodme2/${params.reference_version}")
+        if (!refDir.exists()) {
+            log.info 'The required reference directory was not found on your system, exiting!'
+            System.exit(1)
+        }
+
+        /*
+        Primer sets are either pre-configured or can be supplied by user in FASTA format
+        */
+        // If we have a pre-configured primer set, get options from config
+        if (params.primer_set) {
+            database                = params.primers[params.primer_set].database
+            ch_primers              = Channel.fromPath(file(params.primers[params.primer_set].fasta, checkIfExits: true)).collect()
+            blast_db                = file(params.references.databases[database].blast_db, checkIfExists: true)
+            fasta                   = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+            version                 = params.references.databases[database].version
+
+        // If the users specifies a custom primer set as FASTA instead
+        } else if ((params.input || params.reads) && params.primers_fa) {
+            ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
+
+            // If the user requests one of the installed databases
+            if (params.db) {
+                database    = params.db
+                blast_db    = file(params.references.databases[database].blast_db, checkIfExists: true)
+                fasta       = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+                version     = params.references.databases[database].version
+            // Or allow users to provide their own database
+            } else if (params.blast_db) {
+                database    = file(params.blast_db).getSimpleName()
+                blast_db    = file(params.blast_db, checkIfExists: true)
+                version     = 'NA'
+                fasta       = null
+            }
+        }
+        Channel.fromPath(blast_db, checkIfExists: true).map { db ->
+            [[id: database, version: version], db]
+        }.set { ch_blast_db }
+
+        /*
+        The taxonomy database for this gene
+        */
+
+        if (params.reference_base) {
+            tax_nodes           = file(params.references.taxonomy.nodes, checkIfExists: true)          // ncbi taxnomy node file
+            tax_rankedlineage   = file(params.references.taxonomy.rankedlineage, checkIfExists: true)  // ncbi rankedlineage file
+            tax_merged          = file(params.references.taxonomy.merged, checkIfExists: true)         // ncbi merged file
+
+            ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
+
+            ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
+        }
+
+    }
+
+    /*
+    Set a taxonomy block list to remove unwanted taxa
+    */
+    ch_blocklist        = Channel.fromPath(params.blocklist, checkIfExists: true)
+
+    /*
+    Set the Jinja template for the HTML report
+    */
+    ch_template         = Channel.fromPath(params.template, checkIfExists: true).collect()
+
+    /*
+    Setting default channels
+    */
+    ch_versions          = Channel.from([]) // all version yml files
+    ch_otus              = Channel.from([]) // all the OTUs
+    ch_bitscore          = Channel.from([]) // all the blast reports
+    ch_consensus         = Channel.from([]) // all consensus
+    ch_trimfil_json      = Channel.from([]) // all cutadapt mqc reports
+    ch_cluster_json      = Channel.from([]) // all clustering mqc reports
+    ch_fastp_input_json  = Channel.from([]) // all FastP Json reports pre trimming
+    ch_fastp_trim_json   = Channel.from([]) // all FastP Json reports pre trimming
 
     /*
     Validate the input samplesheet and

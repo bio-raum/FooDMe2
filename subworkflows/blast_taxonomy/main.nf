@@ -9,11 +9,6 @@ include { HELPER_BLAST_STATS }              from './../../modules/helper/blast_s
 include { HELPER_SAMPLE_COMPO }             from './../../modules/helper/sample_compo'
 include { HELPER_ASSIGNEMENT_MULTIQC }      from './../../modules/helper/assignement_multiqc'
 
-ch_versions = Channel.from([])
-ch_reporting = Channel.from([])
-ch_qc_files = Channel.from([])
-ch_tax_json = Channel.from([])
-
 workflow BLAST_TAXONOMY {
     take:
     otus        // [ meta, fasta ]
@@ -23,6 +18,10 @@ workflow BLAST_TAXONOMY {
     block_list  // [ blocklist ]
 
     main:
+
+    ch_versions = Channel.from([])
+    ch_qc_files = Channel.from([])
+    ch_tax_json = Channel.from([])
 
     /*
     Take the NCBI taxonomy and create a

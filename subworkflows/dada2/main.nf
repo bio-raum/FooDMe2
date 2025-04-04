@@ -8,18 +8,18 @@ include { HELPER_SEQTABLE_TO_FASTA }    from './../../modules/helper/seqtable_to
 include { HELPER_DADA_STATS }           from './../../modules/helper/dada_stats'
 include { HELPER_DADA_MULTIQC }         from './../../modules/helper/dada_multiqc'
 
-ch_versions = Channel.from([])
-ch_qc_files = Channel.from([])
-ch_reporting = Channel.from([])
-ch_asvs = Channel.from([])
-ch_seqtab = Channel.from([])
-ch_filtered_reads = Channel.from([])
-
 workflow DADA2_WORKFLOW {
     take:
     reads
 
     main:
+
+    ch_versions = Channel.from([])
+    ch_qc_files = Channel.from([])
+    ch_reporting = Channel.from([])
+    ch_asvs = Channel.from([])
+    ch_seqtab = Channel.from([])
+    ch_filtered_reads = Channel.from([])
 
     /*
     Filter reads; trimming is done by Cutadapt

@@ -1,7 +1,7 @@
 process FASTQ_TO_FASTA {
     label 'short_serial'
 
-    tag "${fa}"
+    tag "${fq}"
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

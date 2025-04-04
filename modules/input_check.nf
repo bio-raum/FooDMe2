@@ -18,11 +18,11 @@ workflow INPUT_CHECK {
 
 // Function to get list of [ meta, [ fastq_1, fastq_2 ] ]
 def fastq_channel(LinkedHashMap row) {
-    meta = [:]
+    def meta = [:]
     meta.sample_id    = row.sample
     meta.single_end   = true
 
-    array = []
+    def array = []
     if (!file(row.fq1).exists()) {
         exit 1, "ERROR: Please check input samplesheet -> Read 1 FastQ file does not exist!\n${row.fq1}"
     }

@@ -1,5 +1,3 @@
-import groovy.json.JsonSlurper
-
 /*
 Import modules
 */
@@ -14,11 +12,6 @@ include { VSEARCH_WORKFLOW }    from './../vsearch'
 include { DADA2_WORKFLOW }      from './../dada2'
 include { CUTADAPT_WORKFLOW }   from './../cutadapt'
 
-ch_versions     = Channel.from([])
-multiqc_files   = Channel.from([])
-ch_clusterjsons = Channel.from([])
-ch_otus         = Channel.from([])
-
 /*
 Clean, trim and cluster reads for subsequent
 taxonomic profiling
@@ -29,6 +22,11 @@ workflow ILLUMINA_WORKFLOW {
     ch_primers  // [ primers ]
 
     main:
+
+    ch_versions     = Channel.from([])
+    multiqc_files   = Channel.from([])
+    ch_clusterjsons = Channel.from([])
+    ch_otus         = Channel.from([])
 
     /*
     Trim illumina reads
@@ -43,11 +41,11 @@ workflow ILLUMINA_WORKFLOW {
     /*
     Split trimmed reads by sample to find multi-lane data sets
     */
-    FASTP_METRICS.out.reads.groupTuple().branch { meta, reads ->
-        single: reads.size() == 1
-            return [ meta, reads.flatten()]
-        multi: reads.size() > 1
-            return [ meta, reads.flatten()]
+    FASTP_METRICS.out.reads.groupTuple().branch { meta, fastq ->
+        single: fastq.size() == 1
+            return [ meta, fastq.flatten()]
+        multi: fastq.size() > 1
+            return [ meta, fastq.flatten()]
     }.set { ch_reads_illumina }
 
     /*
@@ -134,8 +132,8 @@ Read the FastP JSON metrics
 to extract insert size and mean read length
 */
 def get_metrics(json) {
-    data = file(json).getText()
-    def jsonSlurper = new JsonSlurper()
+    def data = file(json).getText()
+    def jsonSlurper = new groovy.json.JsonSlurper()
     def object = jsonSlurper.parseText(data)
 
     def isize = object['insert_size']['peak']
