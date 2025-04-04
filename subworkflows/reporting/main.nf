@@ -7,6 +7,7 @@ include { HELPER_SAMPLE_REPORT }            from './../../modules/helper/sample_
 include { HELPER_HTML_REPORT }              from './../../modules/helper/html_report'
 
 workflow REPORTING {
+
     take:
     ch_tax_json // The filtered taxonomy JSON
     ch_compo
@@ -25,7 +26,6 @@ workflow REPORTING {
     
     ch_report = Channel.from([])
     ch_xlsx   = Channel.from([])
-    ch_versions = Channel.from([])
     ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
 
     // Excel report
@@ -50,6 +50,7 @@ workflow REPORTING {
     Here we group all the sample-specific reports by meta hash
     the fastp report is optional in case of ONT data, so we need to account for that
     */
+
     ch_compo_json.join(
         ch_cutadapt, remainder: true
     ).join(
@@ -66,6 +67,7 @@ workflow REPORTING {
     Make a pretty JSON using the sample-specific reports and
     summary metrics from the clustering as well as software versions
     */
+
     HELPER_SAMPLE_REPORT(
         ch_reports_grouped,
         ch_clustering.collect(),

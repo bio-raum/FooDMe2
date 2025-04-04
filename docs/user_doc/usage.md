@@ -181,10 +181,6 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
 :   A mandatory name for this run, to be included with the result files.
 
-`--email me@google.com` [ default = null]
-
-:   An email address to which the MultiQC report is send after pipeline completion. This requires for the executing system to have [sendmail](https://rimuhosting.com/support/settingupemail.jsp?mta=sendmail) configured.
-
 ### PCR primers
 
 `--list_primers` [ default = false]

@@ -43,8 +43,8 @@ workflow FOODME2 {
         */
         // If we have a pre-configured primer set, get options from config
         if (params.primer_set) {
-            database                = params.primers[params.primer_set].database
-            ch_primers              = Channel.fromPath(file(params.primers[params.primer_set].fasta, checkIfExits: true)).collect()
+            database                = params.database
+            ch_primers              = Channel.fromPath(file(params.fasta, checkIfExits: true)).collect()
             blast_db                = file(params.references.databases[database].blast_db, checkIfExists: true)
             fasta                   = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
             version                 = params.references.databases[database].version
@@ -102,7 +102,6 @@ workflow FOODME2 {
     */
     ch_versions          = Channel.from([]) // all version yml files
     ch_otus              = Channel.from([]) // all the OTUs
-    ch_bitscore          = Channel.from([]) // all the blast reports
     ch_consensus         = Channel.from([]) // all consensus
     ch_trimfil_json      = Channel.from([]) // all cutadapt mqc reports
     ch_cluster_json      = Channel.from([]) // all clustering mqc reports
