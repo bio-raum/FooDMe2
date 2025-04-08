@@ -2,6 +2,8 @@
 
 nextflow.enable.dsl = 2
 
+include { validateParameters; paramsSummaryLog; samplesheetToList } from 'plugin/nf-schema'
+
 //
 /**
 ===============================
@@ -24,8 +26,11 @@ include { BUILD_REFERENCES }        from './workflows/build_references'
 
 workflow {
 
+    // Validate input parameters
+    validateParameters()
 
-    run_name = (params.run_name == false) ? "${workflow.sessionId}" : "${params.run_name}"
+    // Print summary of supplied parameters
+    log.info paramsSummaryLog(workflow)
 
     log.info """
             ███████╗ ██████╗  ██████╗ ██████╗ ███╗   ███╗███████╗██████╗ 

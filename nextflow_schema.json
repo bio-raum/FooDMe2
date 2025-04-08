@@ -1,0 +1,415 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/bio-raum/FooDMe2//nextflow_schema.json",
+  "title": "bio-raum/FooDMe2 pipeline parameters",
+  "description": "FooDMe2 Pipeline | Profiling eukaryotic taxa from mitochondrial amplicons",
+  "type": "object",
+  "$defs": {
+    "input_output_options": {
+      "title": "Input/output options",
+      "type": "object",
+      "fa_icon": "fas fa-terminal",
+      "description": "Define where the pipeline should find input data and save output data.",
+      "properties": {
+        "input": {
+          "type": "string",
+          "format": "file-path",
+          "exists": true,
+          "schema": "assets/schema_input.json",
+          "mimetype": "text/tsv",
+          "pattern": "^\\S+\\.tsv$",
+          "description": "Path to tab-separated file containing information about the samples in the experiment.",
+          "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a tab-separated file with 3 columns, and a header row.",
+          "fa_icon": "fas fa-file-csv"
+        },
+        "outdir": {
+          "type": "string",
+          "format": "directory-path",
+          "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
+          "fa_icon": "fas fa-folder-open",
+          "default": "results"
+        },
+        "reads": {
+          "type": "string",
+          "description": "A regexp pointing to a path with read files",
+          "fa_icon": "fas fa-folder-open"
+        },
+        "taxid_filter": {
+          "type": "integer",
+          "description": "Taxonomic root for the analysis (NCBI tax id)"
+        },
+        "run_name": {
+          "type": "string",
+          "description": "A name for this analysis run",
+          "fa_icon": "fas fa-filter"
+        }
+      }
+    },
+    "databases_and_primers": {
+      "title": "Databases and primers",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "blast_db": {
+          "type": "string",
+          "description": "A custom BLAST database (instead of a pre-configured database)"
+        },
+        "db": {
+          "type": "string",
+          "description": "The database to use (when not using a pre-configured primer set)"
+        },
+        "primer_set": {
+          "type": "string",
+          "description": "A pre-configured set of primers and related settings"
+        },
+        "primers_fa": {
+          "type": "string",
+          "description": "A FASTA file with amplicon primers"
+        }
+      }
+    },
+    "trimming": {
+      "title": "Trimming",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "cutadapt_trim_3p": {
+          "type": "boolean",
+          "description": "Trim 3-prime end of reads (when amplicon is fully container in PE reads)"
+        },
+        "cutadapt": {
+          "type": "boolean",
+          "hidden": true,
+          "fa_icon": "far fa-check-square"
+        },
+        "cutadapt_trim_flex": {
+          "type": "boolean",
+          "description": "Enable flexible trimming when reads are a mix of overlapping and non-overlapping",
+          "fa_icon": "far fa-check-square"
+        },
+        "cutadapt_options": {
+          "type": "string",
+          "default": "-m 40",
+          "description": "Custom options to pass to Cutadapt",
+          "fa_icon": "far fa-check-square"
+        },
+        "fastp_options": {
+          "type": "string",
+          "default": "-l 50 -3 --cut_tail_window_size 4 --cut_tail_mean_quality 25",
+          "description": "Custom options for FastP",
+          "fa_icon": "fas fa-filter"
+        },
+        "max_expected_errors": {
+          "type": "integer",
+          "default": 2,
+          "description": "Max number of expected errors in reads"
+        },
+        "max_mismatch": {
+          "type": "integer",
+          "default": 1,
+          "description": "Maximum number of mismatches in reads"
+        },
+        "max_ns": {
+          "type": "integer",
+          "default": 0,
+          "description": "Maximum number of Ns to allow in reads"
+        }
+      }
+    },
+    "otu_clustering": {
+      "title": "OTU clustering",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "remove_chimera": {
+          "type": "boolean",
+          "default": true,
+          "description": "Remove chimeric OTUs",
+          "fa_icon": "far fa-check-square"
+        },
+        "amplicon_min_length": {
+          "type": "integer",
+          "default": 70,
+          "description": "Minimum length of amplicon sequence"
+        },
+        "amplicon_max_length": {
+          "type": "integer",
+          "default": 100,
+          "description": "Maximum length of amplicon sequence"
+        },
+        "merging_max_mismatch": {
+          "type": "integer",
+          "default": 1,
+          "description": "Maximum mismatched allowed for merging paired reads"
+        },
+        "vsearch_cluster_id": {
+          "type": "number",
+          "default": 0.97,
+          "description": "Minimum sequence identity for cluster generation using VSEARCH",
+          "fa_icon": "fas fa-percent"
+        },
+        "non_overlapping": {
+          "type": "boolean",
+          "description": "The data contains non-overlapping read pairs",
+          "fa_icon": "far fa-check-square"
+        }
+      }
+    },
+    "tool_chains": {
+      "title": "Tool chains",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "vsearch": {
+          "type": "boolean",
+          "description": "Use VSEARCH instead of DADA2",
+          "fa_icon": "far fa-check-square"
+        }
+      }
+    },
+    "installation": {
+      "title": "Installation",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "build_references": {
+          "type": "boolean",
+          "description": "Install the reference files into the location designated by --reference_base"
+        },
+        "skip_genbank": {
+          "type": "boolean",
+          "description": "Do not install GenBank core_nt database"
+        }
+      }
+    },
+    "expert_options": {
+      "title": "Expert options",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "disable_low_complexity": {
+          "type": "boolean",
+          "description": "Disable filter for low complexity sequences"
+        },
+        "blast_low_complexity": {
+          "type": "string",
+          "default": "-dust no -soft_masking false",
+          "description": "Settings for dealing with low complexity sequences in BLAST"
+        },
+        "blast_evalue": {
+          "type": "string",
+          "default": 1e-20,
+          "description": "Evalue to use in BLAST search"
+        },
+        "blast_qcov": {
+          "type": "integer",
+          "default": 100,
+          "description": "Query coverage (percent) required in BLAST search"
+        },
+        "blast_bitscore_diff": {
+          "type": "integer",
+          "default": 4,
+          "description": "Maximum difference in BLAST bit scores for hits to be considered"
+        },
+        "blast_min_consensus": {
+          "type": "number",
+          "default": 0.51,
+          "description": "Minimum fraction of hits to agree for a taxonomic consensus to be build"
+        },
+        "blast_perc_id": {
+          "type": "integer",
+          "default": 97,
+          "description": "Sequence identity (percent) requiered in BLAST search"
+        },
+        "vsearch_min_cov": {
+          "type": "integer",
+          "default": 5,
+          "description": "Minimum coverage of OTUs using VSEARCH"
+        },
+        "blocklist": {
+          "type": "string",
+          "default": "/home/marc/git/FooDMe2/assets/blocklist.txt",
+          "description": "A list of taxa to exclude from analysis"
+        },
+        "store_reads": {
+          "type": "boolean",
+          "description": "Store the trimmed reads (for debugging)"
+        },
+        "ground_truth": {
+          "type": "boolean",
+          "description": "A TSV file with a ground truth for a bench marking dataset"
+        },
+        "benchmark_rank": {
+          "type": "string",
+          "default": "genus",
+          "description": "Rank to use for benchmarking"
+        },
+        "benchmark_cutoff": {
+          "type": "number",
+          "default": 0.001,
+          "description": "Cutoff for considering in benchmarking"
+        }
+      }
+    },
+    "nanopore": {
+      "title": "Nanopore",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "ont": {
+          "type": "boolean",
+          "description": "Data is from a Nanopore experiment"
+        },
+        "reads_min_q": {
+          "type": "integer",
+          "default": 20,
+          "description": "Minimum quality of ONT reads to allow"
+        }
+      }
+    },
+    "generic_options": {
+      "title": "Generic options",
+      "type": "object",
+      "fa_icon": "fas fa-file-import",
+      "description": "Less common options for the pipeline, typically set in a config file.",
+      "help_text": "These options are common to all nf-core pipelines and allow you to customise some of the core preferences for how the pipeline runs.\n\nTypically these options would be set in a Nextflow config file loaded for all pipeline runs, such as `~/.nextflow/config`.",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Display version and exit.",
+          "fa_icon": "fas fa-question-circle",
+          "hidden": true
+        }
+      }
+    },
+    "list_information": {
+      "title": "List information",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "list_primers": {
+          "type": "boolean",
+          "description": "List all pre-configured primer sets"
+        },
+        "list_dbs": {
+          "type": "boolean",
+          "description": "List all pre-installed databases"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "#/$defs/input_output_options"
+    },
+    {
+      "$ref": "#/$defs/databases_and_primers"
+    },
+    {
+      "$ref": "#/$defs/trimming"
+    },
+    {
+      "$ref": "#/$defs/otu_clustering"
+    },
+    {
+      "$ref": "#/$defs/tool_chains"
+    },
+    {
+      "$ref": "#/$defs/installation"
+    },
+    {
+      "$ref": "#/$defs/expert_options"
+    },
+    {
+      "$ref": "#/$defs/nanopore"
+    },
+    {
+      "$ref": "#/$defs/generic_options"
+    },
+    {
+      "$ref": "#/$defs/list_information"
+    }
+  ],
+  "properties": {
+    "template": {
+      "type": "string",
+      "default": "/home/marc/git/FooDMe2/assets/foodme2_template.qmd",
+      "hidden": true
+    },
+    "reference_base": {
+      "type": "string",
+      "description": "Directory where the reference files live"
+    },
+    "reference_version": {
+      "type": "string",
+      "default": "1.0",
+      "hidden": true
+    },
+    "primers": {
+      "type": "object",
+      "hidden": true
+    },
+    "primers_txt": {
+      "type": "string",
+      "hidden": true
+    },
+    "pacbio": {
+      "type": "boolean",
+      "description": "Data is froma Pacbio HiFi experiment",
+      "hidden": true
+    },
+    "iontorrent": {
+      "type": "boolean",
+      "description": "Data is from an IonTorrent experiment",
+      "hidden": true
+    },
+    "options": {
+      "type": "boolean",
+      "description": "Custom options to pass",
+      "hidden": true
+    },
+    "logo": {
+      "type": "string",
+      "default": "/home/marc/git/FooDMe2/assets/pipelinelogo.png",
+      "description": "A custom logo to include in the report",
+      "hidden": true
+    },
+    "plaintext_email": {
+      "type": "boolean",
+      "hidden": true
+    },
+    "skip_multiqc": {
+      "type": "boolean",
+      "hidden": true
+    },
+    "references": {
+      "type": "object",
+      "hidden": true
+    },
+    "maxMultiqcEmailFileSize": {
+      "type": "string",
+      "default": "25 MB",
+      "hidden": true
+    },
+    "publish_dir_mode": {
+      "type": "string",
+      "default": "copy",
+      "description": "Mode for staging data into the results directory",
+      "hidden": true
+    },
+    "custom_config_base": {
+      "type": "string",
+      "default": "https://raw.githubusercontent.com/bio-raum/nf-configs/main",
+      "hidden": true
+    }
+  },
+  "required": ["reference_base","run_name"]
+}

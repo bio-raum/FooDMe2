@@ -28,18 +28,6 @@ class WorkflowPipeline {
             }
             System.exit(1)
         }
-        if (!params.run_name && !params.build_references) {
-            log.info 'Must provide a run_name (--run_name)'
-            System.exit(1)
-        }
-        if (!params.input && !params.reads && !params.build_references) {
-            log.info 'This pipeline requires a sample sheet as input (--input)'
-            System.exit(1)
-        }
-        if (!params.reference_base && !params.build_references) {
-            log.info 'No local taxonomy reference specified - downloading on-the-fly instead...'
-            log.info 'Consider installing the reference(s) as specified in our documentation!'
-        }
         if (params.build_references) {
             if (params.build_references && !params.reference_base) {
                 log.info 'Requested to build references without specifying the --reference_base'
@@ -49,11 +37,7 @@ class WorkflowPipeline {
                 log.info 'WARNING: This will install the GenBank core nt database - over 200GB of storage will be required!'
                 log.info 'If you do not think that you will need this database, skip it with --skip_genbank'
             }
-        } else {
-            if (params.ont && params.db == 'genbank' || params.ont && params.db == 'ncbi_its' || params.ont && params.blast_db) {
-                log.info 'Sorry, it is not currently possible to analyse ONT data against large NCBI or custom databases...'
-                System.exit(1)
-            }
+        } else if (params.input || params.reads) {
             if (params.primer_set && !params.primers.keySet().contains(params.primer_set)) {
                 log.info "The primer set ${params.primer_set} is not currently configured."
                 System.exit(1)

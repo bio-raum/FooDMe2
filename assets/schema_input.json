@@ -1,0 +1,43 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/bio-raum/FooDMe2/master/assets/schema_input.json",
+    "title": "bio-raum/FooDMe2 pipeline - params.input schema",
+    "description": "Schema for the file provided with params.input",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "sample": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Sample ID must be provided and cannot contain spaces",
+                "meta": ["sample"]
+            },
+            "fq1": {
+                "errorMessage": "FastQ file for reads 1 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'",
+                "type": "string",
+                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
+                "format": "file-path",
+                "exists": true
+            },
+            "fq2": {
+                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'",
+                "type": "string",
+                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
+                "format": "file-path",
+                "exists": true
+            }
+        },
+        "anyOf": [
+            {
+                "dependentRequired": {
+                    "lane": ["fq1"]
+                }
+            }
+        ],
+        "dependentRequired": {
+            "fq2": ["fq1"]
+        },
+        "required": ["sample"]
+    }
+}

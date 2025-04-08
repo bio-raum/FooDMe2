@@ -23,6 +23,10 @@ workflow FOODME2 {
     reads       = params.reads ? Channel.fromFilePairs(params.reads, size: -1) : Channel.value([])
     database    = null
     ch_blast_db = Channel.from([])
+    ch_reads    = Channel.from([])
+    ch_primers  = Channel.from([])
+    ch_tax_files = Channel.from([])
+    ch_taxdb   = Channel.from([])
 
     /*
     We make this conditional on input being specified so as to not create issues with
