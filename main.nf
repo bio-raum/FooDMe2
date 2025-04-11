@@ -27,7 +27,8 @@ include { BUILD_REFERENCES }        from './workflows/build_references'
 workflow {
 
     // Validate input parameters
-    validateParameters()
+    //Disabled until we manage to mask default dictionaries
+    //validateParameters()
 
     // Print summary of supplied parameters
     log.info paramsSummaryLog(workflow)

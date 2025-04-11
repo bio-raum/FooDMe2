@@ -9,7 +9,6 @@ Nextflow is a highly portable pipeline engine. Please see the official [installa
 This pipeline expects Nextflow version 24.10.5, available [here](https://github.com/nextflow-io/nextflow/releases/tag/v24.10.5). Depending on your setting, you may then have to manually install the nf-validation and nf-schema plugins:
 
 ```bash
-nextflow plugin install nf-validation
 nextflow plugin install nf-schema
 ```
 
