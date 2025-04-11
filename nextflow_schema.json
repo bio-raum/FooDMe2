@@ -66,10 +66,6 @@
         "primers_fa": {
           "type": "string",
           "description": "A FASTA file with amplicon primers"
-        },
-        "references": {
-          "type": "object",
-          "hidden": true
         }
       }
     },
