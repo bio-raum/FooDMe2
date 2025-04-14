@@ -4,6 +4,7 @@ Import modules
 include { INPUT_CHECK }                 from './../modules/input_check'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 include { UNZIP }                       from './../modules/unzip'
+include { STAGE as STAGE_SAMPLESHEET } from './../modules/helper/stage'
 
 /*
 Import sub workflows
@@ -117,6 +118,15 @@ workflow FOODME2 {
     alert users to any formatting issues
     */
     if (params.input) {
+        // store the samplesheet in results/pipeline_info
+        STAGE_SAMPLESHEET(
+            samplesheet.map { ss ->
+                def meta = [:]
+                meta.target = "Samplesheet"
+                meta.tool = params.run_name
+                tuple(meta,ss)
+            }
+        )
         INPUT_CHECK(samplesheet)
         ch_reads = INPUT_CHECK.out.reads
     } else if (params.reads) {
