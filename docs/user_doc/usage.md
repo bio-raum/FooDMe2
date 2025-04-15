@@ -249,7 +249,7 @@ Databases for taxonomic assignment can be specified in one of two ways - from th
 
 `--taxid_filter` [ default = null ]
 
-:   In case you do not use a pre-configured [primer_set](#pcr-primers), you will have to tell the pipeline a taxonomic group you wish to screen. The argument must be an ID from the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy). Some common examples are:
+:   In case you do not use a pre-configured [primer_set](#pcr-primers) or wish to use it against a different taxonomic group, you will have to tell the pipeline a taxonomic group you wish to screen. The argument must be an ID from the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy). Some common examples are:
 
     | Taxonomic group | NCBI ID |
     | --------------- | ------- |
