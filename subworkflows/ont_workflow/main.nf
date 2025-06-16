@@ -27,18 +27,24 @@ workflow ONT_WORKFLOW {
     ch_qc       = Channel.from([])
 
     /*
-    Remove Nanopore adapters
+    Remove Nanopore adapters - or not
     */
-    PORECHOP_ABI(
-        reads
-    )
-    ch_versions = ch_versions.mix(PORECHOP_ABI.out.versions)
-    ch_qc       = ch_qc.mix(PORECHOP_ABI.out.log.map { m, l -> l })
+
+    if (params.skip_porechop) {
+        ch_trimmed_reads = reads
+    } else {
+        PORECHOP_ABI(
+            reads
+        )
+        ch_versions         = ch_versions.mix(PORECHOP_ABI.out.versions)
+        ch_qc               = ch_qc.mix(PORECHOP_ABI.out.log.map { m, l -> l })
+        ch_trimmed_reads    = PORECHOP_ABI.out.reads
+    }
 
     /*
     Merge reads by sample
     */
-    PORECHOP_ABI.out.reads.groupTuple().branch { meta, fastq ->
+    ch_trimmed_reads.groupTuple().branch { meta, fastq ->
         single: fastq.size() == 1
             return [ meta, fastq.flatten()]
         multi: fastq.size() > 1

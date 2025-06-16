@@ -73,6 +73,9 @@ class WorkflowPipeline {
             if (params.reads) {
                 log.warn 'Using read wildcards as input is discouraged - consider providing a samplesheet to avoid errors!'
             }
+        } else {
+            log.info "Missing mandatory argument: --input, --reads or --build_references\nExiting."
+            System.exit(1)
         }
     }
 
