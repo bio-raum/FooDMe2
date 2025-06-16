@@ -50,10 +50,17 @@ workflow FOODME2 {
         if (params.primer_set) {
             database                = params.database
             ch_primers              = Channel.fromPath(file(params.fasta, checkIfExits: true)).collect()
-            blast_db                = file(params.references.databases[database].blast_db, checkIfExists: true)
+            blast_db                = set_blast_db(database)
             fasta                   = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
             version                 = params.references.databases[database].version
-
+            // use a pre-configured primer but with a different database
+            if (params.db) {
+                log.info "You chose a pre-configured primer set but are overriding the database - this may lead to problems!"
+                database    = params.db
+                blast_db    = set_blast_db(database)
+                fasta       = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+                version     = params.references.databases[database].version
+            }
         // If the users specifies a custom primer set as FASTA instead
         } else if ((params.input || params.reads) && params.primers_fa) {
             ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
@@ -61,7 +68,8 @@ workflow FOODME2 {
             // If the user requests one of the installed databases
             if (params.db) {
                 database    = params.db
-                blast_db    = file(params.references.databases[database].blast_db, checkIfExists: true)
+                // Check if that database is configured
+                blast_db    = set_blast_db(database)
                 fasta       = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
                 version     = params.references.databases[database].version
             // Or allow users to provide their own database
@@ -84,9 +92,7 @@ workflow FOODME2 {
             tax_nodes           = file(params.references.taxonomy.nodes, checkIfExists: true)          // ncbi taxnomy node file
             tax_rankedlineage   = file(params.references.taxonomy.rankedlineage, checkIfExists: true)  // ncbi rankedlineage file
             tax_merged          = file(params.references.taxonomy.merged, checkIfExists: true)         // ncbi merged file
-
             ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
-
             ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
         }
 
@@ -226,4 +232,13 @@ workflow FOODME2 {
     emit:
     report = REPORTING.out.report
     xlsx   = REPORTING.out.xlsx
+}
+
+def set_blast_db(database) {
+    if (!params.references.databases.keySet().contains(database)) {
+        log.warn "Provided an unknown database (--db ${database})\nPlease check valid options with --list_dbs\nExiting."
+        System.exit(1)
+    }
+    def blast_db = file(params.references.databases[database].blast_db, checkIfExists: true)
+    return blast_db
 }
