@@ -231,7 +231,7 @@ def get_insert_hist(fastp_label):
             )
         frames.append(sdf)
 
-    df = pd.concat(frames)
+    df = pd.concat([frame for frame in frames if not frame.empty])
     return df
 ```
 :::
@@ -295,7 +295,7 @@ def get_qual(fastp_label, read_label):
             )
         frames.append(sdf)
 
-    df = pd.concat(frames)
+    df = pd.concat([frame for frame in frames if not frame.empty])
     return df
 ```
 :::
@@ -399,7 +399,7 @@ for json_file in json_files:
         )
     frames.append(sdf)
 
-df = pd.concat(frames)
+df = pd.concat([frame for frame in frames if not frame.empty])
 
 fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label",
     labels={"count": "Read number", "sample": ""},
@@ -459,7 +459,7 @@ for json_file in json_files:
         )
     frames.append(sdf)
 
-df = pd.concat(frames)
+df = pd.concat([frame for frame in frames if not frame.empty])
 
 fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label",
     labels={"count": "Read number", "sample": ""},
@@ -519,7 +519,7 @@ for json_file in json_files:
         )
     frames.append(sdf)
 
-df = pd.concat(frames)
+df = pd.concat([frame for frame in frames if not frame.empty])
 
 fig = px.bar(df, x="count", y= "sample", color="label", custom_data="label",
     labels={"count": "Read number", "sample": ""},
@@ -578,7 +578,7 @@ for json_file in json_files:
     sdf["sample"] = sample
     frames.append(sdf)
 
-df = pd.concat(frames)
+df = pd.concat([frame for frame in frames if not frame.empty])
 df = df. groupby(["sample", "rank"])[["reads", "proportion"]].sum().reset_index()
 df["proportion"] = df["proportion"]*100
 

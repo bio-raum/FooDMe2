@@ -22,7 +22,7 @@
 
 :gear: **Run with:**
 
-`--primer_set 16S_ILM_ASU188_meat`
+`--primer_set 16S_ILM_ASU184_meat`
 
 For example:
 
@@ -31,14 +31,14 @@ nextflow run bio-raum/FooDMe2 \
   -r main \
   -profile myprofile \ # (1)!
   --input samples.tsv \
-  --primer_set 16S_ILM_ASU188_meat
+  --primer_set 16S_ILM_ASU184_meat
 ```
 
 1. See the [installation guide](../user_doc/installation.md) for more details on this parameter
 
 ## Configuration
 
-Check the `16S_ILM_ASU188_meat.conf` configuration file under `conf/primers/` for an list of parameters.
+Check the `16S_ILM_ASU184_meat.conf` configuration file under `conf/primers/` for an list of parameters.
 
 ## Validation
 
