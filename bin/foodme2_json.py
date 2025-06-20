@@ -112,8 +112,10 @@ def main(sample, yaml_file, output):
             matrix["blast"]["filtered"] = parse_json(lines)
         elif re.search(".consensus.json", file):
             matrix["blast"]["consensus"] = parse_json(lines)
-        elif re.search(".fastp.json", file):
+        elif re.search(".adaptertrim.fastp.json", file):
             matrix["fastp"]["input"] = parse_json(lines)
+        elif re.search(".trim.fastp.json", file):
+            matrix["fastp"]["trim"] = parse_json(lines)
 
     with open(output, "w") as fo:
         json.dump(matrix, fo, indent=4, sort_keys=True)
