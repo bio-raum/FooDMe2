@@ -1,10 +1,9 @@
 include { HELPER_REPORT_XLSX }              from './../../modules/helper/report_xlsx'
 include { HELPER_KRONA_TABLE }              from './../../modules/helper/krona_table'
 include { KRONA_HTML }                      from './../../modules/krona/'
-include { HELPER_BENCHMARK }                from './../../modules/helper/benchmark'
-include { HELPER_BENCHMARK_XLSX }           from './../../modules/helper/benchmark_xlsx'
 include { HELPER_SAMPLE_REPORT }            from './../../modules/helper/sample_report'
 include { HELPER_HTML_REPORT }              from './../../modules/helper/html_report'
+include { HELPER_REPORTS_JSON }             from './../../modules/helper/reports_json'
 
 workflow REPORTING {
 
@@ -19,14 +18,14 @@ workflow REPORTING {
     ch_versions
     ch_fastp_input_json
     ch_fastp_trim_json
-    ch_template  // Quarto tempalte for custom HTML report
-
+    ch_template  // Quarto template for custom HTML report
 
     main:
     
+    ch_clustering.view()
+
     ch_report = Channel.from([])
     ch_xlsx   = Channel.from([])
-    ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
 
     // Excel report
     HELPER_REPORT_XLSX(
@@ -85,23 +84,6 @@ workflow REPORTING {
     )
 
     ch_report = ch_report.mix(HELPER_HTML_REPORT.out.html)
-
-    // Benchmark
-    if (params.ground_truth) {
-        ch_compo_agg = ch_compo.map { m, t -> t }.collectFile(name: 'composition.tsv', keepHeader: true)
-
-        HELPER_BENCHMARK(
-            ch_compo_agg,
-            ch_truthtable,
-            ch_tax_json.collect(),
-            params.benchmark_rank,
-            params.benchmark_cutoff
-        )
-
-        HELPER_BENCHMARK_XLSX(
-            HELPER_BENCHMARK.out.results.collect()
-        )
-    }
 
     emit:
     versions = ch_versions

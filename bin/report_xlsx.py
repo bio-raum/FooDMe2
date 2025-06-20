@@ -64,14 +64,14 @@ def main(output):
         for hit in hits:
             row += 1
             name = hit["name"]
-            perc = round(float(hit["proportion"]), 4)*100
+            perc = round(float(hit["proportion"]), 4) * 100
             reads = hit["reads"]
             cluster_ids = hit["cluster_ids"]
 
             ws.append([sample, name, perc, reads, cluster_ids])
 
             for col in ["A", "B", "C", "D", "E"]:
-                ws[col+str(ws._current_row)].fill = bgcolor
+                ws[col + str(ws._current_row)].fill = bgcolor
 
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws)
@@ -121,13 +121,13 @@ def main(output):
             name = cluster["name"]
             rank = cluster["rank"]
             calltaxid = cluster["taxid"]
-            support = round(cluster["support"]*100, 2)
+            support = round(cluster["support"] * 100, 2)
             call = True
 
             row += 1
             ws2.append([sample, id, size, name, rank, calltaxid, support, call])
             for col in ["A", "B", "C", "D", "E", "F", "G", "H"]:
-                ws2[col+str(ws2._current_row)].fill = bgcolor
+                ws2[col + str(ws2._current_row)].fill = bgcolor
 
             # then go through the tax_list, but skip the taxid that was called
             for hit in cluster["tax_list"]:
@@ -136,14 +136,14 @@ def main(output):
                 name = hit["name"]
                 rank = "species"  # Always species !
                 taxid = hit["taxid"]
-                support = round(hit["freq"]*100, 2)
+                support = round(hit["freq"] * 100, 2)
                 call = False  # Always False
 
                 if taxid != calltaxid:
                     row += 1
                     ws2.append([sample, id, size, name, rank, calltaxid, support, call])
                     for col in ["A", "B", "C", "D", "E", "F", "G", "H"]:
-                        ws2[col+str(ws2._current_row)].fill = bgcolor
+                        ws2[col + str(ws2._current_row)].fill = bgcolor
 
     # Auto-width for columns
     dim_holder = DimensionHolder(worksheet=ws2)

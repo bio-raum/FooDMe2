@@ -10,9 +10,11 @@ include { STAGE as STAGE_SAMPLESHEET } from './../modules/helper/stage'
 Import sub workflows
 */
 include { ILLUMINA_WORKFLOW }           from './../subworkflows/illumina_workflow'
+include { ILLUMINA_WORKFLOW as IONTORRENT_WORKFLOW } from './../subworkflows/illumina_workflow'
 include { BLAST_TAXONOMY }              from './../subworkflows/blast_taxonomy'
 include { ONT_WORKFLOW }                from './../subworkflows/ont_workflow'
 include { REPORTING }                   from './../subworkflows/reporting'
+include { BENCHMARK }                   from './../subworkflows/benchmark'
 
 workflow FOODME2 {
     main:
@@ -22,12 +24,14 @@ workflow FOODME2 {
     */
     samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
     reads       = params.reads ? Channel.fromFilePairs(params.reads, size: -1) : Channel.value([])
+    ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
     database    = null
     ch_blast_db = Channel.from([])
     ch_reads    = Channel.from([])
     ch_primers  = Channel.from([])
     ch_tax_files = Channel.from([])
     ch_taxdb   = Channel.from([])
+    ch_reporting = Channel.from([])
 
     /*
     We make this conditional on input being specified so as to not create issues with
@@ -170,16 +174,16 @@ workflow FOODME2 {
         ch_cluster_json = ch_cluster_json.mix(ONT_WORKFLOW.out.cluster_json)
     // reads are IonTorrent
     } else if (params.iontorrent) {
-        ILLUMINA_WORKFLOW(
+        IONTORRENT_WORKFLOW(
             ch_reads,
             ch_primers
         )
-        ch_versions           = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
-        ch_otus               = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
-        ch_fastp_input_json   = ch_fastp_input_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
-        ch_fastp_trim_json    = ch_fastp_trim_json.mix(ILLUMINA_WORKFLOW.out.post_trim_json)
-        ch_trimfil_json       = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
-        ch_cluster_json       = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
+        ch_versions           = ch_versions.mix(IONTORRENT_WORKFLOW.out.versions)
+        ch_otus               = ch_otus.mix(IONTORRENT_WORKFLOW.out.otus)
+        ch_fastp_input_json   = ch_fastp_input_json.mix(IONTORRENT_WORKFLOW.out.fastp_json)
+        ch_fastp_trim_json    = ch_fastp_trim_json.mix(IONTORRENT_WORKFLOW.out.post_trim_json)
+        ch_trimfil_json       = ch_trimfil_json.mix(IONTORRENT_WORKFLOW.out.cutadapt_json)
+        ch_cluster_json       = ch_cluster_json.mix(IONTORRENT_WORKFLOW.out.cluster_json)
     // reads are Illumina (or Illumina-like)
     } else {
         ILLUMINA_WORKFLOW(
@@ -194,6 +198,8 @@ workflow FOODME2 {
         ch_cluster_json       = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
     }
 
+    ch_reporting = ch_reporting.mix(ch_trimfil_json, ch_cluster_json, ch_fastp_input_json, ch_fastp_trim_json)
+
     /*
     SUB: Take each set of OTUs and determine taxonomic composition
     */
@@ -206,6 +212,7 @@ workflow FOODME2 {
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)
+    ch_reporting   = ch_reporting.mix(BLAST_TAXONOMY.out.tax_json, BLAST_TAXONOMY.out.composition, BLAST_TAXONOMY.out.composition_json, BLAST_TAXONOMY.out.filtered_blast, BLAST_TAXONOMY.out.consensus)
 
     // Create list of software packages used
     CUSTOM_DUMPSOFTWAREVERSIONS(
@@ -226,8 +233,19 @@ workflow FOODME2 {
         CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
         ch_fastp_input_json,
         ch_fastp_trim_json,
-        ch_template,
+        ch_template
     )
+
+    /*
+    SUB: Run benchmark if a ground truth is provided
+    */
+    if (params.ground_truth) {
+        BENCHMARK(
+            BLAST_TAXONOMY.out.composition,
+            BLAST_TAXONOMY.out.tax_json,
+            ch_truthtable
+        )
+    }
 
     emit:
     report = REPORTING.out.report
