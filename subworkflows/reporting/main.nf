@@ -9,17 +9,9 @@ workflow REPORTING {
 
     take:
     ch_tax_json // The filtered taxonomy JSON
-    ch_compo
-    ch_compo_json
-    ch_cutadapt
-    ch_clustering
-    ch_blast
-    ch_consensus
     ch_versions
-    ch_fastp_input_json
-    ch_fastp_trim_json
     ch_template  // Quarto template for custom HTML report
-    ch_reports
+    ch_reports   // all sample level reports
 
     main:
 
@@ -50,39 +42,11 @@ workflow REPORTING {
     )
 
     /*
-    Here we group all the sample-specific reports by meta hash
-    the fastp report is optional in case of ONT data, so we need to account for that
-    */
-
-    ch_compo_json.join(
-        ch_cutadapt, remainder: true
-    ).join(
-        ch_blast, remainder: true
-    ).join(
-        ch_consensus, remainder: true
-    ).join(
-        ch_fastp_input_json, remainder: true
-    ).join(
-        ch_fastp_trim_json, remainder: true
-    ).set { ch_reports_grouped }
-
-    /*
-    Make a pretty JSON using the sample-specific reports and
-    summary metrics from the clustering as well as software versions
-    */
-
-    HELPER_SAMPLE_REPORT(
-        ch_reports_grouped,
-        ch_clustering.collect(),
-        ch_versions.collect()
-    )
-
-    /*
     Write a summary report across all samples using
-    a customizable jinja2 template
+    a customizable Quarto template
     */
     HELPER_HTML_REPORT(
-        HELPER_SAMPLE_REPORT.out.json.map {m,j -> j}.collect(),
+        HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
         KRONA_HTML.out.html,
         ch_template,
     )

@@ -8,6 +8,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--output", "-o")
+parser.add_argument("--run_name", help="run name")
 parser.add_argument("--yaml", "-y")
 parser.add_argument("--sample", "-s")
 
@@ -81,7 +82,7 @@ def parse_yaml(lines):
     return data
 
 
-def main(sample, yaml_file, output):
+def main(sample, yaml_file, run_name, output):
 
     files = [os.path.abspath(f) for f in glob.glob("*/*")]
     date = datetime.today().strftime('%Y-%m-%d')
@@ -97,8 +98,9 @@ def main(sample, yaml_file, output):
         "composition": {},
         "cutadapt": {},
         "blast": {"filtered": {}, "consensus": {}},
-        "fastp": {"trim": {}, "input": {}},
-        "software": versions
+        "versions": versions,
+        "run_date": datetime.now().strftime('%Y-%m-%d'),
+        "run_name": run_name
     }
 
     for file in files:
@@ -109,23 +111,23 @@ def main(sample, yaml_file, output):
         if re.search(".composition.json", file):
             matrix["composition"] = parse_json(lines)[sample]
         elif re.search(".cutadapt_mqc.json", file):
-            matrix["cutadapt"] = parse_json(lines)
+            matrix["cutadapt"] = parse_json(lines)["data"][sample]
         elif re.search(".filtered.json", file):
-            matrix["blast"]["filtered"] = parse_json(lines)
+            matrix["filtered"] = parse_json(lines)
         elif re.search(".consensus.json", file):
-            matrix["blast"]["consensus"] = parse_json(lines)
+            matrix["consensus"] = parse_json(lines)
         elif re.search(".adaptertrim.fastp.json", file):
-            matrix["fastp"]["input"] = parse_json(lines)
+            matrix["fastp"] = parse_json(lines)
         elif re.search(".trim.fastp.json", file):
-            matrix["fastp"]["trim"] = parse_json(lines)
+            matrix["fastp_trimmed"] = parse_json(lines)
         elif re.search(".dada_stats.json", file):
-            matrix["dada2"] = parse_json(lines)[sample]
+            matrix["clustering"] = parse_json(lines)[sample]
         elif re.search(".vsearch_stats.json", file):
-            matrix["vsearch"] = parse_json(lines)[sample]
+            matrix["clustering"] = parse_json(lines)[sample]
 
     with open(output, "w") as fo:
         json.dump(matrix, fo, indent=4, sort_keys=True)
 
 
 if __name__ == '__main__':
-    main(args.sample, args.yaml, args.output)
+    main(args.sample, args.yaml, args.run_name, args.output)

@@ -35,7 +35,7 @@ def main(output):
 
         sample = jdata["sample"]
         compo = jdata["composition"]
-        consensus = jdata["blast"]["consensus"]
+        consensus = jdata["consensus"]
 
         bucket_compo[sample] = compo
         bucket_consensus[sample] = consensus

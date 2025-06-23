@@ -225,20 +225,11 @@ workflow FOODME2 {
     /*
     Reporting sub workflow
     */
-
     REPORTING(
         BLAST_TAXONOMY.out.tax_json,
-        BLAST_TAXONOMY.out.composition,
-        BLAST_TAXONOMY.out.composition_json,
-        ch_trimfil_json,
-        ch_cluster_json,
-        BLAST_TAXONOMY.out.filtered_blast,
-        BLAST_TAXONOMY.out.consensus,
         CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
-        ch_fastp_input_json,
-        ch_fastp_trim_json,
-        ch_template,
-        ch_reporting
+        ch_template, // Quarto template
+        ch_reporting // contains all the sample level reports from upstream
     )
 
     /*

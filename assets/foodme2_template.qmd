@@ -57,7 +57,7 @@ $(document).on('shown.bs.tab', function (event) {
 ```{python}
 #| label: collect-sample-reports
 
-json_files = [pos_json for pos_json in os.listdir('.') if pos_json.endswith('.report.json')]
+json_files = [pos_json for pos_json in os.listdir('.') if pos_json.endswith('.summary.json')]
 ```
 
 # Summary
@@ -66,6 +66,18 @@ json_files = [pos_json for pos_json in os.listdir('.') if pos_json.endswith('.re
 #| label: collect-summary
 
 summary = []
+# sample-level dictionary
+headers = [
+    "Sample",
+    "Status",
+    "Reads total",
+    "Reads Q30 (%)",
+    "Insert size peak",
+    "Reads passing",
+    "Reads filtered",
+    "Reads after clustering",
+    "Chimeric reads"
+    ]
 
 for json_file in json_files:
     with open(json_file) as f:
@@ -102,18 +114,6 @@ for json_file in json_files:
         elif reads_passing < 0.9 * reads_total or reads_after_clustering < 0.9 * reads_passing:
            this_status = "warn"
 
-    # sample-level dictionary
-    headers = [
-        "Sample",
-        "Status",
-        "Reads total",
-        "Reads Q30 (%)",
-        "Insert size peak",
-        "Reads passing",
-        "Reads filtered",
-        "Reads after clustering",
-        "Chimeric reads"
-        ]
     try:
         summary.append([
             sample,
