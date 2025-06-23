@@ -95,9 +95,9 @@ def main(sample, yaml_file, run_name, output):
     matrix = {
         "date": date,
         "sample": sample,
-        "composition": {},
+        "composition": [],
+        "clustering": [],
         "cutadapt": {},
-        "blast": {"filtered": {}, "consensus": {}},
         "versions": versions,
         "run_date": datetime.now().strftime('%Y-%m-%d'),
         "run_name": run_name
