@@ -1,7 +1,6 @@
 include { HELPER_REPORT_XLSX }              from './../../modules/helper/report_xlsx'
 include { HELPER_KRONA_TABLE }              from './../../modules/helper/krona_table'
 include { KRONA_HTML }                      from './../../modules/krona/'
-include { HELPER_SAMPLE_REPORT }            from './../../modules/helper/sample_report'
 include { HELPER_HTML_REPORT }              from './../../modules/helper/html_report'
 include { HELPER_REPORTS_JSON }             from './../../modules/helper/reports_json'
 
