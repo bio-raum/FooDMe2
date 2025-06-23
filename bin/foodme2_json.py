@@ -119,7 +119,9 @@ def main(sample, yaml_file, output):
         elif re.search(".trim.fastp.json", file):
             matrix["fastp"]["trim"] = parse_json(lines)
         elif re.search(".dada_stats.json", file):
-            matrix["dada2"] = parse_json(lines)[sample] # is a dict with the sample name as key, so we need the value for that
+            matrix["dada2"] = parse_json(lines)[sample]
+        elif re.search(".vsearch_stats.json", file):
+            matrix["vsearch"] = parse_json(lines)[sample]
 
     with open(output, "w") as fo:
         json.dump(matrix, fo, indent=4, sort_keys=True)
