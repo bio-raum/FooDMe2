@@ -6,7 +6,7 @@ process HELPER_KRONA_TABLE {
     container 'gregdenay/taxidtools:3.1.0'
 
     input:
-    tuple val(meta), path(table)    // composition table
+    tuple val(meta), path(report)    // composition table
     path(taxonomy)                  // taxonomy json
 
     output:
@@ -18,7 +18,7 @@ process HELPER_KRONA_TABLE {
 
     """
     make_krona_table.py \\
-    --table $table \\
+    --report $report \\
     --tax $taxonomy \\
     --output ${prefix}.txt
 

@@ -225,7 +225,6 @@ workflow FOODME2 {
     /*
     Reporting sub workflow
     */
-    ch_reporting.view()
 
     REPORTING(
         BLAST_TAXONOMY.out.tax_json,

@@ -23,6 +23,7 @@ workflow REPORTING {
 
     main:
 
+    // The sample-level summary JSON
     HELPER_REPORTS_JSON(
         ch_reports.groupTuple(),
         ch_versions
@@ -40,7 +41,7 @@ workflow REPORTING {
 
     // Krona
     HELPER_KRONA_TABLE(
-        ch_compo,
+        HELPER_REPORTS_JSON.out.json,
         ch_tax_json.collect()
     )
 
