@@ -162,5 +162,6 @@ workflow VSEARCH_WORKFLOW {
     emit:
     versions = ch_versions
     otus = VSEARCH_CLUSTER_SIZE.out.fasta
+    stats = HELPER_VSEARCH_STATS.out.json
     qc = ch_qc_files
     }

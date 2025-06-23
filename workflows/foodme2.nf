@@ -170,6 +170,7 @@ workflow FOODME2 {
         )
         ch_versions     = ch_versions.mix(ONT_WORKFLOW.out.versions)
         ch_otus         = ch_otus.mix(ONT_WORKFLOW.out.otus)
+        ch_stats        = ONT_WORKFLOW.out.stats
         ch_trimfil_json = ch_trimfil_json.mix(ONT_WORKFLOW.out.cutadapt_json)
         ch_cluster_json = ch_cluster_json.mix(ONT_WORKFLOW.out.cluster_json)
     // reads are IonTorrent
@@ -180,6 +181,7 @@ workflow FOODME2 {
         )
         ch_versions           = ch_versions.mix(IONTORRENT_WORKFLOW.out.versions)
         ch_otus               = ch_otus.mix(IONTORRENT_WORKFLOW.out.otus)
+        ch_stats              = IONTORRENT_WORKFLOW.out.stats
         ch_fastp_input_json   = ch_fastp_input_json.mix(IONTORRENT_WORKFLOW.out.fastp_json)
         ch_fastp_trim_json    = ch_fastp_trim_json.mix(IONTORRENT_WORKFLOW.out.post_trim_json)
         ch_trimfil_json       = ch_trimfil_json.mix(IONTORRENT_WORKFLOW.out.cutadapt_json)
@@ -192,13 +194,14 @@ workflow FOODME2 {
         )
         ch_versions           = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
         ch_otus               = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
+        ch_stats              = ILLUMINA_WORKFLOW.out.stats
         ch_trimfil_json       = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
         ch_fastp_input_json   = ch_fastp_input_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
         ch_fastp_trim_json    = ch_fastp_trim_json.mix(ILLUMINA_WORKFLOW.out.post_trim_json)
         ch_cluster_json       = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
     }
 
-    ch_reporting = ch_reporting.mix(ch_trimfil_json, ch_cluster_json, ch_fastp_input_json, ch_fastp_trim_json)
+    ch_reporting = ch_reporting.mix(ch_trimfil_json, ch_fastp_input_json, ch_fastp_trim_json, ch_stats)
 
     /*
     SUB: Take each set of OTUs and determine taxonomic composition
@@ -212,7 +215,7 @@ workflow FOODME2 {
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)
-    ch_reporting   = ch_reporting.mix(BLAST_TAXONOMY.out.tax_json, BLAST_TAXONOMY.out.composition, BLAST_TAXONOMY.out.composition_json, BLAST_TAXONOMY.out.filtered_blast, BLAST_TAXONOMY.out.consensus)
+    ch_reporting   = ch_reporting.mix(BLAST_TAXONOMY.out.composition, BLAST_TAXONOMY.out.composition_json, BLAST_TAXONOMY.out.filtered_blast, BLAST_TAXONOMY.out.consensus)
 
     // Create list of software packages used
     CUSTOM_DUMPSOFTWAREVERSIONS(
@@ -222,6 +225,8 @@ workflow FOODME2 {
     /*
     Reporting sub workflow
     */
+    ch_reporting.view()
+
     REPORTING(
         BLAST_TAXONOMY.out.tax_json,
         BLAST_TAXONOMY.out.composition,
@@ -233,7 +238,8 @@ workflow FOODME2 {
         CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
         ch_fastp_input_json,
         ch_fastp_trim_json,
-        ch_template
+        ch_template,
+        ch_reporting
     )
 
     /*

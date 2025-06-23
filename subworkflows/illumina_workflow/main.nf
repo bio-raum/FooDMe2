@@ -27,6 +27,7 @@ workflow ILLUMINA_WORKFLOW {
     multiqc_files   = Channel.from([])
     ch_clusterjsons = Channel.from([])
     ch_otus         = Channel.from([])
+    ch_stats        = Channel.from([])
 
     /*
     Trim illumina reads
@@ -104,6 +105,7 @@ workflow ILLUMINA_WORKFLOW {
             ch_reads_full_trimmed
         )
         ch_otus         = VSEARCH_WORKFLOW.out.otus
+        ch_stats        = VSEARCH_WORKFLOW.out.stats
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(VSEARCH_WORKFLOW.out.qc)
         ch_clusterjsons = VSEARCH_WORKFLOW.out.qc
@@ -112,6 +114,7 @@ workflow ILLUMINA_WORKFLOW {
             ch_reads_full_trimmed
         )
         ch_otus         = DADA2_WORKFLOW.out.otus
+        ch_stats        = DADA2_WORKFLOW.out.stats
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
         multiqc_files   = multiqc_files.mix(DADA2_WORKFLOW.out.qc)
         ch_clusterjsons = DADA2_WORKFLOW.out.qc
@@ -122,6 +125,7 @@ workflow ILLUMINA_WORKFLOW {
     versions       = ch_versions
     qc             = multiqc_files
     cutadapt_json  = CUTADAPT_WORKFLOW.out.qc
+    stats          = ch_stats
     cluster_json   = ch_clusterjsons
     fastp_json     = FASTP_METRICS.out.json
     post_trim_json = FASTP_TRIM.out.json

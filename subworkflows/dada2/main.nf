@@ -107,4 +107,5 @@ workflow DADA2_WORKFLOW {
     otus = HELPER_SEQTABLE_TO_FASTA.out.fasta
     versions = ch_versions
     qc = ch_qc_files
+    stats = HELPER_DADA_STATS.out.json
     }

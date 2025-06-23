@@ -70,7 +70,9 @@ def parse_yaml(lines):
 
         line = line.replace(":", "")
         if re.match(r"^\s+.*", line):
-            tool, version = line.strip().split()
+            elements = line.strip().split(" ")
+            tool = elements.pop(0)
+            version = " ".join(elements)
             data[key][tool] = version
         else:
             key = line.strip()
@@ -116,6 +118,8 @@ def main(sample, yaml_file, output):
             matrix["fastp"]["input"] = parse_json(lines)
         elif re.search(".trim.fastp.json", file):
             matrix["fastp"]["trim"] = parse_json(lines)
+        elif re.search(".dada_stats.json", file):
+            matrix["dada2"] = parse_json(lines)[sample] # is a dict with the sample name as key, so we need the value for that
 
     with open(output, "w") as fo:
         json.dump(matrix, fo, indent=4, sort_keys=True)

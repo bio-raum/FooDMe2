@@ -25,6 +25,7 @@ workflow ONT_WORKFLOW {
 
     ch_versions = Channel.from([])
     ch_qc       = Channel.from([])
+    ch_stats    = Channel.from([])
 
     /*
     Remove Nanopore adapters - or not
@@ -119,6 +120,7 @@ workflow ONT_WORKFLOW {
     versions = ch_versions
     otus = ch_otus
     qc = ch_qc
+    stats = ch_stats
     cutadapt_json = CUTADAPT_WORKFLOW.out.qc
     cluster_json  = ch_clusterjsons
     }

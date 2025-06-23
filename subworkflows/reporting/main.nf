@@ -19,10 +19,14 @@ workflow REPORTING {
     ch_fastp_input_json
     ch_fastp_trim_json
     ch_template  // Quarto template for custom HTML report
+    ch_reports
 
     main:
-    
-    ch_clustering.view()
+
+    HELPER_REPORTS_JSON(
+        ch_reports.groupTuple(),
+        ch_versions
+    )
 
     ch_report = Channel.from([])
     ch_xlsx   = Channel.from([])

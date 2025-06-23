@@ -11,16 +11,16 @@ process HELPER_REPORTS_JSON {
     path(yaml)
 
     output:
-    tuple val(meta), path('*.json') , emit: json
+    tuple val(meta), path('*summary.json') , emit: json
     path 'versions.yml'             , emit: versions
 
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
-    result = prefix + '.json'
+    result = prefix + '.summary.json'
 
     """
-    foodm2_json.py --sample ${meta.sample_id} \
+    foodme2_json.py --sample ${meta.sample_id} \
     --yaml $yaml \\
     $args \
     --output $result
