@@ -33,8 +33,7 @@ workflow REPORTING {
 
     // Excel report
     HELPER_REPORT_XLSX(
-        ch_compo.map { m, t -> t }.collect(),
-        ch_consensus.map { m, t -> t}.collect()
+        HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect()
     )
 
     ch_xlsx = ch_xlsx.mix(HELPER_REPORT_XLSX.out.xlsx)

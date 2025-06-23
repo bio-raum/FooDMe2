@@ -107,7 +107,7 @@ def main(sample, yaml_file, output):
             lines = [line.rstrip() for line in f]
 
         if re.search(".composition.json", file):
-            matrix["composition"] = parse_json(lines)
+            matrix["composition"] = parse_json(lines)[sample]
         elif re.search(".cutadapt_mqc.json", file):
             matrix["cutadapt"] = parse_json(lines)
         elif re.search(".filtered.json", file):

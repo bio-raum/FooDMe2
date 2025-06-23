@@ -8,8 +8,7 @@ process HELPER_REPORT_XLSX {
         'quay.io/biocontainers/pbiotools:4.0.2--pyhdfd78af_0' }"
 
     input:
-    path(reports)   // List of tax ids in blast database
-    path(consensus_jsons)  // Taxid call JSON
+    path(reports)   //summary jsons
 
     output:
     path('*.xlsx')      , emit: xlsx
@@ -27,4 +26,5 @@ process HELPER_REPORT_XLSX {
         python3: \$(python3 --version  | sed -e "s/Python //")
     END_VERSIONS
     """
+
 }

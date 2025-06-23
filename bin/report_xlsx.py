@@ -3,7 +3,6 @@
 
 
 import glob
-import csv
 import argparse
 import json
 from openpyxl import Workbook
@@ -25,17 +24,21 @@ def main(output):
 
     # First sheet is the results per sample ================================
     # Get all the TSV files in this directory
-    reports = sorted(glob.glob("*.tsv"))
-    bucket = {}
+    reports = sorted(glob.glob("*.json"))
+    bucket_compo = {}  # holds the composition info per sample
+    bucket_consensus = {}  # holds the consensus info per sample
 
+    # Read the summary json and get the required data (composition, consensus) per sample
     for report in reports:
-        sample = report.split(".")[0]
-        entries = []
         with open(report) as fd:
-            rd = csv.DictReader(fd, delimiter="\t")
-            for row in rd:
-                entries.append(row)
-        bucket[sample] = entries
+            jdata = json.load(fd)
+
+        sample = jdata["sample"]
+        compo = jdata["composition"]
+        consensus = jdata["blast"]["consensus"]
+
+        bucket_compo[sample] = compo
+        bucket_consensus[sample] = consensus
 
     # start page
     ws = wb.active
@@ -51,7 +54,7 @@ def main(output):
     sample_counter = 0
 
     # Iterate over each sample and get taxonomy assignments
-    for sample in bucket:
+    for sample in bucket_compo:
         if sample != this_sample:
             this_sample = sample
             sample_counter += 1
@@ -60,7 +63,7 @@ def main(output):
         else:
             bgcolor = cb_even
 
-        hits = bucket[sample]
+        hits = bucket_compo[sample]
         for hit in hits:
             row += 1
             name = hit["name"]
@@ -86,12 +89,6 @@ def main(output):
 
     # Get all the JSON files in this directory
     reports = sorted(glob.glob("*.json"))
-    bucket = {}
-    for report in reports:
-        sample = report.split(".")[0]
-        entries = []
-        with open(report) as fd:
-            bucket[sample] = json.load(fd)
 
     # Track cell positions
     row = 0
@@ -103,7 +100,7 @@ def main(output):
     sample_counter = 0
 
     # Iterate over each sample
-    for sample in bucket:
+    for sample in bucket_consensus:
         if sample != this_sample:
             this_sample = sample
             sample_counter += 1
@@ -112,7 +109,7 @@ def main(output):
         else:
             bgcolor = cb_even
 
-        clusters = bucket[sample]
+        clusters = bucket_consensus[sample]
         # iterate over each cluster and report each one
         # Start with the actual call
         for cluster in clusters:
