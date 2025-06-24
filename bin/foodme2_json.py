@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from datetime import datetime
+from pathlib import Path
 import os
 import glob
 import json
@@ -16,8 +17,16 @@ parser.add_argument("--sample", "-s")
 args = parser.parse_args()
 
 
-def parse_json(lines):
+def parse_json(lines, return_adress=None):
+    """
+    return the JSON as dict
+    if return_adress is defined, returns the value at the key adress
+    """
     data = json.loads(" ".join(lines))
+    if return_adress and data:
+        for key in return_adress:
+            data = data[key]
+        return data
     return data
 
 
@@ -63,7 +72,6 @@ def parse_tabular(lines):
 
 
 def parse_yaml(lines):
-
     data = {}
     key = ""
 
@@ -84,46 +92,52 @@ def parse_yaml(lines):
 
 def main(sample, yaml_file, run_name, output):
 
+    # Mapping each JSON section to (json_key, file regex, parsing_function, kwargs)
+    parser_mapper = {
+        "composition": ("composition", ".composition.json", parse_json, {"return_adress": [sample]}),
+        "cutadapt": ("cutadapt", ".cutadapt_mqc.json", parse_json, {"return_adress": ["data", sample]}),
+        "filtered": ("filtered", ".filtered.json", parse_json, None),
+        "consensus": ("consensus", ".consensus.json", parse_json, None),
+        "fastp": ("fastp", ".adaptertrim.fastp.json", parse_json, None),
+        "fastp_trimmed": ("fastp_trimmed", ".trim.fastp.json", parse_json, None),
+        "clustering_dada": ("clustering", ".dada_stats.json", parse_json, {"return_adress": [sample]}),
+        "clustering_vsearch": ("clustering", ".vsearch_stats.json", parse_json, {"return_adress": [sample]}),
+        "versions": ("versions", "versions.yml", parse_yaml, None),
+    }
+
     files = [os.path.abspath(f) for f in glob.glob("*/*")]
+    files.append(yaml_file)
+
     date = datetime.today().strftime('%Y-%m-%d')
-
-    with open(yaml_file, "r") as f:
-        yaml_lines = [line.rstrip() for line in f]
-
-    versions = parse_yaml(yaml_lines)
 
     matrix = {
         "date": date,
         "sample": sample,
-        "composition": [],
-        "clustering": [],
-        "cutadapt": {},
-        "versions": versions,
+        "composition": None,
+        "clustering": None,
+        "cutadapt": None,
+        "versions": None,
         "run_date": datetime.now().strftime('%Y-%m-%d'),
         "run_name": run_name
     }
 
-    for file in files:
+    # Iterating over Path objects
+    for file_path in map(Path, files):
 
-        with open(file, "r") as f:
+        with open(file_path, "r") as f:
             lines = [line.rstrip() for line in f]
 
-        if re.search(".composition.json", file):
-            matrix["composition"] = parse_json(lines)[sample]
-        elif re.search(".cutadapt_mqc.json", file):
-            matrix["cutadapt"] = parse_json(lines)["data"][sample]
-        elif re.search(".filtered.json", file):
-            matrix["filtered"] = parse_json(lines)
-        elif re.search(".consensus.json", file):
-            matrix["consensus"] = parse_json(lines)
-        elif re.search(".adaptertrim.fastp.json", file):
-            matrix["fastp"] = parse_json(lines)
-        elif re.search(".trim.fastp.json", file):
-            matrix["fastp_trimmed"] = parse_json(lines)
-        elif re.search(".dada_stats.json", file):
-            matrix["clustering"] = parse_json(lines)[sample]
-        elif re.search(".vsearch_stats.json", file):
-            matrix["clustering"] = parse_json(lines)[sample]
+        # keep track of matched keys to skip
+        matched_keys = set()
+
+        for k, (json_key, suffix, func, kwargs) in parser_mapper.items():
+            if k in matched_keys:
+                continue
+            if file_path.name.endswith(suffix):
+                kwargs = kwargs or {}
+                matrix[json_key] = func(lines, **kwargs)
+                matched_keys.add(k)
+                break
 
     with open(output, "w") as fo:
         json.dump(matrix, fo, indent=4, sort_keys=True)
