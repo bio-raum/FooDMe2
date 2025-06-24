@@ -14,10 +14,12 @@ workflow REPORTING {
 
     main:
 
+    ch_report = Channel.from([])
+
     // The sample-level summary JSON
     HELPER_REPORTS_JSON(
         ch_reports.groupTuple(),
-        ch_versions
+        ch_versions.collect()
     )
 
     ch_report = Channel.from([])
@@ -44,13 +46,15 @@ workflow REPORTING {
     Write a summary report across all samples using
     a customizable Quarto template
     */
-    HELPER_HTML_REPORT(
-        HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
-        KRONA_HTML.out.html,
-        ch_template,
-    )
+    if (!params.skip_report) {
+        HELPER_HTML_REPORT(
+            HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
+            KRONA_HTML.out.html,
+            ch_template,
+        )
 
-    ch_report = ch_report.mix(HELPER_HTML_REPORT.out.html)
+        ch_report = ch_report.mix(HELPER_HTML_REPORT.out.html)
+    }
 
     emit:
     versions = ch_versions

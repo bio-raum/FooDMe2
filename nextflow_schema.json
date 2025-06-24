@@ -267,7 +267,7 @@
           "type": "boolean",
           "description": "Data is from a Nanopore experiment"
         },
-        "reads_min_q": {
+        "ont_reads_min_q": {
           "type": "integer",
           "default": 20,
           "description": "Minimum quality of ONT reads to allow"
