@@ -5,6 +5,7 @@ include { VSEARCH_FASTXUNIQUES }        from './../../modules/vsearch/fastxuniqu
 include { VSEARCH_SORTBYSIZE }          from './../../modules/vsearch/sortbysize'
 include { VSEARCH_CLUSTER_SIZE }        from './../../modules/vsearch/cluster_size'
 include { VSEARCH_CLUSTER_UNOISE }      from './../../modules/vsearch/unoise'
+include { VSEARCH_DEREPFULL }           from './../../modules/vsearch/derep'
 include { VSEARCH_UCHIME_DENOVO }       from './../../modules/vsearch/uchime/denovo'
 include { HELPER_VSEARCH_STATS }        from './../../modules/helper/vsearch_stats'
 include { HELPER_VSEARCH_MULTIQC }      from './../../modules/helper/vsearch_multiqc'
@@ -27,7 +28,7 @@ workflow VSEARCH_ONT_WORKFLOW {
     */
 
     /*
-    Get unique sequences
+    Dereplicate FastQ reads directly
     */
     VSEARCH_FASTXUNIQUES(
         reads
@@ -42,6 +43,12 @@ workflow VSEARCH_ONT_WORKFLOW {
     )
     ch_versions = ch_versions.mix(VSEARCH_CLUSTER_SIZE.out.versions)
 
+    // Remove OTUs with coverage below theshold
+    VSEARCH_SORTBYSIZE(
+        VSEARCH_CLUSTER_SIZE.out.fasta
+    )
+    ch_versions = ch_versions.mix(VSEARCH_SORTBYSIZE.out.versions)
+
     /*
     Cluster unique sequences
     */
@@ -54,7 +61,7 @@ workflow VSEARCH_ONT_WORKFLOW {
     Detect chimeras denovo and remove from OTU set
     */
     VSEARCH_UCHIME_DENOVO(
-        VSEARCH_CLUSTER_SIZE.out.fasta
+        VSEARCH_SORTBYSIZE.out.fasta
     )
     ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
     ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)

@@ -9,20 +9,20 @@ process VSEARCH_SORTBYSIZE {
         'quay.io/biocontainers/vsearch:2.27.0--h6a68c12_0' }"
 
     input:
-    tuple val(meta), path(fwd)
+    tuple val(meta), path(fasta)
 
     output:
-    tuple val(meta), path(sorted), emit: fastq
+    tuple val(meta), path(sorted), emit: fasta
     path("versions.yml"), emit: versions
 
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: meta.sample_id
 
-    sorted = prefix + '.sorted.fastq'
+    sorted = prefix + '.filtered.fasta'
 
     """
-    vsearch --sortbysize $fwd --output $sorted \
+    vsearch --sortbysize $fasta --output $sorted \
     -relabel ${meta.sample_id}. \
     $args
 
