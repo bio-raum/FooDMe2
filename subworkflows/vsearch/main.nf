@@ -43,6 +43,8 @@ workflow VSEARCH_WORKFLOW {
         unpaired: m.single_end
     }.set { ch_trimmed_reads }
 
+    ch_reporting = ch_trimmed_reads
+
     /*
     Merge PE files
     */
@@ -62,7 +64,7 @@ workflow VSEARCH_WORKFLOW {
         )
         ch_joined_reads = VSEARCH_FASTQJOIN.out.fastq
         ch_versions = ch_versions.mix(VSEARCH_FASTQJOIN.out.versions)
-        ch_reporting = ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }.join(VSEARCH_FASTQJOIN.out.fastq)
+        ch_reporting = ch_reporting.join(VSEARCH_FASTQJOIN.out.fastq)
 
         // Combine merged and joined reads into one fastq file
         // this loses us the meta hash, but we get it back later...
@@ -87,7 +89,7 @@ workflow VSEARCH_WORKFLOW {
             ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }
         )
         ch_versions = ch_versions.mix(VSEARCH_FASTQMERGE.out.versions)
-        ch_reporting = ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }.join(VSEARCH_FASTQMERGE.out.fastq)
+        ch_reporting = ch_reporting.join(VSEARCH_FASTQMERGE.out.fastq)
         ch_merged_reads = VSEARCH_FASTQMERGE.out.fastq
     }
 

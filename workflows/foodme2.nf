@@ -110,7 +110,7 @@ workflow FOODME2 {
     /*
     Set the Quarto template for the HTML report
     */
-    if (ont) {
+    if (params.ont) {
         ch_template = Channel.fromPath("${baseDir}/assets/quarto/foodme2_ONT_template.qmd", checkIfExists: true).collect()
     } else {
         ch_template = Channel.fromPath("${baseDir}/assets/quarto/foodme2_ILM_template.qmd", checkIfExists: true).collect()

@@ -22,7 +22,9 @@ workflow VSEARCH_ONT_WORKFLOW {
     ch_versions = Channel.from([])
     ch_qc_files = Channel.from([])
     ch_reporting = Channel.from([])
+    ch_empty = Channel.from([]) // always empty, used to make the stats moduel work
 
+    ch_reporting = reads
     /*
     Filter reads by size
     */
@@ -69,22 +71,19 @@ workflow VSEARCH_ONT_WORKFLOW {
     /*
     Clustering statistics
     */
+    reads.join(
+        ch_empty, remainder: true
+    ).join(
+        ch_empty, remainder: true
+    ).join(
+        VSEARCH_UCHIME_DENOVO.out.fasta
+    ).set { ch_input_stats }
+    
     HELPER_VSEARCH_STATS(
-        ch_reporting
+        ch_input_stats
     )
-
-    HELPER_VSEARCH_STATS.out.json.map { meta, json ->
-        json
-    }.set { ch_json_nometa }
-
-    /*
-    MultiQC report
-    */
-    HELPER_VSEARCH_MULTIQC(
-        ch_json_nometa.collect()
-    )
-
-    ch_qc_files = ch_qc_files.mix(HELPER_VSEARCH_MULTIQC.out.json)
+    ch_versions = ch_versions.mix(HELPER_VSEARCH_STATS.out.versions)
+    ch_qc_files = ch_qc_files.mix(HELPER_VSEARCH_STATS.out.json)
 
     emit:
     versions = ch_versions
