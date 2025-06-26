@@ -14,6 +14,7 @@ include { NANOPLOT }            from './../../modules/nanoplot'
 include { NANOFILT }            from './../../modules/nanofilt'
 include { CAT_FASTQ }           from './../../modules/cat_fastq'
 include { VSEARCH_ORIENT }      from './../../modules/vsearch/orient'
+include { GUNZIP as GUNZIP_NANOPLOT} from './../../modules/gunzip'
 
 workflow ONT_WORKFLOW {
     take:
@@ -64,7 +65,13 @@ workflow ONT_WORKFLOW {
         ch_ont_trimmed
     )
     ch_versions = ch_versions.mix(NANOPLOT.out.versions)
-    ch_qc = ch_qc.mix(NANOPLOT.out.txt.map { m, t -> t })
+
+    // The TSV output from Nanoplot is gzipped, need it unzipped
+    GUNZIP_NANOPLOT(
+        NANOPLOT.out.tsv
+    )
+    ch_versions = ch_versions.mix(GUNZIP_NANOPLOT.out.versions)
+    ch_qc = ch_qc.mix(GUNZIP_NANOPLOT.out.gunzip)
 
     /*
     SUB: Remove PCR primers using
@@ -102,7 +109,6 @@ workflow ONT_WORKFLOW {
         ch_otus         = VSEARCH_ONT_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(VSEARCH_ONT_WORKFLOW.out.versions)
         ch_qc           = ch_qc.mix(VSEARCH_ONT_WORKFLOW.out.qc)
-        ch_clusterjsons = VSEARCH_ONT_WORKFLOW.out.qc
     } else {
         /*
         SUB: OTU calling with DADA2
@@ -113,7 +119,6 @@ workflow ONT_WORKFLOW {
         ch_otus         = DADA2_WORKFLOW.out.otus
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
         ch_qc           = ch_qc.mix(DADA2_WORKFLOW.out.qc)
-        ch_clusterjsons = DADA2_WORKFLOW.out.qc
     }
 
     emit:
@@ -121,6 +126,4 @@ workflow ONT_WORKFLOW {
     otus = ch_otus
     qc = ch_qc
     stats = ch_stats
-    cutadapt_json = CUTADAPT_WORKFLOW.out.qc
-    cluster_json  = ch_clusterjsons
     }

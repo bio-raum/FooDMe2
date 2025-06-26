@@ -118,10 +118,6 @@ workflow FOODME2 {
     ch_versions          = Channel.from([]) // all version yml files
     ch_otus              = Channel.from([]) // all the OTUs
     ch_consensus         = Channel.from([]) // all consensus
-    ch_trimfil_json      = Channel.from([]) // all cutadapt mqc reports
-    ch_cluster_json      = Channel.from([]) // all clustering mqc reports
-    ch_fastp_input_json  = Channel.from([]) // all FastP Json reports pre trimming
-    ch_fastp_trim_json   = Channel.from([]) // all FastP Json reports pre trimming
 
     /*
     Validate the input samplesheet and
@@ -169,10 +165,8 @@ workflow FOODME2 {
             fasta
         )
         ch_versions     = ch_versions.mix(ONT_WORKFLOW.out.versions)
+        ch_reporting    = ch_reporting.mix(ONT_WORKFLOW.out.qc)
         ch_otus         = ch_otus.mix(ONT_WORKFLOW.out.otus)
-        ch_stats        = ONT_WORKFLOW.out.stats
-        ch_trimfil_json = ch_trimfil_json.mix(ONT_WORKFLOW.out.cutadapt_json)
-        ch_cluster_json = ch_cluster_json.mix(ONT_WORKFLOW.out.cluster_json)
     // reads are IonTorrent
     } else if (params.iontorrent) {
         IONTORRENT_WORKFLOW(
@@ -180,12 +174,8 @@ workflow FOODME2 {
             ch_primers
         )
         ch_versions           = ch_versions.mix(IONTORRENT_WORKFLOW.out.versions)
+        ch_reporting          = ch_reporting.mix(IONTORRENT_WORKFLOW.out.qc)
         ch_otus               = ch_otus.mix(IONTORRENT_WORKFLOW.out.otus)
-        ch_stats              = IONTORRENT_WORKFLOW.out.stats
-        ch_fastp_input_json   = ch_fastp_input_json.mix(IONTORRENT_WORKFLOW.out.fastp_json)
-        ch_fastp_trim_json    = ch_fastp_trim_json.mix(IONTORRENT_WORKFLOW.out.post_trim_json)
-        ch_trimfil_json       = ch_trimfil_json.mix(IONTORRENT_WORKFLOW.out.cutadapt_json)
-        ch_cluster_json       = ch_cluster_json.mix(IONTORRENT_WORKFLOW.out.cluster_json)
     // reads are Illumina (or Illumina-like)
     } else {
         ILLUMINA_WORKFLOW(
@@ -193,15 +183,9 @@ workflow FOODME2 {
             ch_primers
         )
         ch_versions           = ch_versions.mix(ILLUMINA_WORKFLOW.out.versions)
+        ch_reporting          = ch_reporting.mix(ILLUMINA_WORKFLOW.out.qc)
         ch_otus               = ch_otus.mix(ILLUMINA_WORKFLOW.out.otus)
-        ch_stats              = ILLUMINA_WORKFLOW.out.stats
-        ch_trimfil_json       = ch_trimfil_json.mix(ILLUMINA_WORKFLOW.out.cutadapt_json)
-        ch_fastp_input_json   = ch_fastp_input_json.mix(ILLUMINA_WORKFLOW.out.fastp_json)
-        ch_fastp_trim_json    = ch_fastp_trim_json.mix(ILLUMINA_WORKFLOW.out.post_trim_json)
-        ch_cluster_json       = ch_cluster_json.mix(ILLUMINA_WORKFLOW.out.cluster_json)
     }
-
-    ch_reporting = ch_reporting.mix(ch_trimfil_json, ch_fastp_input_json, ch_fastp_trim_json, ch_stats)
 
     /*
     SUB: Take each set of OTUs and determine taxonomic composition

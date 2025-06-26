@@ -15,6 +15,7 @@ process NANOPLOT {
     tuple val(meta), path('*.png') , optional: true, emit: png
     tuple val(meta), path('*.txt')                 , emit: txt
     tuple val(meta), path('*.log')                 , emit: log
+    tuple val(meta), path('*.tsv.gz')              , emit: tsv
     path  'versions.yml'                           , emit: versions
 
     when:
@@ -22,7 +23,7 @@ process NANOPLOT {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.sample_id}"
+    def prefix = task.ext.prefix ?: "${meta.sample_id}.nanoplot"
     def input_file = ("$ontfile".endsWith('.fastq.gz')) ? "--fastq ${ontfile}" :
         ("$ontfile".endsWith('.txt')) ? "--summary ${ontfile}" : ''
     """

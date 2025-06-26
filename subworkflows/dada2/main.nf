@@ -89,7 +89,8 @@ workflow DADA2_WORKFLOW {
     HELPER_DADA_STATS(
         ch_reporting.filter { m, r, f, t -> !m.single_end }
     )
-
+    ch_qc_files = ch_qc_files.mix(HELPER_DADA_STATS.out.json)
+    
     HELPER_DADA_STATS.out.json.map { meta, json ->
         json
     }.set { ch_json_nometa }
@@ -101,7 +102,7 @@ workflow DADA2_WORKFLOW {
         ch_json_nometa.collect()
     )
 
-    ch_qc_files = ch_qc_files.mix(HELPER_DADA_MULTIQC.out.json)
+    //ch_qc_files = ch_qc_files.mix(HELPER_DADA_MULTIQC.out.json)
 
     emit:
     otus = HELPER_SEQTABLE_TO_FASTA.out.fasta

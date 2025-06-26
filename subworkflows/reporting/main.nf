@@ -14,16 +14,14 @@ workflow REPORTING {
 
     main:
 
-    ch_report = Channel.from([])
+    ch_html_report  = Channel.from([])
+    ch_xlsx         = Channel.from([])
 
     // The sample-level summary JSON
     HELPER_REPORTS_JSON(
         ch_reports.groupTuple(),
         ch_versions.collect()
     )
-
-    ch_report = Channel.from([])
-    ch_xlsx   = Channel.from([])
 
     // Excel report
     HELPER_REPORT_XLSX(
@@ -53,11 +51,11 @@ workflow REPORTING {
             ch_template,
         )
 
-        ch_report = ch_report.mix(HELPER_HTML_REPORT.out.html)
+        ch_html_report = ch_html_report.mix(HELPER_HTML_REPORT.out.html)
     }
 
     emit:
     versions = ch_versions
     xlsx     = ch_xlsx
-    report   = ch_report
+    report   = ch_html_report
 }

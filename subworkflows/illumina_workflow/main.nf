@@ -24,10 +24,8 @@ workflow ILLUMINA_WORKFLOW {
     main:
 
     ch_versions     = Channel.from([])
-    multiqc_files   = Channel.from([])
-    ch_clusterjsons = Channel.from([])
     ch_otus         = Channel.from([])
-    ch_stats        = Channel.from([])
+    ch_qc           = Channel.from([])
 
     /*
     Trim illumina reads
@@ -36,8 +34,7 @@ workflow ILLUMINA_WORKFLOW {
         reads
     )
     ch_versions     = ch_versions.mix(FASTP_METRICS.out.versions)
-    multiqc_files   = multiqc_files.mix(FASTP_METRICS.out.json.map { m, j -> j })
-
+    ch_qc           = ch_qc.mix(FASTP_METRICS.out.json)
 
     /*
     Split trimmed reads by sample to find multi-lane data sets
@@ -84,8 +81,8 @@ workflow ILLUMINA_WORKFLOW {
         ch_primers
     )
     ch_versions         = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
-    multiqc_files       = multiqc_files.mix(CUTADAPT_WORKFLOW.out.qc.map { m,j -> j })
     ch_reads_trimmed    = CUTADAPT_WORKFLOW.out.trimmed
+    ch_qc               = ch_qc.mix(CUTADAPT_WORKFLOW.out.qc)
 
     /*
     FASTP quality trimming
@@ -94,8 +91,8 @@ workflow ILLUMINA_WORKFLOW {
         ch_reads_trimmed
     )
     ch_versions             = ch_versions.mix(FASTP_TRIM.out.versions)
-    multiqc_files           = multiqc_files.mix(FASTP_TRIM.out.json.map { m, j -> j })
     ch_reads_full_trimmed   = FASTP_TRIM.out.reads
+    ch_qc                   = ch_qc.mix(FASTP_TRIM.out.json)
 
     /*
     Cluster reads and produce OTUs/ASVs
@@ -105,30 +102,21 @@ workflow ILLUMINA_WORKFLOW {
             ch_reads_full_trimmed
         )
         ch_otus         = VSEARCH_WORKFLOW.out.otus
-        ch_stats        = VSEARCH_WORKFLOW.out.stats
+        ch_qc           = ch_qc.mix(VSEARCH_WORKFLOW.out.stats, VSEARCH_WORKFLOW.out.qc)
         ch_versions     = ch_versions.mix(VSEARCH_WORKFLOW.out.versions)
-        multiqc_files   = multiqc_files.mix(VSEARCH_WORKFLOW.out.qc)
-        ch_clusterjsons = VSEARCH_WORKFLOW.out.qc
     } else {
         DADA2_WORKFLOW(
             ch_reads_full_trimmed
         )
         ch_otus         = DADA2_WORKFLOW.out.otus
-        ch_stats        = DADA2_WORKFLOW.out.stats
+        ch_qc           = ch_qc.mix(DADA2_WORKFLOW.out.qc)
         ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
-        multiqc_files   = multiqc_files.mix(DADA2_WORKFLOW.out.qc)
-        ch_clusterjsons = DADA2_WORKFLOW.out.qc
     }
 
     emit:
     otus           = ch_otus
     versions       = ch_versions
-    qc             = multiqc_files
-    cutadapt_json  = CUTADAPT_WORKFLOW.out.qc
-    stats          = ch_stats
-    cluster_json   = ch_clusterjsons
-    fastp_json     = FASTP_METRICS.out.json
-    post_trim_json = FASTP_TRIM.out.json
+    qc             = ch_qc
 }
 
 /*
