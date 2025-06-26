@@ -72,7 +72,7 @@ headers = [
     "Status",
     "Reads total",
     "Reads Q20 (%)",
-    "Mean read length",
+    "Mean insert size",
     "Reads passing",
     "Reads filtered",
     "Reads after clustering",
@@ -84,7 +84,7 @@ for json_file in json_files:
         jdata = json.load(f)
 
     sample = jdata["sample"]
-    read_mean_length = int(jdata["fastplong"]["summary"]["after_filtering"]["read_mean_length"])
+    insert_size = int(jdata["fastplong_trimmed"]["summary"]["after_filtering"]["read_mean_length"])
     reads_total = int(int(jdata["fastplong"]["summary"]["before_filtering"]["total_reads"])/2)
     q20 = round(float(jdata["fastplong"]["summary"]["before_filtering"]["q20_rate"]),2)*100
     reads_passing = "not implemented"
@@ -122,7 +122,7 @@ for json_file in json_files:
             this_status,
             reads_total,
             q20,
-            read_mean_length,
+            insert_size,
             reads_passing,
             reads_filtered,
             reads_after_clustering,
@@ -135,7 +135,7 @@ for json_file in json_files:
             this_status,
             reads_total,
             q20,
-            read_mean_length,
+            insert_size,
             f"{reads_passing}",
             f"{reads_filtered}",
             f"{reads_after_clustering}",
@@ -210,7 +210,49 @@ Overview of input data quality before any processing.
 
 Insert size estimation of sampled reads.
 
-Not Implemented for ONT!
+::: {.column-screen-inset-right} 
+```{python}
+#| label: prep_insert-size
+
+def get_insert_hist(label):
+    frames = []
+
+    for json_file in json_files:
+        with open(json_file) as f:
+            jdata = json.load(f)
+        sample = jdata["sample"]
+        try:
+            # catch missing data if sample stopped
+            values = sorted(jdata[label]["lengths"])
+            counts = []
+            for x in range(1000):
+                matches = len([v for v in values if v == x])
+                counts.append(matches)
+        except KeyError:
+            sdf = pd.DataFrame(columns=["sample", "size", "count"])
+            frames.append(sdf)
+            continue
+        sdf = pd.DataFrame(
+                list(zip([sample]*len(counts), range(1, len(counts)+1), counts)),
+                columns=["sample", "size", "count"]
+            )
+        frames.append(sdf)
+
+    df = pd.concat([frame for frame in frames if not frame.empty])
+    return df
+
+
+#| label: insert_size_before
+df = get_insert_hist("nanoplot")
+
+fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
+    labels={"size": "Read lengths (bp)", "count": "Read count"},
+    line_shape="spline", template="simple_white")
+fig.update_traces(hovertemplate="%{x}bp: %{y} reads")
+fig.update_layout(hovermode="closest")
+fig.show()
+```
+:::
 
 ## Sequence Quality
 

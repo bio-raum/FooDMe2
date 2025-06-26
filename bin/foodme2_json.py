@@ -16,13 +16,29 @@ parser.add_argument("--sample", "-s")
 
 args = parser.parse_args()
 
+# JSON keys we want to remove since they are too large and unnecessary
+unwanted_keys = [
+    "content_curves",
+    "kmer_count",
+    "quality_curves"
+]
 
+def dict_cleaner(data):
+
+    if not isinstance(data, dict):
+        return data if not isinstance(data, list) else list(map(dict_cleaner, data))
+    return {a:dict_cleaner(b) for a, b in data.items() if a not in unwanted_keys }
+
+    
 def parse_json(lines, return_adress=None):
     """
     return the JSON as dict
     if return_adress is defined, returns the value at the key adress
     """
     data = json.loads(" ".join(lines))
+    
+    data = dict_cleaner(data)
+
     if return_adress and data:
         for key in return_adress:
             data = data[key]

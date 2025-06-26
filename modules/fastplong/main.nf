@@ -35,7 +35,7 @@ process FASTPLONG {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        fastplong: \$(fastplong --version 2>&1 | sed -e "s/fastp //g")
+        fastplong: \$(fastplong -v 2>&1 | sed -e "s/fastplong //g")
     END_VERSIONS
 
     """

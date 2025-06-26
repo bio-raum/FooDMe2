@@ -207,7 +207,7 @@ Overview of input data quality before any processing.
 
 Insert size estimation of sampled reads.
 
-::: {.column-screen-inset-right}
+::: {.column-screen-inset-right} 
 ```{python}
 #| label: prep_insert-size
 

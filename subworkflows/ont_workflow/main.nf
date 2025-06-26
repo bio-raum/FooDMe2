@@ -57,22 +57,7 @@ workflow ONT_WORKFLOW {
     CAT_FASTQ(
         ch_reads_ont.multi
     )
-    ch_ont_trimmed = ch_reads_ont.single.mix(CAT_FASTQ.out.reads)
-
-    /*
-    Plot read quality after trimming
-    */
-    NANOPLOT(
-        ch_ont_trimmed
-    )
-    ch_versions = ch_versions.mix(NANOPLOT.out.versions)
-
-    // The TSV output from Nanoplot is gzipped, need it unzipped
-    GUNZIP_NANOPLOT(
-        NANOPLOT.out.tsv
-    )
-    ch_versions = ch_versions.mix(GUNZIP_NANOPLOT.out.versions)
-    ch_qc = ch_qc.mix(GUNZIP_NANOPLOT.out.gunzip)
+    ch_ont_trimmed = ch_reads_ont.single.mix(CAT_FASTQ.out.reads) 
 
     // Run Fastplong for pre-trimming
     FASTPLONG_METRICS(
@@ -99,6 +84,20 @@ workflow ONT_WORKFLOW {
     ch_versions = ch_versions.mix(FASTPLONG_TRIM.out.versions)
     ch_qc = ch_qc.mix(FASTPLONG_TRIM.out.json)
    
+   /*
+    Plot read quality after trimming
+    */
+    NANOPLOT(
+        FASTPLONG_TRIM.out.reads
+    )
+    ch_versions = ch_versions.mix(NANOPLOT.out.versions)
+
+    // The TSV output from Nanoplot is gzipped, need it unzipped
+    GUNZIP_NANOPLOT(
+        NANOPLOT.out.tsv
+    )
+    ch_versions = ch_versions.mix(GUNZIP_NANOPLOT.out.versions)
+    ch_qc = ch_qc.mix(GUNZIP_NANOPLOT.out.gunzip)
 
     // Warn if a sample has only a few reads left after filtering.
     FASTPLONG_TRIM.out.reads.filter { m, r ->

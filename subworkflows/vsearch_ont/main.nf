@@ -81,8 +81,6 @@ workflow VSEARCH_ONT_WORKFLOW {
     ).join(
         VSEARCH_UCHIME_DENOVO.out.fasta
     ).set { ch_input_stats }
-
-    ch_input_stats.view()
     
     HELPER_VSEARCH_STATS(
         ch_input_stats
