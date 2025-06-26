@@ -11,10 +11,11 @@ Modules
 include { CUTADAPT }            from './../../modules/cutadapt'
 include { PORECHOP_ABI }        from './../../modules/porechop/abi'
 include { NANOPLOT }            from './../../modules/nanoplot'
-include { NANOFILT }            from './../../modules/nanofilt'
 include { CAT_FASTQ }           from './../../modules/cat_fastq'
 include { VSEARCH_ORIENT }      from './../../modules/vsearch/orient'
 include { GUNZIP as GUNZIP_NANOPLOT} from './../../modules/gunzip'
+include { FASTPLONG as FASTPLONG_METRICS } from './../../modules/fastplong'
+include { FASTPLONG as FASTPLONG_TRIM } from './../../modules/fastplong'
 
 workflow ONT_WORKFLOW {
     take:
@@ -73,24 +74,34 @@ workflow ONT_WORKFLOW {
     ch_versions = ch_versions.mix(GUNZIP_NANOPLOT.out.versions)
     ch_qc = ch_qc.mix(GUNZIP_NANOPLOT.out.gunzip)
 
+    // Run Fastplong for pre-trimming
+    FASTPLONG_METRICS(
+        ch_ont_trimmed
+    )
+    ch_qc = ch_qc.mix(FASTPLONG_METRICS.out.json)
+    ch_versions = ch_versions.mix(FASTPLONG_METRICS.out.versions)
+
     /*
     SUB: Remove PCR primers using
     Cutadapt
     */
     CUTADAPT_WORKFLOW(
-        ch_ont_trimmed,
+        FASTPLONG_METRICS.out.reads,
         ch_primers,
     )
     ch_versions = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
     ch_qc       = ch_qc.mix(CUTADAPT_WORKFLOW.out.qc)
 
     // Filter ONT reads
-    NANOFILT(
+    FASTPLONG_TRIM(
         CUTADAPT_WORKFLOW.out.trimmed
     )
+    ch_versions = ch_versions.mix(FASTPLONG_TRIM.out.versions)
+    ch_qc = ch_qc.mix(FASTPLONG_TRIM.out.json)
+   
 
     // Warn if a sample has only a few reads left after filtering.
-    NANOFILT.out.filtreads.filter { m, r ->
+    FASTPLONG_TRIM.out.reads.filter { m, r ->
         r.countFastq() < 100
     }.subscribe { m, r ->
         log.warn "${m.sample_id} - only few or no reads left after filtering."
@@ -98,9 +109,10 @@ workflow ONT_WORKFLOW {
 
     // Make sure reads are consistently oriented
     VSEARCH_ORIENT(
-        NANOFILT.out.filtreads,
+        FASTPLONG_TRIM.out.reads,
         db
     )
+    ch_versions = ch_versions.mix(VSEARCH_ORIENT.out.versions)
 
     if (params.vsearch) {
         VSEARCH_ONT_WORKFLOW(
