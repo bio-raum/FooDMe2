@@ -71,8 +71,8 @@ headers = [
     "Sample",
     "Status",
     "Reads total",
-    "Reads Q30 (%)",
-    "Insert size peak",
+    "Reads Q20 (%)",
+    "Mean read length",
     "Reads passing",
     "Reads filtered",
     "Reads after clustering",
@@ -84,15 +84,23 @@ for json_file in json_files:
         jdata = json.load(f)
 
     sample = jdata["sample"]
-    insert_size = "not implemented"
-    reads_total = "not implemented"
-    q30 = "not implemented"
+    read_mean_length = int(jdata["fastplong"]["summary"]["after_filtering"]["read_mean_length"])
+    reads_total = int(int(jdata["fastplong"]["summary"]["before_filtering"]["total_reads"])/2)
+    q20 = round(float(jdata["fastplong"]["summary"]["before_filtering"]["q20_rate"]),2)*100
     reads_passing = "not implemented"
     reads_filtered = "not implemented"
 
     # Track the sample status
     this_status = "pass"
-    
+    try:
+        reads_passing = int(jdata["fastplong_trimmed"]["summary"]["after_filtering"]["total_reads"])
+        # Count all filtered reads, i.e. primer trimming + quality
+        reads_filtered = reads_total - reads_passing
+    except KeyError:
+        reads_passing = 0
+        reads_filtered = 0
+        this_status = "fail"
+
     try:
         reads_after_clustering = int(jdata["clustering"]["passing"])
         reads_chimera = int(jdata["clustering"]["chimeras"])
@@ -113,8 +121,8 @@ for json_file in json_files:
             sample,
             this_status,
             reads_total,
-            q30,
-            insert_size,
+            q20,
+            read_mean_length,
             reads_passing,
             reads_filtered,
             reads_after_clustering,
@@ -126,8 +134,8 @@ for json_file in json_files:
             sample,
             this_status,
             reads_total,
-            q30,
-            insert_size,
+            q20,
+            read_mean_length,
             f"{reads_passing}",
             f"{reads_filtered}",
             f"{reads_after_clustering}",
@@ -154,7 +162,7 @@ ttips = pd.DataFrame(
     {
         "Status": "The overall analysis status: pass: ok to use, warn: potential issues found, fail: most probably not usable",
         "Reads total": "The number of reads before any processing",
-        "Reads Q30 (%)": "Fraction of input reads >= Q30",
+        "Reads Q20 (%)": "Fraction of input reads >= Q20",
         "Insert size peak": "The peak insert size",
         "Reads passing": "The number of reads passing the primer and quality trimming",
         "Reads filtered": "The number of reads not passing the primer and quality trimming",

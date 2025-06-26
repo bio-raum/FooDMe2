@@ -2,6 +2,7 @@
 Include Modules
 */
 include { VSEARCH_FASTXUNIQUES }        from './../../modules/vsearch/fastxuniques'
+include { VSEARCH_FASTQFILTER }         from './../../modules/vsearch/fastqfilter'
 include { VSEARCH_SORTBYSIZE }          from './../../modules/vsearch/sortbysize'
 include { VSEARCH_CLUSTER_SIZE }        from './../../modules/vsearch/cluster_size'
 include { VSEARCH_CLUSTER_UNOISE }      from './../../modules/vsearch/unoise'
@@ -26,14 +27,16 @@ workflow VSEARCH_ONT_WORKFLOW {
 
     ch_reporting = reads
     /*
-    Filter reads by size
+    Filter reads
     */
-
+    VSEARCH_FASTQFILTER(
+        reads
+    )
     /*
     Dereplicate FastQ reads directly
     */
     VSEARCH_FASTXUNIQUES(
-        reads
+        VSEARCH_FASTQFILTER.out.fasta
     )
     ch_versions = ch_versions.mix(VSEARCH_FASTXUNIQUES.out.versions)
 
@@ -74,10 +77,12 @@ workflow VSEARCH_ONT_WORKFLOW {
     reads.join(
         ch_empty, remainder: true
     ).join(
-        ch_empty, remainder: true
+        VSEARCH_FASTQFILTER.out.fasta
     ).join(
         VSEARCH_UCHIME_DENOVO.out.fasta
     ).set { ch_input_stats }
+
+    ch_input_stats.view()
     
     HELPER_VSEARCH_STATS(
         ch_input_stats
