@@ -73,7 +73,9 @@ def parse_tabular(lines):
 
 def parse_nanoplot(lines):
 
-    data = { "quals": [], "length": []}
+    data = { "quals": [], "lengths": []}
+
+    header = lines.pop(0)
 
     for line in lines:
         elements = line.split("\t")
@@ -82,15 +84,6 @@ def parse_nanoplot(lines):
 
         data["quals"].append(qual)
         data["lengths"].append(len)
-
-    all_len = sorted(data["lengths"], reverse=True)
-    all_sum = sum(sorted)
-    all_mean =float(all_sum/2)
-    c = next(x for x in all_len if x >= all_mean )
-    idx = all_len.index(c)
-    n50 = sum(all_len[:idx])
-
-    data["n50"] = n50
 
     return data
 
@@ -126,7 +119,7 @@ def main(sample, yaml_file, run_name, output):
         "fastp_trimmed": ("fastp_trimmed", ".trim.fastp.json", parse_json, None),
         "clustering_dada": ("clustering", ".dada_stats.json", parse_json, {"return_adress": [sample]}),
         "clustering_vsearch": ("clustering", ".vsearch_stats.json", parse_json, {"return_adress": [sample]}),
-        "nanoplot": ("nanoplot",".nanoplot.tsv", parse_nanoplot, {"return_address": [sample]}),
+        "nanoplot": ("nanoplot",".nanoplot.tsv", parse_nanoplot, None),
         "versions": ("versions", "versions.yml", parse_yaml, None),
     }
 

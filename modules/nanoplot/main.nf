@@ -33,6 +33,7 @@ process NANOPLOT {
         $input_file
 
     mv NanoStats.txt ${prefix}.txt
+    mv NanoPlot-data.tsv.gz ${prefix}.tsv.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
