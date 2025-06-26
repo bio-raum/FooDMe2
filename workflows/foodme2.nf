@@ -108,9 +108,13 @@ workflow FOODME2 {
     ch_blocklist        = Channel.fromPath(params.blocklist, checkIfExists: true)
 
     /*
-    Set the Jinja template for the HTML report
+    Set the Quarto template for the HTML report
     */
-    ch_template         = Channel.fromPath(params.template, checkIfExists: true).collect()
+    if (ont) {
+        ch_template = Channel.fromPath("${baseDir}/assets/quarto/foodme2_ONT_template.qmd", checkIfExists: true).collect()
+    } else {
+        ch_template = Channel.fromPath("${baseDir}/assets/quarto/foodme2_ILM_template.qmd", checkIfExists: true).collect()
+    }
 
     /*
     Setting default channels
