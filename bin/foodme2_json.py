@@ -89,17 +89,21 @@ def parse_tabular(lines):
 
 def parse_nanoplot(lines):
 
-    data = { "quals": [], "lengths": []}
+    # We only need a histogram
+    data = {"histogram": []}
 
     header = lines.pop(0)
-
+    nano_lengths = []
     for line in lines:
         elements = line.split("\t")
         qual = round(float(elements[0]),2)
-        len = int(elements[1])
+        length = int(elements[1])
+        nano_lengths.append(length)
 
-        data["quals"].append(qual)
-        data["lengths"].append(len)
+    # render a histogram up to 1000bp
+    for xval in range(1000):
+        m = len([val for val in nano_lengths if val == xval])
+        data["histogram"].append(m)
 
     return data
 
@@ -137,7 +141,8 @@ def main(sample, yaml_file, run_name, output):
         "fastplong_trimmed": ("fastplong_trimmed", ".trim.fastplong.json", parse_json, None),
         "clustering_dada": ("clustering", ".dada_stats.json", parse_json, {"return_adress": [sample]}),
         "clustering_vsearch": ("clustering", ".vsearch_stats.json", parse_json, {"return_adress": [sample]}),
-        "nanoplot": ("nanoplot",".nanoplot.tsv", parse_nanoplot, None),
+        "nanoplot": ("nanoplot",".nanoplot.adaptertrim.tsv", parse_nanoplot, None),
+        "nanoplot_trimmed": ("nanoplot_trimmed",".nanoplot.trim.tsv", parse_nanoplot, None),
         "versions": ("versions", "versions.yml", parse_yaml, None),
     }
 

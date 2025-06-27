@@ -23,7 +23,8 @@ process NANOPLOT {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.sample_id}.nanoplot"
+    def suffix = task.ext.suffix ? task.ext.suffix : "nanoplot"
+    def prefix = task.ext.prefix ?: "${meta.sample_id}"
     def input_file = ("$ontfile".endsWith('.fastq.gz')) ? "--fastq ${ontfile}" :
         ("$ontfile".endsWith('.txt')) ? "--summary ${ontfile}" : ''
     """
@@ -32,8 +33,8 @@ process NANOPLOT {
         -t $task.cpus \\
         $input_file
 
-    mv NanoStats.txt ${prefix}.txt
-    mv NanoPlot-data.tsv.gz ${prefix}.tsv.gz
+    mv NanoStats.txt ${prefix}.nanoplot.${suffix}.txt
+    mv NanoPlot-data.tsv.gz ${prefix}.nanoplot.${suffix}.tsv.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

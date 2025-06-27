@@ -10,10 +10,12 @@ Modules
 */
 include { CUTADAPT }            from './../../modules/cutadapt'
 include { PORECHOP_ABI }        from './../../modules/porechop/abi'
-include { NANOPLOT }            from './../../modules/nanoplot'
+include { NANOPLOT as NANOPLOT_ADAPTER } from './../../modules/nanoplot'
+include { NANOPLOT as NANOPLOT_TRIM } from './../../modules/nanoplot'
 include { CAT_FASTQ }           from './../../modules/cat_fastq'
 include { VSEARCH_ORIENT }      from './../../modules/vsearch/orient'
-include { GUNZIP as GUNZIP_NANOPLOT} from './../../modules/gunzip'
+include { GUNZIP as GUNZIP_NANOPLOT_ADAPTER } from './../../modules/gunzip'
+include { GUNZIP as GUNZIP_NANOPLOT_TRIM } from './../../modules/gunzip'
 include { FASTPLONG as FASTPLONG_METRICS } from './../../modules/fastplong'
 include { FASTPLONG as FASTPLONG_TRIM } from './../../modules/fastplong'
 
@@ -66,6 +68,18 @@ workflow ONT_WORKFLOW {
     ch_qc = ch_qc.mix(FASTPLONG_METRICS.out.json)
     ch_versions = ch_versions.mix(FASTPLONG_METRICS.out.versions)
 
+    // get metric
+    NANOPLOT_ADAPTER(
+        FASTPLONG_METRICS.out.reads
+    )
+    ch_versions = ch_versions.mix(NANOPLOT_ADAPTER.out.versions)
+
+    GUNZIP_NANOPLOT_ADAPTER(
+        NANOPLOT_ADAPTER.out.tsv
+    )
+    ch_qc = ch_qc.mix(GUNZIP_NANOPLOT_ADAPTER.out.gunzip)
+    ch_versions = ch_versions.mix(GUNZIP_NANOPLOT_ADAPTER.out.versions)
+    
     /*
     SUB: Remove PCR primers using
     Cutadapt
@@ -87,17 +101,17 @@ workflow ONT_WORKFLOW {
    /*
     Plot read quality after trimming
     */
-    NANOPLOT(
+    NANOPLOT_TRIM(
         FASTPLONG_TRIM.out.reads
     )
-    ch_versions = ch_versions.mix(NANOPLOT.out.versions)
+    ch_versions = ch_versions.mix(NANOPLOT_TRIM.out.versions)
 
     // The TSV output from Nanoplot is gzipped, need it unzipped
-    GUNZIP_NANOPLOT(
-        NANOPLOT.out.tsv
+    GUNZIP_NANOPLOT_TRIM(
+        NANOPLOT_TRIM.out.tsv
     )
-    ch_versions = ch_versions.mix(GUNZIP_NANOPLOT.out.versions)
-    ch_qc = ch_qc.mix(GUNZIP_NANOPLOT.out.gunzip)
+    ch_versions = ch_versions.mix(GUNZIP_NANOPLOT_TRIM.out.versions)
+    ch_qc = ch_qc.mix(GUNZIP_NANOPLOT_TRIM.out.gunzip)
 
     // Warn if a sample has only a few reads left after filtering.
     FASTPLONG_TRIM.out.reads.filter { m, r ->

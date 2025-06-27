@@ -237,7 +237,7 @@ def get_insert_hist(fastp_label):
 :::
 
 ::: {.panel-tabset .column-screen-inset-right}
-
+ 
 ### Before trimming
 
 ```{python}
