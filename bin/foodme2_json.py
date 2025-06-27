@@ -20,7 +20,7 @@ args = parser.parse_args()
 unwanted_keys = [
     "content_curves",
     "kmer_count",
-    "quality_curves"
+    # "quality_curves",
 ]
 
 def dict_cleaner(data):

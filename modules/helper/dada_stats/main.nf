@@ -22,7 +22,6 @@ process HELPER_DADA_STATS {
     """
     #!/usr/bin/env Rscript
     suppressPackageStartupMessages(library(dada2))
-    suppressPackageStartupMessages(library(R.utils))
     
     count_fastq_records <- function(file_path) {
         cmd <- paste("zcat", shQuote(file_path), "| wc -l")

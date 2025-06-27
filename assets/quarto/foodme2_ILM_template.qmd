@@ -65,6 +65,8 @@ json_files = [pos_json for pos_json in os.listdir('.') if pos_json.endswith('.su
 ```{python}
 #| label: collect-summary
 
+summary = []
+
 for json_file in json_files:
     with open(json_file) as f:
         jdata = json.load(f)
@@ -107,18 +109,12 @@ for json_file in json_files:
         elif reads_passing < 0.9 * reads_total or reads_after_clustering < 0.9 * reads_passing:
            this_status = "warn"
 
-    summary = []
-
-
-    insert_size_label = ["", "Read length", "Insert size peak"]
-    insert_size_ttip = ["", "The mean of read lengths", "The peak insert size"]
-
     headers = [
         "Sample",
         "Status",
         "Reads total",
         "Reads Q30 (%)",
-        insert_size_label[read_config],
+        "Insert size peak",
         "Reads passing",
         "Reads filtered",
         "Reads after clustering",
@@ -151,6 +147,8 @@ for json_file in json_files:
         ])
 
 df = pd.DataFrame(summary, columns=headers).sort_values(by=["Sample"], ignore_index=True)
+if read_config == 1:
+    df = df.rename(columns={"Insert size peak": "Read length"})
 ```
 
 ::: {.column-screen-inset-right}
@@ -166,12 +164,19 @@ def color_status(val):
         color = "lightcoral"
     return f"background-color: {color}"
 
+if read_config == 1:
+    insert_name = "Read length"
+    insert_ttip = "The mean of read lengths"
+else:
+    insert_name = "Insert size peak"
+    insert_ttip = "The peak insert size"
+
 ttips = pd.DataFrame(
     {
         "Status": "The overall analysis status: pass: ok to use, warn: potential issues found, fail: most probably not usable",
         "Reads total": "The number of reads before any processing",
         "Reads Q30 (%)": "Fraction of input reads >= Q30",
-        insert_size_label[reads_passing]: insert_size_ttip[reads_passing],
+        insert_name: insert_ttip,
         "Reads passing": "The number of reads passing the primer and quality trimming",
         "Reads filtered": "The number of reads not passing the primer and quality trimming",
         "Reads after clustering": "The number of reads remaining after clustering",
@@ -214,14 +219,7 @@ IFrame(src=krona[0], width="100%", height="500px")
 
 Overview of input data quality before any processing.
 
-## Insert size distribution
-
-Insert size estimation of sampled reads.
-
-::: {.column-screen-inset-right} 
 ```{python}
-#| label: prep_insert-size
-
 def get_insert_hist(fastp_label):
     frames = []
 
@@ -245,44 +243,66 @@ def get_insert_hist(fastp_label):
     df = pd.concat([frame for frame in frames if not frame.empty])
     return df
 ```
-:::
+
+
+## Insert size distribution
+
+Insert size estimation of sampled reads.
+
+```{python}
+#| output: asis
+# Skip this if single end
+if read_config == 1:
+    print("Not possible for single-end sequencing data.")
+```
 
 ::: {.panel-tabset .column-screen-inset-right}
- 
-### Before trimming
 
 ```{python}
-#| label: insert_size_before
-df = get_insert_hist("fastp")
-
-fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
-    labels={"size": "Insert size (bp)", "count": "Read count"},
-    line_shape="spline", template="simple_white")
-fig.update_traces(hovertemplate="%{x}bp: %{y} reads")
-fig.update_layout(hovermode="closest")
-fig.show()
+#| output: asis
+# Skip this if single end
+if read_config == 2:
+    print("### Before trimming")
 ```
-
-### After trimming
 
 ```{python}
-#| label: insert_size_fater
-df = get_insert_hist("fastp_trimmed")
+if read_config == 2:
+    df = get_insert_hist("fastp")
 
-fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
-    labels={"size": "Insert size (bp)", "count": "Read count"},
-    line_shape="spline", template="simple_white")
-fig.update_traces(hovertemplate="%{x}bp: %{y} reads")
-fig.update_layout(hovermode="closest")
-fig.show()
+    fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
+        labels={"size": "Insert size (bp)", "count": "Read count"},
+        line_shape="spline", template="simple_white")
+    fig.update_traces(hovertemplate="%{x}bp: %{y} reads")
+    fig.update_layout(hovermode="closest")
+    fig.show()
 ```
+
+```{python}
+#| output: asis
+# Skip this if single end
+if read_config == 2:
+    print("### After trimming")
+```
+
+```{python}
+if read_config == 2:
+    df = get_insert_hist("fastp_trimmed")
+
+    fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
+        labels={"size": "Insert size (bp)", "count": "Read count"},
+        line_shape="spline", template="simple_white")
+    fig.update_traces(hovertemplate="%{x}bp: %{y} reads")
+    fig.update_layout(hovermode="closest")
+    fig.show()
+```
+
 :::
 
 ## Sequence Quality
 
 Average sequencing quality over each base of all reads.
 
-::: {.column-screen-inset-right}
+
 ```{python}
 #| label: prep-read_quality
 
@@ -309,7 +329,6 @@ def get_qual(fastp_label, read_label):
     df = pd.concat([frame for frame in frames if not frame.empty])
     return df
 ```
-:::
 
 ::: {.panel-tabset .column-screen-inset-right}
 
@@ -343,34 +362,44 @@ fig.update_layout(hovermode="closest")
 fig.show()
 ```
 
-### Read2: Before filtering
-
 ```{python}
-#| label: read2_before
-
-df = get_qual("fastp", "read2_before_filtering")
-
-fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
-    labels={"position": "Read position", "qual": "Sequence quality"},
-    line_shape="spline", template="simple_white")
-fig.update_traces(hovertemplate="#%{x}: %{y}")
-fig.update_layout(hovermode="closest")
-fig.show()
+#| output: asis
+# Skip this if single end
+if read_config == 2:
+    print("### Read2: Before filtering")
 ```
 
-### Read2: After filtering
+```{python}
+# Skip this if single end
+if read_config == 2:
+    df = get_qual("fastp", "read2_before_filtering")
+
+    fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
+        labels={"position": "Read position", "qual": "Sequence quality"},
+        line_shape="spline", template="simple_white")
+    fig.update_traces(hovertemplate="#%{x}: %{y}")
+    fig.update_layout(hovermode="closest")
+    fig.show()
+```
 
 ```{python}
-#| label: read2_after
+#| output: asis
+# Skip this if single end
+if read_config == 2:
+    print("### Read2: After filtering")
+```
 
-df = get_qual("fastp_trimmed", "read2_after_filtering")
+```
+# Skip this if single end
+if read_config == 2:
+    df = get_qual("fastp_trimmed", "read2_after_filtering")
 
-fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
-    labels={"position": "Read position", "qual": "Sequence quality"},
-    line_shape="spline", template="simple_white")
-fig.update_traces(hovertemplate="#%{x}: %{y}")
-fig.update_layout(hovermode="closest")
-fig.show()
+    fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
+        labels={"position": "Read position", "qual": "Sequence quality"},
+        line_shape="spline", template="simple_white")
+    fig.update_traces(hovertemplate="#%{x}: %{y}")
+    fig.update_layout(hovermode="closest")
+    fig.show()
 ```
 
 :::
