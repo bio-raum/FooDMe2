@@ -11,10 +11,8 @@ process NANOPLOT {
     tuple val(meta), path(ontfile)
 
     output:
-    tuple val(meta), path('*.html')                , emit: html
-    tuple val(meta), path('*.png') , optional: true, emit: png
+    tuple val(meta), path("output_*")              , emit: results
     tuple val(meta), path('*.txt')                 , emit: txt
-    tuple val(meta), path('*.log')                 , emit: log
     tuple val(meta), path('*.tsv.gz')              , emit: tsv
     path  'versions.yml'                           , emit: versions
 
@@ -29,12 +27,13 @@ process NANOPLOT {
         ("$ontfile".endsWith('.txt')) ? "--summary ${ontfile}" : ''
     """
     NanoPlot \\
+        -o output_${suffix} \\
         $args \\
         -t $task.cpus \\
         $input_file
 
-    mv NanoStats.txt ${prefix}.nanoplot.${suffix}.txt
-    mv NanoPlot-data.tsv.gz ${prefix}.nanoplot.${suffix}.tsv.gz
+    mv output_${suffix}/NanoStats.txt ${prefix}.nanoplot.${suffix}.txt
+    mv output_${suffix}/NanoPlot-data.tsv.gz ${prefix}.nanoplot.${suffix}.tsv.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
