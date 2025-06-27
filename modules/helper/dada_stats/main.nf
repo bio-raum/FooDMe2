@@ -18,7 +18,6 @@ process HELPER_DADA_STATS {
     def prefix = task.ext.prefix ?: meta.sample_id
     def sample_id = meta.sample_id
     def reads_in = meta.single_end ? "$reads" : "${reads[0]}"
-    def merge_opt = mergers ? "$merged" : ""
 
     """
     #!/usr/bin/env Rscript
