@@ -29,7 +29,9 @@ workflow DADA2_WORKFLOW {
     )
     ch_filtered_reads = ch_filtered_reads.mix(DADA2_FILTNTRIM.out.filtered_reads)
     ch_versions = ch_versions.mix(DADA2_FILTNTRIM.out.versions)
-
+    
+    ch_reporting = ch_filtered_reads
+    
     /*
     DADA2 Error model calculation
     */
