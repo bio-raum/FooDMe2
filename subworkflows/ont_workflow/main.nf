@@ -42,14 +42,13 @@ workflow ONT_WORKFLOW {
             reads
         )
         ch_versions         = ch_versions.mix(PORECHOP_ABI.out.versions)
-        ch_qc               = ch_qc.mix(PORECHOP_ABI.out.log.map { m, l -> l })
-        ch_trimmed_reads    = PORECHOP_ABI.out.reads
+        ch_trimmed_reads    = PORECHOP_ABI.out.reads.map { m,r -> [ m, [ r]]}
     }
-
     /*
     Merge reads by sample
     */
-    ch_trimmed_reads.groupTuple().branch { meta, fastq ->
+    
+    ch_trimmed_reads.groupTuple(by: 0).branch { meta, fastq ->
         single: fastq.size() == 1
             return [ meta, fastq.flatten()]
         multi: fastq.size() > 1
@@ -112,7 +111,7 @@ workflow ONT_WORKFLOW {
     )
     ch_versions = ch_versions.mix(GUNZIP_NANOPLOT_TRIM.out.versions)
     ch_qc = ch_qc.mix(GUNZIP_NANOPLOT_TRIM.out.gunzip)
-
+        
     // Warn if a sample has only a few reads left after filtering.
     FASTPLONG_TRIM.out.reads.filter { m, r ->
         r.countFastq() < 100

@@ -15,7 +15,7 @@ workflow DADA2_WORKFLOW {
 
     ch_versions = Channel.from([])
     ch_qc_files = Channel.from([])
-    ch_stat_reports = Channel.from([]) // holts the meta-key specific reports in the correct order for stats to be computed
+    ch_stat_reports = Channel.from([]) // holds the meta-key specific reports in the correct order for stats to be computed
     ch_asvs = Channel.from([])
     ch_seqtab = Channel.from([])
     ch_filtered_reads = Channel.from([])
@@ -92,11 +92,6 @@ workflow DADA2_WORKFLOW {
     )
     ch_versions = ch_versions.mix(HELPER_DADA_STATS.out.versions)
     ch_qc_files = ch_qc_files.mix(HELPER_DADA_STATS.out.json)
-    
-    HELPER_DADA_STATS.out.json.map { meta, json ->
-        json
-    }.set { ch_json_nometa }
-
 
     emit:
     otus = HELPER_SEQTABLE_TO_FASTA.out.fasta

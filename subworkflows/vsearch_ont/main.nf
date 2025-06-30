@@ -27,7 +27,7 @@ workflow VSEARCH_ONT_WORKFLOW {
 
     ch_reporting = reads
     /*
-    Filter reads
+    Filter reads - this doesn't do much but is needed for compatibility across platforms
     */
     VSEARCH_FASTQFILTER(
         reads
