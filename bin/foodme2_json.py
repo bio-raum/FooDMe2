@@ -23,20 +23,20 @@ unwanted_keys = [
     # "quality_curves",
 ]
 
-def dict_cleaner(data):
 
+def dict_cleaner(data):
     if not isinstance(data, dict):
         return data if not isinstance(data, list) else list(map(dict_cleaner, data))
-    return {a:dict_cleaner(b) for a, b in data.items() if a not in unwanted_keys }
+    return {a: dict_cleaner(b) for a, b in data.items() if a not in unwanted_keys}
 
-    
+
 def parse_json(lines, return_adress=None):
     """
     return the JSON as dict
     if return_adress is defined, returns the value at the key adress
     """
     data = json.loads(" ".join(lines))
-    
+
     data = dict_cleaner(data)
 
     if return_adress and data:
@@ -92,11 +92,11 @@ def parse_nanoplot(lines):
     # We only need a histogram
     data = {"histogram": []}
 
-    header = lines.pop(0)
+    # header = lines.pop(0)
     nano_lengths = []
     for line in lines:
         elements = line.split("\t")
-        qual = round(float(elements[0]),2)
+        # qual = round(float(elements[0]), 2)
         length = int(elements[1])
         nano_lengths.append(length)
 
@@ -141,8 +141,8 @@ def main(sample, yaml_file, run_name, output):
         "fastplong_trimmed": ("fastplong_trimmed", ".trim.fastplong.json", parse_json, None),
         "clustering_dada": ("clustering", ".dada_stats.json", parse_json, {"return_adress": [sample]}),
         "clustering_vsearch": ("clustering", ".vsearch_stats.json", parse_json, {"return_adress": [sample]}),
-        "nanoplot": ("nanoplot",".nanoplot.adaptertrim.tsv", parse_nanoplot, None),
-        "nanoplot_trimmed": ("nanoplot_trimmed",".nanoplot.trim.tsv", parse_nanoplot, None),
+        "nanoplot": ("nanoplot", ".nanoplot.adaptertrim.tsv", parse_nanoplot, None),
+        "nanoplot_trimmed": ("nanoplot_trimmed", ".nanoplot.trim.tsv", parse_nanoplot, None),
         "versions": ("versions", "versions.yml", parse_yaml, None),
     }
 
