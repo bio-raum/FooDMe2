@@ -74,7 +74,7 @@ workflow FOODME2 {
                 database    = params.db
                 // Check if that database is configured
                 blast_db    = set_blast_db(database)
-                fasta       = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+                fasta       = params.references.databases[database].fasta ? file(params.references.databases[database].fasta, checkIfExists: true) : null
                 version     = params.references.databases[database].version
             // Or allow users to provide their own database
             } else if (params.blast_db) {

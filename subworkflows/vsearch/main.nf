@@ -27,13 +27,14 @@ workflow VSEARCH_WORKFLOW {
     ch_qc_files = Channel.from([])
     ch_reporting = Channel.from([])
 
+
     /*
     Quality filtr fastq prior to merging
     */
     VSEARCH_FASTQFILTER_READS(
         reads
     )
-
+    ch_reporting = VSEARCH_FASTQFILTER_READS.out.reads // need this over the raw reads because it has already been unpacked
     /*
     Find paired-end files
     TODO: Deal with unpaired files
@@ -43,8 +44,7 @@ workflow VSEARCH_WORKFLOW {
         unpaired: m.single_end
     }.set { ch_trimmed_reads }
 
-    ch_reporting = ch_trimmed_reads
-
+    
     /*
     Merge PE files
     */
@@ -62,9 +62,10 @@ workflow VSEARCH_WORKFLOW {
         VSEARCH_FASTQJOIN(
             VSEARCH_FASTQMERGE_FOR_JOIN.out.unmerged_reads
         )
+
         ch_joined_reads = VSEARCH_FASTQJOIN.out.fastq
         ch_versions = ch_versions.mix(VSEARCH_FASTQJOIN.out.versions)
-        ch_reporting = ch_reporting.join(VSEARCH_FASTQJOIN.out.fastq)
+        //ch_reporting = ch_reporting.join(VSEARCH_FASTQJOIN.out.fastq)
 
         // Combine merged and joined reads into one fastq file
         // this loses us the meta hash, but we get it back later...
@@ -89,7 +90,6 @@ workflow VSEARCH_WORKFLOW {
             ch_trimmed_reads.paired.map { m, r -> [m, r[0], r[1]] }
         )
         ch_versions = ch_versions.mix(VSEARCH_FASTQMERGE.out.versions)
-        ch_reporting = ch_reporting.join(VSEARCH_FASTQMERGE.out.fastq)
         ch_merged_reads = VSEARCH_FASTQMERGE.out.fastq
     }
 
@@ -98,6 +98,8 @@ workflow VSEARCH_WORKFLOW {
     we now have [ meta, fastq ]
     */
     ch_merged_reads = ch_merged_reads.mix(ch_trimmed_reads.unpaired)
+
+    ch_reporting = ch_reporting.join(ch_merged_reads, remainder: true) // add to reporting for vsearch stats, single-end reads will yield null here
 
     /*
     Filter merged reads using static parameters
@@ -143,24 +145,14 @@ workflow VSEARCH_WORKFLOW {
 
     /*
     Clustering statistics
+    Input should be: [meta, fastq, merged, filtered, nonchimera]
+    merged may be null for single-end reads
     */
     HELPER_VSEARCH_STATS(
         ch_reporting
     )
-
-    HELPER_VSEARCH_STATS.out.json.map { meta, json ->
-        json
-    }.set { ch_json_nometa }
-
-    /*
-    MultiQC report
-    */
-    HELPER_VSEARCH_MULTIQC(
-        ch_json_nometa.collect()
-    )
-
-    ch_qc_files = ch_qc_files.mix(HELPER_VSEARCH_MULTIQC.out.json)
-
+    ch_qc_files = ch_qc_files.mix(HELPER_VSEARCH_STATS.out.json)
+    
     emit:
     versions = ch_versions
     otus = VSEARCH_CLUSTER_SIZE.out.fasta
