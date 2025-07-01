@@ -12,7 +12,6 @@ include { VSEARCH_CLUSTER_SIZE  }       from './../../modules/vsearch/cluster_si
 include { VSEARCH_CLUSTER_UNOISE }      from './../../modules/vsearch/unoise'
 include { VSEARCH_UCHIME_DENOVO }       from './../../modules/vsearch/uchime/denovo'
 include { HELPER_VSEARCH_STATS }        from './../../modules/helper/vsearch_stats'
-include { HELPER_VSEARCH_MULTIQC }      from './../../modules/helper/vsearch_multiqc'
 
 workflow VSEARCH_WORKFLOW {
     take:
@@ -25,7 +24,7 @@ workflow VSEARCH_WORKFLOW {
     */
     ch_versions = Channel.from([])
     ch_qc_files = Channel.from([])
-    ch_reporting = Channel.from([])
+    ch_reporting = Channel.from([]) // will hold: [ meta, fastq, merged, filtered, nonchim]
 
 
     /*
