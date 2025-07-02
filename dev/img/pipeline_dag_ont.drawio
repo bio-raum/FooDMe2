@@ -354,8 +354,8 @@
         <mxCell id="oSnhApYu1jm-mwv137wQ-59" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B3B3B3;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="-103" y="-66" width="613" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="oSnhApYu1jm-mwv137wQ-4" value="IonTorrent Workflow" style="whiteSpace=wrap;html=1;fontFamily=Maven Pro;fontSize=37;fontStyle=1;horizontal=1;fillColor=none;strokeColor=none;fontColor=#ffffff;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DMaven%2BPro;" vertex="1" parent="1">
-          <mxGeometry x="-126" y="-75" width="460" height="80" as="geometry" />
+        <mxCell id="oSnhApYu1jm-mwv137wQ-4" value="ONT Workflow" style="whiteSpace=wrap;html=1;fontFamily=Maven Pro;fontSize=37;fontStyle=1;horizontal=1;fillColor=none;strokeColor=none;fontColor=#ffffff;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DMaven%2BPro;" vertex="1" parent="1">
+          <mxGeometry x="-184" y="-75" width="460" height="80" as="geometry" />
         </mxCell>
         <mxCell id="oSnhApYu1jm-mwv137wQ-15" value="cat fastq" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Maven Pro;fontStyle=1;fontSize=24;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DMaven%2BPro;" vertex="1" parent="1">
           <mxGeometry x="105" y="88.5" width="60" height="30" as="geometry" />
@@ -747,6 +747,9 @@
         </mxCell>
         <mxCell id="ZkqVRPiBSQded4seau2c-232" value="" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=2;verticalAlign=middle;rotation=0;fillColor=#1A1A1A;" parent="1" vertex="1">
           <mxGeometry x="1540" y="499.5" width="20" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="oSnhApYu1jm-mwv137wQ-215" value="IonTorrent Workflow" style="whiteSpace=wrap;html=1;fontFamily=Maven Pro;fontSize=37;fontStyle=1;horizontal=1;fillColor=none;strokeColor=none;fontColor=#ffffff;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DMaven%2BPro;" vertex="1" parent="1">
+          <mxGeometry x="-82" y="154.5" width="460" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
