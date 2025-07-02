@@ -1,23 +1,22 @@
 /*
 Sub workflows
 */
-include { DADA2_WORKFLOW }          from './../dada2'
-include { CUTADAPT_WORKFLOW }       from './../cutadapt'
-include { VSEARCH_ONT_WORKFLOW }    from './../vsearch_ont'
+include { CUTADAPT_WORKFLOW }               from './../cutadapt'
+include { VSEARCH_ONT_WORKFLOW }            from './../vsearch_ont'
 
 /*
 Modules
 */
-include { CUTADAPT }            from './../../modules/cutadapt'
-include { PORECHOP_ABI }        from './../../modules/porechop/abi'
-include { NANOPLOT as NANOPLOT_ADAPTER } from './../../modules/nanoplot'
-include { NANOPLOT as NANOPLOT_TRIM } from './../../modules/nanoplot'
-include { CAT_FASTQ }           from './../../modules/cat_fastq'
-include { VSEARCH_ORIENT }      from './../../modules/vsearch/orient'
+include { CUTADAPT }                        from './../../modules/cutadapt'
+include { PORECHOP_ABI }                    from './../../modules/porechop/abi'
+include { NANOPLOT as NANOPLOT_ADAPTER }    from './../../modules/nanoplot'
+include { NANOPLOT as NANOPLOT_TRIM }       from './../../modules/nanoplot'
+include { CAT_FASTQ }                       from './../../modules/cat_fastq'
+include { VSEARCH_ORIENT }                  from './../../modules/vsearch/orient'
 include { GUNZIP as GUNZIP_NANOPLOT_ADAPTER } from './../../modules/gunzip'
-include { GUNZIP as GUNZIP_NANOPLOT_TRIM } from './../../modules/gunzip'
-include { FASTPLONG as FASTPLONG_METRICS } from './../../modules/fastplong'
-include { FASTPLONG as FASTPLONG_TRIM } from './../../modules/fastplong'
+include { GUNZIP as GUNZIP_NANOPLOT_TRIM }  from './../../modules/gunzip'
+include { FASTPLONG as FASTPLONG_METRICS }  from './../../modules/fastplong'
+include { FASTPLONG as FASTPLONG_TRIM }     from './../../modules/fastplong'
 
 workflow ONT_WORKFLOW {
     take:
@@ -34,15 +33,14 @@ workflow ONT_WORKFLOW {
     /*
     Remove Nanopore adapters - or not
     */
-
-    if (params.skip_porechop) {
-        ch_trimmed_reads = reads
-    } else {
+    if (params.porechop) {
         PORECHOP_ABI(
             reads
         )
         ch_versions         = ch_versions.mix(PORECHOP_ABI.out.versions)
         ch_trimmed_reads    = PORECHOP_ABI.out.reads.map { m,r -> [ m, [ r]]}
+    } else {
+        ch_trimmed_reads = reads
     }
     /*
     Merge reads by sample
@@ -126,24 +124,13 @@ workflow ONT_WORKFLOW {
     )
     ch_versions = ch_versions.mix(VSEARCH_ORIENT.out.versions)
 
-    if (params.vsearch) {
-        VSEARCH_ONT_WORKFLOW(
-            VSEARCH_ORIENT.out.reads
-        )
-        ch_otus         = VSEARCH_ONT_WORKFLOW.out.otus
-        ch_versions     = ch_versions.mix(VSEARCH_ONT_WORKFLOW.out.versions)
-        ch_qc           = ch_qc.mix(VSEARCH_ONT_WORKFLOW.out.qc)
-    } else {
-        /*
-        SUB: OTU calling with DADA2
-        */
-        DADA2_WORKFLOW(
-            VSEARCH_ORIENT.out.reads
-        )
-        ch_otus         = DADA2_WORKFLOW.out.otus
-        ch_versions     = ch_versions.mix(DADA2_WORKFLOW.out.versions)
-        ch_qc           = ch_qc.mix(DADA2_WORKFLOW.out.qc)
-    }
+    // OTU clustering using Vsearch
+    VSEARCH_ONT_WORKFLOW(
+        VSEARCH_ORIENT.out.reads
+    )
+    ch_otus         = VSEARCH_ONT_WORKFLOW.out.otus
+    ch_versions     = ch_versions.mix(VSEARCH_ONT_WORKFLOW.out.versions)
+    ch_qc           = ch_qc.mix(VSEARCH_ONT_WORKFLOW.out.qc)
 
     emit:
     versions = ch_versions

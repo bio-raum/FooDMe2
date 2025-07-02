@@ -42,8 +42,14 @@
           "type": "string",
           "description": "A name for this analysis run",
           "fa_icon": "fas fa-filter"
+        },
+        "pacbio": {
+          "type": "boolean",
+          "description": "Data is froma Pacbio HiFi experiment",
+          "hidden": true
         }
-      }
+      },
+      "required": ["run_name"]
     },
     "databases_and_primers": {
       "title": "Databases and primers",
@@ -78,11 +84,6 @@
         "cutadapt_trim_3p": {
           "type": "boolean",
           "description": "Trim 3-prime end of reads (when amplicon is fully container in PE reads)"
-        },
-        "cutadapt": {
-          "type": "boolean",
-          "hidden": true,
-          "fa_icon": "far fa-check-square"
         },
         "cutadapt_trim_flex": {
           "type": "boolean",
@@ -257,6 +258,18 @@
         }
       }
     },
+    "new_group_1": {
+      "title": "New Group 1",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "iontorrent": {
+          "type": "boolean",
+          "description": "Data is from an IonTorrent experiment"
+        }
+      }
+    },
     "nanopore": {
       "title": "Nanopore",
       "type": "object",
@@ -269,8 +282,12 @@
         },
         "ont_reads_min_q": {
           "type": "integer",
-          "default": 20,
+          "default": 15,
           "description": "Minimum quality of ONT reads to allow"
+        },
+        "porechop": {
+          "type": "boolean",
+          "description": "Use Porechop_abi to trim ONT adapters (usually not recommended!)"
         }
       }
     },
@@ -329,6 +346,9 @@
       "$ref": "#/$defs/expert_options"
     },
     {
+      "$ref": "#/$defs/new_group_1"
+    },
+    {
       "$ref": "#/$defs/nanopore"
     },
     {
@@ -339,36 +359,17 @@
     }
   ],
   "properties": {
-    "template": {
-      "type": "string",
-      "default": "/home/marc/git/FooDMe2/assets/foodme2_template.qmd",
-      "hidden": true
-    },
     "reference_base": {
       "type": "string",
       "description": "Directory where the reference files live"
     },
     "reference_version": {
       "type": "string",
-      "default": "1.0",
-      "hidden": true
-    },
-    "primers": {
-      "type": "object",
+      "default": 1,
       "hidden": true
     },
     "primers_txt": {
       "type": "string",
-      "hidden": true
-    },
-    "pacbio": {
-      "type": "boolean",
-      "description": "Data is froma Pacbio HiFi experiment",
-      "hidden": true
-    },
-    "iontorrent": {
-      "type": "boolean",
-      "description": "Data is from an IonTorrent experiment",
       "hidden": true
     },
     "options": {
@@ -405,7 +406,15 @@
       "type": "string",
       "default": "https://raw.githubusercontent.com/bio-raum/nf-configs/main",
       "hidden": true
+    },
+    "skip_report": {
+      "type": "boolean",
+      "hidden": true
+    },
+    "email": {
+      "type": "boolean",
+      "hidden": true
     }
   },
-  "required": ["reference_base","run_name"]
+  "required": ["reference_base"]
 }
