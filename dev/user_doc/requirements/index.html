@@ -683,6 +683,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#nanopore-reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nanopore Reads
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1157,6 +1166,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#nanopore-reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nanopore Reads
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1192,6 +1210,14 @@
 <p>FooDMe2 ships with presumably all of the relevant databases for taxonomic assignment. However, these needs to be installed first - as described <a href="../installation/">here</a></p>
 <p>We would recommend the use of the single gene databases, provided through <a href="https://www.reference-midori.info/">Midori</a>. However, FooDMe2 also provides access to larger databases - specifically NCBI GenBank <a href="https://ncbiinsights.ncbi.nlm.nih.gov/2024/07/18/new-blast-core-nucleotide-database/">core_nt</a>. Please note that Genbank has <a href="https://www.ncbi.nlm.nih.gov/genbank/statistics/">grown</a> over the years, and even the core_nt database comes in at well over 200.GB. Running it will require a lot of RAM, depending on the taxonomic root for your analysis (<code>--taxid_filter</code>). For example, setting "amniotes" as the taxonomic root when using Genbank, will require roughly 60-80GB of RAM. In comparison, the same analysis against the Midori lRNA database (lrna) requires less than 3.GB RAM.</p>
 <p>If you absolutely need to use a custom database, this is also supported as described <a href="../usage/#database">here</a>. </p>
+<h2 id="nanopore-reads">Nanopore Reads</h2>
+<p>FooDMe2 supports processing of Nanopore (ONT) reads. However, some restrictions apply.</p>
+<ul>
+<li>Reads should be generated with the R10 chemistry; we did not test nor recommend R9 reads for use with FooDMe2.</li>
+<li>Reads should be of high quality (ideally Q20); although the internally applied thresholds for filtering are user-configureable should your data be of lesser quality. </li>
+<li>Reads must be adapter-trimmed (sequencing adapters, that is) - and, if applicable, demultiplexed. FooDMe2 does not perform these processing steps. </li>
+<li>Reads must carry the PCR primers <strong>at each end</strong> of the read (fwd, rev) - do not remove PCR primers yourself (reads without complete primer sites are discarded by FooDMe2)!</li>
+</ul>
 
 
 
