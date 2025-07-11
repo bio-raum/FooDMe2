@@ -12,8 +12,9 @@ process VSEARCH_UCHIME_DENOVO {
     tuple val(meta), path(fa)
 
     output:
-    tuple val(meta), path(nonchimera), emit: fasta
-    path("versions.yml"), emit: versions
+    tuple val(meta), path(nonchimera)   , emit: fasta
+    tuple val(meta), path("*.uc")       , emit: uc
+    path("versions.yml")                , emit: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -25,6 +26,7 @@ process VSEARCH_UCHIME_DENOVO {
     """
     vsearch --uchime_denovo $fa \
     --threads ${task.cpus} \
+    --uchimeout $derep_uc \
     --sizein \
     --sizeout \
     --nonchimera $nonchimera $args

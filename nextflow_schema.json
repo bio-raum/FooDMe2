@@ -258,18 +258,6 @@
         }
       }
     },
-    "new_group_1": {
-      "title": "New Group 1",
-      "type": "object",
-      "description": "",
-      "default": "",
-      "properties": {
-        "iontorrent": {
-          "type": "boolean",
-          "description": "Data is from an IonTorrent experiment"
-        }
-      }
-    },
     "nanopore": {
       "title": "Nanopore",
       "type": "object",

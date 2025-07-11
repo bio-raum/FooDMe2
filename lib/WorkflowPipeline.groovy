@@ -38,6 +38,10 @@ class WorkflowPipeline {
                 log.info 'If you do not think that you will need this database, skip it with --skip_genbank'
             }
         } else if (params.input || params.reads) {
+            if (!params.run_name) {
+                log.info "Must provide a --run_name!"
+                System.exit(1)
+            }
             if (params.primer_set && !params.primers.keySet().contains(params.primer_set)) {
                 log.info "The primer set ${params.primer_set} is not currently configured."
                 System.exit(1)

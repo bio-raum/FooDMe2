@@ -34,6 +34,7 @@ workflow VSEARCH_ONT_WORKFLOW {
     )
     /*
     Dereplicate FastQ reads directly
+    This step could be unncessary; invetigation pending
     */
     VSEARCH_FASTXUNIQUES(
         VSEARCH_FASTQFILTER.out.fasta

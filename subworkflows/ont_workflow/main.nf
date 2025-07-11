@@ -45,7 +45,6 @@ workflow ONT_WORKFLOW {
     /*
     Merge reads by sample
     */
-    
     ch_trimmed_reads.groupTuple(by: 0).branch { meta, fastq ->
         single: fastq.size() == 1
             return [ meta, fastq.flatten()]

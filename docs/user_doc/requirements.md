@@ -29,3 +29,12 @@ FooDMe2 ships with presumably all of the relevant databases for taxonomic assign
 We would recommend the use of the single gene databases, provided through [Midori](https://www.reference-midori.info/). However, FooDMe2 also provides access to larger databases - specifically NCBI GenBank [core_nt](https://ncbiinsights.ncbi.nlm.nih.gov/2024/07/18/new-blast-core-nucleotide-database/). Please note that Genbank has [grown](https://www.ncbi.nlm.nih.gov/genbank/statistics/) over the years, and even the core_nt database comes in at well over 200.GB. Running it will require a lot of RAM, depending on the taxonomic root for your analysis (`--taxid_filter`). For example, setting "amniotes" as the taxonomic root when using Genbank, will require roughly 60-80GB of RAM. In comparison, the same analysis against the Midori lRNA database (lrna) requires less than 3.GB RAM.
 
 If you absolutely need to use a custom database, this is also supported as described [here](usage.md/#database). 
+
+## Nanopore Reads
+
+FooDMe2 supports processing of Nanopore (ONT) reads. However, some restrictions apply.
+
+* Reads should be generated with the R10 chemistry; we did not test nor recommend R9 reads for use with FooDMe2.
+* Reads should be of high quality (ideally Q20); although the internally applied thresholds for filtering are user-configureable should your data be of lesser quality. 
+* Reads must be adapter-trimmed (sequencing adapters, that is) - and, if applicable, demultiplexed. FooDMe2 does not perform these processing steps. 
+* Reads must carry the PCR primers **at each end** of the read (fwd, rev) - do not remove PCR primers yourself (reads without complete primer sites are discarded by FooDMe2)!
