@@ -22,7 +22,7 @@ body:
       description: "Target locus, provide reference if available"
     validations:
       required: true
-  - type: input
+  - type: textarea
     id: primers_seq
     attributes:
       label: "Primer sequences"
