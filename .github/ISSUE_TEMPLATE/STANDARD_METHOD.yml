@@ -38,11 +38,13 @@ body:
       required: false
   - type: checkboxes
     id: platform
-    options:
-      - Illumina
-      - Oxford Nanopore
-      - IonTorrent
-      - other (specify in comments)
+    attributes:
+      label: "For which sequencinf platform(s) should a method be created?"
+      options:
+        - Illumina
+        - Oxford Nanopore
+        - IonTorrent
+        - other (specify in comments)
   - type: textarea
     id: validation
     attributes:
