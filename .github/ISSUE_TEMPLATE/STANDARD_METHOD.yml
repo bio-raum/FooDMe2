@@ -41,10 +41,10 @@ body:
     attributes:
       label: "For which sequencinf platform(s) should a method be created?"
       options:
-        - Illumina
-        - Oxford Nanopore
-        - IonTorrent
-        - other (specify in comments)
+        - label: Illumina
+        - label: Oxford Nanopore
+        - label: IonTorrent
+        - label: other (specify in comments)
   - type: textarea
     id: validation
     attributes:
