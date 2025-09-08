@@ -1,0 +1,52 @@
+name: "📎Standard method"
+description: Create a new ticket for a new standard method.
+title: "📎[METHOD] - <title>"
+labels: [
+  "standard method"
+]
+body:
+  - type: markdown
+    attributes:
+      value: Submit a request for a new stadard method
+  - type: textarea
+    id: taxon
+    attributes:
+      label: "Taxon"
+      description: "Target taxon or clades"
+    validations:
+      required: true
+  - type: textarea
+    id: locus
+    attributes:
+      label: "Target locus"
+      description: "Target locus, provide reference if available"
+    validations:
+      required: true
+  - type: input
+    id: primers_seq
+    attributes:
+      label: "Primer sequences"
+      description: "Primer sequences (fasta)"
+    validations:
+      required: true
+  - type: textarea
+    id: primers_ref
+    attributes:
+      label: "Primer reference"
+      description: "Reference or norm for primers, if available"
+    validations:
+      required: false
+  - type: textarea
+    id: validation
+    attributes:
+      label: "Validation data"
+      description: "Where and how are data available for validation"
+    validations:
+      required: true
+  - type: textarea
+    id: other
+    attributes:
+      label: "Comments"
+      description: "Any info you would like to add"
+    validations:
+      required: false
