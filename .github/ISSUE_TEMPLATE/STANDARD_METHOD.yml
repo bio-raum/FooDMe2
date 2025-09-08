@@ -36,6 +36,13 @@ body:
       description: "Reference or norm for primers, if available"
     validations:
       required: false
+  - type: checkboxes
+    id: platform
+    options:
+      - Illumina
+      - Oxford Nanopore
+      - IonTorrent
+      - other (specify in comments)
   - type: textarea
     id: validation
     attributes:
