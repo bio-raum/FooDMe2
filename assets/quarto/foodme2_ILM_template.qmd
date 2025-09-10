@@ -687,8 +687,6 @@ show(
 
 # Pipeline Settings
 
-Settings that deviate from the pipeline defaults.
-
 ```{python}
 #| label: settings
 
@@ -704,7 +702,6 @@ table = []
 psettings.pop('maxMultiqcEmailFileSize', None)
 psettings.pop('primers', None)
 psettings.pop('references', None)
-psettings.pop('primers', None)
 
 for key,value in psettings.items():
     table.append([key, value])

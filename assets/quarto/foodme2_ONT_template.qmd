@@ -499,3 +499,30 @@ show(
     buttons=["copyHtml5", "csvHtml5"]
 )
 ```
+
+:::
+
+# Pipeline Settings
+
+```{python}
+#| label: settings
+
+psettings = False
+
+settings_file = [pos_json for pos_json in os.listdir('.') if pos_json.startswith('params_')].pop(0)
+
+with open(settings_file) as f:
+    psettings = json.load(f)
+
+table = []
+
+psettings.pop('maxMultiqcEmailFileSize', None)
+psettings.pop('primers', None)
+psettings.pop('references', None)
+
+for key,value in psettings.items():
+    table.append([key, value])
+
+Markdown(tabulate(table, headers=["Setting","Value"]))
+
+```
