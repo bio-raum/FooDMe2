@@ -703,7 +703,7 @@ psettings.pop('maxMultiqcEmailFileSize', None)
 psettings.pop('primers', None)
 psettings.pop('references', None)
 
-for key,value in psettings.items():
+for key,value in (sorted(psettings.items())):
     table.append([key, value])
 
 Markdown(tabulate(table, headers=["Setting","Value"]))
