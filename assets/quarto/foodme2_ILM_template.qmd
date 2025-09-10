@@ -58,6 +58,7 @@ $(document).on('shown.bs.tab', function (event) {
 #| label: collect-sample-reports
 
 json_files = [pos_json for pos_json in os.listdir('.') if pos_json.endswith('.summary.json')]
+
 ```
 
 # Summary
@@ -680,4 +681,34 @@ show(
     paging=False,
     buttons=["copyHtml5", "csvHtml5"]
 )
+```
+
+:::
+
+# Pipeline Settings
+
+Settings that deviate from the pipeline defaults.
+
+```{python}
+#| label: settings
+
+psettings = False
+
+settings_file = [pos_json for pos_json in os.listdir('.') if pos_json.startswith('params_')].pop(0)
+
+with open(settings_file) as f:
+    psettings = json.load(f)
+
+table = []
+
+psettings.pop('maxMultiqcEmailFileSize', None)
+psettings.pop('primers', None)
+psettings.pop('references', None)
+psettings.pop('primers', None)
+
+for key,value in psettings.items():
+    table.append([key, value])
+
+Markdown(tabulate(table, headers=["Setting","Value"]))
+
 ```

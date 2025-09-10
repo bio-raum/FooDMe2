@@ -50,7 +50,7 @@ workflow REPORTING {
             HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
             KRONA_HTML.out.html,
             ch_template,
-            pipeline_info.collect()
+            pipeline_info
         )
 
         ch_html_report = ch_html_report.mix(HELPER_HTML_REPORT.out.html)

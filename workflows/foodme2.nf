@@ -35,7 +35,7 @@ workflow FOODME2 {
     ch_taxdb   = Channel.from([])
     ch_reporting = Channel.from([])
 
-    pipeline_info = Channel.fromPath(get_params(paramsSummaryMap(workflow)))
+    pipeline_info = Channel.fromPath(dumpParametersToJSON(params.outdir)).collect()
 
     /*
     We make this conditional on input being specified so as to not create issues with
@@ -252,17 +252,14 @@ def set_blast_db(database) {
 }
 
 // turn the summaryMap to a JSON file
-def get_params(aMap) {
+def dumpParametersToJSON(outdir) {
+    def timestamp = new java.util.Date().format('yyyy-MM-dd_HH-mm-ss')
+    def filename  = "params_${timestamp}.json"
+    def temp_pf   = new File(workflow.launchDir.toString(), ".${filename}")
+    def jsonStr   = groovy.json.JsonOutput.toJson(params)
+    temp_pf.text  = groovy.json.JsonOutput.prettyPrint(jsonStr)
 
-    def json = groovy.json.JsonOutput.toJson(aMap.inspect())
-
-    def outputDir = new File("${params.outdir}/pipeline_info/")
-    if (!outputDir.exists()) {
-        outputDir.mkdirs()
-    }
-
-    def jfile = file("${params.outdir}/pipeline_info/pipeline_settings.json")
-    jfile.text = json
-    return jfile
-
+    nextflow.extension.FilesEx.copyTo(temp_pf.toPath(), "${outdir}/pipeline_info/params_${timestamp}.json")
+    temp_pf.delete()
+    return file("${outdir}/pipeline_info/params_${timestamp}.json")
 }
