@@ -8,6 +8,7 @@ process HELPER_HTML_REPORT {
     path(reports)
     path(krona)
     path(template)
+    path(pipeline_info)
 
     output:
     path('*.html')          , emit: html

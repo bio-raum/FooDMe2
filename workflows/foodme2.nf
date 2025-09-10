@@ -16,6 +16,8 @@ include { ONT_WORKFLOW }                from './../subworkflows/ont_workflow'
 include { REPORTING }                   from './../subworkflows/reporting'
 include { BENCHMARK }                   from './../subworkflows/benchmark'
 
+include { paramsSummaryMap } from 'plugin/nf-schema'
+
 workflow FOODME2 {
     main:
 
@@ -32,6 +34,8 @@ workflow FOODME2 {
     ch_tax_files = Channel.from([])
     ch_taxdb   = Channel.from([])
     ch_reporting = Channel.from([])
+
+    pipeline_info = Channel.fromPath(get_params(paramsSummaryMap(workflow)))
 
     /*
     We make this conditional on input being specified so as to not create issues with
@@ -217,7 +221,8 @@ workflow FOODME2 {
         BLAST_TAXONOMY.out.tax_json,
         CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
         ch_template, // Quarto template
-        ch_reporting // contains all the sample level reports from upstream
+        ch_reporting, // contains all the sample level reports from upstream
+        pipeline_info
     )
 
     /*
@@ -236,6 +241,7 @@ workflow FOODME2 {
     xlsx   = REPORTING.out.xlsx
 }
 
+// Set the correct blast database or throw an error if unknown
 def set_blast_db(database) {
     if (!params.references.databases.keySet().contains(database)) {
         log.warn "Provided an unknown database (--db ${database})\nPlease check valid options with --list_dbs\nExiting."
@@ -243,4 +249,20 @@ def set_blast_db(database) {
     }
     def blast_db = file(params.references.databases[database].blast_db, checkIfExists: true)
     return blast_db
+}
+
+// turn the summaryMap to a JSON file
+def get_params(aMap) {
+
+    def json = groovy.json.JsonOutput.toJson(aMap.inspect())
+
+    def outputDir = new File("${params.outdir}/pipeline_info/")
+    if (!outputDir.exists()) {
+        outputDir.mkdirs()
+    }
+
+    def jfile = file("${params.outdir}/pipeline_info/pipeline_settings.json")
+    jfile.text = json
+    return jfile
+
 }

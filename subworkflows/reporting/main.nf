@@ -11,6 +11,7 @@ workflow REPORTING {
     ch_versions
     ch_template  // Quarto template for custom HTML report
     ch_reports   // all sample level reports
+    pipeline_info 
 
     main:
 
@@ -49,6 +50,7 @@ workflow REPORTING {
             HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
             KRONA_HTML.out.html,
             ch_template,
+            pipeline_info.collect()
         )
 
         ch_html_report = ch_html_report.mix(HELPER_HTML_REPORT.out.html)
