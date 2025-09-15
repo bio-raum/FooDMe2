@@ -89,7 +89,8 @@ def parse_tabular(lines):
 
 def parse_nanoplot(lines):
 
-    header = lines.pop(0).strip().split("\t")
+    lines.pop(0)  # remove header line
+
     # We only need a histogram
     data = {"histogram": []}
 
