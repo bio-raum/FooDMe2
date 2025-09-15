@@ -26,6 +26,7 @@ jobs:
 
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v1
+        version: 24.10.5
 
       - name: Setup Apptainer
         uses: eWaterCycle/setup-apptainer@4bb22c52d4f63406c49e94c804632975787312b3 # v2.0.0
@@ -47,6 +48,7 @@ jobs:
 
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v1
+        version: 24.10.5
 
       - name: Run the pipeline
         run: |
@@ -60,6 +62,7 @@ jobs:
 
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v1
+        version: 24.10.5
 
       - name: install conda
         uses: conda-incubator/setup-miniconda@v3
