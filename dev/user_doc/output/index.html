@@ -1172,6 +1172,8 @@
 <th>Sample</th>
 <th>Taxon</th>
 <th>Percentage</th>
+<th>Reads</th>
+<th>Cluster IDs</th>
 </tr>
 </thead>
 <tbody>
@@ -1179,14 +1181,58 @@
 <td>SampleA</td>
 <td>Sus scrofa</td>
 <td>75.0</td>
+<td>34545</td>
+<td>ASV_1[1.0]</td>
 </tr>
 <tr>
 <td>SampleA</td>
 <td>Bos taurus</td>
 <td>25.0</td>
+<td>11515</td>
+<td>ASV_2[0.9]</td>
 </tr>
 </tbody>
 </table>
+<p>The Cluster IDs list one or several ASVs that yielded this taxon assignment, including the fraction of high-scoring database hits that support this call. </p>
+<p>This is further detailed on the second work sheet:</p>
+<table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Cluster ID</th>
+<th>Size</th>
+<th>Taxon</th>
+<th>Ranks</th>
+<th>Taxid</th>
+<th>Support[%]</th>
+<th>Consensus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SampleA</td>
+<td>ASV_1</td>
+<td>34545</td>
+<td>Sus scrofa</td>
+<td>species</td>
+<td>9823</td>
+<td>100</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td>SampleA</td>
+<td>ASV_2</td>
+<td>11515</td>
+<td>Bos taurus</td>
+<td>species</td>
+<td>9913</td>
+<td>90</td>
+<td>TRUE</td>
+</tr>
+</tbody>
+</table>
+<p>Of note is the column Consensus, which shows wether this call was in fact chosen as the consensus call for this ASV. Some ASVs may have multiple possible taxonomic assignments, with differing percentages. Discarded calls
+are listed with a Consensus of <code>FALSE</code>. </p>
 </div>
 <div class="tabbed-block">
 <ul>
@@ -1209,10 +1255,12 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Clustering</label><label for="__tabbed_2_2">BLAST</label><label for="__tabbed_2_3">Reports</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>When using Vsearch for OTU clustering
+<p>When using Vsearch for OTU clustering 
+<p>
 - <code>vsearch/sample_id.usearch_global.tsv</code>: the number of reads mapping against each respective OTU, per sample
 - <code>vsearch/sample_id.precluster.fasta</code>: the final set of OTUs in FASTA format</p>
 <p>When using DADA2 for OTU/ASV clustering
+<p>
 - <code>DADA2/sample_id_ASVs.fasta</code>: the clustered sequences (OTU/ASV)</p>
 <p>That same folder also contains a number of additional metrics and outputs, including graphical summaries of the error profiles that can be used to debug sample-specific issues. </p>
 </div>
@@ -1222,19 +1270,22 @@
 <li><code>blast/sample_id.consensus.json</code>: JSON listing of consensus taxa assigned to each sequence cluster</li>
 </ul>
 </div>
-<div class="tabbed-block"></div>
+<div class="tabbed-block">
+<p>This folder contains some of the raw sample-level outputs.
+<p>
+- <code>report/sample_id.composition.tsv</code>: the taxonomic composition of this sample in TSV format. 
+- <code>report/sample_id.composition.json</code>: the taxonomic composition of this sample in JSON format. 
+- <code>report/sample_id.blast_stats.tsv</code>: Details of the blast matches against each respective OTU. 
+- <code>report/sample_id.summary.json</code>: A JSON summary of the results and QC for this sample
+<p>
+The file sample_id.summary.json contains the final results and forms the basis for the HTML report. If you wish to roll your own report or feed results automatically into a e.g. database, this is where you should start. </p>
 </div>
 </div>
-<p>This folder contains some of the raw sample-level outputs.</p>
-<ul>
-<li><code>report/sample_id.composition.tsv</code>: the taxonomic composition of this sample in TSV format. </li>
-<li><code>report/sample_id.composition.json</code>: the taxonomic composition of this sample in JSON format. </li>
-<li><code>report/sample_id.blast_stats.tsv</code>: Details of the blast matches against each respective OTU. </li>
-<li><code>report/sample_id.report.json</code>: A JSON summary of the results and QC for this sample</li>
-</ul>
+</div>
 <h2 id="pipeline-run-metrics">Pipeline run metrics</h2>
 <p>This folder contains the pipeline run metrics</p>
 <ul>
+<li><code>params_TIMESTAMP.json</code>: A summary of all pipeline parameters in JSON Format (with timestamp of pipeline execution)</li>
 <li><code>pipeline_dag.svg</code>: the workflow graph (only available if GraphViz is installed)</li>
 <li><code>pipeline_report.html</code>: the (graphical) summary of all completed tasks and their resource usage</li>
 <li><code>pipeline_report.txt</code>: a short summary of this analysis run in text format</li>
