@@ -13,7 +13,7 @@ extra_fn_clean_exts:
 
 report_comment: >
     This report has been generated automatically by bio-raum/FooDMe2.
-    For help interpreting the outputs, please see: https://github.com/bio-raum/FooDMe2
+    For help interpreting the outputs, please see: https://bio-raum.github.io/FooDMe2/latest/
 report_header_info:
     - Application Type: "Taxonomic profiling from amplicons"
 

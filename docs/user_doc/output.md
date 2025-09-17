@@ -6,10 +6,22 @@
 
     - `name_of_pipeline_run.xlsx`: A table with accumulated results - one row per sample per taxon:
 
-    | Sample | Taxon | Percentage |
-    | --- | --- | --- |
-    | SampleA | Sus scrofa | 75.0 |
-    | SampleA | Bos taurus | 25.0 | 
+    | Sample | Taxon | Percentage | Reads | Cluster IDs |
+    | --- | --- | --- | --- | --- |
+    | SampleA | Sus scrofa | 75.0 | 34545 | ASV_1[1.0] |
+    | SampleA | Bos taurus | 25.0 | 11515 | ASV_2[0.9] |
+
+    The Cluster IDs list one or several ASVs that yielded this taxon assignment, including the fraction of high-scoring database hits that support this call. 
+
+    This is further detailed on the second work sheet:
+
+    | Sample | Cluster ID | Size | Taxon | Ranks | Taxid | Support[%] | Consensus |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | SampleA | ASV_1 | 34545 | Sus scrofa | species | 9823 | 100 |  TRUE |
+    | SampleA | ASV_2 | 11515 | Bos taurus | species | 9913 | 90 | TRUE |
+
+    Of note is the column Consensus, which shows wether this call was in fact chosen as the consensus call for this ASV. Some ASVs may have multiple possible taxonomic assignments, with differing percentages. Discarded calls
+    are listed with a Consensus of `FALSE`. 
 
 === "Krona"
 
@@ -33,11 +45,13 @@ Sample-level reports can be found in the folder `results/samples/sample_id`.
 
 === "Clustering"
 
-    When using Vsearch for OTU clustering
+    When using Vsearch for OTU clustering 
+    <p>
     - `vsearch/sample_id.usearch_global.tsv`: the number of reads mapping against each respective OTU, per sample
     - `vsearch/sample_id.precluster.fasta`: the final set of OTUs in FASTA format
 
     When using DADA2 for OTU/ASV clustering
+    <p>
     - `DADA2/sample_id_ASVs.fasta`: the clustered sequences (OTU/ASV)
 
     That same folder also contains a number of additional metrics and outputs, including graphical summaries of the error profiles that can be used to debug sample-specific issues. 
@@ -49,18 +63,21 @@ Sample-level reports can be found in the folder `results/samples/sample_id`.
 
 === "Reports"
 
-This folder contains some of the raw sample-level outputs.
-
-- `report/sample_id.composition.tsv`: the taxonomic composition of this sample in TSV format. 
-- `report/sample_id.composition.json`: the taxonomic composition of this sample in JSON format. 
-- `report/sample_id.blast_stats.tsv`: Details of the blast matches against each respective OTU. 
-- `report/sample_id.report.json`: A JSON summary of the results and QC for this sample
+    This folder contains some of the raw sample-level outputs.
+    <p>
+    - `report/sample_id.composition.tsv`: the taxonomic composition of this sample in TSV format. 
+    - `report/sample_id.composition.json`: the taxonomic composition of this sample in JSON format. 
+    - `report/sample_id.blast_stats.tsv`: Details of the blast matches against each respective OTU. 
+    - `report/sample_id.summary.json`: A JSON summary of the results and QC for this sample
+    <p>
+    The file sample_id.summary.json contains the final results and forms the basis for the HTML report. If you wish to roll your own report or feed results automatically into a e.g. database, this is where you should start. 
 
 
 ## Pipeline run metrics
 
 This folder contains the pipeline run metrics
 
+- `params_TIMESTAMP.json`: A summary of all pipeline parameters in JSON Format (with timestamp of pipeline execution)
 - `pipeline_dag.svg`: the workflow graph (only available if GraphViz is installed)
 - `pipeline_report.html`: the (graphical) summary of all completed tasks and their resource usage
 - `pipeline_report.txt`: a short summary of this analysis run in text format
