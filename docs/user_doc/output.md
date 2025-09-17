@@ -47,11 +47,13 @@ Sample-level reports can be found in the folder `results/samples/sample_id`.
 
     When using Vsearch for OTU clustering 
     <p>
+
     - `vsearch/sample_id.usearch_global.tsv`: the number of reads mapping against each respective OTU, per sample
     - `vsearch/sample_id.precluster.fasta`: the final set of OTUs in FASTA format
 
     When using DADA2 for OTU/ASV clustering
     <p>
+
     - `DADA2/sample_id_ASVs.fasta`: the clustered sequences (OTU/ASV)
 
     That same folder also contains a number of additional metrics and outputs, including graphical summaries of the error profiles that can be used to debug sample-specific issues. 
@@ -65,10 +67,12 @@ Sample-level reports can be found in the folder `results/samples/sample_id`.
 
     This folder contains some of the raw sample-level outputs.
     <p>
+
     - `report/sample_id.composition.tsv`: the taxonomic composition of this sample in TSV format. 
     - `report/sample_id.composition.json`: the taxonomic composition of this sample in JSON format. 
     - `report/sample_id.blast_stats.tsv`: Details of the blast matches against each respective OTU. 
     - `report/sample_id.summary.json`: A JSON summary of the results and QC for this sample
+    
     <p>
     The file sample_id.summary.json contains the final results and forms the basis for the HTML report. If you wish to roll your own report or feed results automatically into a e.g. database, this is where you should start. 
 
