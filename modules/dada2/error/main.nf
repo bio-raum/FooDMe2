@@ -15,7 +15,6 @@ process DADA2_ERROR {
     tuple val(meta), path('*.err.pdf'), emit: pdf, optional: true
     tuple val(meta), path('*.err.svg'), emit: svg, optional: true
     tuple val(meta), path('*.err.log'), emit: log, optional: true
-    tuple val(meta), path('*.err.convergence.txt'), emit: convergence, optional: true
     path 'versions.yml'               , emit: versions
     path '*.args.txt'                 , emit: args
 
@@ -34,19 +33,19 @@ process DADA2_ERROR {
         suppressPackageStartupMessages(library(dada2))
         set.seed($seed) # Initialize random number generator for reproducibility
 
-        fnFs <- sort(list.files(".", pattern = ".fastq.gz", full.names = TRUE))
-        sink(file = "${meta.sample_id}.err.log")
-
-        # Check if file is empty
-        n_lines <- as.integer(system(sprintf('gunzip -c %s | wc -l', fnFs), intern= TRUE))
-        # fastq has at least 4 lines, save empty arrray if empty input
-        if (n_lines < 4 ) {
+        generate_empty <- function(e) {
+            # On error or empty input generate empty output files
+            print(e)
             saveRDS(c(), "${meta.sample_id}.err.rds")
-        } else {
-            errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
-            saveRDS(errF, "${meta.sample_id}.err.rds")
-            sink(file = NULL)
+        }
 
+        run_module <- function(fnFs) {
+            # Run the module as intended
+            errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
+
+            saveRDS(errF, "${meta.sample_id}.err.rds")
+
+            sink(file = NULL)
             pdf("${meta.sample_id}.err.pdf")
             plotErrors(errF, nominalQ = TRUE)
             dev.off()
@@ -54,10 +53,25 @@ process DADA2_ERROR {
             plotErrors(errF, nominalQ = TRUE)
             dev.off()
 
-            sink(file = "${meta.sample_id}.err.convergence.txt")
-            dada2:::checkConvergence(errF)
-            sink(file = NULL)
+            write.table(errF[["err_out"]], sep="\t", file="${meta.sample_id}.error_rates.txt")
+            write.table(errF[["trans"]], sep="\t", file="${meta.sample_id}.observed_transitions.txt")
         }
+        
+        sink(file = "${meta.sample_id}.err.log")
+
+        fnFs <- sort(list.files(".", pattern = ".fastq.gz", full.names = TRUE))
+
+        # Check if file is empty
+        n_lines <- as.integer(system(sprintf('gunzip -c %s | wc -l', fnFs), intern= TRUE))
+        if (n_lines < 4 ) {
+            generate_empty("WARNING: Detected empty input")
+        } else {
+            tryCatch(
+                expr = run_module(fnFs),
+                error = function(e) generate_empty(e)
+            )
+        }
+        sink(file = NULL)
         write.table('learnErrors\t$args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
         writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
         """
@@ -67,21 +81,19 @@ process DADA2_ERROR {
         suppressPackageStartupMessages(library(dada2))
         set.seed($seed) # Initialize random number generator for reproducibility
 
-        fnFs <- sort(list.files(".", pattern = "_1.filt.fastq.gz", full.names = TRUE))
-        fnRs <- sort(list.files(".", pattern = "_2.filt.fastq.gz", full.names = TRUE))
-
-        sink(file = "${meta.sample_id}.err.log")
-
-        
-        # Check if file is empty
-        n_lines <- as.integer(system(sprintf('gunzip -c %s | wc -l', fnFs), intern= TRUE))
-        # fastq has at least 4 lines, save empty arrray if empty input
-        if (n_lines < 4 ) {
+        generate_empty <- function(e) {
+            # On error or empty input generate empty output files
+            print(e)
             saveRDS(c(), "${meta.sample_id}_1.err.rds")
             saveRDS(c(), "${meta.sample_id}_2.err.rds")
-        } else {
+        }
+        
+        run_module <- function(fnFs, fnRs) {
+            # Run the module as intended
+            print("Forward read ...")
             errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
             saveRDS(errF, "${meta.sample_id}_1.err.rds")
+            print("Reverse read ...")
             errR <- learnErrors(fnRs, $args, multithread = $task.cpus, verbose = TRUE)
             saveRDS(errR, "${meta.sample_id}_2.err.rds")
             sink(file = NULL)
@@ -100,14 +112,30 @@ process DADA2_ERROR {
             plotErrors(errR, nominalQ = TRUE)
             dev.off()
 
-            sink(file = "${meta.sample_id}_1.err.convergence.txt")
-            dada2:::checkConvergence(errF)
-            sink(file = NULL)
+            write.table(errF[["err_out"]], sep="\t", file="${meta.sample_id}_1.error_rates.txt")
+            write.table(errF[["trans"]], sep="\t", file="${meta.sample_id}_1.observed_transitions.txt")
 
-            sink(file = "${meta.sample_id}_2.err.convergence.txt")
-            dada2:::checkConvergence(errR)
-            sink(file = NULL)
+            write.table(errF[["err_out"]], sep="\t", file="${meta.sample_id}_2.error_rates.txt")
+            write.table(errF[["trans"]], sep="\t", file="${meta.sample_id}_2.observed_transitions.txt")
         }
+
+        sink(file = "${meta.sample_id}.err.log")
+
+        fnFs <- sort(list.files(".", pattern = "_1.filt.fastq.gz", full.names = TRUE))
+        fnRs <- sort(list.files(".", pattern = "_2.filt.fastq.gz", full.names = TRUE))
+        
+        # Check if file is empty
+        n_lines <- as.integer(system(sprintf('gunzip -c %s | wc -l', fnFs), intern= TRUE))
+        # fastq has at least 4 lines, save empty arrray if empty input
+        if (n_lines < 4 ) {
+            generate_empty("WARNING: Detected empty input")
+        } else {
+            tryCatch(
+                expr = run_module(fnFs, fnRs),
+                error = function(e) generate_empty(e)
+            )
+        }
+        sink(file = NULL)
         write.table('learnErrors\t$args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
         writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
         """
