@@ -15,6 +15,8 @@ process DADA2_ERROR {
     tuple val(meta), path('*.err.pdf'), emit: pdf, optional: true
     tuple val(meta), path('*.err.svg'), emit: svg, optional: true
     tuple val(meta), path('*.err.log'), emit: log, optional: true
+    tuple val(meta), path('*.error_rates.txt'), emit: err_rates, optional: true
+    tuple val(meta), path('*.observed_transitions.txt'), emit: trans, optional: true
     path 'versions.yml'               , emit: versions
     path '*.args.txt'                 , emit: args
 
