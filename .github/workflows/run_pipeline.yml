@@ -19,7 +19,7 @@ on:
 
 jobs:
   test_apptainer:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v2
         with:
-          version: 24.10.5
+          nextflow-version: 24.10.5
 
       - name: Setup Apptainer
         uses: eWaterCycle/setup-apptainer@4bb22c52d4f63406c49e94c804632975787312b3 # v2.0.0
@@ -42,7 +42,7 @@ jobs:
           nextflow run main.nf -profile apptainer,github_test --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv 
   
   test_docker:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -50,14 +50,14 @@ jobs:
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v2
         with:
-          version: 24.10.5
+          nextflow-version: 24.10.5
 
       - name: Run the pipeline
         run: |
           nextflow run main.nf -profile docker,github_test --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv 
 
   test_conda:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -65,7 +65,7 @@ jobs:
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v2
         with:
-          version: 24.10.5
+          nextflow-version: 24.10.5
 
       - name: install conda
         uses: conda-incubator/setup-miniconda@v3
