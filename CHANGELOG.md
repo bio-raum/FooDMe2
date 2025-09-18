@@ -1,11 +1,12 @@
-## dev
+## 1.3.0
 
 ### Features
 
-- Add support for ONT data
+- Add experimental support for ONT and IonTorrent data (not fully documented yet, check the `--help`)
 - Improved error handling in the DADA2 workflow to prevent pipeline crash when few reads are available for error estimation.
 - Added metadata to primer sets to simplify search
-- Add nf-schema and nf-validation support
+- Add nf-schema and nf-validation support: including a new improved `--help` and argument summary.
+- Added new primer set profiles, these are mostly untested for now. Validation will follow in future releases.
 
 ### Reporting
 
@@ -13,6 +14,7 @@
 - Now writting estimated error rates, obeerved transisitons, and various sequence tables in the DADA2 workflowto the results directory.
 - .RDS files are not written to the results directory anymore.
 - Settings used for the analysis are now part of the HTML report.
+- Sample sheet is now stored in the results folder for documentation purposes
 
 ### Documentation
 
@@ -21,6 +23,9 @@
 
 ### Bugs
 
+- Fixed an error with dada2 filtering not seeing the correct trimming parameters
+- Fixed an error with dada2 processing not all writing to the correct output folder
+- Fixed several errors with processes not requesting the correct system resources
 
 ## 1.2.0
 
