@@ -56,7 +56,7 @@ Sample-level reports can be found in the folder `results/samples/sample_id`.
 
     - `DADA2/sample_id_ASVs.fasta`: the clustered sequences (OTU/ASV)
 
-    That same folder also contains a number of additional metrics and outputs, including graphical summaries of the error profiles that can be used to debug sample-specific issues. 
+    Subfolders also contains a number of additional metrics and outputs, including graphical summaries of the error profiles and intermediary sequences tables that can be used to debug sample-specific issues.
 
 === "BLAST"
 

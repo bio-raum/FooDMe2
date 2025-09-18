@@ -8,7 +8,7 @@ process HELPER_DADA_STATS {
         'quay.io/biocontainers/bioconductor-dada2:1.30.0--r43hf17093f_0' }"
 
     input:
-    tuple val(meta), path(reads), path(mergers), path(filtered), path(seqtab)  // Trimmed-filtered fastq, merged RDS, filtered RDS and non-chimeric RDS
+    tuple val(meta), path(reads), path(filtreads), path(mergers), path(filtered), path(seqtab)  // Trimmed-filtered fastq, merged RDS, filtered RDS and non-chimeric RDS
 
     output:
     tuple val(meta), path('*.dada_stats.json')  , emit: json
@@ -18,6 +18,7 @@ process HELPER_DADA_STATS {
     def prefix = task.ext.prefix ?: meta.sample_id
     def sample_id = meta.sample_id
     def reads_in = meta.single_end ? "$reads" : "${reads[0]}"
+    def filt_reads = meta.single_end ? "$filtreads" : "${filtreads[0]}"
 
     """
     #!/usr/bin/env Rscript
@@ -29,8 +30,11 @@ process HELPER_DADA_STATS {
         return(total_lines / 4)
     }
 
-    # Total reads form filtered fastq
+    # Total reads input to dada workflow
     total_reads <- count_fastq_records("${reads_in}")
+
+    # Total reads form filtered fastq
+    reads_filtered <- count_fastq_records("${filt_reads}")
     
     mergers <- readRDS("${mergers}")
     # if mergers is from single end data it will be either "dummy" (illumina wf) or "" (others)
@@ -48,11 +52,15 @@ process HELPER_DADA_STATS {
     nonchimeric <- sum(seqtab)
 
     json <- sprintf(
-        '{"${sample_id}": {"passing": %d, "no_merged": %d, "filtered": %d, "chimeras": %d}}',
+        '{"${sample_id}": {"total_reads": %d, "passing": %d, "filtered_qual": %d, "no_merged": %d, "filtered": %d, "chimeras": %d}}',
+        total_reads,
         nonchimeric,
-        total_reads - merged,
+        total_reads - reads_filtered,
+        reads_filtered - merged,
         merged - filtered,
-        filtered - nonchimeric)
+        filtered - nonchimeric
+    )
+
     write(json, file="${prefix}.dada_stats.json")
     writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
     """

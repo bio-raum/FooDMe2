@@ -370,7 +370,7 @@ it. Make sure to re-set any options you want to keep.
 
 `--non_overlapping` [ default = false]
 
-:   Toggle read concatenation instead of merging with an overlapping sequence. A short N spacer will be added between the forward and reverse read sequences. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. **This applies to all reads.** Trying to analyze datasets with a mixture of overlapping and non-overlapping reads is highly discouraged.
+:   Flag to signal that forward and reverse reads are not expected to overlap. The workflow will always try to join reads but if the `non_overlapping` flag is set, a short N spacer will be added between the forward and reverse read sequences that cannot be merged. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap.
 
     !!! warning "Non-overlapping reads and BLAST"
 
