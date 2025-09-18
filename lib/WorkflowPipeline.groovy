@@ -10,11 +10,22 @@ class WorkflowPipeline {
         if (params.list_primers) {
             println('Pre-configured primer sets:')
             println('===========================')
+            println("ILM: Illumina, IT: IonTorrent, ONT: Nanopore")
+            println('===========================')
             params.primers.keySet().each { primer ->
                 def info = params.primers[primer].description
                 def doi = params.primers[primer].doi
-                println("Name: ${primer}\nDescription: ${info}\nReference: doi:${doi}")
-                println('---------------------------')
+                def target = params.primers[primer].target.collect { it.toLowerCase() }
+                def platform = params.primers[primer].platform
+                if (params.list_primers.toString() != "true") {
+                    if (target.contains(params.list_primers.toLowerCase()) || platform.toLowerCase().contains(params.list_primers.toLowerCase()) ) {
+                        println("Name: ${primer}\nDescription: ${info}\nTarget: ${target}\nPlatform: ${platform}\nReference: doi:${doi}")
+                        println('---------------------------')
+                    }
+                } else  {
+                    println("Name: ${primer}\nDescription: ${info}\nTarget: ${target}\nPlatform: ${platform}\nReference: doi:${doi}")
+                    println('---------------------------')
+                }
             }
             System.exit(1)
         }

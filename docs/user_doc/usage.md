@@ -191,6 +191,12 @@ where `myprofile` can either be a site-specific config file or one of the built-
     nextflow run bio-raum/FooDMe2 --list_primers
     ```
 
+    You can additionally narrow down the resulting list by specifying a target gene (e.g. 16S) or a sequencing technology (e.g. Illumina) to only get matching sets.
+
+    ```bash
+    nextflow run bio-raum/FooDMe2 --list_primers 16S
+    ```
+
 `--primer_set` [default = null]
 
 :   The name of the pre-configured primer set to use for read clipping. More sets will be added over time

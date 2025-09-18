@@ -24,10 +24,9 @@ process DADA2_ERROR {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: [ 'nbases = 1e8, nreads = NULL, randomize = TRUE, MAX_CONSIST = 10, OMEGA_C = 0, qualityType = "Auto"',
-            params.pacbio ? 'errorEstimationFunction = PacBioErrfun' : 'errorEstimationFunction = loessErrfun'
-        ].join(',').replaceAll('(,)*$', '')
+    def args = task.ext.args ?: ""
     def seed = task.ext.seed ?: '100'
+    
     if (meta.single_end) {
         """
         #!/usr/bin/env Rscript

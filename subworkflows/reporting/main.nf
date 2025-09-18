@@ -7,11 +7,11 @@ include { HELPER_REPORTS_JSON }             from './../../modules/helper/reports
 workflow REPORTING {
 
     take:
-    ch_tax_json // The filtered taxonomy JSON
-    ch_versions
-    ch_template  // Quarto template for custom HTML report
-    ch_reports   // all sample level reports
-    pipeline_info 
+    ch_tax_json     // The filtered taxonomy JSON
+    ch_versions     // The versions used across the modules
+    ch_template     // Quarto template for custom HTML report
+    ch_reports      // all sample level reports
+    pipeline_info   // A JSON file with pipeline parameters
 
     main:
 
