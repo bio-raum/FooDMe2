@@ -12,7 +12,7 @@ process DADA2_RMCHIMERA {
 
     output:
     tuple val(meta), path('*.ASVtable.rds') , emit: rds
-    tuple val(meta), path('*.ASVtable.tsv') , emit: asvtsv
+    tuple val(meta), path('*.ASVtable.tsv') , emit: asvtsv, optional: true
     path 'versions.yml'                     , emit: versions
     path '*.args.txt'                       , emit: args
 

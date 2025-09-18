@@ -12,7 +12,7 @@ process DADA2_FILTERSIZE {
 
     output:
     tuple val(meta), path('*.ASVtable.filt.rds') , emit: filtered
-    tuple val(meta), path('*.ASVtable.filt.tsv') , emit: filteredtxt
+    tuple val(meta), path('*.ASVtable.filt.tsv') , emit: filteredtxt, optional: true
     path 'versions.yml'                          , emit: versions
     path '*.args.txt'                            , emit: args
 
