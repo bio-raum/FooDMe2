@@ -1,3 +1,27 @@
+## dev
+
+### Features
+
+- Add support for ONT data
+- Improved error handling in the DADA2 workflow to prevent pipeline crash when few reads are available for error estimation.
+- Added metadata to primer sets to simplify search
+- Add nf-schema and nf-validation support
+
+### Reporting
+
+- Now collecting QC filtering stats in the DADA worflow (max EE and max Ns).
+- Now writting estimated error rates, obeerved transisitons, and various sequence tables in the DADA2 workflowto the results directory.
+- .RDS files are not written to the results directory anymore.
+- Settings used for the analysis are now part of the HTML report.
+
+### Documentation
+
+- Improved description of `--non_overlapping` to correctly reflect that it always tries to merge reads before joining.
+- Improved output description.
+
+### Bugs
+
+
 ## 1.2.0
 
 ### Features
