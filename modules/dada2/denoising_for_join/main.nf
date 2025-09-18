@@ -1,6 +1,6 @@
 process DADA2_DENOISING_FOR_JOIN {
     tag "$meta.sample_id"
-    label 'parallel_short'
+    label 'short_parallel'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

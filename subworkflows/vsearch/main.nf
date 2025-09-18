@@ -90,6 +90,7 @@ workflow VSEARCH_WORKFLOW {
         )
         ch_versions = ch_versions.mix(VSEARCH_FASTQMERGE.out.versions)
         ch_merged_reads = VSEARCH_FASTQMERGE.out.fastq
+
     }
 
     /*
