@@ -52,8 +52,7 @@ process HELPER_DADA_STATS {
     nonchimeric <- sum(seqtab)
 
     json <- sprintf(
-        '{"${sample_id}": {"total_reads": %d, "passing": %d, "filtered_qual": %d, "no_merged": %d, "filtered": %d, "chimeras": %d}}',
-        total_reads,
+        '{"${sample_id}": {"passing": %d, "filtered_qual": %d, "no_merged": %d, "filtered": %d, "chimeras": %d}}',
         nonchimeric,
         total_reads - reads_filtered,
         reads_filtered - merged,
