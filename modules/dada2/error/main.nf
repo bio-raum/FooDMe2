@@ -11,14 +11,14 @@ process DADA2_ERROR {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path('*.err.rds'), emit: errormodel
-    tuple val(meta), path('*.err.pdf'), emit: pdf, optional: true
-    tuple val(meta), path('*.err.svg'), emit: svg, optional: true
-    tuple val(meta), path('*.err.log'), emit: log, optional: true
-    tuple val(meta), path('*.error_rates.txt'), emit: err_rates, optional: true
-    tuple val(meta), path('*.observed_transitions.txt'), emit: trans, optional: true
-    path 'versions.yml'               , emit: versions
-    path '*.args.txt'                 , emit: args
+    tuple val(meta), path('*.err.rds')                  , emit: errormodel
+    tuple val(meta), path('*.err.pdf')                  , emit: pdf, optional: true
+    tuple val(meta), path('*.err.svg')                  , emit: svg, optional: true
+    tuple val(meta), path('*.err.log')                  , emit: log, optional: true
+    tuple val(meta), path('*.error_rates.tsv')          , emit: err_rates, optional: true
+    tuple val(meta), path('*.observed_transitions.tsv') , emit: trans, optional: true
+    path 'versions.yml'                                 , emit: versions
+    path '*.args.txt'                                   , emit: args
 
     when:
     task.ext.when == null || task.ext.when
@@ -40,22 +40,25 @@ process DADA2_ERROR {
             saveRDS(c(), "${meta.sample_id}.err.rds")
         }
 
+        output_func <- function(error, name) {
+            pErr <- plotErrors(error, nominalQ = TRUE)
+            pdf(paste(name, ".err.pdf"))
+            print(pErr)
+            dev.off()
+            svg(paste(name, ".err.svg"))
+            print(pErr)
+            dev.off()
+            write.table(error[["err_out"]], sep="\t", file=paste(name, ".error_rates.tsv"), col.names=NA, quote=FALSE)
+            write.table(error[["trans"]], sep="\t", file=paste(name, ".observed_transitions.tsv"), col.names = NA, quote=FALSE)
+        }
+
         run_module <- function(fnFs) {
             # Run the module as intended
             errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
 
             saveRDS(errF, "${meta.sample_id}.err.rds")
 
-            sink(file = NULL)
-            pdf("${meta.sample_id}.err.pdf")
-            plotErrors(errF, nominalQ = TRUE)
-            dev.off()
-            svg("${meta.sample_id}.err.svg")
-            plotErrors(errF, nominalQ = TRUE)
-            dev.off()
-
-            write.table(errF[["err_out"]], sep="\t", file="${meta.sample_id}.error_rates.txt")
-            write.table(errF[["trans"]], sep="\t", file="${meta.sample_id}.observed_transitions.txt")
+            output_func(errF, "${meta.sample_id}")
         }
         
         sink(file = "${meta.sample_id}.err.log")
@@ -88,36 +91,30 @@ process DADA2_ERROR {
             saveRDS(c(), "${meta.sample_id}_1.err.rds")
             saveRDS(c(), "${meta.sample_id}_2.err.rds")
         }
+
+        output_func <- function(error, name) {
+            pErr <- plotErrors(error, nominalQ = TRUE)
+            pdf(paste(name, ".err.pdf"))
+            print(pErr)
+            dev.off()
+            svg(paste(name, ".err.svg"))
+            print(pErr)
+            dev.off()
+            write.table(error[["err_out"]], sep="\t", file=paste(name, ".error_rates.tsv"), col.names = NA, quote=FALSE)
+            write.table(error[["trans"]], sep="\t", file=paste(name, ".observed_transitions.tsv"), col.names = NA, quote=FALSE)
+        }
         
         run_module <- function(fnFs, fnRs) {
             # Run the module as intended
-            print("Forward read ...")
+            print("Forward reads ...")
             errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
             saveRDS(errF, "${meta.sample_id}_1.err.rds")
-            print("Reverse read ...")
+            print("Reverse reads ...")
             errR <- learnErrors(fnRs, $args, multithread = $task.cpus, verbose = TRUE)
             saveRDS(errR, "${meta.sample_id}_2.err.rds")
-            sink(file = NULL)
 
-            pdf("${meta.sample_id}_1.err.pdf")
-            plotErrors(errF, nominalQ = TRUE)
-            dev.off()
-            svg("${meta.sample_id}_1.err.svg")
-            plotErrors(errF, nominalQ = TRUE)
-            dev.off()
-
-            pdf("${meta.sample_id}_2.err.pdf")
-            plotErrors(errR, nominalQ = TRUE)
-            dev.off()
-            svg("${meta.sample_id}_2.err.svg")
-            plotErrors(errR, nominalQ = TRUE)
-            dev.off()
-
-            write.table(errF[["err_out"]], sep="\t", file="${meta.sample_id}_1.error_rates.txt")
-            write.table(errF[["trans"]], sep="\t", file="${meta.sample_id}_1.observed_transitions.txt")
-
-            write.table(errF[["err_out"]], sep="\t", file="${meta.sample_id}_2.error_rates.txt")
-            write.table(errF[["trans"]], sep="\t", file="${meta.sample_id}_2.observed_transitions.txt")
+            output_func(errF, "${meta.sample_id}_1")
+            output_func(errR, "${meta.sample_id}_2")
         }
 
         sink(file = "${meta.sample_id}.err.log")

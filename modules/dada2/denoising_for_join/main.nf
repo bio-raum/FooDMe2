@@ -11,12 +11,14 @@ process DADA2_DENOISING_FOR_JOIN {
     tuple val(meta), path('filtered/*'), path(errormodel)
 
     output:
-    tuple val(meta), path('*.dada.rds')   , emit: denoised
-    tuple val(meta), path('*.seqtab.rds') , emit: seqtab
-    tuple val(meta), path('*.mergers.rds'), emit: mergers
-    tuple val(meta), path('*.log')        , emit: log
-    path 'versions.yml'                   , emit: versions
-    path '*.args.txt'                     , emit: args
+    tuple val(meta), path('*.dada.rds')     , emit: denoised
+    tuple val(meta), path('*.seqtab.rds')   , emit: seqtab
+    tuple val(meta), path('*.mergers.rds')  , emit: mergers
+    tuple val(meta), path('*.seqtab.tsv')   , emit: seqtabtxt, optional: true
+    tuple val(meta), path('*.mergers.tsv')  , emit: mergerstxt, optional: true
+    tuple val(meta), path('*.log')          , emit: log, optional: true
+    path 'versions.yml'                     , emit: versions
+    path '*.args.txt'                       , emit: args
 
     when:
     task.ext.when == null || task.ext.when
@@ -30,32 +32,46 @@ process DADA2_DENOISING_FOR_JOIN {
         #!/usr/bin/env Rscript
         suppressPackageStartupMessages(library(dada2))
 
-        # Note: Kept single workflow here in case, but normally won't be used in the non_overlapping configuration
-
-        sink(file = "${meta.sample_id}.dada.log")
-
-        errF = readRDS("${errormodel}")
-
-        if (is.null(errF)) {
+        generate_empty <- function(e) {
+            # On error or empty input generate empty output files
+            print(e)
             saveRDS(c(), "${meta.sample_id}.dada.rds")
             saveRDS(c(), "${meta.sample_id}.seqtab.rds")
             saveRDS("dummy", "dummy_${meta.sample_id}.mergers.rds")
-        } else {
+        }
+
+        run_module <- function(errF) {
+            # Run the module as intended
             filtFs <- sort(list.files("./filtered/", pattern = ".fastq*", full.names = TRUE))
 
             #denoising
             dadaFs <- dada(filtFs, err = errF, $args, multithread = $task.cpus)
             saveRDS(dadaFs, "${meta.sample_id}.dada.rds")
+
             sink(file = NULL)
 
             #make table
             seqtab <- makeSequenceTable(dadaFs)
+            write.table(seqtab, sep="\t", file="${meta.sample_id}.seqtab.tsv", col.names = FALSE, quote=FALSE)
             saveRDS(seqtab, "${meta.sample_id}.seqtab.rds")
 
             #dummy file to fulfill output rules
             saveRDS("dummy", "dummy_${meta.sample_id}.mergers.rds")
         }
+       
+        sink(file = "${meta.sample_id}.dada.log")
 
+        errF = readRDS("${errormodel}")
+
+        if (is.null(errF)) {
+            generate_empty("WARNING: Detected empty input")
+        } else {
+            tryCatch(
+                expr = run_module(errF),
+                error = function(e) generate_empty(e)
+            )
+        }
+        sink(file = NULL)
         write.table('dada\t$args', file = "dada.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
         writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
         """
@@ -64,24 +80,26 @@ process DADA2_DENOISING_FOR_JOIN {
         #!/usr/bin/env Rscript
         suppressPackageStartupMessages(library(dada2))
 
-        sink(file = "${meta.sample_id}.dada.log")
-
-        errF = readRDS("${errormodel[0]}")
-        errR = readRDS("${errormodel[1]}")
-
-        if (is.null(errF) || is.null(errR)) {
+        generate_empty <- function(e) {
+            # On error or empty input generate empty output files
+            print(e)
             saveRDS(c(), "${meta.sample_id}_2.dada.rds")
             saveRDS(c(), "${meta.sample_id}_1.dada.rds")
             saveRDS(c(), "${meta.sample_id}.mergers.rds")
             saveRDS(c(), "${meta.sample_id}.seqtab.rds")
-        } else {
+        }
+
+        run_module <- function(errF, errR) {
+            # Run the module as intended
             filtFs <- sort(list.files("./filtered/", pattern = "_1.filt.fastq.gz", full.names = TRUE))
             filtRs <- sort(list.files("./filtered/", pattern = "_2.filt.fastq.gz", full.names = TRUE))
 
             #denoising
+            print("Forward reads...")
             dadaFs <- dada(filtFs, err = errF, $args, multithread = $task.cpus)
             saveRDS(dadaFs, "${meta.sample_id}_1.dada.rds")
 
+            print("Reverse reads...")
             dadaRs <- dada(filtRs, err = errR, $args, multithread = $task.cpus)
             saveRDS(dadaRs, "${meta.sample_id}_2.dada.rds")
 
@@ -101,13 +119,29 @@ process DADA2_DENOISING_FOR_JOIN {
                 concatmergers[overlapmergers[,'accept']==FALSE,]
             )
             mergers <- mergers[order(as.numeric(row.names(mergers))), ]
+            write.table(mergers, sep="\t", file="${meta.sample_id}.mergers.tsv", col.names = NA, quote=FALSE)
             saveRDS(mergers, "${meta.sample_id}.mergers.rds")
 
             # Finally make seq tabs and join them
             seqtab <- makeSequenceTable(mergers)
+            write.table(t(seqtab), sep="\t", file="${meta.sample_id}.seqtab.tsv", col.names = FALSE, quote=FALSE)
             saveRDS(seqtab, "${meta.sample_id}.seqtab.rds")
         }
 
+        sink(file = "${meta.sample_id}.dada.log")
+
+        errF = readRDS("${errormodel[0]}")
+        errR = readRDS("${errormodel[1]}")
+
+        if (is.null(errF) || is.null(errR)) {
+            generate_empty("WARNING: Detected empty input")
+        } else {
+            tryCatch(
+                expr = run_module(errF, errR),
+                error = function(e) generate_empty(e)
+            )
+        }
+        sink(file = NULL)
         write.table('dada\t$args', file = "dada.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
         write.table('mergePairs\t$args2', file = "mergePairs.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
         writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
