@@ -22,7 +22,7 @@ body:
       description: "Target locus, provide reference if available"
     validations:
       required: true
-  - type: input
+  - type: textarea
     id: primers_seq
     attributes:
       label: "Primer sequences"
@@ -36,6 +36,15 @@ body:
       description: "Reference or norm for primers, if available"
     validations:
       required: false
+  - type: checkboxes
+    id: platform
+    attributes:
+      label: "For which sequencinf platform(s) should a method be created?"
+      options:
+        - label: Illumina
+        - label: Oxford Nanopore
+        - label: IonTorrent
+        - label: other (specify in comments)
   - type: textarea
     id: validation
     attributes:
