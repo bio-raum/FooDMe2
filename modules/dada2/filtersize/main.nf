@@ -1,6 +1,6 @@
 process DADA2_FILTERSIZE {
     tag "$meta.sample_id"
-    label 'process_medium'
+    label 'medium_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
