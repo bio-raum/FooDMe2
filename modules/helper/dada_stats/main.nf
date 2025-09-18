@@ -27,7 +27,7 @@ process HELPER_DADA_STATS {
     count_fastq_records <- function(file_path) {
         cmd <- paste("zcat", shQuote(file_path), "| wc -l")
         total_lines <- as.numeric(system(cmd, intern = TRUE))
-        return(total_lines / 4)
+        return(floor(total_lines / 4))
     }
 
     # Total reads input to dada workflow
