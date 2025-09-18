@@ -106,7 +106,7 @@ process DADA2_DENOISING {
             sink(file = NULL)
 
             #make table
-            mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, $args2, verbose=TRUE
+            mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, $args2, verbose=TRUE)
             write.table(mergers, sep="\t", file="${meta.sample_id}.mergers.tsv", col.names = NA, quote=FALSE)
             saveRDS(mergers, "${meta.sample_id}.mergers.rds")
             seqtab <- makeSequenceTable(mergers)
