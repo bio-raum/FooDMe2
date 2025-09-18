@@ -15,10 +15,10 @@ class WorkflowPipeline {
             params.primers.keySet().each { primer ->
                 def info = params.primers[primer].description
                 def doi = params.primers[primer].doi
-                def target = params.primers[primer].target
+                def target = params.primers[primer].target.collect { it.toLowerCase() }
                 def platform = params.primers[primer].platform
                 if (params.list_primers.toString() != "true") {
-                    if (target.toLowerCase().contains(params.list_primers.toLowerCase()) || platform.toLowerCase().contains(params.list_primers.toLowerCase()) ) {
+                    if (target.contains(params.list_primers.toLowerCase()) || platform.toLowerCase().contains(params.list_primers.toLowerCase()) ) {
                         println("Name: ${primer}\nDescription: ${info}\nTarget: ${target}\nPlatform: ${platform}\nReference: doi:${doi}")
                         println('---------------------------')
                     }
