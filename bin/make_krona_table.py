@@ -5,30 +5,35 @@
 
 import argparse
 import taxidTools
-
+import json
 
 parser = argparse.ArgumentParser(description="Script options")
-parser.add_argument("--table", help="path to compo table")
+parser.add_argument("--report", help="path to summary json")
 parser.add_argument("--tax", help="Taxonomy JSON")
 parser.add_argument("--output", help="Path to output table")
 args = parser.parse_args()
 
 
-def main(table, tax, output):
+def main(report, tax, output):
     tax = taxidTools.read_json(tax)
-    with open(table, "r") as fi, open(output, "w") as fo:
-        next(fi)  # skip header
-        for line in fi:
+
+    with open(report) as fd, open(output, "w") as fo:
+        jdata = json.load(fd)
+        composition = jdata["composition"]
+
+        for entry in composition:
             try:
-                lineage = taxidTools.Lineage(tax[line.split("\t")[2].strip()], ascending=False)
+                taxon = entry["taxid"]
+                lineage = taxidTools.Lineage(tax[taxon], ascending=False)
                 lineage_string = "\t".join([node.name for node in lineage])
             except taxidTools.InvalidNodeError:
                 lineage_string = "Undetermined"
             finally:
-                fo.write(f"{line.split("\t")[5].strip()}\t{lineage_string}\n")
+                abundance = entry["proportion"]
+                fo.write(f"{abundance}\t{lineage_string}\n")
 
 
 if __name__ == '__main__':
-    main(args.table,
+    main(args.report,
          args.tax,
          args.output)

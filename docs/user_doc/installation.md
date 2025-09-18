@@ -6,7 +6,11 @@ If you are new to our pipeline ecosystem, we recommend you first check out our g
 
 Nextflow is a highly portable pipeline engine. Please see the official [installation guide](https://www.nextflow.io/docs/latest/getstarted.html#installation) to learn how to set it up.
 
-This pipeline expects Nextflow version 24.04.4, available [here](https://github.com/nextflow-io/nextflow/releases/tag/v24.04.4).
+This pipeline expects Nextflow version 24.10.5, available [here](https://github.com/nextflow-io/nextflow/releases/tag/v24.10.5). Depending on your setting, you may then have to manually install the nf-validation and nf-schema plugins:
+
+```bash
+nextflow plugin install nf-schema
+```
 
 ## Software provisioning
 
@@ -155,13 +159,10 @@ This possibility is however limited to defining nextflow execution parameters an
 === "`local.config`"
 
     ```java
-    params {
-      max_cpus = 4
-      max_memory = 16.GB
-    }
 
     process {
       executor = 'local'
+      resourceLimits = [ cpus: 8, memory: 32.GB, time: 72.h ]
     }
 
     executor {

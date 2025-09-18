@@ -8,22 +8,22 @@ process PORECHOP_ABI {
         'quay.io/biocontainers/porechop_abi:0.5.0--py310h590eda1_0' }"
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(fastq, stageAs: 'raw/*')
 
     output:
-    tuple val(meta), path('*.fastq.gz'), emit: reads
-    tuple val(meta), path('*.log')     , emit: log
-    path 'versions.yml'                , emit: versions
+    tuple val(meta), path('*.trimmed.fastq.gz') , optional: true, emit: reads
+    tuple val(meta), path('*.log')              , emit: log
+    path 'versions.yml'                         , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: reads.getBaseName() + '.trimmed'
+    def prefix = task.ext.prefix ?: fastq.getBaseName() + '.trimmed'
     """
     porechop_abi \\
-        --input $reads \\
+        --input $fastq \\
         --threads $task.cpus \\
         $args \\
         --output ${prefix}.fastq.gz \\

@@ -1,6 +1,6 @@
 process DADA2_FILTERSIZE {
     tag "$meta.sample_id"
-    label 'process_medium'
+    label 'medium_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -12,6 +12,7 @@ process DADA2_FILTERSIZE {
 
     output:
     tuple val(meta), path('*.ASVtable.filt.rds') , emit: filtered
+    tuple val(meta), path('*.ASVtable.filt.tsv') , emit: filteredtxt, optional: true
     path 'versions.yml'                          , emit: versions
     path '*.args.txt'                            , emit: args
 
@@ -29,6 +30,7 @@ process DADA2_FILTERSIZE {
 
     # filter
     seqtab.filt <- seqtab[,nchar(colnames(seqtab)) %in% seq($minLen,$maxLen)]
+    write.table(seqtab.filt, sep="\t", file="${meta.sample_id}.ASVtable.filt.tsv", col.names = FALSE, quote=FALSE)
     saveRDS(seqtab.filt,"${meta.sample_id}.ASVtable.filt.rds")
 
     write.table('removeBimeraDenovo\t$args', file = "removeBimeraDenovo.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')

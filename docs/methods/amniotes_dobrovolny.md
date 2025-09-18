@@ -22,7 +22,7 @@
 
 :gear: **Run with:**
 
-`--primer_set amniotes_dobrovolny`
+`--primer_set 16S_ILM_ASU184_meat`
 
 For example:
 
@@ -31,22 +31,14 @@ nextflow run bio-raum/FooDMe2 \
   -r main \
   -profile myprofile \ # (1)!
   --input samples.tsv \
-  --primer_set amniotes_dobrovolny
+  --primer_set 16S_ILM_ASU184_meat
 ```
 
 1. See the [installation guide](../user_doc/installation.md) for more details on this parameter
 
 ## Configuration
 
-Following parameters are set to a different value than default when running this method:
-
-* `database`: MIDORI`s LRNA (16S ribosomal subunit)
-* `max_expected_errors`: 2
-* `amplicon_min_length`: 65
-* `amplicon_max_length`: 110
-* `primers_fasta`: `/assets/primers/amniotes_dobrovolny.fasta`
-* `taxid_filter`: 32524 (Amniotes)
-* `cutadapt_trim_3p`: true
+Check the `16S_ILM_ASU184_meat.conf` configuration file under `conf/primers/` for an list of parameters.
 
 ## Validation
 
@@ -60,7 +52,7 @@ nextflow run bio-raum/FooDMe2 \
   -r main
 ```
 
-Running this will fetch the dataset from ENA, run the workflow with the `amniotes_dobrovolny` preconfiguration and then compare the resutls to the expected composition defined under `assets/validation/dobrovolny_benchmark_groundtruth.csv`. A noise filter fo 0.1% of the total read number is applied to each sample and the composition is matched to up to the genus level.
+Running this will fetch the dataset from ENA, run the workflow with the `16S_ILM_ASU188_meat` preconfiguration and then compare the resutls to the expected composition defined under `assets/validation/dobrovolny_benchmark_groundtruth.csv`. A noise filter fo 0.1% of the total read number is applied to each sample and the composition is matched to up to the genus level.
 
 In the resulting Excel file we can quickly count the number of TP, FP and FN and calculate precision and recall for the analysis:
 

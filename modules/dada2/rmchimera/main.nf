@@ -1,6 +1,6 @@
 process DADA2_RMCHIMERA {
     tag "$meta.sample_id"
-    label 'process_medium'
+    label 'medium_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -12,6 +12,7 @@ process DADA2_RMCHIMERA {
 
     output:
     tuple val(meta), path('*.ASVtable.rds') , emit: rds
+    tuple val(meta), path('*.ASVtable.tsv') , emit: asvtsv, optional: true
     path 'versions.yml'                     , emit: versions
     path '*.args.txt'                       , emit: args
 
@@ -31,6 +32,7 @@ process DADA2_RMCHIMERA {
     } else {
         #remove chimera
         seqtab.nochim <- removeBimeraDenovo(seqtab, $args, multithread=$task.cpus, verbose=TRUE)
+        write.table(seqtab.nochim, sep="\t", file="${meta.sample_id}.ASVtable.tsv", col.names = FALSE, quote=FALSE)
         saveRDS(seqtab.nochim,"${meta.sample_id}.ASVtable.rds")
     }
     write.table('removeBimeraDenovo\t$args', file = "removeBimeraDenovo.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')

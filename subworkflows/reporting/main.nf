@@ -1,45 +1,39 @@
 include { HELPER_REPORT_XLSX }              from './../../modules/helper/report_xlsx'
 include { HELPER_KRONA_TABLE }              from './../../modules/helper/krona_table'
 include { KRONA_HTML }                      from './../../modules/krona/'
-include { HELPER_BENCHMARK }                from './../../modules/helper/benchmark'
-include { HELPER_BENCHMARK_XLSX }           from './../../modules/helper/benchmark_xlsx'
-include { HELPER_SAMPLE_REPORT }            from './../../modules/helper/sample_report'
 include { HELPER_HTML_REPORT }              from './../../modules/helper/html_report'
-
-ch_versions = Channel.from([])
-ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
-
+include { HELPER_REPORTS_JSON }             from './../../modules/helper/reports_json'
 
 workflow REPORTING {
-    take:
-    ch_tax_json // The filtered taxonomy JSON
-    ch_compo
-    ch_compo_json
-    ch_cutadapt
-    ch_clustering
-    ch_blast
-    ch_consensus
-    ch_versions
-    ch_fastp_input_json
-    ch_fastp_trim_json
-    ch_template  // Quarto tempalte for custom HTML report
 
+    take:
+    ch_tax_json     // The filtered taxonomy JSON
+    ch_versions     // The versions used across the modules
+    ch_template     // Quarto template for custom HTML report
+    ch_reports      // all sample level reports
+    pipeline_info   // A JSON file with pipeline parameters
 
     main:
-    ch_report = Channel.from([])
-    ch_xlsx   = Channel.from([])
+
+    ch_html_report  = Channel.from([])
+    ch_xlsx         = Channel.from([])
+
+    // The sample-level summary JSON
+    HELPER_REPORTS_JSON(
+        ch_reports.groupTuple(),
+        ch_versions.collect()
+    )
 
     // Excel report
     HELPER_REPORT_XLSX(
-        ch_compo.map { m, t -> t }.collect(),
-        ch_consensus.map { m, t -> t}.collect()
+        HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect()
     )
 
     ch_xlsx = ch_xlsx.mix(HELPER_REPORT_XLSX.out.xlsx)
 
     // Krona
     HELPER_KRONA_TABLE(
-        ch_compo,
+        HELPER_REPORTS_JSON.out.json,
         ch_tax_json.collect()
     )
 
@@ -48,62 +42,22 @@ workflow REPORTING {
     )
 
     /*
-    Here we group all the sample-specific reports by meta hash
-    the fastp report is optional in case of ONT data, so we need to account for that
-    */
-    ch_compo_json.join(
-        ch_cutadapt, remainder: true
-    ).join(
-        ch_blast, remainder: true
-    ).join(
-        ch_consensus, remainder: true
-    ).join(
-        ch_fastp_input_json, remainder: true
-    ).join(
-        ch_fastp_trim_json, remainder: true
-    ).set { ch_reports_grouped }
-
-    /*
-    Make a pretty JSON using the sample-specific reports and
-    summary metrics from the clustering as well as software versions
-    */
-    HELPER_SAMPLE_REPORT(
-        ch_reports_grouped,
-        ch_clustering.collect(),
-        ch_versions.collect()
-    )
-
-    /*
     Write a summary report across all samples using
-    a customizable jinja2 template
+    a customizable Quarto template
     */
-    HELPER_HTML_REPORT(
-        HELPER_SAMPLE_REPORT.out.json.map {m,j -> j}.collect(),
-        KRONA_HTML.out.html,
-        ch_template,
-    )
-
-    ch_report = ch_report.mix(HELPER_HTML_REPORT.out.html)
-
-    // Benchmark
-    if (params.ground_truth) {
-        ch_compo_agg = ch_compo.map { m, t -> t }.collectFile(name: 'composition.tsv', keepHeader: true)
-
-        HELPER_BENCHMARK(
-            ch_compo_agg,
-            ch_truthtable,
-            ch_tax_json.collect(),
-            params.benchmark_rank,
-            params.benchmark_cutoff
+    if (!params.skip_report) {
+        HELPER_HTML_REPORT(
+            HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
+            KRONA_HTML.out.html,
+            ch_template,
+            pipeline_info
         )
 
-        HELPER_BENCHMARK_XLSX(
-            HELPER_BENCHMARK.out.results.collect()
-        )
+        ch_html_report = ch_html_report.mix(HELPER_HTML_REPORT.out.html)
     }
 
     emit:
     versions = ch_versions
     xlsx     = ch_xlsx
-    report   = ch_report
+    report   = ch_html_report
 }

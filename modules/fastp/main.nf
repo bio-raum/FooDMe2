@@ -20,13 +20,13 @@ process FASTP {
 
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    def suffix = task.ext.suffix ?: "trim.fastq.gz"
-    def trimmed  = meta.single_end ? "--out1 ${prefix}.trim.${suffix}" : "--out1 ${prefix}_1.${suffix} --out2 ${prefix}_2.${suffix}"
+    def suffix = task.ext.suffix ?: "trim"
+    def trimmed  = meta.single_end ? "--out1 ${prefix}.${suffix}.fastq.gz" : "--out1 ${prefix}_1.${suffix}.fastq.gz --out2 ${prefix}_2.${suffix}.fastq.gz"
 
     r1 = reads.first()
 
-    json = prefix + '.fastp.json'
-    html = prefix + '.fastp.html'
+    json = prefix + "." + suffix + '.fastp.json'
+    html = prefix + "." + suffix + '.fastp.html'
 
     if (meta.single_end) {
         r1_trim = r1.getBaseName() + suffix

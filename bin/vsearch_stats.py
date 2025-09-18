@@ -26,15 +26,19 @@ def main(sample_id, fwd, merged, filtered, nonchimera, output):
 
     # Merged reads
     merged_reads = 0
-    with open(merged, "r") as handle:
-        for _ in SeqIO.parse(handle, "fastq"):
-            merged_reads += 1
+    if merged:
+        with open(merged, "r") as handle:
+            for _ in SeqIO.parse(handle, "fastq"):
+                merged_reads += 1
+    else:
+        merged_reads = total_reads
 
     # Filtered reads
     filtered_reads = 0
-    with open(filtered, "r") as handle:
-        for _ in SeqIO.parse(handle, "fasta"):
-            filtered_reads += 1
+    if filtered:
+        with open(filtered, "r") as handle:
+            for _ in SeqIO.parse(handle, "fasta"):
+                filtered_reads += 1
 
     # Non-chimeric reads
     # this is after dereplication, parse headers to get read numbers

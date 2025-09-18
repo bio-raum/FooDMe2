@@ -181,26 +181,6 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
 :   A mandatory name for this run, to be included with the result files.
 
-`--email me@google.com` [ default = null]
-
-:   An email address to which the MultiQC report is send after pipeline completion. This requires for the executing system to have [sendmail](https://rimuhosting.com/support/settingupemail.jsp?mta=sendmail) configured.
-
-### Resources
-
-The following options can be set to control resource usage outside of a site-specific [config](https://github.com/bio-raum/nf-configs) file.
-
-`--max_cpus` [ default = 8]
-
-:   The maximum number of cpus a single job can request. This is typically the maximum number of cores available on a compute node or your local (development) machine. 
-
-`--max_memory` [ default = 16.GB ]
-
-:   The maximum amount of memory a single job can request. This is typically the maximum amount of RAM available on a compute node or your local (development) machine, minus a few percent to prevent the machine from running out of memory while running basic background tasks.
-
-`--max_time`[ default = 240.h ]
-
-:   The maximum allowed run/wall time a single job can request. This is mostly relevant for environments where run time is restricted, such as in a computing cluster with active resource manager or possibly some cloud environments.
-
 ### PCR primers
 
 `--list_primers` [ default = false]
@@ -209,6 +189,12 @@ The following options can be set to control resource usage outside of a site-spe
 
     ```bash
     nextflow run bio-raum/FooDMe2 --list_primers
+    ```
+
+    You can additionally narrow down the resulting list by specifying a target gene (e.g. 16S) or a sequencing technology (e.g. Illumina) to only get matching sets.
+
+    ```bash
+    nextflow run bio-raum/FooDMe2 --list_primers 16S
     ```
 
 `--primer_set` [default = null]
@@ -269,7 +255,7 @@ Databases for taxonomic assignment can be specified in one of two ways - from th
 
 `--taxid_filter` [ default = null ]
 
-:   In case you do not use a pre-configured [primer_set](#pcr-primers), you will have to tell the pipeline a taxonomic group you wish to screen. The argument must be an ID from the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy). Some common examples are:
+:   In case you do not use a pre-configured [primer_set](#pcr-primers) or wish to use it against a different taxonomic group, you will have to tell the pipeline a taxonomic group you wish to screen. The argument must be an ID from the [NCBI taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy). Some common examples are:
 
     | Taxonomic group | NCBI ID |
     | --------------- | ------- |
@@ -384,7 +370,7 @@ it. Make sure to re-set any options you want to keep.
 
 `--non_overlapping` [ default = false]
 
-:   Toggle read concatenation instead of merging with an overlapping sequence. A short N spacer will be added between the forward and reverse read sequences. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap. **This applies to all reads.** Trying to analyze datasets with a mixture of overlapping and non-overlapping reads is highly discouraged.
+:   Flag to signal that forward and reverse reads are not expected to overlap. The workflow will always try to join reads but if the `non_overlapping` flag is set, a short N spacer will be added between the forward and reverse read sequences that cannot be merged. Works for both VSEARCH and DADA2 with paired-end reads. This is useful in case long amplicons and/or short sequencing reads lead to R1 and R2 having no overlap.
 
     !!! warning "Non-overlapping reads and BLAST"
 

@@ -2,16 +2,16 @@ include { CUTADAPT }            from './../../modules/cutadapt_test'
 include { PRIMER_DISAMBIGUATE } from './../../modules/helper/primer_disambiguate'
 include { FASTX_REVERSE_COMPLEMENT }    from './../../modules/fastx_toolkit/fastx_reverse_complement'
 
-ch_versions = Channel.from([])
-ch_qc  = Channel.from([])
-ch_reads = Channel.from([])
-
 workflow CUTADAPT_WORKFLOW {
     take:
     reads
     ch_primers
 
     main:
+
+    ch_versions = Channel.from([])
+    ch_qc  = Channel.from([])
+    ch_reads = Channel.from([])
 
     // Disambiguate degenerate primer sequences
     PRIMER_DISAMBIGUATE(

@@ -12,8 +12,9 @@ process VSEARCH_FASTXUNIQUES {
     tuple val(meta), path(fa)
 
     output:
-    tuple val(meta), path(derep), emit: fasta
-    path("versions.yml"), emit: versions
+    tuple val(meta), path(derep)    , emit: fasta
+    tuple val(meta), path("*.uc")   , emit: uc
+    path("versions.yml")            , emit: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -22,7 +23,11 @@ process VSEARCH_FASTXUNIQUES {
     derep = prefix + '.unique.fasta'
 
     """
-    vsearch -fastx_uniques $fa $args -sizeout -relabel ${meta.sample_id}_Unique -fastaout $derep
+    vsearch -fastx_uniques $fa $args \
+    -sizeout \
+    -relabel ${meta.sample_id}_Unique \
+    -fastaout $derep \
+    -uc ${prefix}.unique.uc
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
