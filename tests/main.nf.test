@@ -1,0 +1,23 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+
+    test("Should run without failures") {
+
+        when {
+            params {
+                outdir = "tests/results"
+                input = "https://raw.githubusercontent.com/marchoeppner/nf-testdata/main/foodme2/samples.tsv"
+	            primer_set = "16S_ILM_ASU184_meat"
+	            run_name = "pipeline_test"
+            }
+        }
+
+        then {
+            assert workflow.success
+        }
+
+    }
+
+}

@@ -3,3 +3,4 @@
 results/*
 work/*
 .nextflow/*
+tests/results
