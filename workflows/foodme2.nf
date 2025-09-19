@@ -4,7 +4,7 @@ Import modules
 include { INPUT_CHECK }                 from './../modules/input_check'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 include { UNZIP }                       from './../modules/unzip'
-include { STAGE as STAGE_SAMPLESHEET } from './../modules/helper/stage'
+include { STAGE as STAGE_SAMPLESHEET }  from './../modules/helper/stage'
 
 /*
 Import sub workflows
