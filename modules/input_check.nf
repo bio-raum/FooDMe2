@@ -19,6 +19,7 @@ workflow INPUT_CHECK {
 // Function to get list of [ meta, [ fastq_1, fastq_2 ] ]
 def fastq_channel(LinkedHashMap row) {
     def meta = [:]
+    println(row)
     meta.sample_id    = row.sample
     meta.single_end   = true
 
