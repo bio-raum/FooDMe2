@@ -6,3 +6,4 @@ work/*
 tests/results
 .nf-test
 .nf-test.log
+.vscode/settings.json
