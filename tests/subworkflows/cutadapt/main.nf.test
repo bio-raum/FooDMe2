@@ -1,0 +1,34 @@
+nextflow_workflow {
+
+    name "Test Workflow CUTADAPT_WORKFLOW"
+    script "subworkflows/cutadapt/main.nf"
+    workflow "CUTADAPT_WORKFLOW"
+
+    test("Should run without failures") {
+
+        when {
+            params {
+                // define parameters here. Example:
+                outdir = "tests/results"
+                cutadapt_trim_3p = true
+                cutadapt_options = "-m 40"
+            }
+            workflow {
+                """
+                input[0] = Channel.of( [ [sample_id:'Lasagne', single_end:false], [ file("${projectDir}/tests/data/Lasagne_clean_S1_L001_R1_001.fastq.gz"), file("${projectDir}/tests/data/Lasagne_clean_S1_L001_R2_001.fastq.gz") ] ])
+                input[1] = file("${projectDir}/assets/primers/16S_ASU184.fasta")
+                """
+            }
+        }
+
+        then {
+            assert workflow.success
+            with(workflow.out.trimmed) {
+                assert path(get(0).get(1).get(0)).md5 == "ec8129ae0825a69bf3a3b3d48d1a145b"
+            }
+            
+        }
+
+    }
+
+}
