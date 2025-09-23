@@ -1,0 +1,31 @@
+nextflow_process {
+
+    name "Test Process PRIMER_DISAMBIGUATE"
+    script "modules/helper/primer_disambiguate/main.nf"
+    process "PRIMER_DISAMBIGUATE"
+
+    test("Should run without failures") {
+
+        when {
+            params {
+                // define parameters here. Example:
+                // outdir = "tests/results"
+            }
+            process {
+                """
+                // define inputs of the process here. Example:
+                input[0] = file("${projectDir}/assets/primers/16S_ASU184.fasta")
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            with(process.out.fasta) {
+                assert path(get(0)).md5 == "e864edaf3c2c1f258b03102c1393c52d"
+            }
+        }
+
+    }
+
+}
