@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
   pull_request:
     types:
       - opened
@@ -28,10 +29,10 @@ jobs:
           java-version: '21'
           distribution: 'adopt'
 
-      - name: Setup Nextflow latest-edge
-        uses: nf-core/setup-nextflow@v1
+      - name: Setup Nextflow latest
+        uses: nf-core/setup-nextflow@v2
         with:
-          version: "latest-edge"
+          version: "latest"
 
       - name: Setup Apptainer
         uses: eWaterCycle/setup-apptainer@4bb22c52d4f63406c49e94c804632975787312b3 # v2.0.0
