@@ -11,6 +11,7 @@ nextflow_pipeline {
                 input = "${projectDir}/tests/data/samples.nf-test.tsv"
 	            primer_set = "16S_ILM_ASU184_meat"
 	            run_name = "pipeline_test"
+                reference_base = "${projectDir}/tests/refs"
             }
         }
 

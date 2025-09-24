@@ -48,4 +48,4 @@ jobs:
         env:
           NXF_APPTAINER_CACHEDIR: ./
           NXF_APPTAINER_HOME_MOUNT: true
-        run: nf-test test --ci --profile apptainer,github_test
+        run: nf-test test --ci --profile apptainer,github_test 
