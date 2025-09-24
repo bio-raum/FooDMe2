@@ -23,12 +23,15 @@ nextflow_workflow {
 
         then {
             assert workflow.success
+            // Take the first emission, which is [ meta, [ R1, R2 ] ] - and m5sum the R1
             with(workflow.out.trimmed) {
-                assert path(get(0).get(1).get(0)).md5 == "ec8129ae0825a69bf3a3b3d48d1a145b"
-            }
-            
+                with(get(0)) {
+                    with(get(1)) {
+                        assert path(get(0)).md5 == "126b7b3d1654219ed478a969d61995c1"  
+                    }
+                }
+            } 
         }
-
     }
 
 }
