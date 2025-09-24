@@ -24,6 +24,7 @@ nextflow_workflow {
         then {
             assert workflow.success
             // Take the first emission, which is [ meta, [ R1, R2 ] ] - and m5sum the R1
+            // The md5sum is computed on the uncompressed file!
             with(workflow.out.trimmed) {
                 with(get(0)) {
                     with(get(1)) {
