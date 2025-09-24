@@ -39,7 +39,7 @@ jobs:
           NXF_APPTAINER_CACHEDIR: ./
           NXF_APPTAINER_HOME_MOUNT: true
         run: |
-          nextflow run main.nf -profile apptainer,github_test --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv 
+          nextflow run main.nf -profile apptainer,github_test --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "16S_ILM_ASU184_meat" --ground_truth ./tests/data/groundtruth.tsv 
   
   test_docker:
     runs-on: ubuntu-24.04
@@ -54,7 +54,7 @@ jobs:
 
       - name: Run the pipeline
         run: |
-          nextflow run main.nf -profile docker,github_test --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv 
+          nextflow run main.nf -profile docker,github_test --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "16S_ILM_ASU184_meat" --ground_truth ./tests/data/groundtruth.tsv 
 
   test_conda:
     runs-on: ubuntu-24.04
@@ -77,4 +77,4 @@ jobs:
 
       - name: Run the pipeline
         run: |
-          nextflow run main.nf -profile conda,github_test --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "amniotes_dobrovolny" --ground_truth ./tests/data/groundtruth.tsv 
+          nextflow run main.nf -profile conda,github_test --outdir ./results --reference_base ./tests/refs --run_name test --input ./tests/data/samples.tsv --primer_set "16S_ILM_ASU184_meat" --ground_truth ./tests/data/groundtruth.tsv 
