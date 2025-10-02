@@ -1,0 +1,38 @@
+nextflow_workflow {
+
+    name "Test Workflow CUTADAPT_WORKFLOW"
+    script "subworkflows/cutadapt/main.nf"
+    workflow "CUTADAPT_WORKFLOW"
+
+    test("Should run without failures") {
+
+        when {
+            params {
+                // define parameters here. Example:
+                outdir = "tests/results"
+                cutadapt_trim_3p = true
+                cutadapt_options = "-m 40"
+            }
+            workflow {
+                """
+                input[0] = Channel.of( [ [sample_id:'Lasagne_clean', single_end:false], [ file("${projectDir}/tests/data/Lasagne_clean_S1_L001_R1_001.fastq.gz"), file("${projectDir}/tests/data/Lasagne_clean_S1_L001_R2_001.fastq.gz") ] ])
+                input[1] = file("${projectDir}/assets/primers/16S_ASU184.fasta")
+                """
+            }
+        }
+
+        then {
+            assert workflow.success
+            // Take the first emission, which is [ meta, [ R1, R2 ] ] - and m5sum the R1
+            // The md5sum is computed on the uncompressed file!
+            with(workflow.out.trimmed) {
+                with(get(0)) {
+                    with(get(1)) {
+                        assert path(get(0)).md5 == "126b7b3d1654219ed478a969d61995c1"  
+                    }
+                }
+            } 
+        }
+    }
+
+}

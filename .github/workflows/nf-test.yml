@@ -17,21 +17,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        shard: [1, 2, 3, 4]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Set up JDK 21
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'adopt'
 
-      - name: Setup Nextflow latest-edge
-        uses: nf-core/setup-nextflow@v1
+      - name: Setup Nextflow 24.10.5
+        uses: nf-core/setup-nextflow@v2
         with:
-          version: "latest-edge"
+          version: 24.10.5
 
       - name: Setup Apptainer
         uses: eWaterCycle/setup-apptainer@4bb22c52d4f63406c49e94c804632975787312b3 # v2.0.0
@@ -40,11 +45,11 @@ jobs:
 
       - name: Install nf-test
         run: |
-          wget -qO- https://get.nf-test.com | bash
+          wget -qO- https://get.nf-test.com | bash -s 0.9.2
           sudo mv nf-test /usr/local/bin/
 
-      - name: Run Tests
+      - name: Run Tests (Shard ${{ matrix.shard }}/${{ strategy.job-total }})
         env:
           NXF_APPTAINER_CACHEDIR: ./
           NXF_APPTAINER_HOME_MOUNT: true
-        run: nf-test test --ci --profile apptainer
+        run: nf-test test --ci --shard ${{ matrix.shard }}/${{ strategy.job-total }} --profile apptainer,github_test --changed-since HEAD^
