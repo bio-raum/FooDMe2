@@ -690,22 +690,22 @@ show(
 ```{python}
 #| label: settings
 
-psettings = False
+#psettings = False
 
-settings_file = [pos_json for pos_json in os.listdir('.') if pos_json.startswith('params_')].pop(0)
+#settings_file = [pos_json for pos_json in os.listdir('.') if pos_json.startswith('params_')].pop(0)
 
-with open(settings_file) as f:
-    psettings = json.load(f)
+#with open(settings_file) as f:
+#    psettings = json.load(f)
 
-table = []
+#table = []
 
-psettings.pop('maxMultiqcEmailFileSize', None)
-psettings.pop('primers', None)
-psettings.pop('references', None)
+#psettings.pop('maxMultiqcEmailFileSize', None)
+#psettings.pop('primers', None)
+#psettings.pop('references', None)
 
-for key,value in (sorted(psettings.items())):
-    table.append([key, value])
+#for key,value in (sorted(psettings.items())):
+#    table.append([key, value])
 
-Markdown(tabulate(table, headers=["Setting","Value"]))
+#Markdown(tabulate(table, headers=["Setting","Value"]))
 
 ```
