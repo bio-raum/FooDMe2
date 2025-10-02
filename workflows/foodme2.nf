@@ -66,7 +66,7 @@ workflow FOODME2 {
                 log.info "You chose a pre-configured primer set but are overriding the database - this may lead to problems!"
                 database    = params.db
                 blast_db    = set_blast_db(database)
-                fasta       = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+                fasta       = params.references.databases[database].fasta ? file(params.references.databases[database].fasta, checkIfExists: true) : null
                 version     = params.references.databases[database].version
             }
         // If the users specifies a custom primer set as FASTA instead
