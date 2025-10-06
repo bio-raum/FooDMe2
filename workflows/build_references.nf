@@ -9,6 +9,7 @@ include { BLAST_MAKEBLASTDB }               from './../modules/blast/makeblastdb
 include { UNTAR as UNTAR_TAXONOMY }         from './../modules/untar'
 include { UNTAR as UNTAR_UNITE }            from './../modules/untar'
 include { UNTAR as UNTAR_NCBI }             from './../modules/untar'
+include { WGET as WGET_MIDORI }             from './../modules/wget'
 include { HELPER_FORMAT_GENBANK_TAXIDS }    from './../modules/helper/format_genbank_taxids'
 include { HELPER_FORMAT_UNITE }             from './../modules/helper/format_unite'
 include { HELPER_INSTALL_GENBANK }          from './../modules/helper/install_genbank'
@@ -34,21 +35,34 @@ workflow BUILD_REFERENCES {
     }.set { tax_files }
 
     database_files = []
+    midori_files = []
 
     if (params.build_references) {
         // For all genes of interest, recover supported tools and the corresponding database link
         databases.each { db ->
             // Genbank NT does not have an url, so we skip it here.
             if (params.references.databases[db].url) {
-                database_files << [ [ id: db, tool: 'blast' ] ,
-                    file(params.references.databases[db].url, checkIfExists: true)
+                if (params.references.databases[db].url.contains("MIDORI2")) {
+                    midori_files << [ [ id: db, tool: 'blast' ],
+                    params.references.databases[db].url
                 ]
+                } else {
+                    database_files << [ [ id: db, tool: 'blast' ] ,
+                        file(params.references.databases[db].url, checkIfExists: true)
+                    ]
+                }
             }
         }
     }
 
-    ch_files = Channel.fromList(database_files)
     ch_blast_files = Channel.from([])
+    ch_files = Channel.fromList(database_files)
+
+    // We download Midori with wget since the service is not guaranteed to have a valid SSL cert
+    WGET_MIDORI(
+        Channel.fromList(midori_files)
+    )
+    ch_files = ch_files.mix(WGET_MIDORI.out.download)    
 
     ch_files.branch { m, r ->
         midori: r.toString().contains('MIDORI')
