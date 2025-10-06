@@ -119,7 +119,11 @@ process DADA2_DENOISING_FOR_JOIN {
                 concatmergers[overlapmergers[,'accept']==FALSE,]
             )
             mergers <- mergers[order(as.numeric(row.names(mergers))), ]
-            write.table(mergers, sep="\t", file="${meta.sample_id}.mergers.tsv", col.names = NA, quote=FALSE)
+
+            # R is BS, flatten list to write
+            df <- mergers
+            df["sequence"] <- sapply(df["sequence"], function(x) paste(x, collapse = ","))
+            write.table(df, sep="\t", file="${meta.sample_id}.mergers.tsv", col.names = NA, quote=FALSE)
             saveRDS(mergers, "${meta.sample_id}.mergers.rds")
 
             # Finally make seq tabs and join them

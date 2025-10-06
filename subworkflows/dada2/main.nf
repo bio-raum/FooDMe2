@@ -98,4 +98,5 @@ workflow DADA2_WORKFLOW {
     versions = ch_versions
     qc = ch_qc_files
     stats = HELPER_DADA_STATS.out.json
+
 }
