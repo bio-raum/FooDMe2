@@ -22,10 +22,10 @@ process WGET {
     def local = url.split("/")[-1]
     """
 
-    if [ -n "\${HTTPS_PROXY}" ]; then
-        PROXY_OPTIONS="-e use_proxy=yes -e https_proxy=\$HTTPS_PROXY"
-    else
+    if [ -z "\${HTTPS_PROXY+x}" ]; then
         PROXY_OPTIONS=""
+    else
+        PROXY_OPTIONS="-e use_proxy=yes -e https_proxy=\$HTTPS_PROXY"
     fi
 
     echo Using \$PROXY_OPTIONS
