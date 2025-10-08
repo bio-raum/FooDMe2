@@ -15,7 +15,7 @@ nextflow_workflow {
             workflow {
                 """
                 // define inputs of the workflow here. Example:
-                input[0] = Channel.of( [ [sample_id:'Lasagne_clean', single_end:false], [ file("${projectDir}/tests/data/ERR10436092_1.adaptertrim.fastq.gz"), file("${projectDir}/tests/data/ERR10436092_2.adaptertrim.fastq.gz") ] ])
+                input[0] = Channel.of( [ [sample_id:'Lasagne_clean', single_end:false], [ file("${projectDir}/tests/data/Lasagne_clean_1.primertrim.fastq.gz"), file("${projectDir}/tests/data/Lasagne_clean_2.primertrim.fastq.gz") ] ])
                 """
             }
         }

@@ -59,14 +59,14 @@ workflow FOODME2 {
             database                = params.database
             ch_primers              = Channel.fromPath(file(params.fasta, checkIfExits: true)).collect()
             blast_db                = set_blast_db(database)
-            fasta                   = params.references.databases[database].fasta ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+            fasta                   = params.references.databases[database].fasta ? Channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
             version                 = params.references.databases[database].version
             // use a pre-configured primer but with a different database
             if (params.db) {
                 log.info "You chose a pre-configured primer set but are overriding the database - this may lead to problems!"
                 database    = params.db
                 blast_db    = set_blast_db(database)
-                fasta       = params.references.databases[database].fasta ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+                fasta       = params.references.databases[database].fasta ? Channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
                 version     = params.references.databases[database].version
             }
         // If the users specifies a custom primer set as FASTA instead
@@ -78,7 +78,7 @@ workflow FOODME2 {
                 database    = params.db
                 // Check if that database is configured
                 blast_db    = set_blast_db(database)
-                fasta       = params.references.databases[database].fasta ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+                fasta       = params.references.databases[database].fasta ? Channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
                 version     = params.references.databases[database].version
             // Or allow users to provide their own database
             } else if (params.blast_db) {
