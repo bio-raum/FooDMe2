@@ -4,11 +4,14 @@ Modules
 include { MINIMAP2_ALIGN as MINIMAP2_ALIGN_DB }         from './../../modules/minimap2/align'
 include { MINIMAP2_ALIGN as MINIMAP2_ALIGN_CONSENSUS }  from './../../modules/minimap2/align'
 include { SAMTOOLS_CONSENSUS }                          from './../../modules/samtools/consensus'
+include { SAMTOOLS_STATS as  SAMTOOLS_STATS_DB }        from './../../modules/samtools/stats'
 include { SAMTOOLS_COVERAGE }                           from './../../modules/samtools/coverage'
+include { SAMTOOLS_STATS as  SAMTOOLS_STATS_CONSENSUS } from './../../modules/samtools/stats'
 include { SAMTOOLS_VIEW as SAMTOOLS_FILTER }            from './../../modules/samtools/view'
 include { HELPER_FASTA_FILTER_CONSENSUS }               from './../../modules/helper/fasta_filter_consensus'
 include { HELPER_FASTA_SIZE_FROM_COVERAGE }             from './../../modules/helper/fasta_size_from_coverage'
 include { CDHIT_CDHITEST }                              from './../../modules/cdhit/cdhitest'
+include { HELPER_ONT_MAPPING_REPORT }                   from './../../modules/helper/ont_mapping_report'
 
 /*
 This workflow takes ONT reads, maps them against
@@ -26,13 +29,21 @@ workflow ONT_MAPPING {
     main:
 
     ch_versions = Channel.from([])
+    ch_reports = Channel.from([])
 
     // Align the reads to the reference database
     MINIMAP2_ALIGN_DB(
         reads.combine(db)
     )
     ch_versions = ch_versions.mix(MINIMAP2_ALIGN_DB.out.versions)
- 
+
+    // Get alignment stats
+    SAMTOOLS_STATS_DB(
+        MINIMAP2_ALIGN_DB.out.bam
+    )
+    ch_versions = ch_versions.mix(SAMTOOLS_STATS_DB.out.versions)
+    ch_reports = ch_reports.mix(SAMTOOLS_STATS_DB.out.stats)
+
     // Build consensus from BAM alignment
     SAMTOOLS_CONSENSUS(
         MINIMAP2_ALIGN_DB.out.bam
@@ -57,6 +68,13 @@ workflow ONT_MAPPING {
     )
     ch_versions = ch_versions.mix(MINIMAP2_ALIGN_CONSENSUS.out.versions)
 
+    // Get alignment stats on final set
+    SAMTOOLS_STATS_CONSENSUS(
+        MINIMAP2_ALIGN_CONSENSUS.out.bam
+    )
+    ch_versions = ch_versions.mix(SAMTOOLS_CONSENSUS.out.versions)
+    ch_reports = ch_reports.mix(SAMTOOLS_STATS_CONSENSUS.out.stats)
+
     // Remove MapQ 0 alignments
     SAMTOOLS_FILTER(
         MINIMAP2_ALIGN_CONSENSUS.out.bam
@@ -75,8 +93,13 @@ workflow ONT_MAPPING {
     )
     ch_versions = ch_versions.mix(HELPER_FASTA_SIZE_FROM_COVERAGE.out.versions)
 
+    HELPER_ONT_MAPPING_REPORT(
+        ch_reports.groupTuple()
+    )
+
     emit:
     otu = HELPER_FASTA_SIZE_FROM_COVERAGE.out.fasta
     bam = MINIMAP2_ALIGN_DB.out.bam
+    qc = HELPER_ONT_MAPPING_REPORT.out.json
     versions = ch_versions
 }

@@ -7,16 +7,19 @@ process SAMTOOLS_STATS {
     tag "${meta.sample_id}"
 
     input:
-    tuple val(meta), path(bam), path(bai)
+    tuple val(meta), path(bam)
 
     output:
-    tuple val(meta), path("*.stats"),   emit: stats
+    tuple val(meta), path("*.stats.txt"),   emit: stats
     path("versions.yml"),           emit: versions
 
     script:
-    def stats = bam.getBaseName() + ".stats"
+    
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: bam.getBaseName()
+
     """
-    samtools stats $bam > $stats
+    samtools stats $args $bam > ${prefix}.stats.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

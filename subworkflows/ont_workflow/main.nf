@@ -130,6 +130,7 @@ workflow ONT_WORKFLOW {
             db
         )
         ch_otus = ONT_MAPPING.out.otu
+        ch_qc = ch_qc.mix(ONT_MAPPING.out.qc)
         ch_versions = ONT_MAPPING.out.versions
     } else {
         // OTU clustering using Vsearch
