@@ -6,6 +6,8 @@ nextflow_process {
 
     test("Should run without failures") {
 
+        setup
+
         when {
             params {
                 outdir = "tests/results"
@@ -14,7 +16,7 @@ nextflow_process {
             }
             process {
                 """
-                input[0] = Channel.of( [ [sample_id:'Lasagne', single_end:false], [ file("${projectDir}/tests/data/ERR10436092_1.adaptertrim.fastq.gz"), file("${projectDir}/tests/data/ERR10436092_2.adaptertrim.fastq.gz") ] ] )
+                input[0] = Channel.of( [ [sample_id:'Lasagne_clean', single_end:false], [ file("${projectDir}/tests/data/Lasagne_clean_1.trim.fastq.gz"), file("${projectDir}/tests/data/Lasagne_clean_2.trim.fastq.gz") ] ])
                 input[1] = file("${projectDir}/tests/data/16S_ASU184.disambiguated.fasta")
                 input[2] = file("${projectDir}/tests/data/16S_ASU184.disambiguated.rc.fasta")
                 """
@@ -25,7 +27,7 @@ nextflow_process {
             assert process.success
             with(process.out.reads) {
                 with(get(0)) {
-                    assert path(get(1).get(0)).md5 == "c9064f8844209d6977e9acd7df9d06bc"
+                    assert path(get(1).get(0)).md5 == "d41d8cd98f00b204e9800998ecf8427e"
 
                 }
             }

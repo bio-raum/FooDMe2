@@ -143,6 +143,7 @@ def main(sample, yaml_file, run_name, output):
         "fastplong_trimmed": ("fastplong_trimmed", ".trim.fastplong.json", parse_json, None),
         "clustering_dada": ("clustering", ".dada_stats.json", parse_json, {"return_adress": [sample]}),
         "clustering_vsearch": ("clustering", ".vsearch_stats.json", parse_json, {"return_adress": [sample]}),
+        "clustering_ont": ("clustering", ".ont_mapping_stats.json", parse_json, {"return_adress": [sample]}),
         "nanoplot": ("nanoplot", ".nanoplot.adaptertrim.tsv", parse_nanoplot, None),
         "nanoplot_trimmed": ("nanoplot_trimmed", ".nanoplot.trim.tsv", parse_nanoplot, None),
         "versions": ("versions", "versions.yml", parse_yaml, None),

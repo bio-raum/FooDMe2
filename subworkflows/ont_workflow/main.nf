@@ -3,6 +3,7 @@ Sub workflows
 */
 include { CUTADAPT_WORKFLOW }               from './../cutadapt'
 include { VSEARCH_ONT_WORKFLOW }            from './../vsearch_ont'
+include { ONT_MAPPING }                     from './../ont_mapping'
 
 /*
 Modules
@@ -123,13 +124,23 @@ workflow ONT_WORKFLOW {
     )
     ch_versions = ch_versions.mix(VSEARCH_ORIENT.out.versions)
 
-    // OTU clustering using Vsearch
-    VSEARCH_ONT_WORKFLOW(
-        VSEARCH_ORIENT.out.reads
-    )
-    ch_otus         = VSEARCH_ONT_WORKFLOW.out.otus
-    ch_versions     = ch_versions.mix(VSEARCH_ONT_WORKFLOW.out.versions)
-    ch_qc           = ch_qc.mix(VSEARCH_ONT_WORKFLOW.out.qc)
+    if (params.ont_mapping) {
+        ONT_MAPPING(
+            VSEARCH_ORIENT.out.reads,
+            db
+        )
+        ch_otus = ONT_MAPPING.out.otu
+        ch_qc = ch_qc.mix(ONT_MAPPING.out.qc)
+        ch_versions = ONT_MAPPING.out.versions
+    } else {
+        // OTU clustering using Vsearch
+        VSEARCH_ONT_WORKFLOW(
+            VSEARCH_ORIENT.out.reads
+        )
+        ch_otus         = VSEARCH_ONT_WORKFLOW.out.otus
+        ch_versions     = ch_versions.mix(VSEARCH_ONT_WORKFLOW.out.versions)
+        ch_qc           = ch_qc.mix(VSEARCH_ONT_WORKFLOW.out.qc)
+    }
 
     emit:
     versions = ch_versions
