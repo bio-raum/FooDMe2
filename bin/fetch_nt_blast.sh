@@ -14,6 +14,8 @@ else
   PROXY_OPTIONS="-e use_proxy=yes -e https_proxy=$HTTPS_PROXY"
 fi
 
+echo $PROXY_OPTIONS
+
 VERSION=2.2
 
 # URLs -------------------------------------------------------------
@@ -84,14 +86,14 @@ cd "$directory"
 
 # Get directory listing in html format
 echo "[$( date -I'minutes')][INFO] Retrieving remote directory ${BLAST}"
-if wget --tries 3 --quiet --no-check-certificate $PROXY_OPTIONS ${BLAST} ; then :
+if wget --tries 3 --quiet $PROXY_OPTIONS --no-check-certificate ${BLAST} ; then :
 else
   echo "[$( date -I'minutes')][ERROR] URL does not exist: ${BLAST}"
   exit 1
 fi
 
 # Get Readme
-wget --tries 3 --quiet --no-check-certificate $PROXY_OPTIONS  -O README.html ${BLAST}README
+wget --tries 3 --quiet $PROXY_OPTIONS --no-check-certificate -O README.html ${BLAST}README
 
 # Cleanup older links
 if [ -f links ]; then
@@ -114,7 +116,7 @@ paste \
 
 while IFS=$'\t' read -r part md5; do
   # Getting checksum (always fresh)
-  wget --tries 3 --quiet --no-check-certificate $PROXY_OPTIONS -N   $md5
+  wget --tries 3 --quiet $PROXY_OPTIONS --no-check-certificate -N $md5
   
   # check if file exist
   if [ -f $(basename ${part}) ]; then
@@ -126,7 +128,7 @@ while IFS=$'\t' read -r part md5; do
       # Re download and check md5
       echo "[$( date -I'minutes')][WARNING] Checksum invalid, redownloading $(basename ${part})"
       rm $(basename ${part})
-      wget --tries 3 --quiet --no-check-certificate $PROXY_OPTIONS  $part
+      wget --tries 3 --quiet $PROXY_OPTIONS --no-check-certificate $part
       md5sum  -c $(basename ${md5})
       
       # Check md5 status and exit on error
@@ -144,7 +146,7 @@ while IFS=$'\t' read -r part md5; do
   else
     # download and check md5
     echo "[$( date -I'minutes')][INFO] Downloading $(basename ${part})"
-    wget --tries 3 --quiet --no-check-certificate $PROXY_OPTIONS  $part
+    wget --tries 3 --quiet $PROXY_OPTIONS --no-check-certificate $part
     md5sum  -c $(basename ${md5})
     
     # Check md5 status and exit on error
