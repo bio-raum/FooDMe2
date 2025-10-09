@@ -2,7 +2,6 @@
 Sub workflows
 */
 include { CUTADAPT_WORKFLOW }               from './../cutadapt'
-include { VSEARCH_ONT_WORKFLOW }            from './../vsearch_ont'
 include { ONT_MAPPING }                     from './../ont_mapping'
 
 /*
@@ -13,7 +12,6 @@ include { PORECHOP_ABI }                    from './../../modules/porechop/abi'
 include { NANOPLOT as NANOPLOT_ADAPTER }    from './../../modules/nanoplot'
 include { NANOPLOT as NANOPLOT_TRIM }       from './../../modules/nanoplot'
 include { CAT_FASTQ }                       from './../../modules/cat_fastq'
-include { VSEARCH_ORIENT }                  from './../../modules/vsearch/orient'
 include { GUNZIP as GUNZIP_NANOPLOT_ADAPTER } from './../../modules/gunzip'
 include { GUNZIP as GUNZIP_NANOPLOT_TRIM }  from './../../modules/gunzip'
 include { FASTPLONG as FASTPLONG_METRICS }  from './../../modules/fastplong'
@@ -117,30 +115,14 @@ workflow ONT_WORKFLOW {
         log.warn "${m.sample_id} - only few or no reads left after filtering."
     }
 
-    // Make sure reads are consistently oriented
-    VSEARCH_ORIENT(
+    // Create pseudo OTUS via mapping and consensus building
+    ONT_MAPPING(
         FASTPLONG_TRIM.out.reads,
         db
     )
-    ch_versions = ch_versions.mix(VSEARCH_ORIENT.out.versions)
-
-    if (params.ont_mapping) {
-        ONT_MAPPING(
-            VSEARCH_ORIENT.out.reads,
-            db
-        )
-        ch_otus = ONT_MAPPING.out.otu
-        ch_qc = ch_qc.mix(ONT_MAPPING.out.qc)
-        ch_versions = ONT_MAPPING.out.versions
-    } else {
-        // OTU clustering using Vsearch
-        VSEARCH_ONT_WORKFLOW(
-            VSEARCH_ORIENT.out.reads
-        )
-        ch_otus         = VSEARCH_ONT_WORKFLOW.out.otus
-        ch_versions     = ch_versions.mix(VSEARCH_ONT_WORKFLOW.out.versions)
-        ch_qc           = ch_qc.mix(VSEARCH_ONT_WORKFLOW.out.qc)
-    }
+    ch_otus = ONT_MAPPING.out.otu
+    ch_qc = ch_qc.mix(ONT_MAPPING.out.qc)
+    ch_versions = ONT_MAPPING.out.versions
 
     emit:
     versions = ch_versions

@@ -93,6 +93,7 @@ workflow ONT_MAPPING {
     )
     ch_versions = ch_versions.mix(HELPER_FASTA_SIZE_FROM_COVERAGE.out.versions)
 
+    // Create JSON file for reporting with read counts    
     HELPER_ONT_MAPPING_REPORT(
         ch_reports.groupTuple()
     )

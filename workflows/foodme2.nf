@@ -153,7 +153,7 @@ workflow FOODME2 {
     }
 
     // Check if we have single-end data that likely requires 3prime trimming.
-    if (!params.cutadapt_trim_3p) {
+    if (!params.cutadapt_trim_3p & !params.cutadapt_ont) {
         ch_reads.filter { m, r -> m.single_end }.count().filter { c -> c > 0 }.map { c ->
             log.warn "$c read sets are classified as single-end - this typically requires --cutadapt_trim_3p."
         }
