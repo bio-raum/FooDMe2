@@ -1,4 +1,7 @@
 process WGET {
+
+    maxForks 2
+    
     tag "$url"
     label 'short_serial'
 

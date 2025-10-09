@@ -17,6 +17,7 @@ process HELPER_INSTALL_GENBANK {
     def args = task.ext.args ?: ''
 
     """
+
     fetch_nt_blast.sh $args
 
     cat <<-END_VERSIONS > versions.yml
