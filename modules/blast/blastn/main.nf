@@ -43,7 +43,7 @@ process BLAST_BLASTN {
         ${args} \\
         -outfmt 11 \\
         -out ${prefix}.asn
-    
+
     # Use BLAST formatter to produce XML2 and TSV
     # XML can be used to retrieve search parameters like lambda, kappa, database size, etc
     if [ -s ${prefix}.asn ]; then
