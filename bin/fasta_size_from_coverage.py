@@ -15,7 +15,7 @@ args = parser.parse_args()
 
 def main(fasta, coverage, output):
 
-    # Collect the meandeth per sequence
+    # Collect the mean depth per sequence
     sizes = {}
     with open(coverage, 'r') as fi:
         cov = [line.rstrip() for line in fi]
