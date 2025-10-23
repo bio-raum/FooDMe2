@@ -68,11 +68,11 @@ def merging(hsps, sinfo, qfrom, qto):
     """Merging HSP pair"""
     a = hsp_to_list(hsps[0], sinfo)
     b = hsp_to_list(hsps[1], sinfo)
-    
+
     a_score, b_score = [int(e.find('.//ns:score', ns).text) for e in hsps]
 
     # Recalculate metrics
-    bitscore = round(( (a_score + b_score) * sinfo["lambd"] - np.log(sinfo["kappa"]) ) / np.log(2), 0)
+    bitscore = round(((a_score + b_score) * sinfo["lambd"] - np.log(sinfo["kappa"])) / np.log(2), 0)
     evalue = sinfo["qsize"] * sinfo["dbsize"] / 2**bitscore
     length = a[7] + b[7]
     gaps = a[9] + b[9] + gap_length(qfrom, qto)
@@ -98,7 +98,7 @@ def merging(hsps, sinfo, qfrom, qto):
 
 def main(xml, output, qcov_hsp):
     tree = ET.parse(xml)
-    root= tree.getroot()
+    root = tree.getroot()
 
     hits = []
 
@@ -116,7 +116,7 @@ def main(xml, output, qcov_hsp):
 
         # within each query, iterating over subjects
         for hit in blast_output.findall('.//ns:Hit', ns):
-            sinfo={
+            sinfo = {
                 "qseqid": qseqid,
                 "qsize": qsize,
                 "kappa": kappa,
@@ -153,11 +153,11 @@ def main(xml, output, qcov_hsp):
 
             # Merging
             hits.append(merging(hsps, sinfo, qfrom, qto))
-    
+
     # Dump to text
     with open(output, "w") as fi:
         for e in hits:
-            if e[-1]>= int(qcov_hsp):
+            if e[-1] >= int(qcov_hsp):
                 fi.write("\t".join([str(v) for v in e[:-1]]))
                 fi.write("\n")
 
