@@ -37,8 +37,10 @@ def main(output):
         compo = jdata["composition"]
         consensus = jdata["consensus"]
 
-        bucket_compo[sample] = compo
-        bucket_consensus[sample] = consensus
+        # Only add the sample if it has data
+        if compo and consensus:
+            bucket_compo[sample] = compo
+            bucket_consensus[sample] = consensus
 
     # start page
     ws = wb.active
@@ -55,6 +57,9 @@ def main(output):
 
     # Iterate over each sample and get taxonomy assignments
     for sample in bucket_compo:
+
+        hits = bucket_compo[sample]
+
         if sample != this_sample:
             this_sample = sample
             sample_counter += 1
@@ -63,7 +68,6 @@ def main(output):
         else:
             bgcolor = cb_even
 
-        hits = bucket_compo[sample]
         for hit in hits:
             row += 1
             name = hit["name"]
@@ -101,6 +105,9 @@ def main(output):
 
     # Iterate over each sample
     for sample in bucket_consensus:
+
+        clusters = bucket_consensus[sample]
+
         if sample != this_sample:
             this_sample = sample
             sample_counter += 1
@@ -109,7 +116,6 @@ def main(output):
         else:
             bgcolor = cb_even
 
-        clusters = bucket_consensus[sample]
         # iterate over each cluster and report each one
         # Start with the actual call
         for cluster in clusters:
