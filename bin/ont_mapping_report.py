@@ -32,7 +32,7 @@ def parse_samtools_stats(txt):
 
 def main(sample_id, before, after, output):
 
-    results = { 
+    results = {
         "chimeras": 0,
         "filtered": 0,
         "filtered_qual": 0,
@@ -46,7 +46,7 @@ def main(sample_id, before, after, output):
     reads_before = int(data_before["sequences"])
     reads_after = int(data_after["sequences"])
 
-    filtered = reads_before-reads_after
+    filtered = (reads_before - reads_after)
 
     if filtered > 0:
         results["filtered"] = filtered
