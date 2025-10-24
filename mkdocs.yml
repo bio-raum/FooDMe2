@@ -18,7 +18,11 @@ nav:
     - Output: user_doc/output.md
   - Methods:
     - Standard methods: methods/methods.md
-    - Illumina Mammals and birds: methods/amniotes_dobrovolny.md
+    - 16S mammals and birds: methods/amniotes_dobrovolny.md
+    - 16S insects: methods/16S_hillinger.md
+    - COI insects: methods/COI_park.md
+    - COI fish: methods/COI_guenther.md
+    - CYTB fish: methods/CYTB_asu12.md
   - Help:
     - Migration: help/migration.md
     - Troobleshooting: help/troubleshooting.md
