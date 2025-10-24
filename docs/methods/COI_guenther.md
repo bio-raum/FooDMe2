@@ -19,7 +19,9 @@
 :gear: **Run with:**
 
 `--primer_set COI_ILM_guenther_fish` (Illumina)
+
 `--primer_set COI_IT_guenther_fish` (Iontorrent)
+
 `--primer_set COI_ONT_guenther_fish` (Nanopore)
 
 For example:
@@ -33,6 +35,17 @@ nextflow run bio-raum/FooDMe2 \
 ```
 
 1. See the [installation guide](../user_doc/installation.md) for more details on this parameter
+
+## Primer sequence(s)
+
+The following primer sequences are used:
+
+```
+>mlCOIintF
+GGWACWGGWTGAACWGTWTAYCCYCC
+>jgHCO2198
+TANACYTCNGGRTGNCCRAARAAYCA
+```
 
 ## Configuration
 

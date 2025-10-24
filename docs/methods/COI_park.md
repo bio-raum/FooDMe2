@@ -20,7 +20,9 @@
 :gear: **Run with:**
 
 `--primer_set COI_ILM_park_insects` (Illumina)
+
 `--primer_set COI_IT_park_insects` (Iontorrent)
+
 `--primer_set COI_ONT_park_insects` (Nanopore)
 
 For example:
@@ -34,6 +36,17 @@ nextflow run bio-raum/FooDMe2 \
 ```
 
 1. See the [installation guide](../user_doc/installation.md) for more details on this parameter
+
+## Primer sequence(s)
+
+The following primer sequences are used:
+
+```
+>Fwd-Insekten-COI
+GCATTYCCACGAATAAATAAYATAAG
+>Rev-Insekten-COI
+TAAACTTCAGGGTGACCAAARAAYCA
+```
 
 ## Configuration
 

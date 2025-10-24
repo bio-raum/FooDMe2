@@ -19,7 +19,9 @@
 :gear: **Run with:**
 
 `--primer_set cytb_ILM_ASU12_fish` (Illumina)
+
 `--primer_set cytb_IT_ASU12_fish` (Iontorrent)
+
 `--primer_set cytb_ONT_ASU12_fish` (Nanopore)
 
 For example:
@@ -33,6 +35,17 @@ nextflow run bio-raum/FooDMe2 \
 ```
 
 1. See the [installation guide](../user_doc/installation.md) for more details on this parameter
+
+## Primer sequence(s)
+
+The following primer sequences are used:
+
+```
+>L14735
+AAAAACCACCGTTGTTATTCAACTA
+>H15149ad
+GCNCCTCARAATGAYATTTGTCCTCA
+```
 
 ## Configuration
 

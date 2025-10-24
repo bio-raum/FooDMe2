@@ -23,7 +23,9 @@
 :gear: **Run with:**
 
 `--primer_set 16S_ILM_ASU184_meat` (Illumina)
+
 `--primer_set 16S_IT_ASU184_meat` (Iontorrent)
+
 `--primer_set 16S_ONT_ASU184_meat` (Nanopore)
 
 For example:
@@ -37,6 +39,23 @@ nextflow run bio-raum/FooDMe2 \
 ```
 
 1. See the [installation guide](../user_doc/installation.md) for more details on this parameter
+
+## Primer sequence(s)
+
+The following primer sequences are used:
+
+```
+>MA_FWD
+GACGAGAAGACCCTATGGAGC
+>MA_REV
+TCCGAGGTCACCCCAACC
+>POL_FWD
+GACGAGAAGACCCTGTGGAAC
+>POL_REV
+TCCGAGATCACCCCAATC
+>MA_ALT_REV
+TCCAAGGTCGCCCCAACC
+```
 
 ## Configuration
 

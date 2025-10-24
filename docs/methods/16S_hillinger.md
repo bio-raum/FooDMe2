@@ -19,7 +19,9 @@
 :gear: **Run with:**
 
 `--primer_set 16S_ILM_hillinger_insects` (Illumina)
+
 `--primer_set 16S_IT_hillinger_insects` (Iontorrent)
+
 `--primer_set 16S_ONT_hillinger_insects` (Nanopore)
 
 For example:
@@ -33,6 +35,17 @@ nextflow run bio-raum/FooDMe2 \
 ```
 
 1. See the [installation guide](../user_doc/installation.md) for more details on this parameter
+
+## Primer sequence(s)
+
+The following primer sequences are used:
+
+```
+>AGI_FWD
+TWACGCTGTTATCCCTAAGG
+>AGI_REV
+GACGAGAAGACCCTATAGA
+```
 
 ## Configuration
 
