@@ -6,7 +6,7 @@
 
 * Platform: Illumina, IonTorrent and Nanopore
 * Read-length: paired-end 150bp or longer, single-end with 150bp or longer
-* Targets: mammals, birds
+* Targets: fish
 
 :mortar_board: **Relevant publications:**
 
@@ -15,7 +15,7 @@
 
 :scroll: **Official Methods:**
 
-This system is used in an official method for mammals and birds, but **not** for fish species!!!
+!!!This system is used in an official method for mammals and birds, but **not** for fish species!!!
 
 * Illumina, Iontorrent: Amtliche Sammlung von Untersuchungsverfahren: [BVL L 00.00-184](https://www.dinmedia.de/de/technische-regel/bvl-l-00-00-184/367584412) (German)
 
