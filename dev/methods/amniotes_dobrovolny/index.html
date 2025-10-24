@@ -18,7 +18,7 @@
         <link rel="prev" href="../methods/">
       
       
-        <link rel="next" href="../../help/migration/">
+        <link rel="next" href="../16S_hillinger/">
       
       
       <link rel="icon" href="../../img/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Illumina Mammals and birds - FooDMe2 Documentation</title>
+        <title>16S mammals and birds - FooDMe2 Documentation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#illumina-mammals-and-birds" class="md-skip">
+        <a href="#16s-metabarcoding-for-mammals-and-birds-meat-products" class="md-skip">
           Skip to content
         </a>
       
@@ -135,7 +135,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Illumina Mammals and birds
+              16S mammals and birds
             
           </span>
         </div>
@@ -798,7 +798,7 @@
   
   
   <span class="md-ellipsis">
-    Illumina Mammals and birds
+    16S mammals and birds
     
   </span>
   
@@ -811,7 +811,7 @@
   
   
   <span class="md-ellipsis">
-    Illumina Mammals and birds
+    16S mammals and birds
     
   </span>
   
@@ -864,6 +864,98 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16S_hillinger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    16S insects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COI_park/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    COI insects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../COI_guenther/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    COI fish
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CYTB_asu12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CYTB fish
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1158,12 +1250,12 @@
   
 
 
-<h1 id="illumina-mammals-and-birds">Illumina Mammals and birds</h1>
+<h1 id="16s-metabarcoding-for-mammals-and-birds-meat-products">16S Metabarcoding for mammals and birds (meat products)</h1>
 <h2 id="description">Description</h2>
 <p><img alt="💡" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f4a1.svg" title=":light_bulb:" /> <strong>Sequencing parameters:</strong></p>
 <ul>
-<li>Platform: Illumina</li>
-<li>Read-length: paired-end 150bp or longer</li>
+<li>Platform: Illumina, IonTorrent and Nanopore</li>
+<li>Read-length: paired-end 150bp or longer, single-end with 150bp or longer</li>
 <li>Targets: mammals, birds</li>
 </ul>
 <p><img alt="🎓" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f393.svg" title=":mortar_board:" /> <strong>Relevant publications:</strong></p>
@@ -1176,10 +1268,12 @@
 </ul>
 <p><img alt="📜" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f4dc.svg" title=":scroll:" /> <strong>Official Methods:</strong></p>
 <ul>
-<li>Amtliche Sammlung von Untersuchungsverfahren: <a href="https://www.dinmedia.de/de/technische-regel/bvl-l-00-00-184/367584412">BVL L 00.00-184</a> (German)</li>
+<li>Illumina, Iontorrent: Amtliche Sammlung von Untersuchungsverfahren: <a href="https://www.dinmedia.de/de/technische-regel/bvl-l-00-00-184/367584412">BVL L 00.00-184</a> (German)</li>
 </ul>
 <p><img alt="⚙" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2699.svg" title=":gear:" /> <strong>Run with:</strong></p>
-<p><code>--primer_set 16S_ILM_ASU184_meat</code></p>
+<p><code>--primer_set 16S_ILM_ASU184_meat</code> (Illumina)
+<code>--primer_set 16S_IT_ASU184_meat</code> (Iontorrent)
+<code>--primer_set 16S_ONT_ASU184_meat</code> (Nanopore)</p>
 <p>For example:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>-r<span class="w"> </span>main<span class="w"> </span><span class="se">\</span>
@@ -1191,7 +1285,7 @@
 <li>See the <a href="../../user_doc/installation/">installation guide</a> for more details on this parameter</li>
 </ol>
 <h2 id="configuration">Configuration</h2>
-<p>Check the <code>16S_ILM_ASU184_meat.conf</code> configuration file under <code>conf/primers/</code> for an list of parameters.</p>
+<p>Check the relevant configuration file under <code>conf/primers/</code> for an list of parameters (e.g. <code>16S_ILM_ASU184_meat.conf</code>).</p>
 <h2 id="validation">Validation</h2>
 <p>Mammals and birds 16S Illumina metabarcoding, method from <a href="https://pubmed.ncbi.nlm.nih.gov/30309555/">Dobrovolny paper</a> with the dataset from the <a href="https://pubmed.ncbi.nlm.nih.gov/36900485/">FooDMe1 paper</a>.</p>
 <p>For this method, a benchmarking (or validation) profile is provided in the FooDMe2 distribution:</p>
