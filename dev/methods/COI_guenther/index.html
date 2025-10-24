@@ -912,6 +912,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#primer-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Primer sequence(s)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       Configuration
@@ -1205,6 +1214,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#primer-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Primer sequence(s)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       Configuration
@@ -1249,9 +1267,9 @@
 <li>Not currently an official method. </li>
 </ul>
 <p><img alt="⚙" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2699.svg" title=":gear:" /> <strong>Run with:</strong></p>
-<p><code>--primer_set COI_ILM_guenther_fish</code> (Illumina)
-<code>--primer_set COI_IT_guenther_fish</code> (Iontorrent)
-<code>--primer_set COI_ONT_guenther_fish</code> (Nanopore)</p>
+<p><code>--primer_set COI_ILM_guenther_fish</code> (Illumina)</p>
+<p><code>--primer_set COI_IT_guenther_fish</code> (Iontorrent)</p>
+<p><code>--primer_set COI_ONT_guenther_fish</code> (Nanopore)</p>
 <p>For example:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>-r<span class="w"> </span>main<span class="w"> </span><span class="se">\</span>
@@ -1262,6 +1280,13 @@
 <ol>
 <li>See the <a href="../../user_doc/installation/">installation guide</a> for more details on this parameter</li>
 </ol>
+<h2 id="primer-sequences">Primer sequence(s)</h2>
+<p>The following primer sequences are used:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>&gt;mlCOIintF
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>GGWACWGGWTGAACWGTWTAYCCYCC
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>&gt;jgHCO2198
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>TANACYTCNGGRTGNCCRAARAAYCA
+</span></code></pre></div>
 <h2 id="configuration">Configuration</h2>
 <p>Check the relevant configuration file under <code>conf/primers/</code> for an list of parameters (e.g. <code>COI_ILM_guenther_fish.conf</code>).</p>
 
