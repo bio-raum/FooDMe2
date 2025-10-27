@@ -701,6 +701,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user_doc/technologies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Technologies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1340,7 +1363,7 @@
 <h2 id="xy-read-sets-are-classified-as-single-end-this-typically-requires-cutadapt_trim_3p"><code>XY read sets are classified as single-end - this typically requires --cutadapt_trim_3p.</code></h2>
 <p>This warning is similar to the previous one. The pipeline has detected single-end data, which makes it very likely that individual reads contain PCR primer sites at both ends. If your results look very noisy or fragmented, try re-running the analysis with the trimming option <code>--cutadapt_trim_3p</code> enabled. </p>
 <h2 id="the-required-reference-directory-was-not-found-on-your-system-exiting"><code>The required reference directory was not found on your system, exiting!</code></h2>
-<p>Make sure that you provided the path to the <strong>base directory</strong> where reference are installed. This is the exact same path you provided when running <code>--build_references</code>. For example if the folder structure is:</p>
+<p>Make sure that you provided the path to the <strong>base directory</strong> where references are installed. This is the exact same path you provided when running <code>--build_references</code>. For example if the folder structure is:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/home/user/reference_base/foodme/1.0/...
 </span></code></pre></div>
 <p>You should provide <code>--reference_base /home/user/reference_base</code> </p>
