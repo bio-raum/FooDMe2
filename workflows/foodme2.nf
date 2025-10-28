@@ -250,7 +250,7 @@ def set_blast_db(database) {
     def blast_db = file(params.references.databases[database].blast_db, checkIfExists: true)
 
     if (params.ont && !params.references.databases[database].fasta) {
-        log.info "We do not have a FASTA version of this database; it is not currently possible to use it in combination with Nanopore data."
+        log.warn "We do not have a FASTA version of this database; it is not currently possible to use it in combination with Nanopore data."
         System.exit(1)
     }
     

@@ -38,7 +38,7 @@ nextflow run bio-raum/FooDMe2 \
 
 ## Configuration
 
-Check the `16S_ILM_ASU184_meat.conf` configuration file under `conf/primers/` for an list of parameters.
+Check the `16S_ILM_ASU184_meat.conf` configuration file under `conf/primers/` for a list of parameters.
 
 ## Validation
 

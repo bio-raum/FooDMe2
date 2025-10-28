@@ -8,7 +8,7 @@ This pipeline is written in [Nextflow](https://nextflow.io/) and requires a fair
 
 We recommend you also contribute a config file for your setup to our [central config repository](https://github.com/bio-raum/nf-configs/blob/main/doc/config.md). This will save you time down the road by setting certain options automatically based on your compute environment. 
 
-For the example below, we will assume you use Appainer, although other container framework like Docker or Singularityare supported, as well as conda.
+For the example below, we will assume you use Appainer, although other container framework like Docker or Singularity are supported, as well as conda.
 
 ## Pipeline references
 
