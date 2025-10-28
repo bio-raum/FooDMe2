@@ -92,7 +92,7 @@ class WorkflowPipeline {
                 log.warn "The ONT workflow is still very experimental!!!\nPlease review results carefully and provide feedback for improvements!"
             }
             if (params.cutadapt_ont && !params.ont) {
-                log.warn "You cannot use ONT read trimming (--cutadapt_ont) without ON data (--ont)"
+                log.warn "You cannot use ONT read trimming (--cutadapt_ont) without ONT data (--ont)"
                 System.exit(1)
             }
             if (params.cutadapt_ont && params.cutadapt_trim_3p) {

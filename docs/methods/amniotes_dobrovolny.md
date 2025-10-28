@@ -1,11 +1,11 @@
-# Illumina Mammals and birds
+# 16S Metabarcoding for mammals and birds (meat products)
 
 ## Description
 
 :light_bulb: **Sequencing parameters:**
 
-* Platform: Illumina
-* Read-length: paired-end 150bp or longer
+* Platform: Illumina, IonTorrent and Nanopore
+* Read-length: paired-end 150bp or longer, single-end with 150bp or longer
 * Targets: mammals, birds
 
 :mortar_board: **Relevant publications:**
@@ -18,11 +18,15 @@
 
 :scroll: **Official Methods:**
 
-* Amtliche Sammlung von Untersuchungsverfahren: [BVL L 00.00-184](https://www.dinmedia.de/de/technische-regel/bvl-l-00-00-184/367584412) (German)
+* Illumina, Iontorrent: Amtliche Sammlung von Untersuchungsverfahren: [BVL L 00.00-184](https://www.dinmedia.de/de/technische-regel/bvl-l-00-00-184/367584412) (German)
 
 :gear: **Run with:**
 
-`--primer_set 16S_ILM_ASU184_meat`
+`--primer_set 16S_ILM_ASU184_meat` (Illumina)
+
+`--primer_set 16S_IT_ASU184_meat` (Iontorrent)
+
+`--primer_set 16S_ONT_ASU184_meat` (Nanopore)
 
 For example:
 
@@ -36,9 +40,26 @@ nextflow run bio-raum/FooDMe2 \
 
 1. See the [installation guide](../user_doc/installation.md) for more details on this parameter
 
+## Primer sequence(s)
+
+The following primer sequences are used:
+
+```
+>MA_FWD
+GACGAGAAGACCCTATGGAGC
+>MA_REV
+TCCGAGGTCACCCCAACC
+>POL_FWD
+GACGAGAAGACCCTGTGGAAC
+>POL_REV
+TCCGAGATCACCCCAATC
+>MA_ALT_REV
+TCCAAGGTCGCCCCAACC
+```
+
 ## Configuration
 
-Check the `16S_ILM_ASU184_meat.conf` configuration file under `conf/primers/` for a list of parameters.
+Check the relevant configuration file under `conf/primers/` for an list of parameters (e.g. `16S_ILM_ASU184_meat.conf`).
 
 ## Validation
 
