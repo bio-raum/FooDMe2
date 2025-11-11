@@ -375,8 +375,7 @@ it. Make sure to re-set any options you want to keep.
     !!! warning "Non-overlapping reads and BLAST"
 
         Concatenation of non-overlapping reads with a N spacer still allows BLAST to find most similar sequences based on local alignment.
-        You should however keep in mind that the query coverage will then be drastically lower than for overlapping reads, since the non-sequenced portion of the amplicon will not be part of the alignement.
-        Make sure you choose a value for `--blast_qcov` that is adapted to your application.
+        In most cases each half of the query will produce an independent local alignement. This is handled in FooDMe2 by: (1) halving the value of the required query coverage for the BLAST search, (2) matching groups of BLAST hits that are on the same strand and within the span of the amplicon size (as defined by the parameters above), (3) recalculating BLAST metrics (score, bitscore, evalue, etc...) on the merged HSPs and (4) producing a consolidated BLAST report. Note that this comes with some caveats and you should consider such experimental design very carefully.
 
 `--vsearch` [ default = false ]
 
