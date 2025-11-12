@@ -17,12 +17,16 @@ process HELPER_BLAST_HSP_MERGER {
     script:
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
     def qcov = "${params.blast_qcov}"
+    def amplicon_min_length = "${params.amplicon_min_length}"
+    def amplicon_max_length = "${params.amplicon_max_length}"
 
     """
     blast_hsp_merger.py \\
     --xml $xml \\
     --output ${prefix}.txt \\
-    --qcov_hsp $qcov
+    --qcov_hsp $qcov \\
+    --min_amplicon_size $amplicon_min_length \\
+    --max_amplicon_size $amplicon_max_length
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
