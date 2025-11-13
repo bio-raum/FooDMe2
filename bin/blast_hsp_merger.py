@@ -13,7 +13,7 @@ Heavy lifting is done in the group_hsps function to determine wich hits can be g
 Metrics recalculation is done in the merging function, only where merging occurs.
 """
 
-
+from pathlib import Path
 import argparse
 import numpy as np
 import xml.etree.ElementTree as ET
@@ -175,8 +175,14 @@ def group_hsps(hsps, min_amplicon_size, max_amplicon_size):
     return all_groups
 
 
-def main(xml, output, qcov_hsp, min_amplicon_size, max_amplicon_size): 
-    tree = ET.parse(xml)
+def main(xml, output, qcov_hsp, min_amplicon_size, max_amplicon_size):
+    # Failure to parse means the file is either empty or something is seriously wron. Break here.
+    try:
+        tree = ET.parse(xml)
+    except ET.ParseError:
+        Path(output).touch()
+        return
+    
     root = tree.getroot()
 
     hits = []
