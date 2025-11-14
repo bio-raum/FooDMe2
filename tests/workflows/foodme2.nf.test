@@ -12,6 +12,7 @@ nextflow_workflow {
                 input = "${projectDir}/tests/data/samples.nf-test.tsv"
 	            primer_set = "16S_ILM_ASU184_meat"
 	            run_name = "pipeline_test"
+                reference_version = "1.0"
                 reference_base = "${projectDir}/tests/refs"
             }
             workflow {

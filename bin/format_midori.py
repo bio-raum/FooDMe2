@@ -27,7 +27,8 @@ def main(fasta, output):
 
         counter += 1
 
-        clean = f"Seq{counter}"
+        accession = ".".join(record.description.split(".")[0:2])
+        clean = f"{accession}_{counter}"
 
         taxmap.write(f"{clean}\t{taxid}\n")
 
