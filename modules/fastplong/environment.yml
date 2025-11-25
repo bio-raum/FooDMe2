@@ -1,7 +1,7 @@
-name: fastplong
+name: fastplong_41
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - bioconda::fastlong=0.3.0
+  - bioconda::fastlong=0.4.1

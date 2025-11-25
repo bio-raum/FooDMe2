@@ -5,8 +5,8 @@ process FASTPLONG {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/fastplong:0.3.0--h224cc79_0' :
-        'quay.io/biocontainers/fastplong:0.3.0--h224cc79_0' }"
+        'https://depot.galaxyproject.org/singularity/fastplong:0.4.1--h224cc79_0' :
+        'quay.io/biocontainers/fastplong:0.4.1--h224cc79_0' }"
 
     input:
     tuple val(meta), path(reads)
