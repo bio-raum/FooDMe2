@@ -8,7 +8,7 @@ Currently following standard methods are implemented:
 * 16S metabarcoding of mammals and birds (German ASU L 00.00-184)
 * 16S metabarcoding of insects (Hillinger et al. 2023)
 * 16S metabarcoding of fish (Dobrovolny et al. 2019; using ASU L 00.00-184 )
-* COI metabarcoding of fish (Guenther et al.)
+* COI metabarcoding of fish (Guenther et al. 2017)
 * COI metabarcoding of insects (Park et al. 2001)
 * CYTB metabarcoding of fish (German ASU L 10.00-12)
 
