@@ -26,7 +26,7 @@ BLASTCOLS = ["qseqid", "sseqid", "evalue", "pident", "bitscore", "sacc", "staxid
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--xml", help="path to BLAST XML")
 parser.add_argument("--output", help="Name of output file")
-parser.add_argument("--qcov_hsp", type= float, help="Minimal query coverage")
+parser.add_argument("--qcov_hsp", type=float, help="Minimal query coverage")
 parser.add_argument("--min_amplicon_size", type=int, help="Minimal amplicon size")
 parser.add_argument("--max_amplicon_size", type=int, help="MMaximal amplicon size")
 
@@ -58,7 +58,7 @@ def parse_hsp(e, sinfo):
         "bitscore": round(float(e.find('.//ns:bit-score', ns).text), 0),
         "length": int(e.find('.//ns:align-len', ns).text),
         "mismatch": int(e.find('.//ns:align-len', ns).text) - int(e.find('.//ns:identity', ns).text) - int(e.find('.//ns:gaps', ns).text),
-        "gaps":int(e.find('.//ns:gaps', ns).text),
+        "gaps": int(e.find('.//ns:gaps', ns).text),
         "sscinames": sinfo["sscinames"],
         "qcov": round(100 * int(e.find('.//ns:align-len', ns).text) / sinfo["qsize"], 2),  # in percent !
         "qstart": int(e.find('.//ns:query-from', ns).text),
@@ -73,10 +73,10 @@ def parse_hsp(e, sinfo):
 def merging(hsps, sinfo):
     """Merging HSP groups"""
     if len(hsps) == 1:
-         return hsps[0]
+        return hsps[0]
     if len(hsps) == 0:
         return []
-    
+
     # Recalculate metrics
     # E-value recalculation here assumes biological linkage of the alignemnts (realistic withing the amplicon_size bounds)
     # recalculation for non linked sequences should use summation or joint probability.
@@ -88,7 +88,7 @@ def merging(hsps, sinfo):
     gaps = sum(h["gaps"] for h in hsps) + inner_gaps(hsps)
     mismatch = sum(h["mismatch"] for h in hsps)
     qcov_hsp = sum(h["qcov"] for h in hsps)
-    
+
     return {
         "qseqid": sinfo["qseqid"],
         "sseqid": sinfo["sseqid"],
@@ -100,9 +100,9 @@ def merging(hsps, sinfo):
         "bitscore": round(bitscore, 0),
         "length": length,
         "mismatch": mismatch,
-        "gaps":gaps,
+        "gaps": gaps,
         "sscinames": sinfo["sscinames"],
-        "qcov": round(qcov_hsp, 2), 
+        "qcov": round(qcov_hsp, 2),
     }
 
 
@@ -120,25 +120,25 @@ def group_hsps(hsps, min_amplicon_size, max_amplicon_size):
     # normalize query coordinates
     def q_min(h): return min(h["qstart"], h["qend"])
     def q_max(h): return max(h["qstart"], h["qend"])
-    
+
     # Split by strand
     strand_groups = {}
     for h in hsps:
         key = (h["strand_q"], h["strand_s"])
         strand_groups.setdefault(key, []).append(h)
-    
+
     all_groups = []
-    
+
     for (strand_q, strand_s), strand_hsps in strand_groups.items():
         # sort by start pos
         strand_hsps.sort(key=lambda h: q_min(h))
 
         current_group = [strand_hsps[0]]
-    
+
         # Track group's current outer span for efficient checks
         current_min = q_min(strand_hsps[0])
         current_max = q_max(strand_hsps[0])
-    
+
         for hsp in strand_hsps[1:]:
             this_min = q_min(hsp)
             this_max = q_max(hsp)
@@ -182,7 +182,7 @@ def main(xml, output, qcov_hsp, min_amplicon_size, max_amplicon_size):
     except ET.ParseError:
         Path(output).touch()
         return
-    
+
     root = tree.getroot()
 
     hits = []
@@ -198,7 +198,7 @@ def main(xml, output, qcov_hsp, min_amplicon_size, max_amplicon_size):
         kappa = float(blast_output.find('.//ns:kappa', ns).text)
         lambd = float(blast_output.find('.//ns:lambda', ns).text)
         dbsize = int(blast_output.find('.//ns:db-len', ns).text)
-        
+
         # within each query, iterating over subjects
         for hit in blast_output.findall('.//ns:Hit', ns):
             sinfo = {
@@ -212,13 +212,13 @@ def main(xml, output, qcov_hsp, min_amplicon_size, max_amplicon_size):
                 "staxid": hit.find('.//ns:taxid', ns).text,
                 "sscinames": hit.find('.//ns:sciname', ns).text,
             }
-            
+
             hsps = hit.findall('.//ns:Hsp', ns)
-            
+
             parsed_hsps = [parse_hsp(e, sinfo) for e in hsps]
-            
+
             groups = group_hsps(parsed_hsps, min_amplicon_size, max_amplicon_size)
-            
+
             # Merge and append each group
             for g in groups:
                 merged = merging(g, sinfo)
