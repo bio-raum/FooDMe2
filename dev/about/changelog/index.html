@@ -593,6 +593,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#breaking-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        !! Breaking change !!
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#methods" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1636,6 +1647,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#breaking-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        !! Breaking change !!
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#methods" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1896,6 +1918,10 @@
   <h1>Release notes</h1>
 
 <h2 id="dev-140">dev (1.4.0)</h2>
+<h3 id="breaking-change"><strong>!! Breaking change !!</strong></h3>
+<p>Database version was upgraded to 1.4.</p>
+<p>This requires a new installation of the databases. The MIDORI databases were upgraded to GB267 (from GB259).
+The other databases were not modified, and can therefore be symlinked instead of a complete reinstallation (especially core_nt).</p>
 <h3 id="methods">Methods</h3>
 <p>Added following methods (experimental - validation pending):</p>
 <ul>
@@ -1910,6 +1936,7 @@
 <ul>
 <li>Improved BLAST module performance by switching to serial mode.</li>
 <li>Reworked how the BLAST search is configured and processed for non-ovelapping data: (1) halving the value of the required query coverage for the BLAST search, (2) matching groups of BLAST hits that are on the same strand and within the span of the amplicon size (as defined by the parameters above), (3) recalculating BLAST metrics (score, bitscore, evalue, etc...) on the merged HSPs and (4) producing a consolidated BLAST report. Note that this comes with some caveats and you should consider such experimental design very carefully.</li>
+<li>Sequences from the MIDORI Database now retain their Genbank accession number as <code>GENBANKACC_COUNTER</code> (starting with database version 1.4)</li>
 </ul>
 <h3 id="bugs">Bugs</h3>
 <ul>
