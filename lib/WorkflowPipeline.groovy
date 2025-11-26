@@ -91,6 +91,14 @@ class WorkflowPipeline {
             if (params.ont) {
                 log.warn "The ONT workflow is still very experimental!!!\nPlease review results carefully and provide feedback for improvements!"
             }
+            if (params.cutadapt_ont && !params.ont) {
+                log.warn "You cannot use ONT read trimming (--cutadapt_ont) without ONT data (--ont)"
+                System.exit(1)
+            }
+            if (params.cutadapt_ont && params.cutadapt_trim_3p) {
+                log.warn "The options --cutadapt_ont and --cutadapt_trim_3p are mutually exclusive!"
+                System.exit(1)
+            }
         } else {
             log.info "Missing mandatory argument: --input, --reads or --build_references\nExiting."
             System.exit(1)

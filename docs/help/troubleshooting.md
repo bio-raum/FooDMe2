@@ -18,7 +18,7 @@ This warning is similar to the previous one. The pipeline has detected single-en
 
 ## `The required reference directory was not found on your system, exiting!`
 
-Make sure that you provided the path to the **base directory** where reference are installed. This is the exact same path you provided when running `--build_references`. For example if the folder structure is:
+Make sure that you provided the path to the **base directory** where references are installed. This is the exact same path you provided when running `--build_references`. For example if the folder structure is:
 
 ```
 /home/user/reference_base/foodme/1.0/...

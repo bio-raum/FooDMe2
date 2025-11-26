@@ -390,7 +390,7 @@ if read_config == 2:
     print("### Read2: After filtering")
 ```
 
-```
+```{python}
 # Skip this if single end
 if read_config == 2:
     df = get_qual("fastp_trimmed", "read2_after_filtering")

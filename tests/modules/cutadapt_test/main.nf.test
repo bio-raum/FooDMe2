@@ -1,0 +1,38 @@
+nextflow_process {
+
+    name "Test Process CUTADAPT"
+    script "modules/cutadapt_test/main.nf"
+    process "CUTADAPT"
+
+    test("Should run without failures") {
+
+        setup
+
+        when {
+            params {
+                outdir = "tests/results"
+                cutadapt_trim_3p = true
+                cutadapt_options = "-m 40"
+            }
+            process {
+                """
+                input[0] = Channel.of( [ [sample_id:'Lasagne_clean', single_end:false], [ file("${projectDir}/tests/data/Lasagne_clean_1.trim.fastq.gz"), file("${projectDir}/tests/data/Lasagne_clean_2.trim.fastq.gz") ] ])
+                input[1] = file("${projectDir}/tests/data/16S_ASU184.disambiguated.fasta")
+                input[2] = file("${projectDir}/tests/data/16S_ASU184.disambiguated.rc.fasta")
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            with(process.out.reads) {
+                with(get(0)) {
+                    assert path(get(1).get(0)).md5 == "d41d8cd98f00b204e9800998ecf8427e"
+
+                }
+            }
+        }
+
+    }
+
+}

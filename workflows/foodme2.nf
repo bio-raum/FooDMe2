@@ -4,7 +4,7 @@ Import modules
 include { INPUT_CHECK }                 from './../modules/input_check'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 include { UNZIP }                       from './../modules/unzip'
-include { STAGE as STAGE_SAMPLESHEET } from './../modules/helper/stage'
+include { STAGE as STAGE_SAMPLESHEET }  from './../modules/helper/stage'
 
 /*
 Import sub workflows
@@ -47,7 +47,7 @@ workflow FOODME2 {
         */
         refDir = file(params.reference_base + "/foodme2/${params.reference_version}")
         if (!refDir.exists()) {
-            log.info 'The required reference directory was not found on your system, exiting!'
+            log.info 'The required reference directory (version ${params.reference_version}) was not found on your system, exiting!'
             System.exit(1)
         }
 
@@ -59,14 +59,14 @@ workflow FOODME2 {
             database                = params.database
             ch_primers              = Channel.fromPath(file(params.fasta, checkIfExits: true)).collect()
             blast_db                = set_blast_db(database)
-            fasta                   = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+            fasta                   = params.references.databases[database].fasta ? Channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
             version                 = params.references.databases[database].version
             // use a pre-configured primer but with a different database
             if (params.db) {
                 log.info "You chose a pre-configured primer set but are overriding the database - this may lead to problems!"
                 database    = params.db
                 blast_db    = set_blast_db(database)
-                fasta       = file(params.references.databases[database].fasta) ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+                fasta       = params.references.databases[database].fasta ? Channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
                 version     = params.references.databases[database].version
             }
         // If the users specifies a custom primer set as FASTA instead
@@ -78,7 +78,7 @@ workflow FOODME2 {
                 database    = params.db
                 // Check if that database is configured
                 blast_db    = set_blast_db(database)
-                fasta       = params.references.databases[database].fasta ? file(params.references.databases[database].fasta, checkIfExists: true) : null
+                fasta       = params.references.databases[database].fasta ? Channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
                 version     = params.references.databases[database].version
             // Or allow users to provide their own database
             } else if (params.blast_db) {
@@ -153,7 +153,7 @@ workflow FOODME2 {
     }
 
     // Check if we have single-end data that likely requires 3prime trimming.
-    if (!params.cutadapt_trim_3p) {
+    if (!params.cutadapt_trim_3p & !params.cutadapt_ont) {
         ch_reads.filter { m, r -> m.single_end }.count().filter { c -> c > 0 }.map { c ->
             log.warn "$c read sets are classified as single-end - this typically requires --cutadapt_trim_3p."
         }
@@ -248,6 +248,12 @@ def set_blast_db(database) {
         System.exit(1)
     }
     def blast_db = file(params.references.databases[database].blast_db, checkIfExists: true)
+
+    if (params.ont && !params.references.databases[database].fasta) {
+        log.warn "We do not have a FASTA version of this database; it is not currently possible to use it in combination with Nanopore data."
+        System.exit(1)
+    }
+    
     return blast_db
 }
 

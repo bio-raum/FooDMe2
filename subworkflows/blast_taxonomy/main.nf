@@ -8,6 +8,7 @@ include { HELPER_BLAST_APPLY_BLOCKLIST }    from './../../modules/helper/blast_a
 include { HELPER_BLAST_STATS }              from './../../modules/helper/blast_stats'
 include { HELPER_SAMPLE_COMPO }             from './../../modules/helper/sample_compo'
 include { HELPER_ASSIGNEMENT_MULTIQC }      from './../../modules/helper/assignement_multiqc'
+include { HELPER_BLAST_HSP_MERGER }         from './../../modules/helper/blast_hsp_merger'
 
 workflow BLAST_TAXONOMY {
     take:
@@ -79,9 +80,21 @@ workflow BLAST_TAXONOMY {
     /*
     Filter the Blast hits to remove low-scoring hits
     */
-    HELPER_BLAST_FILTER_BITSCORE(
-        BLAST_BLASTN.out.txt
-    )
+    if (params.non_overlapping) {
+        // Feed the blast results to merger script and take the table form there
+        HELPER_BLAST_HSP_MERGER(
+            BLAST_BLASTN.out.xml
+        )
+
+        HELPER_BLAST_FILTER_BITSCORE(
+            HELPER_BLAST_HSP_MERGER.out.txt
+        )
+    } else {
+        // Take the Blast results directly
+        HELPER_BLAST_FILTER_BITSCORE(
+            BLAST_BLASTN.out.txt
+        )
+    }
 
     ch_blast_and_otus = HELPER_BLAST_FILTER_BITSCORE.out.json.join(otus)
 

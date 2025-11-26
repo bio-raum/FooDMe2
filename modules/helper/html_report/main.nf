@@ -1,5 +1,6 @@
 process HELPER_HTML_REPORT {
     tag "All"
+    label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ 'mhoeppner/quarto:1.5.57' }"

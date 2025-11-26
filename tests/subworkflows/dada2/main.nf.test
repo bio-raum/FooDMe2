@@ -1,0 +1,60 @@
+nextflow_workflow {
+
+    name "Test Workflow DADA2_WORKFLOW"
+    script "subworkflows/dada2/main.nf"
+    workflow "DADA2_WORKFLOW"
+
+    test("Dada2 Illumina - default settings") {
+
+        when {
+            params {
+                outdir = "tests/results"
+                primer_set = "16S_ILM_ASU184_meat"
+                remove_chimera = true
+            }
+            workflow {
+                """
+                // define inputs of the workflow here. Example:
+                input[0] = Channel.of( [ [sample_id:'Lasagne_clean', single_end:false], [ file("${projectDir}/tests/data/Lasagne_clean_1.primertrim.fastq.gz"), file("${projectDir}/tests/data/Lasagne_clean_2.primertrim.fastq.gz") ] ])
+                """
+            }
+        }
+
+        then {
+            assert workflow.success
+            with(workflow.out.otus) {
+                with(get(0)) {
+                    assert path(get(1)).md5 == "68b329da9893e34099c7d8ad5cb9c940"
+                }
+            }
+        }
+
+    }
+    test("Dada2 Illumina - no chimera removal") {
+
+        when {
+            params {
+                outdir = "tests/results"
+                primer_set = "16S_ILM_ASU184_meat"
+                remove_chimera = false
+            }
+            workflow {
+                """
+                // define inputs of the workflow here. Example:
+                input[0] = Channel.of( [ [sample_id:'Lasagne_clean', single_end:false], [ file("${projectDir}/tests/data/Lasagne_clean_1.primertrim.fastq.gz"), file("${projectDir}/tests/data/Lasagne_clean_2.primertrim.fastq.gz") ] ])
+                """
+            }
+        }
+
+        then {
+            assert workflow.success
+            with(workflow.out.otus) {
+                with(get(0)) {
+                    assert path(get(1)).md5 == "68b329da9893e34099c7d8ad5cb9c940"
+                }
+            }
+        }
+
+    }
+
+}

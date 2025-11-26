@@ -1,0 +1,33 @@
+nextflow_workflow {
+
+    name "Test Workflow FOODME2"
+    script "workflows/foodme2.nf"
+    workflow "FOODME2"
+
+    test("Should run without failures") {
+
+        when {
+            params {
+                outdir = "tests/results"
+                input = "${projectDir}/tests/data/samples.nf-test.tsv"
+	            primer_set = "16S_ILM_ASU184_meat"
+	            run_name = "pipeline_test"
+                reference_version = "1.0"
+                reference_base = "${projectDir}/tests/refs"
+            }
+            workflow {
+                """
+                // define inputs of the workflow here. Example:
+                // input[0] = file("test-file.txt")
+                """
+            }
+        }
+
+        then {
+            assert workflow.success
+            
+        }
+
+    }
+
+}

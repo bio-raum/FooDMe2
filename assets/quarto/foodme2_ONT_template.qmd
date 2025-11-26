@@ -85,7 +85,7 @@ for json_file in json_files:
 
     sample = jdata["sample"]
     insert_size = int(jdata["fastplong_trimmed"]["summary"]["after_filtering"]["read_mean_length"])
-    reads_total = int(int(jdata["fastplong"]["summary"]["before_filtering"]["total_reads"])/2)
+    reads_total = int(int(jdata["fastplong"]["summary"]["before_filtering"]["total_reads"]))
     q20 = round((float(jdata["fastplong"]["summary"]["before_filtering"]["q20_rate"])*100),2)
     reads_passing = "not implemented"
     reads_filtered = "not implemented"

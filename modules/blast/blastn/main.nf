@@ -1,11 +1,11 @@
 process BLAST_BLASTN {
     tag "$meta.sample_id"
-    label 'medium_parallel'
+    label 'medium_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/blast:2.14.1--pl5321h6f7f691_0' :
-        'quay.io/biocontainers/blast:2.14.1--pl5321h6f7f691_0' }"
+        'https://depot.galaxyproject.org/singularity/blast:2.17.0--h66d330f_0' :
+        'quay.io/biocontainers/blast:2.17.0--h66d330f_0' }"
 
     input:
     tuple val(meta) , path(fasta)
@@ -15,6 +15,7 @@ process BLAST_BLASTN {
 
     output:
     tuple val(meta), path('*.txt'), emit: txt
+    tuple val(meta), path('*.xml'), emit: xml
     path 'versions.yml'           , emit: versions
 
     when:
@@ -33,13 +34,25 @@ process BLAST_BLASTN {
 
     export BLASTDB=$taxdb
 
+    # BLAST search and output as BLAST archive (ASN1)
     blastn \\
         -num_threads ${task.cpus} \\
         -db \$DB \\
         -query ${fasta} \\
         -taxidlist $blast_mask \\
         ${args} \\
-        -out ${prefix}.txt
+        -outfmt 11 \\
+        -out ${prefix}.asn
+
+    # Use BLAST formatter to produce XML2 and TSV
+    # XML can be used to retrieve search parameters like lambda, kappa, database size, etc
+    if [ -s ${prefix}.asn ]; then
+        blast_formatter -archive ${prefix}.asn -outfmt 16 -out ${prefix}.xml
+        blast_formatter -archive ${prefix}.asn -outfmt '6 qseqid sseqid evalue pident bitscore sacc staxid length mismatch gaps sscinames' -out ${prefix}.txt
+    else
+        touch ${prefix}.xml
+        touch ${prefix}.txt
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

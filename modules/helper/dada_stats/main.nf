@@ -8,7 +8,7 @@ process HELPER_DADA_STATS {
         'quay.io/biocontainers/bioconductor-dada2:1.30.0--r43hf17093f_0' }"
 
     input:
-    tuple val(meta), path(reads), path(filtreads), path(mergers), path(filtered), path(seqtab)  // Trimmed-filtered fastq, merged RDS, filtered RDS and non-chimeric RDS
+    tuple val(meta), path(reads), path(filtreads), path(mergers), path(filtered, stageAs: 'filtered/*'), path(seqtab)  // Trimmed-filtered fastq, merged RDS, filtered RDS and non-chimeric RDS
 
     output:
     tuple val(meta), path('*.dada_stats.json')  , emit: json

@@ -1,3 +1,39 @@
+## 1.4.0
+
+### **!! Breaking change !!**
+
+Database version was upgraded to 1.4.
+
+This requires a new installation of the databases. The MIDORI databases were upgraded to GB267 (from GB259).
+The other databases were not modified, and can therefore be symlinked instead of a complete reinstallation (especially core_nt).
+
+### Methods
+
+Added following methods (experimental - validation pending):
+
+- 16S metabarcoding of insects (Hillinger et al. 2023)
+- 16S metabarcoding of fish (Dobrovolny et al. 2019; using ASU L 00.00-184 )
+- COI metabarcoding of fish (Guenther et al.)
+- COI metabarcoding of insects (Park et al. 2001)
+- CYTB metabarcoding of fish (German ASU L 10.00-12)
+
+Each of these primer system has a method for Illumina, IonTorrent, and Oxford Nanopore. Check the doc to learn more.
+
+### Features
+
+- Improved BLAST module performance by switching to serial mode.
+- Reworked how the BLAST search is configured and processed for non-ovelapping data: (1) halving the value of the required query coverage for the BLAST search, (2) matching groups of BLAST hits that are on the same strand and within the span of the amplicon size (as defined by the parameters above), (3) recalculating BLAST metrics (score, bitscore, evalue, etc...) on the merged HSPs and (4) producing a consolidated BLAST report. Note that this comes with some caveats and you should consider such experimental design very carefully.
+- Sequences from the MIDORI Database now retain their Genbank accession number as `GENBANKACC_COUNTER` (starting with database version 1.4)
+
+### Bugs
+
+- Skip SSL verification for hard-coded databses downloads as some certificates are regularly outdated.
+- Proxy options can be passed on from the user's config for file staging using `HTTPS_PROXY`.
+- BLAST search now correctly takes the minimal query coverage argument `--blast_qcov` into account.
+- Fixed a crash occuring when trying to analyze non-overlapping data with DADA2.
+- Fixed a crash occuring when trying to skip chimera detection with DADA2.
+- It is now possible to use the `genbank` and `ncbi_its` databases, as well as any database without fasta file available.
+
 ## 1.3.0
 
 ### Features
