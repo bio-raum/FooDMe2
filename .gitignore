@@ -1,5 +1,5 @@
 .nextflow*
-.vscode
+.vscode/*
 results/*
 work/*
 .nextflow/*
