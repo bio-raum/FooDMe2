@@ -4,4 +4,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - bioconda::fastlong=0.4.1
+  - fastplong=0.4.1
