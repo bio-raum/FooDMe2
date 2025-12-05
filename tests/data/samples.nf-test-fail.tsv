@@ -1,0 +1,4 @@
+Sample	fq1	fq2
+Lasagne_clean	https://github.com/bio-raum/FooDMe2/raw/refs/heads/main/tests/data/Lasagne_clean_S1_L001_R1_001.fastq.gz	https://github.com/bio-raum/FooDMe2/raw/refs/heads/main/tests/data/Lasagne_clean_S1_L001_R2_001.fastq.gz
+Lasagne_horse	https://github.com/bio-raum/FooDMe2/raw/refs/heads/main/tests/data/Lasagne_horse_S1_L001_R1_001.fastq.gz	https://github.com/bio-raum/FooDMe2/raw/refs/heads/main/tests/data/Lasagne_horse_S1_L001_R2_001.fastq.gz
+NTC	https://github.com/bio-raum/FooDMe2/raw/refs/heads/main/tests/data/NTC_S01_L001_R1_001.fastq.gz	https://github.com/bio-raum/FooDMe2/raw/refs/heads/main/tests/data/NTC_S01_L001_R2_001.fastq.gz
