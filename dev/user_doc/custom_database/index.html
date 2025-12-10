@@ -1565,22 +1565,22 @@
 <p>FooDMe2 supplies users with a range of (versioned) reference databases to analyse their metabarcoding data against. However, we understand that some users already have their own (potentially curated) databases and would like to use it with FooDMe2. The instructions below are meant to help you with this process. </p>
 <h2 id="disclaimer">Disclaimer</h2>
 <p>The use of a curated database is typically meant to achieve two things - ensure that no incorrectly labelled reference sequences are present and to include data that may not yet be included in published databases.</p>
-<p>However, please be aware that manually created databases - for example including only a set of species that you are interested in - may bias your results. FooDMe2 will identify the best species match for a given OTU based on sequence similarity (within certain limits). If the actual species is not included in your database, you may end up with incorrect assignments. So please make sure that your database is comprehensive for your particular purpose. </p>
+<p>However, please be aware that manually created databases - for example including only a set of species that you are interested in - may bias your results. FooDMe2 will identify the best species match for a given OTU based on sequence similarity (within certain limits). If the actual species is not included in your database, you may end up with incorrect assignments. Make sure to run a comprehensive specificity analysis before using custom databases in routine diagnostic.</p>
 <h2 id="requirements">Requirements</h2>
 <p>FooDMe2 uses BLAST to compare OTUs against a given database. For this, the BLAST database must include taxonomic information, which is added during formatting of the database flatfile (FASTA). Taxonomic information has to be provided in a tabular format (sequence id &lt;-&gt; NCBI tax id). If you are working with sequences from GenBank, you can use the NCBI lookup table. Else, you will have to somehow produce this file yourself. More below. </p>
 <h2 id="step-by-step">Step-by-Step</h2>
-<p>Blast: Version 2.15.0 (install via Conda or use a container)</p>
+<p>Blast+: Version 2.15.0 (install via Conda or use a container)</p>
 <h3 id="tax-id-lookup-table">Tax ID lookup table</h3>
 <p>If your database includes GenBank accessions in the FASTA headers, you can use the NCBI lookup table:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>wget<span class="w"> </span>https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/nucl_gb.accession2taxid.gz
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>gunzip<span class="w"> </span>-c<span class="w"> </span>nucl_gb.accession2taxid.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>,3<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span>&gt;<span class="w"> </span>genbank2taxid
 </span></code></pre></div>
 <p>If your database is using other kinds of sequence IDs, please create a file with the following format:</p>
-<p><div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>SequenceA   2134
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>SequenceA   2134
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>SequenceB   67891
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>...
 </span></code></pre></div>
-Each line should include the sequence identifier of a database entry, mapped to a (species-level) taxonomy ID from <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI</a>.</p>
+<p>Each line should include the sequence identifier of a database entry, mapped to a (species-level) taxonomy ID from <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI</a>.</p>
 <h3 id="formatting-the-blast-database">Formatting the BLAST database</h3>
 <p>We assume that your database is called <code>my_db.fasta</code>; else adjust the command below. The taxonomy lookup file in our example will be called <code>genbank2taxid</code>. If you are using your own lookup file, adjust the command accordingly. </p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>makeblastdb<span class="w"> </span><span class="se">\\</span>
@@ -1588,12 +1588,15 @@ Each line should include the sequence identifier of a database entry, mapped to 
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>-parse_seqids<span class="w"> </span><span class="se">\\</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span>-taxid_map<span class="w"> </span>genbank2taxid<span class="w"> </span><span class="se">\\</span>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>mkdir<span class="w">  </span>my_custom_db
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>mkdir<span class="w"> </span>my_custom_db
 </span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>mv<span class="w"> </span>my_db.fasta*<span class="w"> </span>my_custom_db/
 </span></code></pre></div>
 <p>The BLAST database is now stored in the folder <code>my_custom_db</code> (change to better fit your situation). This folder can now be passed to FooDMe2 like so:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>my_profile<span class="w"> </span>--input<span class="w"> </span>samples.tsv<span class="w"> </span>--blast_db<span class="w"> </span>/path/to/my_custom_db<span class="w"> </span>&lt;other<span class="w"> </span>options<span class="w"> </span>here&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span>-profile<span class="w"> </span>my_profile<span class="w"> </span>--input<span class="w"> </span>samples.tsv<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span>--blast_db<span class="w"> </span>/path/to/my_custom_db<span class="w"> </span><span class="se">\\</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span>&lt;other<span class="w"> </span>options<span class="w"> </span>here&gt;
 </span></code></pre></div>
 
 
