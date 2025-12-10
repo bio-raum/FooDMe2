@@ -17,6 +17,7 @@ nav:
     - Pipeline: user_doc/pipeline.md
     - Output: user_doc/output.md
     - Technologies: user_doc/technologies.md
+    - Custom database: user_doc/custom_database.md
   - Methods:
     - Standard methods: methods/methods.md
     - 16S mammals and birds: methods/amniotes_dobrovolny.md
