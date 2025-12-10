@@ -6,7 +6,7 @@ FooDMe2 supplies users with a range of (versioned) reference databases to analys
 
 The use of a curated database is typically meant to achieve two things - ensure that no incorrectly labelled reference sequences are present and to include data that may not yet be included in published databases.
 
-However, please be aware that manually created databases - for example including only a set of species that you are interested in - may bias your results. FooDMe2 will identify the best species match for a given OTU based on sequence similarity (within certain limits). If the actual species is not included in your database, you may end up with incorrect assignments. So please make sure that your database is comprehensive for your particular purpose. 
+However, please be aware that manually created databases - for example including only a set of species that you are interested in - may bias your results. FooDMe2 will identify the best species match for a given OTU based on sequence similarity (within certain limits). If the actual species is not included in your database, you may end up with incorrect assignments. Make sure to run a comprehensive specificity analysis before using custom databases in routine diagnostic.
 
 ## Requirements
 
@@ -14,7 +14,7 @@ FooDMe2 uses BLAST to compare OTUs against a given database. For this, the BLAST
 
 ## Step-by-Step
 
-Blast: Version 2.15.0 (install via Conda or use a container)
+Blast+: Version 2.15.0 (install via Conda or use a container)
 
 ### Tax ID lookup table
 
@@ -32,6 +32,7 @@ SequenceA   2134
 SequenceB   67891
 ...
 ```
+
 Each line should include the sequence identifier of a database entry, mapped to a (species-level) taxonomy ID from [NCBI](https://www.ncbi.nlm.nih.gov/taxonomy).
  
 ### Formatting the BLAST database
@@ -43,17 +44,17 @@ makeblastdb \\
     -in my_db.fasta \\
     -parse_seqids \\
     -taxid_map genbank2taxid \\
- 
-mkdir  my_custom_db
- 
-mv my_db.fasta* my_custom_db/
 
+mkdir my_custom_db
+
+mv my_db.fasta* my_custom_db/
 ```
 
 The BLAST database is now stored in the folder `my_custom_db` (change to better fit your situation). This folder can now be passed to FooDMe2 like so:
 
 ```bash
-nextflow run bio-raum/FooDMe2 -profile my_profile --input samples.tsv --blast_db /path/to/my_custom_db <other options here>
+nextflow run bio-raum/FooDMe2 \\
+    -profile my_profile --input samples.tsv \\
+    --blast_db /path/to/my_custom_db \\
+    <other options here>
 ```
-
-
