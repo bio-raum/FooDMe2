@@ -2,6 +2,6 @@ name: dada2_filterntrim
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - bioconda::bioconductor-dada2=1.28.0

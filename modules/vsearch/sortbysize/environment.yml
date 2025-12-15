@@ -2,6 +2,6 @@ name: vsearch_sortbysize
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - bioconda::vsearch=2.27.0

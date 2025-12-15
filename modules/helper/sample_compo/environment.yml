@@ -2,6 +2,6 @@ name: helper_sample_compo
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - bioconda::bioinfokit=2.1.3

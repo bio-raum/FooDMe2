@@ -2,6 +2,6 @@ name: helper_fasta_size_from_coverage
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - bioconda::biopython.convert=1.0.3

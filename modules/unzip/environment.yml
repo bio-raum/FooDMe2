@@ -2,6 +2,6 @@ name: unzip
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - unzip

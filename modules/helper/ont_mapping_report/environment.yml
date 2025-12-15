@@ -2,6 +2,6 @@ name: ont_mapping_report
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - bioconda::bioinfokit=2.1.3
