@@ -2,6 +2,6 @@ name: helper_blast_filter_bitscore
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - bioconda::bioinfokit=2.1.3

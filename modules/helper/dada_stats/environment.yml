@@ -2,6 +2,6 @@ name: helper_dada_stats
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - bioconda::bioconductor-dada2=1.30.0

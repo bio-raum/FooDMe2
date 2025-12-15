@@ -2,6 +2,6 @@ name: helper_install_genbank
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - conda-forge::wget=1.21.4

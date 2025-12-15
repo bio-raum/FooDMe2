@@ -2,6 +2,6 @@ name: helper_benchmark_xlsx
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - bioconda::pbiotools=4.0.2

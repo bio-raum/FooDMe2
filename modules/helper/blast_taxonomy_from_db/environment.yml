@@ -2,6 +2,6 @@ name: helper_blast_taxonmy_from_db
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
   - bioconda::blast=2.14.1
