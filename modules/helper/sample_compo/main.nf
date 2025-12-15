@@ -15,7 +15,7 @@ process HELPER_SAMPLE_COMPO {
     path 'versions.yml'                        , emit: versions
 
     script:
-    def prefix = task.ext.prefix ?: json.getSimpleName()
+    def prefix = task.ext.prefix ?: meta.sample_id
 
     """
     sample_compo.py --json $json --output_tsv ${prefix}.composition.tsv --output_json ${prefix}.composition.json
