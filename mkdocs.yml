@@ -33,6 +33,7 @@ nav:
   - About:
     - Software: about/software.md
     - License: about/license.md
+    - Legal notes: about/legal.md
 
 theme:
   name: material
