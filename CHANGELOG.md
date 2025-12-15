@@ -1,3 +1,14 @@
+## dev
+
+### Documentation
+
+Added documentation regarding the use of custom databases.
+
+### Bugfix
+
+- fixed cat_fastq module conda environment and docker/singularity images
+- fixed fastplong module conda environment
+
 ## 1.4.0
 
 ### **!! Breaking change !!**
