@@ -18,7 +18,7 @@ process HELPER_SAMPLE_COMPO {
     def prefix = task.ext.prefix ?: meta.sample_id
 
     """
-    sample_compo.py --json $json --output_tsv ${prefix}.composition.tsv --output_json ${prefix}.composition.json
+    sample_compo.py --json $json --sample_id ${prefix} --output_tsv ${prefix}.composition.tsv --output_json ${prefix}.composition.json
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
