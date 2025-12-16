@@ -604,6 +604,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bugfix" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -654,7 +665,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#features_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Features
@@ -693,7 +704,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features_1" class="md-nav__link">
+  <a href="#features_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Features
@@ -754,7 +765,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features_2" class="md-nav__link">
+  <a href="#features_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Features
@@ -804,7 +815,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features_3" class="md-nav__link">
+  <a href="#features_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         Features
@@ -1753,6 +1764,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#bugfix" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1803,7 +1825,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#features_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Features
@@ -1842,7 +1864,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features_1" class="md-nav__link">
+  <a href="#features_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Features
@@ -1903,7 +1925,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features_2" class="md-nav__link">
+  <a href="#features_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Features
@@ -1953,7 +1975,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#features_3" class="md-nav__link">
+  <a href="#features_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         Features
@@ -2053,11 +2075,20 @@
 
 <h2 id="dev">dev</h2>
 <h3 id="documentation">Documentation</h3>
-<p>Added documentation regarding the use of custom databases.</p>
+<ul>
+<li>Added documentation regarding the use of custom databases.</li>
+<li>Added a disclaimer on Licensing of FooDMe2 dependencies</li>
+</ul>
+<h3 id="features">Features</h3>
+<ul>
+<li>Removed the <code>default</code> channel of all conda environments to circumvent licensing issues as far as possible</li>
+<li>Improved checks on samplesheet structure</li>
+</ul>
 <h3 id="bugfix">Bugfix</h3>
 <ul>
 <li>fixed cat_fastq module conda environment and docker/singularity images</li>
 <li>fixed fastplong module conda environment</li>
+<li>fixed a problem in JSON report generation when filenames contained points ".".</li>
 </ul>
 <h2 id="140">1.4.0</h2>
 <h3 id="breaking-change"><strong>!! Breaking change !!</strong></h3>
@@ -2074,7 +2105,7 @@ The other databases were not modified, and can therefore be symlinked instead of
 <li>CYTB metabarcoding of fish (German ASU L 10.00-12)</li>
 </ul>
 <p>Each of these primer system has a method for Illumina, IonTorrent, and Oxford Nanopore. Check the doc to learn more.</p>
-<h3 id="features">Features</h3>
+<h3 id="features_1">Features</h3>
 <ul>
 <li>Improved BLAST module performance by switching to serial mode.</li>
 <li>Reworked how the BLAST search is configured and processed for non-ovelapping data: (1) halving the value of the required query coverage for the BLAST search, (2) matching groups of BLAST hits that are on the same strand and within the span of the amplicon size (as defined by the parameters above), (3) recalculating BLAST metrics (score, bitscore, evalue, etc...) on the merged HSPs and (4) producing a consolidated BLAST report. Note that this comes with some caveats and you should consider such experimental design very carefully.</li>
@@ -2090,7 +2121,7 @@ The other databases were not modified, and can therefore be symlinked instead of
 <li>It is now possible to use the <code>genbank</code> and <code>ncbi_its</code> databases, as well as any database without fasta file available.</li>
 </ul>
 <h2 id="130">1.3.0</h2>
-<h3 id="features_1">Features</h3>
+<h3 id="features_2">Features</h3>
 <ul>
 <li>Add experimental support for ONT and IonTorrent data (not fully documented yet, check the <code>--help</code>)</li>
 <li>Improved error handling in the DADA2 workflow to prevent pipeline crash when few reads are available for error estimation.</li>
@@ -2118,7 +2149,7 @@ The other databases were not modified, and can therefore be symlinked instead of
 <li>Fixed several errors with processes not requesting the correct system resources</li>
 </ul>
 <h2 id="120">1.2.0</h2>
-<h3 id="features_2">Features</h3>
+<h3 id="features_3">Features</h3>
 <ul>
 <li>The initial FASTP step (prior to primer trimming) now only perfoms adapter detection and metrics output. A new FASTP step was added after primer trimming which can be used to perform additonal trimming and filtering operations using the <code>--fastp_options</code> argument. The default value of this argument performs sliding window 3' quality trimming and filters reads absed on size (see usage documentation).</li>
 <li>The <code>--non_overlapping</code> option will now always try to merge reads first. Reads that cannot be merged with the provided rules (overlap size and number of mismatches for example) will be concatenated with an <code>N</code> stretch separating the forward and reverse sequences.</li>
@@ -2153,7 +2184,7 @@ The other databases were not modified, and can therefore be symlinked instead of
 <li>Fix a ZeroDivisionError in the report creation when attempting to analyse a sample with no reads.</li>
 </ul>
 <h2 id="110">1.1.0</h2>
-<h3 id="features_3">Features</h3>
+<h3 id="features_4">Features</h3>
 <ul>
 <li>New argument <code>--reads</code> is mutually exclusive with <code>--input</code> and takes a glob path as argument. File names are parsed with the glob pattern and paired. This allows bypassing the need for a sample-sheet. It is not recommended way to provide input data but can be helpful in many cases.</li>
 </ul>
