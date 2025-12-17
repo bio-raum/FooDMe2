@@ -2,12 +2,19 @@
 
 ### Documentation
 
-Added documentation regarding the use of custom databases.
+- Added documentation regarding the use of custom databases.
+- Added a disclaimer on Licensing of FooDMe2 dependencies
+
+### Features
+
+- Removed the `default` channel of all conda environments to circumvent licensing issues as far as possible
+- Improved checks on samplesheet structure
 
 ### Bugfix
 
 - fixed cat_fastq module conda environment and docker/singularity images
 - fixed fastplong module conda environment
+- fixed a problem in JSON report generation when filenames contained points ".".
 
 ## 1.4.0
 
