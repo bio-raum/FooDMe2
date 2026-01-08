@@ -1,4 +1,7 @@
 process STAGE {
+
+    label 'short_serial'
+    
     tag "${meta.target}|${meta.tool}"
 
     input:

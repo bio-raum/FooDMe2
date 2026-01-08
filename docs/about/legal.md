@@ -8,7 +8,7 @@ The pipeline itself, that is the implementation of the logic, as well as the doc
 
 Conda is a package manager that can create isolated environments and install versioned software into it. For this, conda makes use of various channels, or repositories, which provide access to the instructions needed for the installation of packages. 
 
-As of 2024, the Anaconda project has put the so-called "defaults" channels hosted by Anaconda as well as the Anaconda-hosted [distribution](https://www.anaconda.com/download) under [license restrictions](https://www.anaconda.com/legal/terms/terms-of-service#). Briefly, this new license requires organizations with 200 or more employees to subscribe to a business subscription for continued use of these components.
+As of 2024, the Anaconda project has put the so-called "defaults" channels hosted by Anaconda as well as the Anaconda-hosted [distribution](https://www.anaconda.com/download) under [license restrictions](https://www.anaconda.com/legal/terms/terms-of-service#). Briefly, this new license requires organizations with 200 or more employees to pay for a business subscription for continued use of these components.
 
 As FooDMe2 allows the use of conda as one of the means to provision software, we want to remind you to check if your use of conda meets these restrictions. FooDMe2 obtains its various conda packages solely through community-driven channels (e.g. conda-forge, bioconda), although we cannot guarantee that individual packages themselves would not retrieve dependencies from the defaults channels. You may wish to blacklist the official Anaconda repositories in your organization (i.e. on the level if your firewall) to ensure no accidental violations. 
 
