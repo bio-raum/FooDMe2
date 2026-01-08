@@ -1,6 +1,7 @@
 include { CUTADAPT }            from './../../modules/cutadapt_test'
 include { PRIMER_DISAMBIGUATE } from './../../modules/helper/primer_disambiguate'
 include { FASTX_REVERSE_COMPLEMENT }    from './../../modules/fastx_toolkit/fastx_reverse_complement'
+include { SEQFU_RC }            from './../../modules/seqfu/rc'
 
 workflow CUTADAPT_WORKFLOW {
     take:
@@ -21,16 +22,19 @@ workflow CUTADAPT_WORKFLOW {
     ch_versions = ch_versions.mix(PRIMER_DISAMBIGUATE.out.versions)
 
     // Generate a reverse complement
-    FASTX_REVERSE_COMPLEMENT(
-        ch_primers_disambiguated
+    SEQFU_RC(
+        ch_primers
     )
-    ch_primers_rc = FASTX_REVERSE_COMPLEMENT.out.fasta
-    ch_versions = ch_versions.mix(FASTX_REVERSE_COMPLEMENT.out.versions)
+    //FASTX_REVERSE_COMPLEMENT(
+    //    ch_primers_disambiguated
+    //)
+    ch_primers_rc = SEQFU_RC.out.fasta
+    ch_versions = ch_versions.mix(SEQFU_RC.out.versions)
 
     // Run Cutadapt to remove PCR primers
     CUTADAPT(
         reads,
-        ch_primers_disambiguated.collect(),
+        ch_primers.collect(),
         ch_primers_rc.collect()
     )
     ch_versions         = ch_versions.mix(CUTADAPT.out.versions)
