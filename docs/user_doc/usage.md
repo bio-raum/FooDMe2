@@ -394,7 +394,7 @@ it. Make sure to re-set any options you want to keep.
 
 :   Toggle chimera filtering step on or off.
 
-`--max_expected_errors` [ default = 2 ]
+`--max_expected_errors` [ default = 2.0 ]
 
 :   Maximum allowed amount of expected errors in reads.
 
