@@ -18,6 +18,7 @@ nav:
     - Output: user_doc/output.md
     - Technologies: user_doc/technologies.md
     - Custom database: user_doc/custom_database.md
+    - Custom primers: user_doc/custom_primers.md
   - Methods:
     - Standard methods: methods/methods.md
     - 16S mammals and birds: methods/amniotes_dobrovolny.md
