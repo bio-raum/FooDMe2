@@ -17,8 +17,8 @@ nextflow_process {
             process {
                 """
                 input[0] = Channel.of( [ [sample_id:'Lasagne_clean', single_end:false], [ file("${projectDir}/tests/data/Lasagne_clean_1.trim.fastq.gz"), file("${projectDir}/tests/data/Lasagne_clean_2.trim.fastq.gz") ] ])
-                input[1] = file("${projectDir}/tests/data/16S_ASU184.disambiguated.fasta")
-                input[2] = file("${projectDir}/tests/data/16S_ASU184.disambiguated.rc.fasta")
+                input[1] = Channel.of(file("${projectDir}/tests/data/16S_ASU184.disambiguated.fasta"))
+                input[2] = Channel.of(file("${projectDir}/tests/data/16S_ASU184.disambiguated.rc.fasta"))
                 """
             }
         }

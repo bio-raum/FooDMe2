@@ -16,7 +16,7 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] = Channel.of( [ [sample_id:'Lasagne_clean', single_end:false], [ file("${projectDir}/tests/data/Lasagne_clean_S1_L001_R1_001.fastq.gz"), file("${projectDir}/tests/data/Lasagne_clean_S1_L001_R2_001.fastq.gz") ] ])
-                input[1] = file("${projectDir}/assets/primers/16S_ASU184.fasta")
+                input[1] = Channel.from(file("${projectDir}/assets/primers/16S_ASU184.fasta"))
                 """
             }
         }

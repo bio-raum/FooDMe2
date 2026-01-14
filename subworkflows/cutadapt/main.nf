@@ -15,11 +15,11 @@ workflow CUTADAPT_WORKFLOW {
     ch_reads = Channel.from([])
 
     // Disambiguate degenerate primer sequences
-    PRIMER_DISAMBIGUATE(
-        ch_primers
-    )
-    ch_primers_disambiguated = PRIMER_DISAMBIGUATE.out.fasta
-    ch_versions = ch_versions.mix(PRIMER_DISAMBIGUATE.out.versions)
+    // PRIMER_DISAMBIGUATE(
+    //    ch_primers
+    //)
+    //ch_primers_disambiguated = PRIMER_DISAMBIGUATE.out.fasta
+    //ch_versions = ch_versions.mix(PRIMER_DISAMBIGUATE.out.versions)
 
     // Generate a reverse complement
     SEQFU_RC(
