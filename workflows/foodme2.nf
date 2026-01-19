@@ -47,7 +47,7 @@ workflow FOODME2 {
         */
         refDir = file(params.reference_base + "/foodme2/${params.reference_version}")
         if (!refDir.exists()) {
-            log.info 'The required reference directory (version ${params.reference_version}) was not found on your system, exiting!'
+            log.info "The required reference directory (version ${params.reference_version}) was not found on your system, exiting!"
             System.exit(1)
         }
 

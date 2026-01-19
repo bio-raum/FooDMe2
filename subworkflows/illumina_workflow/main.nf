@@ -139,11 +139,11 @@ def get_metrics(json) {
     def object = jsonSlurper.parseText(data)
 
     def mean_len = object['summary']['after_filtering']['read1_mean_length']
-
+    def isize = ""
     if (object["insert_size"]) {
-        def isize = object['insert_size']['peak']
+        isize = object['insert_size']['peak']
     } else {
-        def isize = mean_len
+        isize = mean_len
     }
     
     return [ isize, mean_len ]
