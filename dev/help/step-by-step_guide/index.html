@@ -2019,7 +2019,7 @@
 
 <h1 id="step-by-step-installation-guide">Step-by-step Installation guide</h1>
 <h2 id="forword">Forword</h2>
-<p>This document aims to be a step-by-step handy guide to your first installation, configuration, and usage of FooDMe2. It does not replace the 
+<p>This document aims to be a step-by-step handy guide to your first installation, configuration, and usage of FooDMe2.  It does not replace the 
 workflow documentation taht can be found following the link in the left navigation panel. Following this guide alone will only bring you as far
 as setting up FooDMe2 for basic analyses on your system, do read the documentation to know how to properly use the workflow!</p>
 <p>You can copy the code from each block and paste it in your shell to follow along. Hover over the circled numbers in the
@@ -2048,7 +2048,7 @@ administrator or IT support. </p>
 <p>First check wether nextflow is installed on your system:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow<span class="w"> </span>info
 </span></code></pre></div>
-<p>FooDMe should run with nextflow &gt;= 24.10.5. If nextflow is installed with an older version run:</p>
+<p>FooDMe should run with nextflow &gt;= 24.10.5.  If nextflow is installed with an older version run:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>nextflow<span class="w"> </span>self-update
 </span></code></pre></div>
 <p>If nextflow is not installed, you will need to follow the <a href="https://www.nextflow.io/docs/latest/install.html#requirements">step-by-step instructions from the Nextflow documentation</a>. Note that you might need <code>sudo</code> rights!</p>
@@ -2320,7 +2320,7 @@ to a shared directory where all users can access them. </p>
 <h3 id="installing-the-databases">Installing the databases</h3>
 <p>Now that everything is installed and Nextflow is configured, we can install the databases that will be used for the analysis.
 Several different databases for different sources such as <a href="https://ftp.ncbi.nlm.nih.gov/refseq/">NCBI</a>, <a href="https://www.reference-midori.info/">MIDORI</a>,
-or <a href="https://unite.ut.ee/">UNITE</a> can be installed automatically and used in a standardized way by FooDMe2. You can also provide your own dataases.</p>
+or <a href="https://unite.ut.ee/">UNITE</a> can be installed automatically and used in a standardized way by FooDMe2.  You can also provide your own dataases.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You will see several parameters used in the commands below that are not immediatly important.
@@ -2330,11 +2330,11 @@ These will be explained further in tis document or you can check them up in the 
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w">                        </span><span class="c1"># (1)</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w">                        </span><span class="c1"># (1)!</span>
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span>--build_references<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span>--run_name<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span>--skip_genbank<span class="w">                            </span><span class="c1"># (2)</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span>--skip_genbank<span class="w">                            </span><span class="c1"># (2)!</span>
 </span></code></pre></div>
 <ol>
 <li><code>remote</code> is the name of your file in the <code>bio-raum/nf-configs</code> repository, without the <code>.config</code> extension.</li>
@@ -2343,12 +2343,12 @@ These will be explained further in tis document or you can check them up in the 
 </div>
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span>-c<span class="w"> </span><span class="nv">$HOME</span>/nextflow/local.config<span class="w"> </span><span class="se">\ </span><span class="w">         </span><span class="c1"># (1)</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span>-c<span class="w"> </span><span class="nv">$HOME</span>/nextflow/local.config<span class="w"> </span><span class="se">\ </span><span class="w">         </span><span class="c1"># (1)!</span>
 </span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span>--build_references<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span>--reference_base<span class="w"> </span><span class="nv">$HOME</span>/nextflow/refs<span class="w"> </span><span class="se">\ </span><span class="w">   </span><span class="c1"># (2)</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span>--reference_base<span class="w"> </span><span class="nv">$HOME</span>/nextflow/refs<span class="w"> </span><span class="se">\ </span><span class="w">   </span><span class="c1"># (2)!</span>
 </span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span>--run_name<span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span>--skip_genbank<span class="w">                            </span><span class="c1"># (3)</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span>--skip_genbank<span class="w">                            </span><span class="c1"># (3)!</span>
 </span></code></pre></div>
 <ol>
 <li>This should be the path to your local configuration file</li>
@@ -2366,7 +2366,7 @@ Using the <code>test</code> profile as below will download a couple of sequencin
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span>-profile<span class="w"> </span>remote,test<span class="w"> </span><span class="se">\ </span><span class="w">                   </span><span class="c1"># (1)</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span>-profile<span class="w"> </span>remote,test<span class="w"> </span><span class="se">\ </span><span class="w">                   </span><span class="c1"># (1)!</span>
 </span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span>--run_name<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
@@ -2377,9 +2377,9 @@ Using the <code>test</code> profile as below will download a couple of sequencin
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span>-profile<span class="w"> </span><span class="nb">test</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span>-c<span class="w"> </span><span class="nv">$HOME</span>/nextflow/local.config<span class="w"> </span><span class="se">\ </span><span class="w">         </span><span class="c1"># (1)</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span>-c<span class="w"> </span><span class="nv">$HOME</span>/nextflow/local.config<span class="w"> </span><span class="se">\ </span><span class="w">         </span><span class="c1"># (1)!</span>
 </span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span>--reference_base<span class="w"> </span><span class="nv">$HOME</span>/nextflow/refs<span class="w"> </span><span class="se">\ </span><span class="w">   </span><span class="c1"># (2)</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span>--reference_base<span class="w"> </span><span class="nv">$HOME</span>/nextflow/refs<span class="w"> </span><span class="se">\ </span><span class="w">   </span><span class="c1"># (2)!</span>
 </span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span>--run_name<span class="w"> </span><span class="nb">test</span>
 </span></code></pre></div>
 <ol>
@@ -2476,11 +2476,11 @@ See the example in the <a href="#creating-the-sample-sheet">next section</a>.</p
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w">                                      </span><span class="c1"># (1)</span>
-</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\ </span><span class="w">                                             </span><span class="c1"># (2)</span>
-</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">    </span>--run_name<span class="w"> </span>first_run<span class="w"> </span><span class="se">\ </span><span class="w">                                 </span><span class="c1"># (3)</span>
-</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="w">    </span>--input<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/samples.tsv<span class="w"> </span><span class="se">\ </span><span class="w">      </span><span class="c1"># (4)</span>
-</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="w">    </span>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w">                        </span><span class="c1"># (5)</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w">                                      </span><span class="c1"># (1)!</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\ </span><span class="w">                                             </span><span class="c1"># (2)!</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">    </span>--run_name<span class="w"> </span>first_run<span class="w"> </span><span class="se">\ </span><span class="w">                                 </span><span class="c1"># (3)!</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="w">    </span>--input<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/samples.tsv<span class="w"> </span><span class="se">\ </span><span class="w">      </span><span class="c1"># (4)!</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="w">    </span>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w">                        </span><span class="c1"># (5)!</span>
 </span></code></pre></div>
 <ol>
 <li><code>remote</code> is the name of your file in the <code>bio-raum/nf-configs</code> repository, without the <code>.config</code> extension.</li>
@@ -2492,11 +2492,11 @@ See the example in the <a href="#creating-the-sample-sheet">next section</a>.</p
 </div>
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w">                                              </span><span class="c1"># (1)</span>
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\ </span><span class="w">                                                     </span><span class="c1"># (2)</span>
-</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span>--run_name<span class="w"> </span>first_run<span class="w"> </span><span class="se">\ </span><span class="w">                                         </span><span class="c1"># (3)</span>
-</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">    </span>--reads<span class="w"> </span><span class="s1">&#39;/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz&#39;</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (4)</span>
-</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">    </span>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w">                                </span><span class="c1"># (5)</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w">                                              </span><span class="c1"># (1)!</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\ </span><span class="w">                                                     </span><span class="c1"># (2)!</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span>--run_name<span class="w"> </span>first_run<span class="w"> </span><span class="se">\ </span><span class="w">                                         </span><span class="c1"># (3)!</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">    </span>--reads<span class="w"> </span><span class="s1">&#39;/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz&#39;</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (4)!</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">    </span>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w">                                </span><span class="c1"># (5)!</span>
 </span></code></pre></div>
 <ol>
 <li><code>remote</code> is the name of your file in the <code>bio-raum/nf-configs</code> repository, without the <code>.config</code> extension.</li>
@@ -2514,12 +2514,12 @@ See the example in the <a href="#creating-the-sample-sheet">next section</a>.</p
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">    </span>-c<span class="w"> </span><span class="nv">$HOME</span>/nextflow/local.config<span class="w"> </span><span class="se">\ </span><span class="w">                       </span><span class="c1"># (1)</span>
-</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\ </span><span class="w">                                             </span><span class="c1"># (2)</span>
-</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="w">    </span>--run_name<span class="w"> </span>first_run<span class="w"> </span><span class="se">\ </span><span class="w">                                 </span><span class="c1"># (3)</span>
-</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="w">    </span>--input<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/samples.tsv<span class="w"> </span><span class="se">\ </span><span class="w">      </span><span class="c1"># (4)</span>
-</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="w">    </span>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w"> </span><span class="se">\ </span><span class="w">                     </span><span class="c1"># (5)</span>
-</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="w">    </span>--reference_base<span class="w"> </span><span class="nv">$HOME</span>/nextflow/refs<span class="w">                    </span><span class="c1"># (6)</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">    </span>-c<span class="w"> </span><span class="nv">$HOME</span>/nextflow/local.config<span class="w"> </span><span class="se">\ </span><span class="w">                       </span><span class="c1"># (1)!</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\ </span><span class="w">                                             </span><span class="c1"># (2)!</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="w">    </span>--run_name<span class="w"> </span>first_run<span class="w"> </span><span class="se">\ </span><span class="w">                                 </span><span class="c1"># (3)!</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="w">    </span>--input<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/samples.tsv<span class="w"> </span><span class="se">\ </span><span class="w">      </span><span class="c1"># (4)!</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="w">    </span>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w"> </span><span class="se">\ </span><span class="w">                     </span><span class="c1"># (5)!</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="w">    </span>--reference_base<span class="w"> </span><span class="nv">$HOME</span>/nextflow/refs<span class="w">                    </span><span class="c1"># (6)!</span>
 </span></code></pre></div>
 <ol>
 <li>Path to your local configuration file.</li>
@@ -2532,12 +2532,12 @@ See the example in the <a href="#creating-the-sample-sheet">next section</a>.</p
 </div>
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">    </span>-c<span class="w"> </span><span class="nv">$HOME</span>/nextflow/local.config<span class="w"> </span><span class="se">\ </span><span class="w">                               </span><span class="c1"># (1)</span>
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\ </span><span class="w">                                                     </span><span class="c1"># (2)</span>
-</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="w">    </span>--run_name<span class="w"> </span>first_run<span class="w"> </span><span class="se">\ </span><span class="w">                                         </span><span class="c1"># (3)</span>
-</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="w">    </span>--reads<span class="w"> </span><span class="s1">&#39;/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz&#39;</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (4)</span>
-</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">    </span>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w"> </span><span class="se">\ </span><span class="w">                             </span><span class="c1"># (5)</span>
-</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="w">    </span>--reference_base<span class="w"> </span><span class="nv">$HOME</span>/nextflow/refs<span class="w">                            </span><span class="c1"># (6)</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">    </span>-c<span class="w"> </span><span class="nv">$HOME</span>/nextflow/local.config<span class="w"> </span><span class="se">\ </span><span class="w">                               </span><span class="c1"># (1)!</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">    </span>-r<span class="w"> </span><span class="m">1</span>.4.0<span class="w"> </span><span class="se">\ </span><span class="w">                                                     </span><span class="c1"># (2)!</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="w">    </span>--run_name<span class="w"> </span>first_run<span class="w"> </span><span class="se">\ </span><span class="w">                                         </span><span class="c1"># (3)!</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="w">    </span>--reads<span class="w"> </span><span class="s1">&#39;/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz&#39;</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (4)!</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">    </span>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w"> </span><span class="se">\ </span><span class="w">                             </span><span class="c1"># (5)!</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="w">    </span>--reference_base<span class="w"> </span><span class="nv">$HOME</span>/nextflow/refs<span class="w">                            </span><span class="c1"># (6)!</span>
 </span></code></pre></div>
 <ol>
 <li>Path to your local configuration file.</li>
@@ -2576,8 +2576,8 @@ to store rawdata after analysis.</p>
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="nv">$HOME</span>
 </span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>./nextflow
-</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">    </span>./refs<span class="w">                  </span><span class="c1"># (1)</span>
-</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="w">    </span>./envs<span class="w">                  </span><span class="c1"># (2)</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">    </span>./refs<span class="w">                  </span><span class="c1"># (1)!</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="w">    </span>./envs<span class="w">                  </span><span class="c1"># (2)!</span>
 </span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>./metabarcoding
 </span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="w">    </span>./rawdata
 </span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="w">    </span>./results
@@ -2592,8 +2592,8 @@ to store rawdata after analysis.</p>
 <div class="tabbed-block">
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="nv">$HOME</span>
 </span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>./nextflow
-</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">    </span>./refs<span class="w">                  </span><span class="c1"># (1)</span>
-</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">    </span>./envs<span class="w">                  </span><span class="c1"># (2)</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">    </span>./refs<span class="w">                  </span><span class="c1"># (1)!</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">    </span>./envs<span class="w">                  </span><span class="c1"># (2)!</span>
 </span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="w">    </span>./local.config
 </span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>./metabarcoding
 </span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="w">    </span>./rawdata
@@ -2617,7 +2617,7 @@ to store rawdata after analysis.</p>
 </ul>
 <h4 id="creating-the-sample-sheet">Creating the sample-sheet</h4>
 <p>For this example we will use the <code>samplesheet</code> workflow from the <code>bio-raum</code> <a href="https://github.com/bio-raum/samplesheet">Github collection</a>.</p>
-<p>The good news is that it is a standardized bio-raum workflow that works very similarly to FooDMe2. Assuming you adopted the folder structure above,
+<p>The good news is that it is a standardized bio-raum workflow that works very similarly to FooDMe2.  Assuming you adopted the folder structure above,
 you can create the sample sheet in the raw data folder with:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Remote</label><label for="__tabbed_11_2">Local</label></div>
 <div class="tabbed-content">
@@ -2646,9 +2646,9 @@ you can create the sample sheet in the raw data folder with:</p>
 <h4 id="output-and-run-naming">Output and run naming</h4>
 <p>We can automate run naming by using the execution date and a name for the run:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="nv">run_name</span><span class="o">=</span><span class="s2">&quot;ilovefoodme&quot;</span>
-</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="nv">run_id</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>--iso-8601<span class="k">)</span><span class="w">                                    </span><span class="c1"># (1)</span>
-</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/results/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w">   </span><span class="c1"># (2)</span>
-</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/archive/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w">   </span><span class="c1"># (2)</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="nv">run_id</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>--iso-8601<span class="k">)</span>!!<span class="w">                                    </span><span class="c1"># (1)!</span>
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/results/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w">   </span><span class="c1"># (2)!</span>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/archive/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w">   </span><span class="c1"># (2)!</span>
 </span></code></pre></div>
 <ol>
 <li>Generate today's date as ISO8601 format 'YYYY-MM-DD'</li>
@@ -2658,7 +2658,7 @@ you can create the sample sheet in the raw data folder with:</p>
 <p class="admonition-title">Tip</p>
 <p>When writting a script, we can also use command line arguments to create the folder (and run) name:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="nv">run_name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">foodme2</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="nv">run_id</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>--iso-8601<span class="k">)</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="nv">run_id</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>--iso-8601<span class="k">)</span>!!
 </span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/results/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span>
 </span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/archive/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span>
 </span></code></pre></div>
@@ -2670,35 +2670,35 @@ See it used in the next section.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Remote</label><label for="__tabbed_12_2">Local</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-sh highlight"><span class="filename">run_foodme2.sh</span><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="ch">#!/usr/bin/env bash  # (1)</span>
-</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="nb">set</span><span class="w"> </span>-Eeuo<span class="w"> </span>pipefail<span class="w">  </span><span class="c1"># (1)</span>
+<div class="language-sh highlight"><span class="filename">run_foodme2.sh</span><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="ch">#!/usr/bin/env bash  # (1)!</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="nb">set</span><span class="w"> </span>-Eeuo<span class="w"> </span>pipefail<span class="w">  </span><span class="c1"># (1)!</span>
 </span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>
-</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="nv">VERSION</span><span class="o">=</span><span class="m">1</span>.4.0<span class="w">  </span><span class="c1"># (2)</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="nv">VERSION</span><span class="o">=</span><span class="m">1</span>.4.0<span class="w">  </span><span class="c1"># (2)!</span>
 </span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>
 </span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="c1"># create samplesheet</span>
 </span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/samplesheet<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>-r<span class="w"> </span><span class="m">0</span>.1<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (3)</span>
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (3)!</span>
 </span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a>--input<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>--outdir<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a><span class="o">&amp;&amp;</span><span class="w"> </span>nextflow<span class="w"> </span>clean
 </span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a>
 </span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a><span class="c1"># create output dirs</span>
 </span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a><span class="nv">run_name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">foodme2</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="nv">run_id</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>--iso-8601<span class="k">)</span>
+</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="nv">run_id</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>--iso-8601<span class="k">)</span>!!
 </span><span id="__span-36-17"><a id="__codelineno-36-17" name="__codelineno-36-17" href="#__codelineno-36-17"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/results/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span>
 </span><span id="__span-36-18"><a id="__codelineno-36-18" name="__codelineno-36-18" href="#__codelineno-36-18"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/archive/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span>
 </span><span id="__span-36-19"><a id="__codelineno-36-19" name="__codelineno-36-19" href="#__codelineno-36-19"></a>
 </span><span id="__span-36-20"><a id="__codelineno-36-20" name="__codelineno-36-20" href="#__codelineno-36-20"></a><span class="c1"># run workflow</span>
 </span><span id="__span-36-21"><a id="__codelineno-36-21" name="__codelineno-36-21" href="#__codelineno-36-21"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-22"><a id="__codelineno-36-22" name="__codelineno-36-22" href="#__codelineno-36-22"></a>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (3)</span>
+</span><span id="__span-36-22"><a id="__codelineno-36-22" name="__codelineno-36-22" href="#__codelineno-36-22"></a>-profile<span class="w"> </span>remote<span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (3)!</span>
 </span><span id="__span-36-23"><a id="__codelineno-36-23" name="__codelineno-36-23" href="#__codelineno-36-23"></a>-r<span class="w"> </span><span class="nv">$VERSION</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-24"><a id="__codelineno-36-24" name="__codelineno-36-24" href="#__codelineno-36-24"></a>--run_name<span class="w"> </span><span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-25"><a id="__codelineno-36-25" name="__codelineno-36-25" href="#__codelineno-36-25"></a>--input<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/samples.tsv<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-26"><a id="__codelineno-36-26" name="__codelineno-36-26" href="#__codelineno-36-26"></a>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-27"><a id="__codelineno-36-27" name="__codelineno-36-27" href="#__codelineno-36-27"></a>--outdir<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/results/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-28"><a id="__codelineno-36-28" name="__codelineno-36-28" href="#__codelineno-36-28"></a><span class="o">&amp;&amp;</span><span class="w"> </span>mv<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/*<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/archive/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (4)</span>
-</span><span id="__span-36-29"><a id="__codelineno-36-29" name="__codelineno-36-29" href="#__codelineno-36-29"></a><span class="o">&amp;&amp;</span><span class="w"> </span>nextflow<span class="w"> </span>clean<span class="w">  </span><span class="c1"># (5)</span>
+</span><span id="__span-36-28"><a id="__codelineno-36-28" name="__codelineno-36-28" href="#__codelineno-36-28"></a><span class="o">&amp;&amp;</span><span class="w"> </span>mv<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/*<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/archive/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (4)!</span>
+</span><span id="__span-36-29"><a id="__codelineno-36-29" name="__codelineno-36-29" href="#__codelineno-36-29"></a><span class="o">&amp;&amp;</span><span class="w"> </span>nextflow<span class="w"> </span>clean<span class="w">  </span><span class="c1"># (5)!</span>
 </span></code></pre></div>
 <ol>
 <li>The first two lines are simply there to ensure that the correct shell is used and eventual errors are correctly reported.</li>
@@ -2709,10 +2709,10 @@ See it used in the next section.</p>
 </ol>
 </div>
 <div class="tabbed-block">
-<div class="language-sh highlight"><span class="filename">run_foodme2.sh</span><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="ch">#!/usr/bin/env bash  # (1)</span>
-</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="nb">set</span><span class="w"> </span>-Eeuo<span class="w"> </span>pipefail<span class="w">  </span><span class="c1"># (1)</span>
+<div class="language-sh highlight"><span class="filename">run_foodme2.sh</span><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="ch">#!/usr/bin/env bash  # (1)!</span>
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="nb">set</span><span class="w"> </span>-Eeuo<span class="w"> </span>pipefail<span class="w">  </span><span class="c1"># (1)!</span>
 </span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
-</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="nv">VERSION</span><span class="o">=</span><span class="s1">&#39;1.4.0&#39;</span><span class="w">  </span><span class="c1"># (2)</span>
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="nv">VERSION</span><span class="o">=</span><span class="s1">&#39;1.4.0&#39;</span><span class="w">  </span><span class="c1"># (2)!</span>
 </span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>
 </span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a><span class="c1"># create samplesheet</span>
 </span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/samplesheet<span class="w"> </span><span class="se">\</span>
@@ -2724,7 +2724,7 @@ See it used in the next section.</p>
 </span><span id="__span-37-13"><a id="__codelineno-37-13" name="__codelineno-37-13" href="#__codelineno-37-13"></a>
 </span><span id="__span-37-14"><a id="__codelineno-37-14" name="__codelineno-37-14" href="#__codelineno-37-14"></a><span class="c1"># create output dirs</span>
 </span><span id="__span-37-15"><a id="__codelineno-37-15" name="__codelineno-37-15" href="#__codelineno-37-15"></a><span class="nv">run_name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">foodme2</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="__span-37-16"><a id="__codelineno-37-16" name="__codelineno-37-16" href="#__codelineno-37-16"></a><span class="nv">run_id</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>--iso-8601<span class="k">)</span>
+</span><span id="__span-37-16"><a id="__codelineno-37-16" name="__codelineno-37-16" href="#__codelineno-37-16"></a><span class="nv">run_id</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>--iso-8601<span class="k">)</span>!!
 </span><span id="__span-37-17"><a id="__codelineno-37-17" name="__codelineno-37-17" href="#__codelineno-37-17"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/results/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span>
 </span><span id="__span-37-18"><a id="__codelineno-37-18" name="__codelineno-37-18" href="#__codelineno-37-18"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/archive/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span>
 </span><span id="__span-37-19"><a id="__codelineno-37-19" name="__codelineno-37-19" href="#__codelineno-37-19"></a>
@@ -2737,8 +2737,8 @@ See it used in the next section.</p>
 </span><span id="__span-37-26"><a id="__codelineno-37-26" name="__codelineno-37-26" href="#__codelineno-37-26"></a>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-37-27"><a id="__codelineno-37-27" name="__codelineno-37-27" href="#__codelineno-37-27"></a>--reference_base<span class="w"> </span><span class="nv">$HOME</span>/nextflow/refs<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-37-28"><a id="__codelineno-37-28" name="__codelineno-37-28" href="#__codelineno-37-28"></a>--outdir<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/results/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-37-29"><a id="__codelineno-37-29" name="__codelineno-37-29" href="#__codelineno-37-29"></a><span class="o">&amp;&amp;</span><span class="w"> </span>mv<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/*<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/archive/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (3)</span>
-</span><span id="__span-37-30"><a id="__codelineno-37-30" name="__codelineno-37-30" href="#__codelineno-37-30"></a><span class="o">&amp;&amp;</span><span class="w"> </span>nextflow<span class="w"> </span>clean<span class="w">  </span><span class="c1"># (4)</span>
+</span><span id="__span-37-29"><a id="__codelineno-37-29" name="__codelineno-37-29" href="#__codelineno-37-29"></a><span class="o">&amp;&amp;</span><span class="w"> </span>mv<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/*<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/archive/<span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w"> </span><span class="se">\ </span><span class="w"> </span><span class="c1"># (3)!</span>
+</span><span id="__span-37-30"><a id="__codelineno-37-30" name="__codelineno-37-30" href="#__codelineno-37-30"></a><span class="o">&amp;&amp;</span><span class="w"> </span>nextflow<span class="w"> </span>clean<span class="w">  </span><span class="c1"># (4)!</span>
 </span></code></pre></div>
 <ol>
 <li>The first two lines are simply there to ensure that the correct shell is used and eventual errors are correctly reported.</li>
@@ -2750,8 +2750,8 @@ See it used in the next section.</p>
 </div>
 </div>
 <p>Now make sure that the script is executable and run it:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/scripts/run_foodme2.sh<span class="w">   </span><span class="c1"># (1)</span>
-</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>bash<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/scripts/run_foodme2.sh<span class="w"> </span>run_name<span class="w">  </span><span class="c1"># (2)</span>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/scripts/run_foodme2.sh<span class="w">   </span><span class="c1"># (1)!</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>bash<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/scripts/run_foodme2.sh<span class="w"> </span>run_name<span class="w">  </span><span class="c1"># (2)!</span>
 </span></code></pre></div>
 <ol>
 <li>This ensures that the script is executable and is only required once.</li>
