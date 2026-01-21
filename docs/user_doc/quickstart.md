@@ -2,6 +2,8 @@
 
 This is a very short list of steps required to get your started with FooDMe2. Please see our complete [installation](installation.md) and [usage](usage.md) guides to answer any questions you are left with after reading this. 
 
+A more detailed step-by-step installation guide can be found in the [help section](../help/step-by-step_guide.md).
+
 ## Installation
 
 This pipeline is written in [Nextflow](https://nextflow.io/) and requires a fairly recent [version](https://github.com/nextflow-io/nextflow/releases) of Nextflow on your system. In addition, a software provisioning tool is needed (Docker, Conda, etc). If you need help with this, see [here](https://github.com/bio-raum/nf-configs/blob/main/doc/installation.md).

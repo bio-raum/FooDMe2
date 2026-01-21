@@ -31,9 +31,9 @@ illumina data of meat (mammals and birds) samples as a practical example.
     administrator or IT support. 
 
 
-# Installation
+## Installation
 
-## Installing Nextflow
+### Installing Nextflow
 
 The first step is to install the workflow manager Nextflow, which is going to take care of the workflow execution planning.
 
@@ -52,7 +52,7 @@ nextflow self-update
 
 If nextflow is not installed, you will need to follow the [step-by-step instructions from the Nextflow documentation](https://www.nextflow.io/docs/latest/install.html#requirements). Note that you might need `sudo` rights!
 
-## Dependency managers
+### Dependency managers
 
 Nexflow relies on dependency managers for the deployement of software dependencies in self contained environments or containers.
 We always recommend that you run FooDMe2 with a container engine, such as **[Apptainer](https://apptainer.org/)**,
@@ -121,7 +121,7 @@ are not an option in your settings or you are experiencing troubles getting them
     If it is not installed, we recommend you to install the miniforge distribution following the [official guide](https://github.com/conda-forge/miniforge?tab=readme-ov-file#unix-like-platforms-macos-linux--wsl).
     When you are done, configure the channels as above. You will need to close you shell and reopen it after the installation for the `conda` command to be available.
 
-## Nextflow configuration
+### Nextflow configuration
 
 In order to set some of the execution options for nextflow, like ressource allocation, dependency manager, or where to look for the locally installed databases, it is possible to configure Nextflow using one of these options:
 
@@ -351,7 +351,7 @@ A few examples are given below; these can be extended as described in the [Nextf
         }
         ```
 
-## Installing the databases
+### Installing the databases
 
 Now that everything is installed and Nextflow is configured, we can install the databases that will be used for the analysis.
 Several different databases for different sources such as [NCBI](https://ftp.ncbi.nlm.nih.gov/refseq/), [MIDORI](https://www.reference-midori.info/),
@@ -394,7 +394,7 @@ or [UNITE](https://unite.ut.ee/) can be installed automatically and used in a st
 
 After the command above ran, the `$HOME/nextflow/refs` folder should contain a folder called `foodme2` that itself contains several versioned databases.
 
-## Testing the installation
+### Testing the installation
 
 When the database installation is finished, it is time for the last installation step before we dive in the analysis: testing the workflow.
 Using the `test` profile as below will download a couple of sequencing data from ENA and run a standard analysis workflow on them.
@@ -434,12 +434,12 @@ the current working directory to have a look at the results.
     or to [report a problem](https://github.com/bio-raum/FooDMe2/issues/new?template=BUG-REPORT.yml).
 
 
-# Workflow management
+## Workflow management
 
 The next steps will push further into real-life usage. But first let's talk about a few important features of Nextflow.
 In addition to running the workflow, Nextflow provides several utilities that are worth knowing (and using!).
 
-## Clean temporary data
+### Clean temporary data
 
 Each step of the workflow is executed in a folder generated and managed by Nextflow under the `work` folder in the current directory.
 Nescessary files are **copied** to the `results` folder after workflow completion.
@@ -461,7 +461,7 @@ which you can incorporate in your workflow (see examples at the end of this docu
   nextflow clean
   ```
 
-## Update workflows
+### Update workflows
 
 Nextflow natively handles workflow versionning, to get the last version of the workflow from the online repository, run:
 
@@ -469,7 +469,7 @@ Nextflow natively handles workflow versionning, to get the last version of the w
 nextflow pull bio-raum/FooDMe2
 ```
 
-## Versioning
+### Versioning
 
 FooDMe2 is semantically versioned, using a **MAJOR.MINOR.PATCH** model where:
 
@@ -498,7 +498,7 @@ To use the latest release use `-r main`, and to use the lastest development vers
     While we do our best to release bug-free versions, the `dev` branch is under active development and may contain bugs or incomplete features. 
     Use it at your own risk and report any issues you may encounter.
 
-# Running an analysis
+## Running an analysis
 
 In order to run the workflow on your own data we will have to modify the above example by providing 
 your data as input and an analysis method instead of the `test` profile.
@@ -612,9 +612,9 @@ For example:
     --output $HOME/metabarcoding/results/first_run
     ```
 
-# Going further
+## Going further
 
-## Automating things
+### Automating things
 
 In a diagnostic laboratory setting, it is usefull automate things as much as possible to improve reproducibility and save time.
 It particular, it is possible to automate workflow execution using simple scripts.
@@ -622,7 +622,7 @@ It particular, it is possible to automate workflow execution using simple script
 In the following paragraphs we will set up a small script that allows to run the workflow on data present locally in a folder.
 Bear in mind that this is just a simple example that can be modified and expanded as will.
 
-### Folder structure
+#### Folder structure
 
 We already established an folder structure throughout this document. We will add a `scripts` folder in which we will save scripts, and an `archive` folder
 to store rawdata after analysis.
@@ -669,7 +669,7 @@ The idea here is that:
 -  raw data files are moved in the `archive` folder
 -  the `rawdata` folder is cleaned up and ready for new data 
 
-### Creating the sample-sheet
+#### Creating the sample-sheet
 
 For this example we will use the `samplesheet` workflow from the `bio-raum` [Github collection](https://github.com/bio-raum/samplesheet).
 
@@ -699,7 +699,7 @@ you can create the sample sheet in the raw data folder with:
     --outdir $HOME/metabarcoding/rawdata
     ```
 
-### Output and run naming
+#### Output and run naming
 
 We can automate run naming by using the execution date and a name for the run:
 
@@ -726,7 +726,7 @@ mkdir -p $HOME/metabarcoding/archive/${run_id}_${run_name}   # (2)
     The snippet above will take any variable given after the script call and use it as run name, reverting to `foodme2` as default.
     See it used in the next section.
 
-### Putting it together
+#### Putting it together
 
 We can now put everything together in a neat little script:
 
@@ -819,7 +819,7 @@ bash $HOME/metabarcoding/scripts/run_foodme2.sh run_name  # (2)
 1. This ensures that the script is executable and is only required once.
 2. `run_name` is optional here, but allows you to specify a custom name for your run.
 
-## Validation
+### Validation
 
 Like we saw for the test, FooDMe2 packs a profile for quick validation of the mammals and birds methods.
 Details of the execution and results can be found in the [online documentation](../methods/amniotes_dobrovolny.md).
@@ -893,7 +893,7 @@ You can then provide the ground-truth table to the workflow with:
 
 You can also provide you own truth table to perform validation using your own samples. To know how check the "Benchmarking" part of the [Usage documentation](../user_doc/usage.md#benchmarking).
 
-## Other methods
+### Other methods
 
 FooDMe2 is of course not limited to the birds and mammals method. 
 Several other methods are currently being worked on and will be listed in the [documentation](../methods/methods.md) when available.
