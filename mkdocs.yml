@@ -32,6 +32,7 @@ nav:
     - ITS2 plants: methods/ITS2_AGES.md
   - Help:
     - Migration: help/migration.md
+    - Step-by-step guide: help/step-by-step_guide.md
     - Troobleshooting: help/troubleshooting.md
   - Developer Guide: developer.md
   - About:
@@ -72,6 +73,7 @@ theme:
     - toc.follow
     - content.code.copy
     - content.code.annotate
+    - content.tabs.link
 
 strict: true
 
@@ -118,4 +120,4 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 copyright:
-  Copyrigth &copy; GNU-GPL - 2024 Grégoire Denay and Marc Höppner
+  Copyrigth &copy; GNU-GPL - 2024-2026 Grégoire Denay and Marc Höppner
