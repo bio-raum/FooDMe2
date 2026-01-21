@@ -68,7 +68,7 @@ are not an option in your settings or you are experiencing troubles getting them
     For a discussion on conda reproducibility, see [PMID29953862](https://pubmed.ncbi.nlm.nih.gov/29953862/).
 
 
-=== Apptainer
+=== "Apptainer"
 
     Check if installed:
 
@@ -78,7 +78,7 @@ are not an option in your settings or you are experiencing troubles getting them
 
     If it is not installed, check the [official installation guide](https://apptainer.org/docs/admin/latest/installation.html#install-from-pre-built-packages), or choose another dependency manager.
 
-=== Singularity
+=== "Singularity"
 
     Check if installed:
 
@@ -88,7 +88,7 @@ are not an option in your settings or you are experiencing troubles getting them
 
     If it is not installed, check the [official installation guide](https://docs.sylabs.io/guides/latest/user-guide/quick_start.html#download-singularityce-from-a-release), or choose another dependency manager.
 
-=== Docker
+=== "Docker"
 
     Check if installed:
 
@@ -100,7 +100,7 @@ are not an option in your settings or you are experiencing troubles getting them
 
     If it is not installed, check the [official installation guide](https://docs.docker.com/engine/install/), or choose another manager.
 
-=== Conda
+=== "Conda"
 
     Check if installed:
 
@@ -143,7 +143,7 @@ A few examples are given below; these can be extended as described in the [Nextf
     An example for a Slurm cluster can be found [here](https://github.com/bio-raum/nf-configs/blob/main/conf/lsh.config).
 
 
-=== Remote
+=== "Remote"
 
     To upload your own configuration to the central `bio-raum/nf-configs` repository, [open an issue](https://github.com/bio-raum/nf-configs/issues/new) 
     with your planned configuration or directly send a pull-request. Alternatively, you can use on of the existing configuration if it fits your needs.
@@ -157,7 +157,7 @@ A few examples are given below; these can be extended as described in the [Nextf
         (`$HOME`, `/home/youruser`). In a shared setting, particularly on distributed compute infrastructures, the references should be installed
         to a shared directory where all users can access them. 
 
-    === Apptainer
+    === "Apptainer"
 
         ```js title="remote.config"
         params {
@@ -180,7 +180,7 @@ A few examples are given below; these can be extended as described in the [Nextf
         }
         ```
 
-    === Singularity
+    === "Singularity"
 
         ```js title="remote.config"
         params {
@@ -202,7 +202,7 @@ A few examples are given below; these can be extended as described in the [Nextf
         }
         ```
 
-    === Docker
+    === "Docker"
 
         ```js title="remote.config"
         params {
@@ -224,7 +224,7 @@ A few examples are given below; these can be extended as described in the [Nextf
         }
         ```
 
-    === Conda
+    === "Conda"
 
         ```js title="remote.config"
         params {
@@ -247,7 +247,7 @@ A few examples are given below; these can be extended as described in the [Nextf
         }
         ```
 
-=== Local
+=== "Local"
 
     For the following it will be assumed that the configuration file is saved under `$HOME/nextflow` as `local.config`.
 
@@ -259,7 +259,7 @@ A few examples are given below; these can be extended as described in the [Nextf
     (`$HOME`, `/home/youruser`). In a shared setting, particularly on distributed compute infrastructures, the references should be installed
     to a shared directory where all users can access them. 
 
-    === Apptainer
+    === "Apptainer"
 
         ```js title="local.config"
 
@@ -282,7 +282,7 @@ A few examples are given below; these can be extended as described in the [Nextf
         }
         ```
 
-    === Singularity
+    === "Singularity"
 
         ```js title="local.config"
 
@@ -305,7 +305,7 @@ A few examples are given below; these can be extended as described in the [Nextf
         }
         ```
 
-    === Docker
+    === "Docker"
 
         ```js title="local.config"
         params {
@@ -328,7 +328,7 @@ A few examples are given below; these can be extended as described in the [Nextf
         }
         ```
 
-    === Conda
+    === "Conda"
 
         ```js title="local.config"
         params {
@@ -362,7 +362,7 @@ or [UNITE](https://unite.ut.ee/) can be installed automatically and used in a st
     You will see several parameters used in the commands below that are not immediatly important.
     These will be explained further in tis document or you can check them up in the online documentation.
 
-=== Remote
+=== "Remote"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
@@ -376,7 +376,7 @@ or [UNITE](https://unite.ut.ee/) can be installed automatically and used in a st
     2. The Genbank core database can be installed by omitting this line, note that this will take up several hundred Gb and may require a substantial   amount of RAM to use. 
 
 
-=== Local
+=== "Local"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
@@ -399,7 +399,7 @@ After the command above ran, the `$HOME/nextflow/refs` folder should contain a f
 When the database installation is finished, it is time for the last installation step before we dive in the analysis: testing the workflow.
 Using the `test` profile as below will download a couple of sequencing data from ENA and run a standard analysis workflow on them.
 
-=== Remote
+=== "Remote"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
@@ -409,7 +409,7 @@ Using the `test` profile as below will download a couple of sequencing data from
     ```
     1. `remote` is the name of your file in the `bio-raum/nf-configs` repository, without the `.config` extension.
 
-=== Local
+=== "Local"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
@@ -529,9 +529,9 @@ There are two ways to provide data, assuming that the read files are saved under
 
 For example:
 
-=== Remote
+=== "Remote"
 
-    === Sample-sheet
+    === "Sample-sheet"
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
@@ -547,7 +547,7 @@ For example:
         4. Specifies the path to the sample-sheet containing the sample information.
         5. Specifies the standard method to use for the analysis. List the available methods with `--list_primers`.
 
-    === Wildcard
+    === "Wildcard"
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
@@ -563,9 +563,9 @@ For example:
         4. Specifies the path to the paired read-files using a wildcard. Note the use of full path and single quotes!
         5. Specifies the standard method to use for the analysis. List the available methods with `--list_primers`
 
-=== Local
+=== "Local"
 
-    === Sample-sheet
+    === "Sample-sheet"
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
@@ -583,7 +583,7 @@ For example:
         5. Specifies the standard method to use for the analysis. List the available methods with `--list_primers`
         6. Path to the folder you used to install the references.
 
-    === Wildcard
+    === "Wildcard"
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
@@ -629,7 +629,7 @@ to store rawdata after analysis.
 
 It should look like this:
 
-=== Remote
+=== "Remote"
 
     ```sh
     $HOME
@@ -645,7 +645,7 @@ It should look like this:
     1. Should contain the `foodme2` folder in which the databases are saved
     2. Should already contain plenty of environments, images or containers
 
-=== Local
+=== "Local"
 
     ```sh
     $HOME
@@ -676,7 +676,7 @@ For this example we will use the `samplesheet` workflow from the `bio-raum` [Git
 The good news is that it is a standardized bio-raum workflow that works very similarly to FooDMe2. Assuming you adopted the folder structure above,
 you can create the sample sheet in the raw data folder with:
 
-== Remote
+=== "Remote"
 
     ```sh
     nextflow run bio-raum/samplesheet \
@@ -689,7 +689,7 @@ you can create the sample sheet in the raw data folder with:
     !!! Warning
         As before, make sure to use your own profile name!
 
-=== Local
+=== "Local"
 
     ```sh
     nextflow run bio-raum/samplesheet \
@@ -730,7 +730,7 @@ mkdir -p $HOME/metabarcoding/archive/${run_id}_${run_name}   # (2)
 
 We can now put everything together in a neat little script:
 
-=== Remote
+=== "Remote"
 
     ```sh title="run_foodme2.sh"
     #!/usr/bin/env bash  # (1)
@@ -769,8 +769,7 @@ We can now put everything together in a neat little script:
     4. If nextflow finished succesfully, move all the content of the `rawdata` folder to a dated folder under `archive`.
     5. If nextflow finished succesfully, clean the work folder and cache.
 
-=== Local
-
+=== "Local"
 
     ```sh title="run_foodme2.sh"
     #!/usr/bin/env bash  # (1)
@@ -826,7 +825,7 @@ Details of the execution and results can be found in the [online documentation](
 
 The validation can be executed with:
 
-=== Remote
+=== "Remote"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
@@ -836,7 +835,7 @@ The validation can be executed with:
     --outdir $HOME/metabarcoding/results/validation
     ```
 
-=== Local
+=== "Local"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
@@ -864,7 +863,7 @@ wget -O $HOME/metabarcoding/dobrovolny_benchmark_groundtruth.csv https://raw.git
 
 You can then provide the ground-truth table to the workflow with:
 
-=== Remote
+=== "Remote"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
@@ -877,7 +876,7 @@ You can then provide the ground-truth table to the workflow with:
     --ground_truth $HOME/metabarcoding/dobrovolny_benchmark_groundtruth.csv
     ```
 
-=== Local
+=== "Local"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
