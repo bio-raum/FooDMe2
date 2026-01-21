@@ -366,12 +366,13 @@ or [UNITE](https://unite.ut.ee/) can be installed automatically and used in a st
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-    -profile remote \                         # (1)
-    -r 1.4.0 \
-    --build_references \
-    --run_name build \
-    --skip_genbank                            # (2)
+        -profile remote \                         # (1)
+        -r 1.4.0 \
+        --build_references \
+        --run_name build \
+        --skip_genbank                            # (2)
     ```
+
     1. `remote` is the name of your file in the `bio-raum/nf-configs` repository, without the `.config` extension.
     2. The Genbank core database can be installed by omitting this line, note that this will take up several hundred Gb and may require a substantial   amount of RAM to use. 
 
@@ -380,13 +381,14 @@ or [UNITE](https://unite.ut.ee/) can be installed automatically and used in a st
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-    -c $HOME/nextflow/local.config \          # (1)
-    -r 1.4.0 \
-    --build_references \
-    --reference_base $HOME/nextflow/refs \    # (2)
-    --run_name build \
-    --skip_genbank                            # (3)
+        -c $HOME/nextflow/local.config \          # (1)
+        -r 1.4.0 \
+        --build_references \
+        --reference_base $HOME/nextflow/refs \    # (2)
+        --run_name build \
+        --skip_genbank                            # (3)
     ```
+
     1. This should be the path to your local configuration file
     2. This is the path to the folder to which the databases will be downloaded.
     3. The Genbank core database can be installed by omitting this line, note that this will take up several hundred Gb and may require a substantial amount of RAM to use.
@@ -403,22 +405,24 @@ Using the `test` profile as below will download a couple of sequencing data from
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-    -profile remote,test \                    # (1)
-    -r 1.4.0 \
-    --run_name test
+        -profile remote,test \                    # (1)
+        -r 1.4.0 \
+        --run_name test
     ```
+
     1. `remote` is the name of your file in the `bio-raum/nf-configs` repository, without the `.config` extension.
 
 === "Local"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-    -profile test
-    -c $HOME/nextflow/local.config \          # (1)
-    -r 1.4.0 \
-    --reference_base $HOME/nextflow/refs \    # (2)
-    --run_name test
+        -profile test
+        -c $HOME/nextflow/local.config \          # (1)
+        -r 1.4.0 \
+        --reference_base $HOME/nextflow/refs \    # (2)
+        --run_name test
     ```
+
     1. This should be the path to your local configuration file
     2. This is the path to the folder to which the databases were downloaded.
 
@@ -535,12 +539,13 @@ For example:
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
-        -profile remote \                                       # (1)
-        -r 1.4.0 \                                              # (2)
-        --run_name first_run \                                  # (3)
-        --input $HOME/metabarcoding/rawdata/samples.tsv \       # (4)
-        --primer_set 16S_ILM_ASU184_meat                        # (5)
+            -profile remote \                                       # (1)
+            -r 1.4.0 \                                              # (2)
+            --run_name first_run \                                  # (3)
+            --input $HOME/metabarcoding/rawdata/samples.tsv \       # (4)
+            --primer_set 16S_ILM_ASU184_meat                        # (5)
         ```
+
         1. `remote` is the name of your file in the `bio-raum/nf-configs` repository, without the `.config` extension.
         2. Specifies the version of the FooDMe2 workflow to use.
         3. Sets the name of the run to "first_run". This name will be used to label the output files.
@@ -551,12 +556,13 @@ For example:
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
-        -profile remote \                                               # (1)
-        -r 1.4.0 \                                                      # (2)
-        --run_name first_run \                                          # (3)
-        --reads '/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz' \  # (4)
-        --primer_set 16S_ILM_ASU184_meat                                # (5)
+            -profile remote \                                               # (1)
+            -r 1.4.0 \                                                      # (2)
+            --run_name first_run \                                          # (3)
+            --reads '/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz' \  # (4)
+            --primer_set 16S_ILM_ASU184_meat                                # (5)
         ```
+
         1. `remote` is the name of your file in the `bio-raum/nf-configs` repository, without the `.config` extension.
         2. Specifies the version of the FooDMe2 workflow to use.
         3. Sets the name of the run to "first_run". This name will be used to label the output files.
@@ -569,13 +575,14 @@ For example:
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
-        -c $HOME/nextflow/local.config \                        # (1)
-        -r 1.4.0 \                                              # (2)
-        --run_name first_run \                                  # (3)
-        --input $HOME/metabarcoding/rawdata/samples.tsv \       # (4)
-        --primer_set 16S_ILM_ASU184_meat \                      # (5)
-        --reference_base $HOME/nextflow/refs                    # (6)
+            -c $HOME/nextflow/local.config \                        # (1)
+            -r 1.4.0 \                                              # (2)
+            --run_name first_run \                                  # (3)
+            --input $HOME/metabarcoding/rawdata/samples.tsv \       # (4)
+            --primer_set 16S_ILM_ASU184_meat \                      # (5)
+            --reference_base $HOME/nextflow/refs                    # (6)
         ```
+
         1. Path to your local configuration file.
         2. Specifies the version of the FooDMe2 workflow to use.
         3. Sets the name of the run to "first_run". This name will be used to label the output files.
@@ -587,13 +594,14 @@ For example:
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
-        -c $HOME/nextflow/local.config \                                # (1)
-        -r 1.4.0 \                                                      # (2)
-        --run_name first_run \                                          # (3)
-        --reads '/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz' \  # (4)
-        --primer_set 16S_ILM_ASU184_meat \                              # (5)
-        --reference_base $HOME/nextflow/refs                            # (6)
+            -c $HOME/nextflow/local.config \                                # (1)
+            -r 1.4.0 \                                                      # (2)
+            --run_name first_run \                                          # (3)
+            --reads '/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz' \  # (4)
+            --primer_set 16S_ILM_ASU184_meat \                              # (5)
+            --reference_base $HOME/nextflow/refs                            # (6)
         ```
+
         1. Path to your local configuration file.
         2. Specifies the version of the FooDMe2 workflow to use.
         3. Sets the name of the run to "first_run". This name will be used to label the output files.
@@ -642,6 +650,7 @@ It should look like this:
         ./scripts
         ./archive
     ```
+
     1. Should contain the `foodme2` folder in which the databases are saved
     2. Should already contain plenty of environments, images or containers
 
@@ -659,6 +668,7 @@ It should look like this:
         ./scripts
         ./archive
     ```
+
     1. Should contain the `foodme2` folder in which the databases are saved
     2. Should already contain plenty of environments, images or containers
 
@@ -680,10 +690,10 @@ you can create the sample sheet in the raw data folder with:
 
     ```sh
     nextflow run bio-raum/samplesheet \
-    -r 0.1 \
-    -profile remote \
-    --input $HOME/metabarcoding/rawdata \
-    --outdir $HOME/metabarcoding/rawdata
+        -r 0.1 \
+        -profile remote \
+        --input $HOME/metabarcoding/rawdata \
+        --outdir $HOME/metabarcoding/rawdata
     ```
 
     !!! Warning
@@ -693,10 +703,10 @@ you can create the sample sheet in the raw data folder with:
 
     ```sh
     nextflow run bio-raum/samplesheet \
-    -r 0.1 \
-    -c $HOME/nextflow/local.config \
-    --input $HOME/metabarcoding/rawdata \
-    --outdir $HOME/metabarcoding/rawdata
+        -r 0.1 \
+        -c $HOME/nextflow/local.config \
+        --input $HOME/metabarcoding/rawdata \
+        --outdir $HOME/metabarcoding/rawdata
     ```
 
 #### Output and run naming
@@ -709,6 +719,7 @@ run_id=$(date --iso-8601)                                    # (1)
 mkdir -p $HOME/metabarcoding/results/${run_id}_${run_name}   # (2)
 mkdir -p $HOME/metabarcoding/archive/${run_id}_${run_name}   # (2)
 ```
+
 1. Generate today's date as ISO8601 format 'YYYY-MM-DD'
 2. Create output folders with the date as filenames. The `-p` options allows reuse of existing folders.
 
@@ -763,6 +774,7 @@ We can now put everything together in a neat little script:
     && mv $HOME/metabarcoding/rawdata/* $HOME/metabarcoding/archive/${run_id}_${run_name} \  # (4)
     && nextflow clean  # (5)
     ```
+
     1. The first two lines are simply there to ensure that the correct shell is used and eventual errors are correctly reported.
     2. Putting the version at the top of the file so it is easy to trace.
     3. This should be the name of your remote configuration, without the `.config` extension.
@@ -803,6 +815,7 @@ We can now put everything together in a neat little script:
     && mv $HOME/metabarcoding/rawdata/* $HOME/metabarcoding/archive/${run_id}_${run_name} \  # (3)
     && nextflow clean  # (4)
     ```
+
     1. The first two lines are simply there to ensure that the correct shell is used and eventual errors are correctly reported.
     2. Putting the version at the top of the file so it is easy to trace.
     3. If nextflow finished succesfully, move all the content of the `rawdata` folder to a dated folder under `archive`.
@@ -815,6 +828,7 @@ Now make sure that the script is executable and run it:
 chmod +x $HOME/metabarcoding/scripts/run_foodme2.sh   # (1)
 bash $HOME/metabarcoding/scripts/run_foodme2.sh run_name  # (2)
 ```
+
 1. This ensures that the script is executable and is only required once.
 2. `run_name` is optional here, but allows you to specify a custom name for your run.
 
@@ -829,22 +843,22 @@ The validation can be executed with:
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-    -profile remote,dobrovolny_benchmark \
-    -r 1.4.0 \
-    --run_name validation \
-    --outdir $HOME/metabarcoding/results/validation
+        -profile remote,dobrovolny_benchmark \
+        -r 1.4.0 \
+        --run_name validation \
+        --outdir $HOME/metabarcoding/results/validation
     ```
 
 === "Local"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-    -profile dobrovolny_benchmark \
-    -c $HOME/nextflow/local.config \
-    -r 1.4.0 \
-    --run_name validation \
-    --reference_base $HOME/nextflow/refs \
-    --outdir $HOME/metabarcoding/results/validation
+        -profile dobrovolny_benchmark \
+        -c $HOME/nextflow/local.config \
+        -r 1.4.0 \
+        --run_name validation \
+        --reference_base $HOME/nextflow/refs \
+        --outdir $HOME/metabarcoding/results/validation
     ```
 
 This will trigger the download of the dataset from the ENA and run FooDMe2 with the `16S_ILM_ASU184_meat` primer sets configuration.
@@ -867,27 +881,27 @@ You can then provide the ground-truth table to the workflow with:
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-    -profile remote \  # (3)
-    -r 1.4.0 \
-    --run_name validation \
-    --input $HOME/metabarcoding/rawdata/samples.tsv \
-    --primer_set 16S_ILM_ASU184_meat \
-    --outdir $HOME/metabarcoding/results/validation \
-    --ground_truth $HOME/metabarcoding/dobrovolny_benchmark_groundtruth.csv
+        -profile remote \ 
+        -r 1.4.0 \
+        --run_name validation \
+        --input $HOME/metabarcoding/rawdata/samples.tsv \
+        --primer_set 16S_ILM_ASU184_meat \
+        --outdir $HOME/metabarcoding/results/validation \
+        --ground_truth $HOME/metabarcoding/dobrovolny_benchmark_groundtruth.csv
     ```
 
 === "Local"
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-    -c $HOME/nextflow/local.config \
-    -r 1.4.0 \
-    --run_name validation \
-    --input $HOME/metabarcoding/rawdata/samples.tsv \
-    --primer_set 16S_ILM_ASU184_meat \
-    --reference_base $HOME/nextflow/refs \
-    --outdir $HOME/metabarcoding/results/validation \
-    --ground_truth $HOME/metabarcoding/dobrovolny_benchmark_groundtruth.csv
+        -c $HOME/nextflow/local.config \
+        -r 1.4.0 \
+        --run_name validation \
+        --input $HOME/metabarcoding/rawdata/samples.tsv \
+        --primer_set 16S_ILM_ASU184_meat \
+        --reference_base $HOME/nextflow/refs \
+        --outdir $HOME/metabarcoding/results/validation \
+        --ground_truth $HOME/metabarcoding/dobrovolny_benchmark_groundtruth.csv
     ```
 
 You can also provide you own truth table to perform validation using your own samples. To know how check the "Benchmarking" part of the [Usage documentation](../user_doc/usage.md#benchmarking).
