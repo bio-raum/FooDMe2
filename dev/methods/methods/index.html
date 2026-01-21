@@ -1403,6 +1403,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../help/step-by-step_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step-by-step guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../help/troubleshooting/" class="md-nav__link">
         
   
@@ -1731,22 +1759,22 @@ Likewise, if you find one of the method underperforming on your datasets, please
 <p>Please note that these preconfigured methods may make big assumptions on the sequencing raw data.</p>
 <p><strong>You should always verify these methods with your own laboratory workflows before using them in a diagnostic setting!</strong></p>
 <h2 id="implemented-methods">Implemented methods</h2>
-<h3 id="mammals-and-birds">Mammals and birds</h3>
+<h3 id="mammals-and-birds"><img alt="🐮" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f42e.svg" title=":cow:" /> <img alt="🦃" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f983.svg" title=":turkey:" /> Mammals and birds</h3>
 <ul>
 <li>16S metabarcoding of mammals and birds (German ASU L 00.00-184)</li>
 </ul>
-<h3 id="insects">Insects</h3>
+<h3 id="insects"><img alt="🪳" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1fab3.svg" title=":cockroach:" /> Insects</h3>
 <ul>
 <li>16S metabarcoding of insects (Hillinger et al. 2023)</li>
 <li>COI metabarcoding of insects (Park et al. 2001)</li>
 </ul>
-<h3 id="fishes">Fishes</h3>
+<h3 id="fishes"><img alt="🐟" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f41f.svg" title=":fish:" /> Fishes</h3>
 <ul>
 <li>16S metabarcoding of fish (Dobrovolny et al. 2019; using ASU L 00.00-184 )</li>
 <li>COI metabarcoding of fish (Guenther et al. 2017)</li>
 <li>CYTB metabarcoding of fish (German ASU L 10.00-12)</li>
 </ul>
-<h3 id="plants">Plants</h3>
+<h3 id="plants"><img alt="🌱" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f331.svg" title=":seedling:" /> Plants</h3>
 <ul>
 <li>rbcL mmetabarcoding of plants (Little 2013)</li>
 <li>trnL metabarcoding of plants (Taberlet et al. 1991)</li>
@@ -1756,7 +1784,7 @@ Likewise, if you find one of the method underperforming on your datasets, please
 <p>As far as validation datasets (published or ringtrial data) are available to us, the methods are validated according to the guidelines of the german Bundesamt für Verbraucherschutz und Lebensmittelsicherheit (Federal Office for Consummer Protection and Food Safety), available <a href="https://www.bvl.bund.de/SharedDocs/Downloads/07_Untersuchungen/Sequenzdatenanalyse-Tierartendifferenzierung-DNAmetabarcoding.html?nn=11009496">here</a>.
 After succesful validation, a summary of the performance metrics will be published alongside the method on the pages linked above.</p>
 <p>When no proper validation dataset is available to us, we test the methods as far as possible on avialiable datasets that were generated in various laboratories and kindly provided to us.</p>
-<p>SOme of the paramters are set in standardized manner, you may want to adapt them to your specific worklfows:</p>
+<p>Some of the paramters are set in standardized manner, you may want to adapt them to your specific worklfows:</p>
 <ul>
 <li><code>max_expected_errors</code> is set to 2.5% of the maximum amplicon length for Illumina. However since Illumina sequencing ofter uses 2x150bp sequencing, this parameter is capped to <code>6</code> for long amplicons. For IonTorrent and Oxford Nanopore methods, this parameter is set to 5% of the maximum amplicon size, to account for higher error rate with these technologies.</li>
 <li><code>min_amplicon_size</code> and <code>max_amplicon_size</code> are set based on <em>in silico</em> predicted amplicon size distribution calculated by our companion workflow <a href="https://github.com/bio-raum/BarBeQuE">BarBeQuE</a>. To set this range, we start with the Mean +/- 2 std.dev of the amplicon size. This range is in most cases then enlarged to account for phylogentic variability and avoid exclusion of entire groups of species.</li>
@@ -1783,6 +1811,8 @@ If you use other sequencing lengths, you will likely need to adapt the methods t
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -1801,7 +1831,7 @@ If you use other sequencing lengths, you will likely need to adapt the methods t
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyrigth &copy; GNU-GPL - 2024 Grégoire Denay and Marc Höppner
+      Copyrigth &copy; GNU-GPL - 2024-2026 Grégoire Denay and Marc Höppner
     </div>
   
   
@@ -1825,7 +1855,7 @@ If you use other sequencing lengths, you will likely need to adapt the methods t
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.path", "toc.follow", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.path", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
