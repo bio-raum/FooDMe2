@@ -502,7 +502,7 @@ To use the latest release use `-r main`, and to use the lastest development vers
 
 In order to run the workflow on your own data we will have to modify the above example by providing 
 your data as input and an analysis method instead of the `test` profile.
-All options are listed in the [online documentation](../usage.md#command-line-option).
+All options are listed in the [online documentation](../user_doc/usage.md#command-line-option).
 
 There are two ways to provide data, assuming that the read files are saved under `/home/user/metabarcoding/rawdata/` (replace `user` with your user name):
 
@@ -822,7 +822,7 @@ bash $HOME/metabarcoding/scripts/run_foodme2.sh run_name  # (2)
 ## Validation
 
 Like we saw for the test, FooDMe2 packs a profile for quick validation of the mammals and birds methods.
-Details of the execution and results can be found in the [online documentation](../methods/16S_ILM_ASU184_meat.md).
+Details of the execution and results can be found in the [online documentation](../methods/amniotes_dobrovolny.md).
 
 The validation can be executed with:
 
@@ -891,7 +891,7 @@ You can then provide the ground-truth table to the workflow with:
     --ground_truth $HOME/metabarcoding/dobrovolny_benchmark_groundtruth.csv
     ```
 
-You can also provide you own truth table to perform validation using your own samples. To know how check the "Benchmarking" part of the [Usage documentation](../usage.md#benchmarking).
+You can also provide you own truth table to perform validation using your own samples. To know how check the "Benchmarking" part of the [Usage documentation](../user_doc/usage.md#benchmarking).
 
 ## Other methods
 
@@ -900,7 +900,7 @@ Several other methods are currently being worked on and will be listed in the [d
 
 You can analyze any kind of metabarcoding data without a standard method, this will require that you modify
 several analysis parameters. Which parameters can be accessed and what they do is described in the
-[documentation](../usage.md#advanced-options).
+[documentation](../user_doc/usage.md#advanced-options).
 
 !!! tip
     If you followed until here, congratulations! You are all set to start using FooDMe2.
