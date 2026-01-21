@@ -27,6 +27,9 @@ nav:
     - COI insects: methods/COI_park.md
     - COI fish: methods/COI_guenther.md
     - CYTB fish: methods/CYTB_asu12.md
+    - trnL plants: methods/trnL_taberlet.md
+    - rbcL plants: methods/rbcL_little.md
+    - ITS2 plants: methods/ITS2_AGES.md
   - Help:
     - Migration: help/migration.md
     - Troobleshooting: help/troubleshooting.md
