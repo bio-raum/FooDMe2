@@ -2245,13 +2245,13 @@
 <li>Added a disclaimer on Licensing of FooDMe2 dependencies</li>
 </ul>
 <h3 id="methods">Methods</h3>
-<p>Added following methods for Illumina plant metabarcoding (experimental - validation pending):</p>
+<h4 id="added-following-methods-for-illumina-plant-metabarcoding-experimental-validation-pending">Added following methods for Illumina plant metabarcoding (experimental - validation pending):</h4>
 <ul>
 <li>trnL metabarcoding of plants (Taberlet et al. 1991 and Eugster et al. 2012)</li>
 <li>rbcL metabarcoding of plants (Little 2013)</li>
 <li>ITS2 metabarcoding of plants (unpublished - primers not included)</li>
 </ul>
-<p>Changes to existing methods:</p>
+<h4 id="changes-to-existing-methods">Changes to existing methods:</h4>
 <ul>
 <li>The <code>max_expected_errors</code> value is set to 2.5% (Illumina) or 5% (ONT and IonTorrent) of the maximum expected amplicon size. FOr Illumina this is capped at 6 to account for 2x150bp sequencing. If you use other read length, consider adapting this value.</li>
 <li>The <code>min_amplicon_size</code> and <code>max_amplicon_size</code> parameters were adjusted based on <em>in silico</em> barcode analysis with <a href="https://github.com/bio-raum/BarBeQuE">BarBeQuE</a>.</li>
