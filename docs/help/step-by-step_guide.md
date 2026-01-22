@@ -6,7 +6,7 @@ This document aims to be a step-by-step handy guide to your first installation, 
 workflow documentation taht can be found following the link in the left navigation panel. Following this guide alone will only bring you as far
 as setting up FooDMe2 for basic analyses on your system, do read the documentation to know how to properly use the workflow!
 
-You can copy the code from each block and paste it in your shell to follow along. Hover over the circled numbers in the
+You can copy the code from each block and paste it in your shell to follow along. Click on the question marks in the
 code blocks to know more. You can also check the links to jump to the relevant documentation section.
 
 Should anything be unclear or not work as expected, we ask for your understanding, maintaining this guide along the pipeline is considerable work
@@ -745,8 +745,8 @@ We can now put everything together in a neat little script:
 === "Remote"
 
     ```sh title="run_foodme2.sh"
-    #!/usr/bin/env bash  # (1)!
-    set -Eeuo pipefail
+    #!/usr/bin/env bash
+    set -Eeuo pipefail # (1)!
 
     VERSION=1.4.0  # (2)!
 
@@ -785,8 +785,8 @@ We can now put everything together in a neat little script:
 === "Local"
 
     ```sh title="run_foodme2.sh"
-    #!/usr/bin/env bash # (1)!
-    set -Eeuo pipefail
+    #!/usr/bin/env bash
+    set -Eeuo pipefail # (1)!
 
     VERSION='1.4.0' # (2)!
 
