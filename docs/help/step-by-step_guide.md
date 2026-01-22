@@ -748,7 +748,7 @@ We can now put everything together in a neat little script:
     #!/usr/bin/env bash
     set -Eeuo pipefail # (1)!
 
-    VERSION=1.4.0  # (2)!
+    VERSION='1.4.0'  # (2)!
 
     # create samplesheet
     nextflow run bio-raum/samplesheet \
@@ -766,7 +766,7 @@ We can now put everything together in a neat little script:
 
     # run workflow
     nextflow run bio-raum/FooDMe2 \
-        -profile remote # (3)! \
+        -profile remote # (6)! \
         -r $VERSION \
         --run_name ${run_id}_${run_name} \
         --input $HOME/metabarcoding/rawdata/samples.tsv \
@@ -781,6 +781,7 @@ We can now put everything together in a neat little script:
     3. This should be the name of your remote configuration, without the `.config` extension.
     4.  If nextflow finished succesfully, move all the content of the `rawdata` folder to a dated folder under `archive`.
     5.  If nextflow finished succesfully, clean the work folder and cache.
+    6. This should be the name of your remote configuration, without the `.config` extension.
 
 === "Local"
 
