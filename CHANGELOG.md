@@ -10,13 +10,13 @@
 
 ### Methods
 
-Added following methods for Illumina plant metabarcoding (experimental - validation pending):
+#### Added following methods for Illumina plant metabarcoding (experimental - validation pending):
 
 - trnL metabarcoding of plants (Taberlet et al. 1991 and Eugster et al. 2012)
 - rbcL metabarcoding of plants (Little 2013)
 - ITS2 metabarcoding of plants (unpublished - primers not included)
 
-Changes to existing methods:
+#### Changes to existing methods:
 
 - The `max_expected_errors` value is set to 2.5% (Illumina) or 5% (ONT and IonTorrent) of the maximum expected amplicon size. FOr Illumina this is capped at 6 to account for 2x150bp sequencing. If you use other read length, consider adapting this value.
 - The `min_amplicon_size` and `max_amplicon_size` parameters were adjusted based on *in silico* barcode analysis with [BarBeQuE](https://github.com/bio-raum/BarBeQuE).
