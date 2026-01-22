@@ -604,6 +604,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#features" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -654,7 +665,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#methods" class="md-nav__link">
+  <a href="#methods_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Methods
@@ -1904,6 +1915,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#features" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1954,7 +1976,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#methods" class="md-nav__link">
+  <a href="#methods_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Methods
@@ -2216,26 +2238,39 @@
 <h2 id="dev">dev</h2>
 <h3 id="documentation">Documentation</h3>
 <ul>
+<li>Added a step-by-step installation guide (under "Help").</li>
+<li>Improve description of standardized methods.</li>
+<li>Added documentation for three plant methods.</li>
 <li>Added documentation regarding the use of custom databases.</li>
 <li>Added a disclaimer on Licensing of FooDMe2 dependencies</li>
 </ul>
+<h3 id="methods">Methods</h3>
+<p>Added following methods for Illumina plant metabarcoding (experimental - validation pending):</p>
+<ul>
+<li>trnL metabarcoding of plants (Taberlet et al. 1991 and Eugster et al. 2012)</li>
+<li>rbcL metabarcoding of plants (Little 2013)</li>
+<li>ITS2 metabarcoding of plants (unpublished - primers not included)</li>
+</ul>
 <h3 id="features">Features</h3>
 <ul>
-<li>Removed the <code>default</code> channel of all conda environments to circumvent licensing issues as far as possible</li>
-<li>Improved checks on samplesheet structure</li>
+<li>Parrallelizing of the <code>DADA2_ERROR</code> module for a performance increase</li>
+<li>Now using cutadapt's ability to work with ambiguous nucleotide to remove the disambiguation step of the <code>CUTADAPT_WORKFLOW</code>.</li>
+<li>Reverse complementing of primer sequences is now fdone with <code>seqfu</code> instead of <code>fastx_tools</code> allowing processing of ambigugous nucleotide.</li>
+<li>Removed the <code>default</code> channel of all conda environments to circumvent licensing issues as far as possible.</li>
+<li>Improved checks on samplesheet structure.</li>
 </ul>
 <h3 id="bugfix">Bugfix</h3>
 <ul>
 <li>fixed cat_fastq module conda environment and docker/singularity images</li>
 <li>fixed fastplong module conda environment</li>
-<li>fixed a problem in JSON report generation when filenames contained points ".".</li>
+<li>fixed a problem in JSON report generation when filenames contained points <code>.</code>.</li>
 </ul>
 <h2 id="140">1.4.0</h2>
 <h3 id="breaking-change"><strong>!! Breaking change !!</strong></h3>
 <p>Database version was upgraded to 1.4.</p>
 <p>This requires a new installation of the databases. The MIDORI databases were upgraded to GB267 (from GB259).
 The other databases were not modified, and can therefore be symlinked instead of a complete reinstallation (especially core_nt).</p>
-<h3 id="methods">Methods</h3>
+<h3 id="methods_1">Methods</h3>
 <p>Added following methods (experimental - validation pending):</p>
 <ul>
 <li>16S metabarcoding of insects (Hillinger et al. 2023)</li>
