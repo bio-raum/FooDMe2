@@ -2674,7 +2674,7 @@ See it used in the next section.</p>
 <div class="language-sh highlight"><span class="filename">run_foodme2.sh</span><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="ch">#!/usr/bin/env bash</span>
 </span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="nb">set</span><span class="w"> </span>-Eeuo<span class="w"> </span>pipefail<span class="w"> </span><span class="c1"># (1)!</span>
 </span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>
-</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="nv">VERSION</span><span class="o">=</span><span class="m">1</span>.4.0<span class="w">  </span><span class="c1"># (2)!</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="nv">VERSION</span><span class="o">=</span><span class="s1">&#39;1.4.0&#39;</span><span class="w">  </span><span class="c1"># (2)!</span>
 </span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>
 </span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="c1"># create samplesheet</span>
 </span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/samplesheet<span class="w"> </span><span class="se">\</span>
@@ -2692,7 +2692,7 @@ See it used in the next section.</p>
 </span><span id="__span-36-19"><a id="__codelineno-36-19" name="__codelineno-36-19" href="#__codelineno-36-19"></a>
 </span><span id="__span-36-20"><a id="__codelineno-36-20" name="__codelineno-36-20" href="#__codelineno-36-20"></a><span class="c1"># run workflow</span>
 </span><span id="__span-36-21"><a id="__codelineno-36-21" name="__codelineno-36-21" href="#__codelineno-36-21"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-22"><a id="__codelineno-36-22" name="__codelineno-36-22" href="#__codelineno-36-22"></a><span class="w">    </span>-profile<span class="w"> </span>remote<span class="w"> </span><span class="c1"># (3)! \</span>
+</span><span id="__span-36-22"><a id="__codelineno-36-22" name="__codelineno-36-22" href="#__codelineno-36-22"></a><span class="w">    </span>-profile<span class="w"> </span>remote<span class="w"> </span><span class="c1"># (6)! \</span>
 </span><span id="__span-36-23"><a id="__codelineno-36-23" name="__codelineno-36-23" href="#__codelineno-36-23"></a><span class="w">    </span>-r<span class="w"> </span><span class="nv">$VERSION</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-24"><a id="__codelineno-36-24" name="__codelineno-36-24" href="#__codelineno-36-24"></a><span class="w">    </span>--run_name<span class="w"> </span><span class="si">${</span><span class="nv">run_id</span><span class="si">}</span>_<span class="si">${</span><span class="nv">run_name</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-25"><a id="__codelineno-36-25" name="__codelineno-36-25" href="#__codelineno-36-25"></a><span class="w">    </span>--input<span class="w"> </span><span class="nv">$HOME</span>/metabarcoding/rawdata/samples.tsv<span class="w"> </span><span class="se">\</span>
@@ -2707,6 +2707,7 @@ See it used in the next section.</p>
 <li>This should be the name of your remote configuration, without the <code>.config</code> extension.</li>
 <li>If nextflow finished succesfully, move all the content of the <code>rawdata</code> folder to a dated folder under <code>archive</code>.</li>
 <li>If nextflow finished succesfully, clean the work folder and cache.</li>
+<li>This should be the name of your remote configuration, without the <code>.config</code> extension.</li>
 </ol>
 </div>
 <div class="tabbed-block">
