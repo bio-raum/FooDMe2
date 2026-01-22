@@ -2251,6 +2251,11 @@
 <li>rbcL metabarcoding of plants (Little 2013)</li>
 <li>ITS2 metabarcoding of plants (unpublished - primers not included)</li>
 </ul>
+<p>Changes to existing methods:</p>
+<ul>
+<li>The <code>max_expected_errors</code> value is set to 2.5% (Illumina) or 5% (ONT and IonTorrent) of the maximum expected amplicon size. FOr Illumina this is capped at 6 to account for 2x150bp sequencing. If you use other read length, consider adapting this value.</li>
+<li>The <code>min_amplicon_size</code> and <code>max_amplicon_size</code> parameters were adjusted based on <em>in silico</em> barcode analysis with <a href="https://github.com/bio-raum/BarBeQuE">BarBeQuE</a>.</li>
+</ul>
 <h3 id="features">Features</h3>
 <ul>
 <li>Parrallelizing of the <code>DADA2_ERROR</code> module for a performance increase</li>
@@ -2261,6 +2266,8 @@
 </ul>
 <h3 id="bugfix">Bugfix</h3>
 <ul>
+<li>when using <code>--non_overlapping</code>, use default values of <code>--min_amplicon_size 0 --max_amplicon_size 1000</code> for the preclustering filtering step. Sequences are filtered using user input during the <code>HSP_MERGING</code> step. Overlapping read workflow is not affected.</li>
+<li>prevent adapter trimming by <code>fastp</code></li>
 <li>fixed cat_fastq module conda environment and docker/singularity images</li>
 <li>fixed fastplong module conda environment</li>
 <li>fixed a problem in JSON report generation when filenames contained points <code>.</code>.</li>
