@@ -16,6 +16,11 @@ Added following methods for Illumina plant metabarcoding (experimental - validat
 - rbcL metabarcoding of plants (Little 2013)
 - ITS2 metabarcoding of plants (unpublished - primers not included)
 
+Changes to existing methods:
+
+- The `max_expected_errors` value is set to 2.5% (Illumina) or 5% (ONT and IonTorrent) of the maximum expected amplicon size. FOr Illumina this is capped at 6 to account for 2x150bp sequencing. If you use other read length, consider adapting this value.
+- The `min_amplicon_size` and `max_amplicon_size` parameters were adjusted based on *in silico* barcode analysis with [BarBeQuE](https://github.com/bio-raum/BarBeQuE).
+
 ### Features
 
 - Parrallelizing of the `DADA2_ERROR` module for a performance increase
@@ -26,6 +31,8 @@ Added following methods for Illumina plant metabarcoding (experimental - validat
 
 ### Bugfix
 
+- when using `--non_overlapping`, use default values of `--min_amplicon_size 0 --max_amplicon_size 1000` for the preclustering filtering step. Sequences are filtered using user input during the `HSP_MERGING` step. Overlapping read workflow is not affected.
+- prevent adapter trimming by `fastp`
 - fixed cat_fastq module conda environment and docker/singularity images
 - fixed fastplong module conda environment
 - fixed a problem in JSON report generation when filenames contained points `.`.
