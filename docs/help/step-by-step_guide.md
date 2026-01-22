@@ -366,11 +366,11 @@ or [UNITE](https://unite.ut.ee/) can be installed automatically and used in a st
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-        -profile remote \                         # (1)!
+        -profile remote # (1)! \
         -r 1.4.0 \
         --build_references \
         --run_name build \
-        --skip_genbank                            # (2)!
+        --skip_genbank # (2)!
     ```
 
     1.  `remote` is the name of your file in the `bio-raum/nf-configs` repository, without the `.config` extension.
@@ -381,12 +381,12 @@ or [UNITE](https://unite.ut.ee/) can be installed automatically and used in a st
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-        -c $HOME/nextflow/local.config \          # (1)!
+        -c $HOME/nextflow/local.config # (1)! \
         -r 1.4.0 \
         --build_references \
-        --reference_base $HOME/nextflow/refs \    # (2)!
+        --reference_base $HOME/nextflow/refs # (2)! \
         --run_name build \
-        --skip_genbank                            # (3)!
+        --skip_genbank # (3)!
     ```
 
     1.  This should be the path to your local configuration file
@@ -405,7 +405,7 @@ Using the `test` profile as below will download a couple of sequencing data from
 
     ```sh
     nextflow run bio-raum/FooDMe2 \
-        -profile remote,test \                    # (1)!
+        -profile remote,test # (1)! \
         -r 1.4.0 \
         --run_name test
     ```
@@ -417,9 +417,9 @@ Using the `test` profile as below will download a couple of sequencing data from
     ```sh
     nextflow run bio-raum/FooDMe2 \
         -profile test
-        -c $HOME/nextflow/local.config \          # (1)!
+        -c $HOME/nextflow/local.config # (1)! \
         -r 1.4.0 \
-        --reference_base $HOME/nextflow/refs \    # (2)!
+        --reference_base $HOME/nextflow/refs # (2)! \
         --run_name test
     ```
 
@@ -539,11 +539,11 @@ For example:
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
-            -profile remote \                                       # (1)!
-            -r 1.4.0 \                                              # (2)!
-            --run_name first_run \                                  # (3)!
-            --input $HOME/metabarcoding/rawdata/samples.tsv \       # (4)!
-            --primer_set 16S_ILM_ASU184_meat                        # (5)!
+            -profile remote # (1)! \
+            -r 1.4.0 # (2)! \
+            --run_name first_run # (3)! \
+            --input $HOME/metabarcoding/rawdata/samples.tsv # (4)! \
+            --primer_set 16S_ILM_ASU184_meat # (5)!
         ```
 
         1.  `remote` is the name of your file in the `bio-raum/nf-configs` repository, without the `.config` extension.
@@ -556,11 +556,11 @@ For example:
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
-            -profile remote \                                               # (1)!
-            -r 1.4.0 \                                                      # (2)!
-            --run_name first_run \                                          # (3)!
-            --reads '/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz' \  # (4)!
-            --primer_set 16S_ILM_ASU184_meat                                # (5)!
+            -profile remote # (1)! \
+            -r 1.4.0 # (2)! \
+            --run_name first_run # (3)! \
+            --reads '/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz' # (4)! \
+            --primer_set 16S_ILM_ASU184_meat # (5)!
         ```
 
         1.  `remote` is the name of your file in the `bio-raum/nf-configs` repository, without the `.config` extension.
@@ -575,12 +575,12 @@ For example:
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
-            -c $HOME/nextflow/local.config \                        # (1)!
-            -r 1.4.0 \                                              # (2)!
-            --run_name first_run \                                  # (3)!
-            --input $HOME/metabarcoding/rawdata/samples.tsv \       # (4)!
-            --primer_set 16S_ILM_ASU184_meat \                      # (5)!
-            --reference_base $HOME/nextflow/refs                    # (6)!
+            -c $HOME/nextflow/local.config # (1)! \
+            -r 1.4.0 # (2)! \
+            --run_name first_run # (3)! \
+            --input $HOME/metabarcoding/rawdata/samples.tsv # (4)! \
+            --primer_set 16S_ILM_ASU184_meat # (5)! \
+            --reference_base $HOME/nextflow/refs # (6)!
         ```
 
         1.  Path to your local configuration file.
@@ -594,12 +594,12 @@ For example:
 
         ```sh
         nextflow run bio-raum/FooDMe2 \
-            -c $HOME/nextflow/local.config \                                # (1)!
-            -r 1.4.0 \                                                      # (2)!
-            --run_name first_run \                                          # (3)!
-            --reads '/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz' \  # (4)!
-            --primer_set 16S_ILM_ASU184_meat \                              # (5)!
-            --reference_base $HOME/nextflow/refs                            # (6)!
+            -c $HOME/nextflow/local.config # (1)! \
+            -r 1.4.0 # (2)! \
+            --run_name first_run # (3)! \
+            --reads '/home/user/metabarcoding/rawdata/*_R{1,2}.fastq.gz' # (4)! \
+            --primer_set 16S_ILM_ASU184_meat # (5)! \
+            --reference_base $HOME/nextflow/refs # (6)!
         ```
 
         1.  Path to your local configuration file.
@@ -642,8 +642,8 @@ It should look like this:
     ```sh
     $HOME
     ./nextflow
-        ./refs                  # (1)!
-        ./envs                  # (2)!
+        ./refs # (1)!
+        ./envs # (2)!
     ./metabarcoding
         ./rawdata
         ./results
@@ -659,8 +659,8 @@ It should look like this:
     ```sh
     $HOME
     ./nextflow
-        ./refs                  # (1)!
-        ./envs                  # (2)!
+        ./refs # (1)!
+        ./envs # (2)!
         ./local.config
     ./metabarcoding
         ./rawdata
@@ -715,13 +715,14 @@ We can automate run naming by using the execution date and a name for the run:
 
 ```sh
 run_name="ilovefoodme"
-run_id=$(date --iso-8601)!!                                    # (1)!
-mkdir -p $HOME/metabarcoding/results/${run_id}_${run_name}   # (2)!
-mkdir -p $HOME/metabarcoding/archive/${run_id}_${run_name}   # (2)!
+run_id=$(date --iso-8601) # (1)!
+mkdir -p $HOME/metabarcoding/results/${run_id}_${run_name} # (2)!
+mkdir -p $HOME/metabarcoding/archive/${run_id}_${run_name} # (3)!
 ```
 
 1.  Generate today's date as ISO8601 format 'YYYY-MM-DD'
 2.  Create output folders with the date as filenames. The `-p` options allows reuse of existing folders.
+3.  Create output folders with the date as filenames. The `-p` options allows reuse of existing folders.
 
 !!! tip
 
@@ -745,33 +746,33 @@ We can now put everything together in a neat little script:
 
     ```sh title="run_foodme2.sh"
     #!/usr/bin/env bash  # (1)!
-    set -Eeuo pipefail  # (1)!
+    set -Eeuo pipefail
 
     VERSION=1.4.0  # (2)!
 
     # create samplesheet
     nextflow run bio-raum/samplesheet \
-    -r 0.1 \
-    -profile remote \  # (3)!
-    --input $HOME/metabarcoding/rawdata \
-    --outdir $HOME/metabarcoding/rawdata \
+        -r 0.1 \
+        -profile remote # (3)! \ 
+        --input $HOME/metabarcoding/rawdata \
+        --outdir $HOME/metabarcoding/rawdata \
     && nextflow clean
 
     # create output dirs
     run_name="${1:-foodme2}"
-    run_id=$(date --iso-8601)!!
+    run_id=$(date --iso-8601)
     mkdir -p $HOME/metabarcoding/results/${run_id}_${run_name}
     mkdir -p $HOME/metabarcoding/archive/${run_id}_${run_name}
 
     # run workflow
     nextflow run bio-raum/FooDMe2 \
-    -profile remote \  # (3)!
-    -r $VERSION \
-    --run_name ${run_id}_${run_name} \
-    --input $HOME/metabarcoding/rawdata/samples.tsv \
-    --primer_set 16S_ILM_ASU184_meat \
-    --outdir $HOME/metabarcoding/results/${run_id}_${run_name} \
-    && mv $HOME/metabarcoding/rawdata/* $HOME/metabarcoding/archive/${run_id}_${run_name} \  # (4)!
+        -profile remote # (3)! \
+        -r $VERSION \
+        --run_name ${run_id}_${run_name} \
+        --input $HOME/metabarcoding/rawdata/samples.tsv \
+        --primer_set 16S_ILM_ASU184_meat \
+        --outdir $HOME/metabarcoding/results/${run_id}_${run_name} \
+    && mv $HOME/metabarcoding/rawdata/* $HOME/metabarcoding/archive/${run_id}_${run_name} # (4)! \
     && nextflow clean  # (5)!
     ```
 
@@ -784,36 +785,36 @@ We can now put everything together in a neat little script:
 === "Local"
 
     ```sh title="run_foodme2.sh"
-    #!/usr/bin/env bash  # (1)!
-    set -Eeuo pipefail  # (1)!
+    #!/usr/bin/env bash # (1)!
+    set -Eeuo pipefail
 
-    VERSION='1.4.0'  # (2)!
+    VERSION='1.4.0' # (2)!
 
     # create samplesheet
     nextflow run bio-raum/samplesheet \
-    -r 0.1 \
-    -c $HOME/nextflow/local.config \
-    --input $HOME/metabarcoding/rawdata \
-    --outdir $HOME/metabarcoding/rawdata \
+        -r 0.1 \
+        -c $HOME/nextflow/local.config \
+        --input $HOME/metabarcoding/rawdata \
+        --outdir $HOME/metabarcoding/rawdata \
     && nextflow clean
 
     # create output dirs
     run_name="${1:-foodme2}"
-    run_id=$(date --iso-8601)!!
+    run_id=$(date --iso-8601)
     mkdir -p $HOME/metabarcoding/results/${run_id}_${run_name}
     mkdir -p $HOME/metabarcoding/archive/${run_id}_${run_name}
 
     # run workflow
     nextflow run bio-raum/FooDMe2 \
-    -c $HOME/nextflow/local.config \
-    -r $VERSION \
-    --run_name ${run_id}_${run_name} \
-    --input $HOME/metabarcoding/rawdata/samples.tsv \
-    --primer_set 16S_ILM_ASU184_meat \
-    --reference_base $HOME/nextflow/refs \
-    --outdir $HOME/metabarcoding/results/${run_id}_${run_name} \
-    && mv $HOME/metabarcoding/rawdata/* $HOME/metabarcoding/archive/${run_id}_${run_name} \  # (3)!
-    && nextflow clean  # (4)!
+        -c $HOME/nextflow/local.config \
+        -r $VERSION \
+        --run_name ${run_id}_${run_name} \
+        --input $HOME/metabarcoding/rawdata/samples.tsv \
+        --primer_set 16S_ILM_ASU184_meat \
+        --reference_base $HOME/nextflow/refs \
+        --outdir $HOME/metabarcoding/results/${run_id}_${run_name} \
+    && mv $HOME/metabarcoding/rawdata/* $HOME/metabarcoding/archive/${run_id}_${run_name} # (3)! \
+    && nextflow clean # (4)!
     ```
 
     1.  The first two lines are simply there to ensure that the correct shell is used and eventual errors are correctly reported.
@@ -825,8 +826,8 @@ We can now put everything together in a neat little script:
 Now make sure that the script is executable and run it:
 
 ```sh
-chmod +x $HOME/metabarcoding/scripts/run_foodme2.sh   # (1)!
-bash $HOME/metabarcoding/scripts/run_foodme2.sh run_name  # (2)!
+chmod +x $HOME/metabarcoding/scripts/run_foodme2.sh # (1)!
+bash $HOME/metabarcoding/scripts/run_foodme2.sh run_name # (2)!
 ```
 
 1.  This ensures that the script is executable and is only required once.
