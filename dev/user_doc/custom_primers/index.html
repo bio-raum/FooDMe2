@@ -1800,7 +1800,7 @@
 <p>While we try to provide pre-configured profiles for commonly used metabarcoding primers, it is also possible to provide primer information from the command line. Please note that you may have to adjust a number of default parameters to achieve good results - which we will discuss below. </p>
 <h2 id="relevant-parameters">Relevant parameters</h2>
 <h3 id="primer-sequences">Primer sequences</h3>
-<p>Primers can be provided as one Fasta file, containing the forward and reverse primer sequence(s). Ambiguous IUPAC bases are allowed, but please make sure that no non-IUPAC bases are included. A common example we have encountered in the literature is <code>I</code>, which is <em>not</em> part of the IUPAC nucleotide dictionary (replace with <code>N</code>). </p>
+<p>Primers must be provided as one Fasta file, containing the forward and reverse primer sequence(s). Ambiguous IUPAC bases are allowed, but please make sure that no non-IUPAC bases are included. A common example we have encountered in the literature is <code>I</code>, which is <em>not</em> part of the IUPAC nucleotide dictionary (replace with <code>N</code>). </p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span>-profile<span class="w"> </span>apptainer<span class="w"> </span>--input<span class="w"> </span>samples.tsv<span class="w"> </span>--primers_fa<span class="w"> </span>primers.fasta<span class="w"> </span>...
 </span></code></pre></div>
 <h3 id="amplicon-size">Amplicon size</h3>
