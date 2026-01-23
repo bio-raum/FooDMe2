@@ -1,4 +1,4 @@
-# 16S Metabarcoding for mammals and birds (meat products)
+# ITS2 Metabarcoding for plants
 
 ## Description
 
