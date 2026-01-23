@@ -1,4 +1,4 @@
-# ITS2 barcode for plants
+# ITS2 Metabarcoding for plants
 
 ## Description
 
