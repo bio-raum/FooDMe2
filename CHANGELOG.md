@@ -36,6 +36,7 @@
 - fixed cat_fastq module conda environment and docker/singularity images
 - fixed fastplong module conda environment
 - fixed a problem in JSON report generation when filenames contained points `.`.
+- fixed reporting of taxid in the Call Support section of the Excel report
 
 ## 1.4.0
 
