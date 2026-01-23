@@ -29,6 +29,9 @@ Version 1.41.6, doi: 10.1093/bioinformatics/btad311, [PubMed](https://pubmed.ncb
 **Porechop ABI**
 Version 0.5.0, [BioRxiv](https://www.biorxiv.org/content/10.1101/2022.07.07.499093v1) [github](https://github.com/bonsai-team/Porechop_ABI)
 
+**SeqFu**
+Version 1.20.3, doi: 10.3390/bioengineering8050059, [PubMed](https://pubmed.ncbi.nlm.nih.gov/34066939/) [github](https://github.com/telatin/seqfu2)
+
 ## References
 
 **Midori**
