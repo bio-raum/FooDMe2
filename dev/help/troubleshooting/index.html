@@ -1786,16 +1786,19 @@
 </span></code></pre></div>
 <p>This is most likely happening because you passed the <code>reference_base</code> option from a custom config file via the "-c" argument. There is currently a <a href="https://github.com/nextflow-io/nextflow/issues/2662">known bug</a> in Nextflow which prevents the correct passing of parameters from a custom config file to the workflow. Please use the command line argument <code>--reference_base</code> instead or consider contributing a site-specific <a href="https://github.com/bio-raum/nf-configs">config file</a>. </p>
 <h2 id="working-behind-a-proxy">Working behind a proxy</h2>
-<p>When working behind a proxy Apptainer, Podman, Singularity and Docker depdendency managers fails to download images/containers.</p>
-<p>Fx this by adding the <code>envWhitelist</code> parameter to the dependency manager configuration in your config (wether local or remote):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>singularity<span class="w"> </span><span class="o">{</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nv">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nv">cacheDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/projects/singularity_cache&quot;</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nv">envWhitelist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;HTTP_PROXY,HTTPS_PROXY&quot;</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="o">}</span>
+<p>When working behind a proxy Apptainer, Podman, Singularity and Docker depdendency managers fail to download images/containers. This will usually be accompanied by an error that a host was not reachable. </p>
+<p>First, check if your proxy settings are already configured:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$HTTPS_PROXY</span>
 </span></code></pre></div>
-<p>THen export your proxy settings before excuting the workflow, either through the command line or by adding this line directly in <code>.bashrc</code>:</p>
+<p>If this returns your proxy settings, great. If not, you can add the correct proxy information to your local bash profile (e.g. $HOME/.bashrc):</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HTTPS_PROXY</span><span class="o">=</span><span class="s2">&quot;myproxy.adress.com:80&quot;</span>
+</span></code></pre></div>
+<p>Next, you need to tell the container to import this variable for it becomes visible to the processes. You do this by adding the <code>envWhitelist</code> parameter to the dependency manager configuration in your config (wether local or remote):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>singularity<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nv">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nv">cacheDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/projects/singularity_cache&quot;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="nv">envWhitelist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;HTTP_PROXY,HTTPS_PROXY&quot;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="o">}</span>
 </span></code></pre></div>
 
 
