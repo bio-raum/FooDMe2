@@ -7,11 +7,9 @@ include { GUNZIP as GUNZIP_REFSEQ }         from './../modules/gunzip'
 include { HELPER_FORMAT_MIDORI }            from './../modules/helper/format_midori'
 include { BLAST_MAKEBLASTDB }               from './../modules/blast/makeblastdb'
 include { UNTAR as UNTAR_TAXONOMY }         from './../modules/untar'
-include { UNTAR as UNTAR_UNITE }            from './../modules/untar'
 include { UNTAR as UNTAR_NCBI }             from './../modules/untar'
 include { WGET as WGET_MIDORI }             from './../modules/wget'
 include { HELPER_FORMAT_GENBANK_TAXIDS }    from './../modules/helper/format_genbank_taxids'
-include { HELPER_FORMAT_UNITE }             from './../modules/helper/format_unite'
 include { HELPER_INSTALL_GENBANK }          from './../modules/helper/install_genbank'
 
 workflow BUILD_REFERENCES {
@@ -68,7 +66,6 @@ workflow BUILD_REFERENCES {
         midori: r.toString().contains('MIDORI')
         ncbi_its: r.toString().contains('ITS_eukaryote')
         refseq: r.toString().contains('mitochondrion')
-        unite: m.id == 'unite'
     }.set { ch_branched_files }
 
     /*
@@ -107,20 +104,6 @@ workflow BUILD_REFERENCES {
         HELPER_FORMAT_GENBANK_TAXIDS.out.tab.map { m, t -> t }
     )
     ch_blast_files = ch_blast_files.mix(ch_refseq_with_taxids)
-
-    /*
-    Decompress the Unite database and re-format
-    */
-    UNTAR_UNITE(
-        ch_branched_files.unite
-    )
-    HELPER_FORMAT_UNITE(
-        UNTAR_UNITE.out.fasta
-    )
-    ch_unite_with_taxids = HELPER_FORMAT_UNITE.out.clean.combine(
-        HELPER_FORMAT_GENBANK_TAXIDS.out.tab.map { m, t -> t }
-    )
-    ch_blast_files = ch_blast_files.mix(ch_unite_with_taxids)
 
     /*
     MIDORI Blast databases are zipped, so we unzip them

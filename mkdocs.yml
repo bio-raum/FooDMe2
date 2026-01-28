@@ -17,6 +17,8 @@ nav:
     - Pipeline: user_doc/pipeline.md
     - Output: user_doc/output.md
     - Technologies: user_doc/technologies.md
+    - Custom database: user_doc/custom_database.md
+    - Custom primers: user_doc/custom_primers.md
   - Methods:
     - Standard methods: methods/methods.md
     - 16S mammals and birds: methods/amniotes_dobrovolny.md
@@ -25,13 +27,18 @@ nav:
     - COI insects: methods/COI_park.md
     - COI fish: methods/COI_guenther.md
     - CYTB fish: methods/CYTB_asu12.md
+    - trnL plants: methods/trnL_taberlet.md
+    - rbcL plants: methods/rbcL_little.md
+    - ITS2 plants: methods/ITS2_AGES.md
   - Help:
     - Migration: help/migration.md
+    - Step-by-step guide: help/step-by-step_guide.md
     - Troobleshooting: help/troubleshooting.md
   - Developer Guide: developer.md
   - About:
     - Software: about/software.md
     - License: about/license.md
+    - Legal notes: about/legal.md
 
 theme:
   name: material
@@ -66,6 +73,7 @@ theme:
     - toc.follow
     - content.code.copy
     - content.code.annotate
+    - content.tabs.link
 
 strict: true
 
@@ -88,6 +96,9 @@ extra:
     provider: mike
     default: latest
     alias: true
+
+extra_javascript:
+  - javascripts/sh-annotations.js
 
 markdown_extensions:
   - attr_list
@@ -112,4 +123,4 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 copyright:
-  Copyrigth &copy; GNU-GPL - 2024 Grégoire Denay and Marc Höppner
+  Copyrigth &copy; GNU-GPL - 2024-2026 Grégoire Denay and Marc Höppner

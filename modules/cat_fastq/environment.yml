@@ -2,6 +2,6 @@ name: cat_fastq
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  
 dependencies:
-  - bioconda::conda-forge::sed=4.7
+  - sed=4.7

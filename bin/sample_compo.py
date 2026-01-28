@@ -9,16 +9,15 @@ import pandas as pd
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--json", help="Path to blast report as json with delta-bitscore values")
+parser.add_argument("--sample_id", help="sample name")
 parser.add_argument("--output_tsv")
 parser.add_argument("--output_json")
 args = parser.parse_args()
 
 
-def main(json_in, output_tsv, output_json):
+def main(json_in, sample, output_tsv, output_json):
     with open(json_in, "r") as fi:
         j = json.load(fi)
-
-    sample = json_in.split(".")[0]
 
     size, cluster_names, rank, name = {}, {}, {}, {}
     total = 0
@@ -46,7 +45,7 @@ def main(json_in, output_tsv, output_json):
     } for id in size.keys()]
 
     if d:
-        df = pd.read_json(json.dumps(d), orient="record")
+        df = pd.DataFrame.from_records(d)
         df = df.sort_values("proportion", ascending=False)
     else:
         df = pd.DataFrame(columns=["sample", "name", "taxid", "reads", "rank", "proportion", "cluster_ids"])
@@ -61,4 +60,4 @@ def main(json_in, output_tsv, output_json):
 
 
 if __name__ == '__main__':
-    main(args.json, args.output_tsv, args.output_json)
+    main(args.json, args.sample_id, args.output_tsv, args.output_json)

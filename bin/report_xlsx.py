@@ -144,7 +144,7 @@ def main(output):
 
                 if taxid != calltaxid:
                     row += 1
-                    ws2.append([sample, id, size, name, rank, calltaxid, support, call])
+                    ws2.append([sample, id, size, name, rank, taxid, support, call])
                     for col in ["A", "B", "C", "D", "E", "F", "G", "H"]:
                         ws2[col + str(ws2._current_row)].fill = bgcolor
 

@@ -89,6 +89,10 @@ where `myprofile` can either be a site-specific config file or one of the built-
     S100    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
     ```
 
+    !!! note Single-end sequences
+
+        To provide Single-end sequencing data, simply leave the `fq2` field empty.
+
     If the pipeline sees more than one set of reads for a given sample ID (i.e. from multi-lane sequencing runs), it will concatenate them automatically at the appropriate time.
 
     This option is the preferred way to provide data to FooDMe2 and it is mutually exclusive with `--reads`.
@@ -238,7 +242,6 @@ Databases for taxonomic assignment can be specified in one of two ways - from th
     | **cytb** | Midori |
     | **genbank** | NCBI |
     | ncbi_its | NCBI |
-    | **its** | Unite |
     | nd1 | Midori |
     | nd2 | Midori |
     | nd3 | Midori |
@@ -247,7 +250,7 @@ Databases for taxonomic assignment can be specified in one of two ways - from th
     | nd6 | Midori |
     | **refseq** | RefSeq |
 
-    The underlying databases are obtained from [Midori](https://www.reference-midori.info/), [Unite](https://unite.ut.ee/index.php) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db).
+    The underlying databases are obtained from [Midori](https://www.reference-midori.info/) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db).
 
 `--blast_db` [ default = null]
 
@@ -394,7 +397,7 @@ it. Make sure to re-set any options you want to keep.
 
 :   Toggle chimera filtering step on or off.
 
-`--max_expected_errors` [ default = 2 ]
+`--max_expected_errors` [ default = 2.0 ]
 
 :   Maximum allowed amount of expected errors in reads.
 

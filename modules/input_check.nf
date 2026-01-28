@@ -19,6 +19,14 @@ workflow INPUT_CHECK {
 // Function to get list of [ meta, [ fastq_1, fastq_2 ] ]
 def fastq_channel(LinkedHashMap row) {
     def meta = [:]
+
+    if (!row.sample) {
+        exit 1, "Mal-formed samplesheet - missing column 'sample'\n";
+    }
+    if (!row.fq1) {
+        exit 1, "Mal-formed samplesheet - missing column 'fq1'\n";
+    }
+    
     meta.sample_id    = row.sample
     meta.single_end   = true
 

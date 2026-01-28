@@ -40,3 +40,28 @@ ERROR ~ No such file or directory:
 
 This is most likely happening because you passed the `reference_base` option from a custom config file via the "-c" argument. There is currently a [known bug](https://github.com/nextflow-io/nextflow/issues/2662) in Nextflow which prevents the correct passing of parameters from a custom config file to the workflow. Please use the command line argument `--reference_base` instead or consider contributing a site-specific [config file](https://github.com/bio-raum/nf-configs). 
 
+## Working behind a proxy
+
+When working behind a proxy Apptainer, Podman, Singularity and Docker depdendency managers fail to download images/containers. This will usually be accompanied by an error that a host was not reachable. 
+
+First, check if your proxy settings are already configured:
+
+```bash
+echo $HTTPS_PROXY
+```
+
+If this returns your proxy settings, great. If not, you can add the correct proxy information to your local bash profile (e.g. $HOME/.bashrc):
+
+```bash
+export HTTPS_PROXY="myproxy.adress.com:80"
+```
+
+Next, you need to tell the container to import this variable for it to become visible to the processes. You do this by adding the `envWhitelist` parameter to the dependency manager configuration in your config (wether local or remote):
+
+```bash
+singularity {
+  enabled = true
+  cacheDir = "/projects/singularity_cache"
+  envWhitelist = "HTTP_PROXY,HTTPS_PROXY"
+}
+```

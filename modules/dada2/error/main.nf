@@ -1,6 +1,6 @@
 process DADA2_ERROR {
     tag "$meta.sample_id"
-    label 'medium_serial'
+    label 'medium_parallel'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

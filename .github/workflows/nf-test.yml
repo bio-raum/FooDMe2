@@ -52,4 +52,4 @@ jobs:
         env:
           NXF_APPTAINER_CACHEDIR: ./
           NXF_APPTAINER_HOME_MOUNT: true
-        run: nf-test test --ci --shard ${{ matrix.shard }}/${{ strategy.job-total }} --profile apptainer,github_test --changed-since HEAD^
+        run: nf-test test --ci --shard ${{ matrix.shard }}/${{ strategy.job-total }} --profile apptainer,github_test

@@ -15,6 +15,7 @@ process CUTADAPT {
     output:
     tuple val(meta), path('*.primertrim.fastq.gz')  , emit: reads
     tuple val(meta), path('*.cutadapt*.json') , emit: report
+    tuple val(meta), path('*_{forward,reverse}.json'), optional: true, emit: json
     tuple val(meta), path('*.log')          , emit: log
     path 'versions.yml'                     , emit: versions
 

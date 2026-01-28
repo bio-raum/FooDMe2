@@ -51,16 +51,26 @@ workflow ILLUMINA_WORKFLOW {
     length - if --cutadapt_trim_3p was not specified
     */
     if (!(params.cutadapt_trim_3p || params.cutadapt_trim_flex)) {
-        FASTP_METRICS.out.json.filter { m, j -> !m.single_end }.map { m, j ->
+
+        FASTP_METRICS.out.json.branch { m, j ->
+            single_end: m.single_end
+            paired: !m.single_end
+        }.set { reads_by_configuration }
+
+        reads_by_configuration.single_end.subscribe { m, j ->
+            log.warn "${m.sample_id} - single-end data typically requires trimming of 3-prime primer sites. Should you perhaps use --cutadapt_trim_3p?"
+        }
+
+        reads_by_configuration.paired.map { m, j ->
             def metrics = get_metrics(j)
             def new_meta =  [:]
             new_meta.sample_id = m.sample_id
             new_meta.insert_size = metrics[0]
             new_meta.mean_read_length = metrics[1]
             tuple(new_meta, j)
-        }.set { ch_json_with_insert_size }
+        }.set { ch_pe_json_with_insert_size }
 
-        ch_json_with_insert_size.filter { m, j -> m.insert_size > (m.mean_read_length - 20) }.subscribe { m, j ->
+        ch_pe_json_with_insert_size.filter { m, j -> m.insert_size > (m.mean_read_length - 20) }.subscribe { m, j ->
             log.warn "${m.sample_id} - the mean insert size seems to be close to or greater than the mean read length. Should you perhaps use --cutadapt_trim_3p?"
         }
     }
@@ -128,8 +138,13 @@ def get_metrics(json) {
     def jsonSlurper = new groovy.json.JsonSlurper()
     def object = jsonSlurper.parseText(data)
 
-    def isize = object['insert_size']['peak']
     def mean_len = object['summary']['after_filtering']['read1_mean_length']
-
+    def isize = ""
+    if (object["insert_size"]) {
+        isize = object['insert_size']['peak']
+    } else {
+        isize = mean_len
+    }
+    
     return [ isize, mean_len ]
 }

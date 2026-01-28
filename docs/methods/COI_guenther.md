@@ -10,7 +10,7 @@
 
 :mortar_board: **Relevant publications:**
 
-* TBA
+* [Full-length and mini-length DNA barcoding for the identification of seafood commercially traded in Germany](https://doi.org/10.1016/j.foodcont.2016.10.016)
 
 :scroll: **Official Methods:**
 

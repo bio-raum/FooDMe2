@@ -1,0 +1,29 @@
+nextflow_workflow {
+
+    name "Test Workflow INPUT_CHECK"
+    script "modules/input_check.nf"
+    workflow "INPUT_CHECK"
+
+    test("Should fail") {
+
+        when {
+            params {
+                // define parameters here. Example:
+                // outdir = "tests/results"
+            }
+            workflow {
+                """
+                input[0] = "${projectDir}/tests/data/samples.nf-test-fail.tsv"
+                // define inputs of the workflow here. Example:
+                // input[0] = file("test-file.txt")
+                """
+            }
+        }
+
+        then {
+            assert workflow.failed
+        }
+
+    }
+
+}
