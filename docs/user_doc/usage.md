@@ -89,6 +89,10 @@ where `myprofile` can either be a site-specific config file or one of the built-
     S100    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
     ```
 
+    !!! note Single-end sequences
+
+        To provide Single-end sequencing data, simply leave the `fq2` field empty.
+
     If the pipeline sees more than one set of reads for a given sample ID (i.e. from multi-lane sequencing runs), it will concatenate them automatically at the appropriate time.
 
     This option is the preferred way to provide data to FooDMe2 and it is mutually exclusive with `--reads`.

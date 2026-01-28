@@ -97,6 +97,9 @@ extra:
     default: latest
     alias: true
 
+extra_javascript:
+  - javascripts/sh-annotations.js
+
 markdown_extensions:
   - attr_list
   - def_list
