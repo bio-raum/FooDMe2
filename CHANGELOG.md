@@ -1,12 +1,18 @@
 ## dev
 
+### **!! Breaking change !!**
+
+THe UNITE database, while free to use does require contact information for download. For this reason we decided to end automated deployement with FooDMe2.
+The database can still be used when provided as a custom database (see Documentation).
+
 ### Documentation
 
 - Added a step-by-step installation guide (under "Help").
 - Improve description of standardized methods.
 - Added documentation for three plant methods.
 - Added documentation regarding the use of custom databases.
-- Added a disclaimer on Licensing of FooDMe2 dependencies
+- Added a disclaimer on Licensing of FooDMe2 dependencies.
+- Added a section on configuring FooDMe2 to work behing proxies in the troobleshooting section.
 
 ### Methods
 
