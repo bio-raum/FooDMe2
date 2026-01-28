@@ -1,7 +1,0 @@
-name: helper_format_unite
-channels:
-  - conda-forge
-  - bioconda
-  
-dependencies:
-  - conda-forge::sed=4.7

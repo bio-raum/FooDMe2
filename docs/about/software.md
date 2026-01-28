@@ -38,9 +38,3 @@ Version 1.20.3, doi: 10.3390/bioengineering8050059, [PubMed](https://pubmed.ncbi
 References used by this pipeline are obtained from the [Midori](https://www.reference-midori.info/) database, based on GenBank release 2023-12-17.
 
 Version 2023-12, 17, doi: 10.1093/bioinformatics/bty454, [Pubmed](https://pubmed.ncbi.nlm.nih.gov/29878054/)
-
-**Unite**
-Reference database for ITS sequences [Unite](https://unite.ut.ee/)
-
-Version 10.0, doi: 10.1093/nar/gkad1039 [PubMed](https://pubmed.ncbi.nlm.nih.gov/37953409/)
-

@@ -97,7 +97,7 @@ Select the appropriate profile with the `-profile`argument:
 
 ## Installing the references
 
-This pipeline requires locally stored references from [Midori](https://www.reference-midori.info/), [UNITE](https://unite.ut.ee/) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db) respectively. To build these, do:
+This pipeline requires locally stored references from [Midori](https://www.reference-midori.info/) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db) respectively. To build these, do:
 
 
 === "Default profile"
