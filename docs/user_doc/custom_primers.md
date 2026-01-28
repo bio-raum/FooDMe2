@@ -8,7 +8,7 @@ While we try to provide pre-configured profiles for commonly used metabarcoding 
 
 ### Primer sequences
 
-Primers can be provided as one Fasta file, containing the forward and reverse primer sequence(s). Ambiguous IUPAC bases are allowed, but please make sure that no non-IUPAC bases are included. A common example we have encountered in the literature is `I`, which is *not* part of the IUPAC nucleotide dictionary (replace with `N`). 
+Primers must be provided as one Fasta file, containing the forward and reverse primer sequence(s). Ambiguous IUPAC bases are allowed, but please make sure that no non-IUPAC bases are included. A common example we have encountered in the literature is `I`, which is *not* part of the IUPAC nucleotide dictionary (replace with `N`). 
 
 ```bash
 nextflow run bio-raum/FooDMe2 -profile apptainer --input samples.tsv --primers_fa primers.fasta ...

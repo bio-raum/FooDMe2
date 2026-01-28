@@ -2,19 +2,41 @@
 
 ### Documentation
 
+- Added a step-by-step installation guide (under "Help").
+- Improve description of standardized methods.
+- Added documentation for three plant methods.
 - Added documentation regarding the use of custom databases.
 - Added a disclaimer on Licensing of FooDMe2 dependencies
 
+### Methods
+
+#### Added following methods for Illumina plant metabarcoding (experimental - validation pending):
+
+- trnL metabarcoding of plants (Taberlet et al. 1991 and Eugster et al. 2012)
+- rbcL metabarcoding of plants (Little 2013)
+- ITS2 metabarcoding of plants (unpublished - primers not included)
+
+#### Changes to existing methods:
+
+- The `max_expected_errors` value is set to 2.5% (Illumina) or 5% (ONT and IonTorrent) of the maximum expected amplicon size. FOr Illumina this is capped at 6 to account for 2x150bp sequencing. If you use other read length, consider adapting this value.
+- The `min_amplicon_size` and `max_amplicon_size` parameters were adjusted based on *in silico* barcode analysis with [BarBeQuE](https://github.com/bio-raum/BarBeQuE).
+
 ### Features
 
-- Removed the `default` channel of all conda environments to circumvent licensing issues as far as possible
-- Improved checks on samplesheet structure
+- Parrallelizing of the `DADA2_ERROR` module for a performance increase
+- Now using cutadapt's ability to work with ambiguous nucleotide to remove the disambiguation step of the `CUTADAPT_WORKFLOW`.
+- Reverse complementing of primer sequences is now fdone with `seqfu` instead of `fastx_tools` allowing processing of ambigugous nucleotide.
+- Removed the `default` channel of all conda environments to circumvent licensing issues as far as possible.
+- Improved checks on samplesheet structure.
 
 ### Bugfix
 
+- when using `--non_overlapping`, use default values of `--min_amplicon_size 0 --max_amplicon_size 1000` for the preclustering filtering step. Sequences are filtered using user input during the `HSP_MERGING` step. Overlapping read workflow is not affected.
+- prevent adapter trimming by `fastp`
 - fixed cat_fastq module conda environment and docker/singularity images
 - fixed fastplong module conda environment
-- fixed a problem in JSON report generation when filenames contained points ".".
+- fixed a problem in JSON report generation when filenames contained points `.`.
+- fixed reporting of taxid in the Call Support section of the Excel report
 
 ## 1.4.0
 
