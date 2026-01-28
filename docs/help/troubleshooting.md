@@ -42,9 +42,21 @@ This is most likely happening because you passed the `reference_base` option fro
 
 ## Working behind a proxy
 
-When working behind a proxy Apptainer, Podman, Singularity and Docker depdendency managers fails to download images/containers.
+When working behind a proxy Apptainer, Podman, Singularity and Docker depdendency managers fail to download images/containers. This will usually be accompanied by an error that a host was not reachable. 
 
-Fx this by adding the `envWhitelist` parameter to the dependency manager configuration in your config (wether local or remote):
+First, check if your proxy settings are already configured:
+
+```bash
+echo $HTTPS_PROXY
+```
+
+If this returns your proxy settings, great. If not, you can add the correct proxy information to your local bash profile (e.g. $HOME/.bashrc):
+
+```bash
+export HTTPS_PROXY="myproxy.adress.com:80"
+```
+
+Next, you need to tell the container to import this variable for it becomes visible to the processes. You do this by adding the `envWhitelist` parameter to the dependency manager configuration in your config (wether local or remote):
 
 ```bash
 singularity {
@@ -52,10 +64,4 @@ singularity {
   cacheDir = "/projects/singularity_cache"
   envWhitelist = "HTTP_PROXY,HTTPS_PROXY"
 }
-```
-
-THen export your proxy settings before excuting the workflow, either through the command line or by adding this line directly in `.bashrc`:
-
-```bash
-export HTTPS_PROXY="myproxy.adress.com:80"
 ```
