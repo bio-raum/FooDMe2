@@ -2026,6 +2026,10 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>sample  fq1 fq2
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>S100    /path/to/S100_R1.fastq.gz   /path/to/S100_R2.fastq.gz
 </span></code></pre></div>
+<div class="admonition note single-end sequences">
+<p class="admonition-title">Note</p>
+<p>To provide Single-end sequencing data, simply leave the <code>fq2</code> field empty.</p>
+</div>
 <p>If the pipeline sees more than one set of reads for a given sample ID (i.e. from multi-lane sequencing runs), it will concatenate them automatically at the appropriate time.</p>
 <p>This option is the preferred way to provide data to FooDMe2 and it is mutually exclusive with <code>--reads</code>.</p>
 <div class="admonition tip automated sample sheet generation">
@@ -2481,6 +2485,8 @@ The default of 98 seems to work quite well for our data, but will occasionally f
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/sh-annotations.js"></script>
       
     
   </body>

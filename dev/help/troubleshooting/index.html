@@ -1437,6 +1437,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#working-behind-a-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working behind a proxy
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1713,6 +1724,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#working-behind-a-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Working behind a proxy
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1763,6 +1785,18 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ERROR<span class="w"> </span>~<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory:<span class="w"> </span>
 </span></code></pre></div>
 <p>This is most likely happening because you passed the <code>reference_base</code> option from a custom config file via the "-c" argument. There is currently a <a href="https://github.com/nextflow-io/nextflow/issues/2662">known bug</a> in Nextflow which prevents the correct passing of parameters from a custom config file to the workflow. Please use the command line argument <code>--reference_base</code> instead or consider contributing a site-specific <a href="https://github.com/bio-raum/nf-configs">config file</a>. </p>
+<h2 id="working-behind-a-proxy">Working behind a proxy</h2>
+<p>When working behind a proxy Apptainer, Podman, Singularity and Docker depdendency managers fails to download images/containers.</p>
+<p>Fx this by adding the <code>envWhitelist</code> parameter to the dependency manager configuration in your config (wether local or remote):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>singularity<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nv">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nv">cacheDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/projects/singularity_cache&quot;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nv">envWhitelist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;HTTP_PROXY,HTTPS_PROXY&quot;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="o">}</span>
+</span></code></pre></div>
+<p>THen export your proxy settings before excuting the workflow, either through the command line or by adding this line directly in <code>.bashrc</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HTTPS_PROXY</span><span class="o">=</span><span class="s2">&quot;myproxy.adress.com:80&quot;</span>
+</span></code></pre></div>
 
 
 
@@ -1828,6 +1862,8 @@
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/sh-annotations.js"></script>
       
     
   </body>
