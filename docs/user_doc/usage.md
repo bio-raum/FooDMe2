@@ -238,7 +238,6 @@ Databases for taxonomic assignment can be specified in one of two ways - from th
     | **cytb** | Midori |
     | **genbank** | NCBI |
     | ncbi_its | NCBI |
-    | **its** | Unite |
     | nd1 | Midori |
     | nd2 | Midori |
     | nd3 | Midori |
@@ -247,7 +246,7 @@ Databases for taxonomic assignment can be specified in one of two ways - from th
     | nd6 | Midori |
     | **refseq** | RefSeq |
 
-    The underlying databases are obtained from [Midori](https://www.reference-midori.info/), [Unite](https://unite.ut.ee/index.php) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db).
+    The underlying databases are obtained from [Midori](https://www.reference-midori.info/) and [NCBI](https://ftp.ncbi.nlm.nih.gov/blast/db).
 
 `--blast_db` [ default = null]
 
