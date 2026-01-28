@@ -45,7 +45,7 @@ def main(json_in, sample, output_tsv, output_json):
     } for id in size.keys()]
 
     if d:
-        df = pd.read_json(json.dumps(d), orient="record")
+        df = pd.DataFrame.from_records(d)
         df = df.sort_values("proportion", ascending=False)
     else:
         df = pd.DataFrame(columns=["sample", "name", "taxid", "reads", "rank", "proportion", "cluster_ids"])
