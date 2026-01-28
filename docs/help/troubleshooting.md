@@ -56,7 +56,7 @@ If this returns your proxy settings, great. If not, you can add the correct prox
 export HTTPS_PROXY="myproxy.adress.com:80"
 ```
 
-Next, you need to tell the container to import this variable for it becomes visible to the processes. You do this by adding the `envWhitelist` parameter to the dependency manager configuration in your config (wether local or remote):
+Next, you need to tell the container to import this variable for it to become visible to the processes. You do this by adding the `envWhitelist` parameter to the dependency manager configuration in your config (wether local or remote):
 
 ```bash
 singularity {
