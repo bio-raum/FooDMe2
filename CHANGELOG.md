@@ -7,6 +7,10 @@ Hotfix for methods improvements:
   - Increased `max_amplicon_size` for the 16S insects (Hillinger) methods to 192bp (from 190bp).
   - Modified the BLAST parameters for the ITS2 plants mnethod to 90% identity, 96% query coverage, and 2 delta-bitscore.
 
+### Bugfix:
+
+  - Fix a layout problem in the HTML reporting of taxonomy results
+
 ## 1.5.0
 
 ### **!! Breaking change !!**
