@@ -2361,7 +2361,8 @@
 <h3 id="methods">Methods</h3>
 <p>Hotfix for methods improvements:
   - 16S Insects (Hillinger): Increased <code>max_amplicon_size</code> to 192bp from 190bp and deactivated BLAST low-complexity filter
-  - ITS2 plants (AGES): Modified the BLAST parameters to 90% identity, 96% query coverage, and 2 delta-bitscore.</p>
+  - ITS2 plants (AGES): Modified the BLAST parameters to 90% identity, 96% query coverage, and 2 delta-bitscore.
+  - tnrL plants (Little): increased BLAST consensus threshold to 0.65 from 0.51</p>
 <h3 id="documentation">Documentation:</h3>
 <ul>
 <li>Method documentation is now more explicit on the Illumina read length expectations.</li>
@@ -2369,6 +2370,8 @@
 <h3 id="bugfix">Bugfix:</h3>
 <ul>
 <li>Fix a layout problem in the HTML reporting of taxonomy results</li>
+<li>Corrected the warning about potentially remaining primer sequences at the 3' end of reads so that it is correctly calculated and worded. There is a risk when insert size is <strong>lower</strong> than the read length.</li>
+<li>Fix a UID problem in the build reference workflow when using podman. Thanks to @phyden.</li>
 </ul>
 <h2 id="150">1.5.0</h2>
 <h3 id="breaking-change"><strong>!! Breaking change !!</strong></h3>
