@@ -14,6 +14,7 @@ Hotfix for methods improvements:
 
   - Fix a layout problem in the HTML reporting of taxonomy results
   - Corrected the warning about potentially remaining primer sequences at the 3' end of reads so that it is correctly calculated and worded. There is a risk when insert size is **lower** than the read length.
+  - Fix a UID problem in the build reference workflow when using podman. Thanks to @phyden.
 
 ## 1.5.0
 
