@@ -13,6 +13,7 @@ Hotfix for methods improvements:
 ### Bugfix:
 
   - Fix a layout problem in the HTML reporting of taxonomy results
+  - Corrected the warning about potentially remaining primer sequences at the 3' end of reads so that it is correctly calculated and worded. There is a risk when insert size is **lower** than the read length.
 
 ## 1.5.0
 
