@@ -5,7 +5,7 @@
 :light_bulb: **Sequencing parameters:**
 
 * Platform: Illumina
-* Read-length: paired-end 150bp
+* Read-length: Illumina 2x150bp
 * Targets: plants
 
 :mortar_board: **Relevant publications:**

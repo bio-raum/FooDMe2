@@ -5,7 +5,7 @@
 :light_bulb: **Sequencing parameters:**
 
 * Platform: Illumina, IonTorrent and Nanopore
-* Read-length: paired-end 150bp or longer, single-end with 150bp or longer
+* Read-length: Illumina 2x150bp, single-end with 150bp or longer
 * Targets: fish
 
 :mortar_board: **Relevant publications:**
