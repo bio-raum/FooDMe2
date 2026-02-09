@@ -5,6 +5,7 @@
 Hotfix for methods improvements:
   - 16S Insects (Hillinger): Increased `max_amplicon_size` to 192bp from 190bp and deactivated BLAST low-complexity filter
   - ITS2 plants (AGES): Modified the BLAST parameters to 90% identity, 96% query coverage, and 2 delta-bitscore.
+  - tnrL plants (Little): increased BLAST consensus threshold to 0.65 from 0.51
 
 ### Documentation:
 
