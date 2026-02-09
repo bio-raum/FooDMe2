@@ -3,9 +3,12 @@
 ### Methods
 
 Hotfix for methods improvements:
+  - 16S Insects (Hillinger): Increased `max_amplicon_size` to 192bp from 190bp and deactivated BLAST low-complexity filter
+  - ITS2 plants (AGES): Modified the BLAST parameters to 90% identity, 96% query coverage, and 2 delta-bitscore.
 
-  - Increased `max_amplicon_size` for the 16S insects (Hillinger) methods to 192bp (from 190bp).
-  - Modified the BLAST parameters for the ITS2 plants mnethod to 90% identity, 96% query coverage, and 2 delta-bitscore.
+### Documentation:
+
+  - Method documentation is now more explicit on the Illumina read length expectations.
 
 ### Bugfix:
 
