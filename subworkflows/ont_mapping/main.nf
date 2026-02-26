@@ -28,8 +28,8 @@ workflow ONT_MAPPING {
 
     main:
 
-    ch_versions = Channel.from([])
-    ch_reports = Channel.from([])
+    ch_versions = channel.from([])
+    ch_reports = channel.from([])
 
     // Align the reads to the reference database
     MINIMAP2_ALIGN_DB(

@@ -14,11 +14,11 @@ nextflow_workflow {
             workflow {
                 """
                 // define inputs of the workflow here. Example:
-                input[0] = Channel.of( [ [sample_id:'Lasagne_clean'], file("${projectDir}/tests/data/Lasagne_clean_ASVs.fasta")] )
-                input[1] = Channel.of( [ [database:'lrna', version:'Genbank 267'], file("${projectDir}/tests/refs/foodme2/1.4/databases/lrna") ] )
-                input[2] = Channel.of( [ file("${projectDir}/tests/refs/foodme2/1.4/new_taxdump/nodes.dmp"), file("${projectDir}/tests/refs/foodme2/1.4/new_taxdump/rankedlineage.dmp"), file("${projectDir}/tests/refs/foodme2/1.4/new_taxdump/merged.dmp")])
+                input[0] = channel.of( [ [sample_id:'Lasagne_clean'], file("${projectDir}/tests/data/Lasagne_clean_ASVs.fasta")] )
+                input[1] = channel.of( [ [database:'lrna', version:'Genbank 267'], file("${projectDir}/tests/refs/foodme2/1.4/databases/lrna") ] )
+                input[2] = channel.of( [ file("${projectDir}/tests/refs/foodme2/1.4/new_taxdump/nodes.dmp"), file("${projectDir}/tests/refs/foodme2/1.4/new_taxdump/rankedlineage.dmp"), file("${projectDir}/tests/refs/foodme2/1.4/new_taxdump/merged.dmp")])
                 input[3] = file("${projectDir}/tests/refs/foodme2/1.4/taxdb")
-                input[4] = Channel.of(file("${projectDir}/assets/blocklist.txt"))
+                input[4] = channel.of(file("${projectDir}/assets/blocklist.txt"))
                 """
             }
         }

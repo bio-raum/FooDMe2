@@ -43,7 +43,7 @@ workflow {
             ╚═╝      ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝
     """
 
-    qc_report = Channel.from([])
+    qc_report = channel.from([])
 
     if (!workflow.containerEngine) {
         log.info "\033[1;31mRunning with Conda is not recommended in production!\033[0m\n\033[0;31mConda environments are not guaranteed to be reproducible - for a discussion, see https://pubmed.ncbi.nlm.nih.gov/29953862/.\033[0m"

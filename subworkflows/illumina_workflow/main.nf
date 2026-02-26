@@ -23,9 +23,9 @@ workflow ILLUMINA_WORKFLOW {
 
     main:
 
-    ch_versions     = Channel.from([])
-    ch_otus         = Channel.from([])
-    ch_qc           = Channel.from([])
+    ch_versions     = channel.from([])
+    ch_otus         = channel.from([])
+    ch_qc           = channel.from([])
 
     /*
     Trim illumina reads
