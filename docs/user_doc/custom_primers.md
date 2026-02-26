@@ -4,7 +4,46 @@
 
 While we try to provide pre-configured profiles for commonly used metabarcoding primers, it is also possible to provide primer information from the command line. Please note that you may have to adjust a number of default parameters to achieve good results - which we will discuss below. 
 
-## Relevant parameters
+## From a parameter file
+
+A clean way to feed your primer system to the pipeline is via a configuration file using the Nextflow argument `-params-file`. This command line flag accepts files in JSON or YAML format, with keys matching parameter names understood by the pipeline - including all the options needed to configure a primer profile. 
+
+For example, if we wanted to pass the 16S ASU184 primer system from the command line:
+
+```bash
+nextflow run bio-raum/FooDMe2 -profile apptainer \\
+-r 1.5.1 \\
+-params-file 16S_primer.json \\
+--input samples.tsv \\
+--run_name TestRun
+```
+
+where the file 16S_primer.json looks as follows:
+```JSON
+{
+    "database": "lrna",
+    "fasta": "https://raw.githubusercontent.com/bio-raum/FooDMe2/refs/heads/main/assets/primers/16S_ASU184.fasta",
+    "blast_low_complexity": "-dust no -soft_masking false",
+    "blast_evalue": "1e-20",
+    "blast_qcov": 100,
+    "blast_perc_id": 97,
+    "blast_bitscore_diff": 4,
+    "blast_min_consensus": 0.51,
+    "taxid_filter": 32524,
+    "remove_chimera": true,
+    "amplicon_min_length": 59,
+    "amplicon_max_length": 95,
+    "max_expected_errors": 2.0,
+    "max_ns": 0,
+    "merging_max_mismatch": 1,
+    "fastp_options": "-l 50 -3 --cut_tail_window_size 4 --cut_tail_mean_quality 25",
+    "cutadapt_trim_3p": true,
+    "cutadapt_trim_flex": false,
+    "cutadapt_options": "-m 40"
+}
+```
+
+## From the command line
 
 ### Primer sequences
 
