@@ -5,7 +5,7 @@
 :light_bulb: **Sequencing parameters:**
 
 * Platform: Illumina, IonTorrent and Nanopore
-* Read-length: paired-end 150bp or longer, single-end with 200bp or longer
+* Read-length: Illumina 2x250bp, single-end with 200bp or longer
 * Targets: insects
 
 :mortar_board: **Relevant publications:**

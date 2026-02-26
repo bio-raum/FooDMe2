@@ -631,7 +631,7 @@ fig.update_yaxes(showspikes=False)
 fig.update_traces(hovertemplate="%{customdata}: %{x} reads<extra></extra>")
 fig.show()
 ```
-9
+
 ### Percentages
 
 ```{python}

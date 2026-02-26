@@ -70,8 +70,8 @@ workflow ILLUMINA_WORKFLOW {
             tuple(new_meta, j)
         }.set { ch_pe_json_with_insert_size }
 
-        ch_pe_json_with_insert_size.filter { m, j -> m.insert_size > (m.mean_read_length - 20) }.subscribe { m, j ->
-            log.warn "${m.sample_id} - the mean insert size seems to be close to or greater than the mean read length. Should you perhaps use --cutadapt_trim_3p?"
+        ch_pe_json_with_insert_size.filter { m, j -> m.insert_size < (m.mean_read_length + 20) }.subscribe { m, j ->
+            log.warn "${m.sample_id} - the mean insert size seems to be close to or lower than the mean read length. Should you perhaps use --cutadapt_trim_3p?"
         }
     }
 

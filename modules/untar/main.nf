@@ -31,17 +31,18 @@ process UNTAR {
     if [[ \$(tar -taf ${archive} | grep -o -P "^.*?\\/" | uniq | wc -l) -eq 1 ]]; then
         tar \\
             -C $prefix --strip-components 1 \\
-            -xavf \\
             $args \\
-            $archive \\
-            $args2
+            $args2 \\
+            -xavf \\
+            $archive
     else
         tar \\
             -C $prefix \\
-            -xavf \\
             $args \\
-            $archive \\
-            $args2
+            $args2 \\
+            -xavf \\
+            $archive
+
     fi
 
     rm -f $prefix/*_dev.fasta
