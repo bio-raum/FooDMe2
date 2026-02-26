@@ -87,6 +87,12 @@ workflow FOODME2 {
                 version     = 'NA'
                 fasta       = null
             }
+        } else {
+            database                = params.database
+            ch_primers              = channel.fromPath(file(params.fasta, checkIfExits: true)).collect()
+            blast_db                = set_blast_db(database)
+            fasta                   = null
+            version                 = "NA"
         }
         channel.fromPath(blast_db, checkIfExists: true).map { db ->
             [[id: database, version: version], db]
