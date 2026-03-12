@@ -57,11 +57,11 @@ class WorkflowPipeline {
                 log.info "The primer set ${params.primer_set} is not currently configured."
                 System.exit(1)
             }
-            if (!params.primer_set && !params.db && !params.blast_db) {
+            if (!params.primer_set && !params.db && !params.blast_db && !params.database) {
                 log.info 'You have to specify which database you want to use (--db) if you do not use a built-in primer set (--primer_set)'
                 System.exit(1)
             }
-            if (!params.primer_set && !params.primers_fa) {
+            if (!params.primer_set && !params.primers_fa && !params.fasta) {
                 log.info 'No primer set (--primer_set) or custom primers (--primers_fa) provided. Exiting...'
                 System.exit(1)
             }

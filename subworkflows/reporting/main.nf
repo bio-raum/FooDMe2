@@ -15,8 +15,8 @@ workflow REPORTING {
 
     main:
 
-    ch_html_report  = Channel.from([])
-    ch_xlsx         = Channel.from([])
+    ch_html_report  = channel.from([])
+    ch_xlsx         = channel.from([])
 
     // The sample-level summary JSON
     HELPER_REPORTS_JSON(

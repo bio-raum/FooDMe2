@@ -25,9 +25,9 @@ workflow ONT_WORKFLOW {
 
     main:
 
-    ch_versions = Channel.from([])
-    ch_qc       = Channel.from([])
-    ch_stats    = Channel.from([])
+    ch_versions = channel.from([])
+    ch_qc       = channel.from([])
+    ch_stats    = channel.from([])
 
     /*
     Remove Nanopore adapters - or not
@@ -107,7 +107,7 @@ workflow ONT_WORKFLOW {
     )
     ch_versions = ch_versions.mix(GUNZIP_NANOPLOT_TRIM.out.versions)
     ch_qc = ch_qc.mix(GUNZIP_NANOPLOT_TRIM.out.gunzip)
-        
+    FASTPLONG_TRIM.out.reads.view()
     // Warn if a sample has only a few reads left after filtering.
     FASTPLONG_TRIM.out.reads.filter { m, r ->
         r.countFastq() < 100

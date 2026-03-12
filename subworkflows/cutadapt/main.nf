@@ -10,9 +10,9 @@ workflow CUTADAPT_WORKFLOW {
 
     main:
 
-    ch_versions = Channel.from([])
-    ch_qc  = Channel.from([])
-    ch_reads = Channel.from([])
+    ch_versions = channel.from([])
+    ch_qc  = channel.from([])
+    ch_reads = channel.from([])
 
     // Disambiguate degenerate primer sequences
     // PRIMER_DISAMBIGUATE(

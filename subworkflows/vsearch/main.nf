@@ -22,9 +22,9 @@ workflow VSEARCH_WORKFLOW {
     /*
     Set default channels
     */
-    ch_versions = Channel.from([])
-    ch_qc_files = Channel.from([])
-    ch_reporting = Channel.from([]) // will hold: [ meta, fastq, merged, filtered, nonchim]
+    ch_versions = channel.from([])
+    ch_qc_files = channel.from([])
+    ch_reporting = channel.from([]) // will hold: [ meta, fastq, merged, filtered, nonchim]
 
 
     /*
