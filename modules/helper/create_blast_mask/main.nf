@@ -3,7 +3,7 @@ process HELPER_CREATE_BLAST_MASK {
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
-    container 'gregdenay/taxidtools:3.1.0'
+    container 'gregdenay/taxidtools:3.2.1'
 
     input:
     path(taxlist)   // List of tax ids in blast database
