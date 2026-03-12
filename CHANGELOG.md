@@ -1,3 +1,15 @@
+## dev
+
+
+### Features
+
+  - Environemntal and synthetic taxa are now ignored from BLAST results
+  - Environmental and synthetic taxa are now ignored for taxonomy consensus determination
+
+### Bugfix
+
+  - fixed a bug leading to taxomies not being resolved by taxidtools for merged nodes after a taxonomy was pruned
+
 ## 1.5.1
 
 ### Methods
