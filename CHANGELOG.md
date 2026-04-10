@@ -1,10 +1,17 @@
 ## dev
 
+### Methods
+
+  - Improved trnlLong Method's resolution by reducing the `blast_bitscore_diff` paramter from 8 to 4
 
 ### Features
 
-  - Environemntal and synthetic taxa are now ignored from BLAST results
+  - Environmental and synthetic taxa are now ignored from BLAST results
   - Environmental and synthetic taxa are now ignored for taxonomy consensus determination
+
+### Documentation
+
+  - Added a section on how to provide complete method configuration via JSON files. This can be used to share method that are not yet implemented as standards.
 
 ### Bugfix
 
