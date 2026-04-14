@@ -16,6 +16,7 @@
 ### Bugfix
 
   - fixed a bug leading to taxomies not being resolved by taxidtools for merged nodes after a taxonomy was pruned
+  - fixed an issue where Nextflow could not stage files from NCBI ftp servers by moving downloads to a discrete process
 
 ## 1.5.1
 
