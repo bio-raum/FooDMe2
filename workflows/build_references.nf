@@ -10,6 +10,7 @@ include { UNTAR as UNTAR_TAXONOMY }         from './../modules/untar'
 include { UNTAR as UNTAR_NCBI }             from './../modules/untar'
 include { WGET as WGET_MIDORI }             from './../modules/wget'
 include { HELPER_FORMAT_GENBANK_TAXIDS }    from './../modules/helper/format_genbank_taxids'
+include { WGET as WGET_NCBI }               from './../modules/wget'
 include { HELPER_INSTALL_GENBANK }          from './../modules/helper/install_genbank'
 
 workflow BUILD_REFERENCES {
@@ -22,18 +23,24 @@ workflow BUILD_REFERENCES {
     NCBI taxonomy files are needed to e.g. mask BLAST databases
     and to determine taxonomic consensus calls
     */
-    taxdb   = channel.fromPath(params.references.taxonomy.taxdb_url)
-    taxdump = channel.fromPath(params.references.taxonomy.taxdump_url)
-    taxid   = channel.fromPath(params.references.taxonomy.taxid_url)
+    taxdb   = channel.from(params.references.taxonomy.taxdb_url)
+    taxdump = channel.from(params.references.taxonomy.taxdump_url)
+    taxid   = channel.from(params.references.taxonomy.taxid_url)
 
-    taxdb.mix(taxdump).map { f ->
+    ch_ncbi_files = channel.from([])
+    database_files = []
+    midori_files = []
+    ch_blast_files = channel.from([])
+    ch_files = channel.from([])
+
+    taxdb.mix(taxdump, taxid).map { f ->
         def meta = [:]
-        meta.id = f.getSimpleName()
+        def this_id = f.split("/").last().toString().replaceAll(/\.tar.*|\.gz/, "")
+        meta.id = this_id
         tuple(meta, f)
     }.set { tax_files }
 
-    database_files = []
-    midori_files = []
+    ch_ncbi_files = ch_ncbi_files.mix(tax_files)
 
     if (params.build_references) {
         // For all genes of interest, recover supported tools and the corresponding database link
@@ -45,16 +52,33 @@ workflow BUILD_REFERENCES {
                     params.references.databases[db].url
                 ]
                 } else {
-                    database_files << [ [ id: db, tool: 'blast' ] ,
-                        file(params.references.databases[db].url, checkIfExists: true)
+                    database_files << [ [ id: db, tool: 'blast' ],
+                        params.references.databases[db].url
                     ]
                 }
             }
         }
     }
 
-    ch_blast_files = channel.from([])
-    ch_files = channel.fromList(database_files)
+    ch_db_files = channel.fromList(database_files)
+
+    ch_ncbi_files = ch_ncbi_files.mix(ch_db_files)
+
+    /*
+    Download data from NCBI
+    */
+    WGET_NCBI(
+        ch_ncbi_files
+    )
+
+    WGET_NCBI.out.download.branch { m, f ->
+        taxid: m.id.contains("nucl_gb.accession2taxid")
+        taxdump: m.id.contains("new_taxdump.tar")
+        taxdb: m.id.contains("taxdb.tar")
+        db: m.tool == "blast"
+    }.set { ch_ncbi_by_type }
+
+    ch_files = ch_files.mix(ch_ncbi_by_type.db)
 
     // We download Midori with wget since the service is not guaranteed to have a valid SSL cert
     WGET_MIDORI(
@@ -72,7 +96,7 @@ workflow BUILD_REFERENCES {
     Decompress and format taxonomy id mappings
     */
     HELPER_FORMAT_GENBANK_TAXIDS(
-        taxid.map { f ->
+        ch_ncbi_by_type.taxid.map { m, f ->
             def meta = [:]
             meta.id = f.getBaseName()
             tuple(meta, f)
@@ -83,7 +107,7 @@ workflow BUILD_REFERENCES {
     Decompress the taxonomy files
     */
     UNTAR_TAXONOMY(
-        tax_files
+        ch_ncbi_by_type.taxdump.mix(ch_ncbi_by_type.taxdb)
     )
 
     /*

@@ -14,7 +14,7 @@ process WGET {
     tuple val(meta), val(url)
 
     output:
-    tuple val(meta), path("*.zip")  , emit: download
+    tuple val(meta), path("*.{tar,zip,gz}*")    , emit: download
     path 'versions.yml'             , emit: versions
 
     when:
