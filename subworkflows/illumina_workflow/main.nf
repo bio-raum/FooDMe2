@@ -26,7 +26,7 @@ workflow ILLUMINA_WORKFLOW {
     ch_versions     = channel.from([])
     ch_otus         = channel.from([])
     ch_qc           = channel.from([])
-
+    
     /* 
     Merge reads by sample
     */
