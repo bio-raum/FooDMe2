@@ -1,0 +1,162 @@
+%%metro title: FooDMe2
+%%metro style: light
+%%metro line: main | Main | #4CAF50
+%%metro line: main_alt | Main Alt | #38863b | dotted
+%%metro line: illumina | Illumina processing | #c8d32a
+%%metro line: illumina_alt | Illumina alt processing | #d3ca2a | dotted
+%%metro line: nanopore | Nanopore processing | #a718af
+%%metro line: nanopore_alt | Nanopore alt processing | #7f1185 | dotted
+%%metro line: qc | Quality Control | #2196F3 | dashed
+
+
+graph LR
+
+    input[Input]
+
+    subgraph illumina_qc [Illumina QC]
+        cat_fastq_illumina[cat FastQ]
+        fastp_metric[FastP Metrics]
+
+        cat_fastq_illumina -->|illumina| fastp_metric
+        
+    end
+
+    subgraph cutadapt_wf [Primer Removal]
+        seqfu_rc[SeqFu RC]
+        cutadapt[Cutadapt]
+
+        seqfu_rc -->|illumina,nanopore| cutadapt
+
+    end
+
+    subgraph illumina_dada2 [Illumina Dada2 Clustering]
+
+        dada2_filterntrim[Dada2 FilterNTrim]
+        dada2_error[Dada2 Error]
+        dada2_denoising[Dada2 Denoising]
+        dada2_filtersize[Dada2 FilterSize]
+        dada2_rmchimera[Dada2 RmChimera]
+        seqtable_to_fasta[SeqTable To Fasta]
+        dada2_stats[Dada2 Stats]
+        
+        dada2_filterntrim -->|illumina| dada2_error
+        dada2_error -->|illumina| dada2_denoising
+        dada2_denoising -->|illumina| dada2_filtersize
+        dada2_filtersize -->|illumina_alt| dada2_rmchimera
+        dada2_filtersize -->|illumina| seqtable_to_fasta
+        dada2_denoising -->|illumina| seqtable_to_fasta
+        dada2_rmchimera -->|illumina_alt| seqtable_to_fasta
+        dada2_filtersize -->|qc| dada2_stats
+
+    end
+
+    subgraph illumina_vsearch [Illumina Vsearch Clustering]
+
+        vsearch_fastqfilter_reads[Vsearch FastqFilter]
+        vsearch_fastqmerge[Vsearch FastqMerge]
+        vsearch_fastqmerge_join[Vsearch FastqMerge Join]
+        vsearch_fastqjoin[Vsearch FastqJoin]
+        vsearch_fastqfilter[Vsearch FastqFilter]
+        vsearch_derepfull[Vsearch Derep]
+        vsearch_cluster_size[Vsearch Cluster]
+        vsearch_uchime_denovo[Vsearch UchimeDenovo]
+        vsearch_stats[Vsearch Stats]
+
+        vsearch_fastqfilter_reads -->|illumina| vsearch_fastqmerge
+        vsearch_fastqmerge -->|illumina| vsearch_fastqfilter
+        vsearch_fastqfilter -->|illumina| vsearch_derepfull
+        vsearch_fastqfilter -->|illumina| vsearch_stats
+        vsearch_derepfull -->|illumina| vsearch_cluster_size
+        vsearch_cluster_size -->|illumina_alt| vsearch_uchime_denovo
+        vsearch_uchime_denovo -->|illumina_alt| vsearch_stats
+
+        vsearch_fastqfilter_reads -->|illumina_alt| vsearch_fastqmerge_join
+        vsearch_fastqmerge_join -->|illumina_alt| vsearch_fastqjoin
+        vsearch_fastqjoin -->|illumina_alt| vsearch_fastqfilter 
+
+    end
+
+    subgraph nanopore_qc [Nanopore QC]
+        cat_fastq_ont[cat FastQ]
+        fastplong_metrics[FastPlong]
+        nanoplot_adapter[Nanoplot]
+
+        cat_fastq_ont -->|nanopore| fastplong_metrics
+        fastplong_metrics -->|qc| nanoplot_adapter
+
+    end
+
+    subgraph nanopore_trim [Nanopore Trimming]
+        fastplong_trim[FastPlong]
+        nanoplot_trim[Nanoplot]
+
+        fastplong_trim -->|qc| nanoplot_trim
+
+    end
+
+    subgraph nanopore_mapping [Nanopore Clustering]
+
+        minimap_align_db[Minimap2]
+        minimap_align_consensus[Minimap2]
+        samtools_stats_db[Samtools Stats]
+        samtools_consensus[Samtools Consensus]
+        filter_consensus[Filter Consensus]
+        cdhit_est[CD-HIT]
+        samtools_stats_consensus[Samtools Stats]
+        samtools_filter[Samtools Filter]
+        samtools_coverage[Samtools Coverage]
+        size_from_coverage[Cluster Size]
+
+        minimap_align_db -->|qc| samtools_stats_db
+        minimap_align_db -->|nanopore| samtools_consensus
+        samtools_consensus -->|nanopore| filter_consensus
+        filter_consensus -->|nanopore| cdhit_est
+        cdhit_est -->|nanopore| minimap_align_consensus
+        minimap_align_consensus -->|qc| samtools_stats_consensus
+        minimap_align_consensus -->|nanopore| samtools_filter
+        samtools_filter -->|nanopore| samtools_coverage
+        samtools_coverage -->|nanopore| size_from_coverage
+
+    end
+
+    subgraph blast_taxonomy [BLAST Taxonomy]
+        blast_filter_taxonomy[Filter Taxonomy]
+        blast_taxonomy_from_db[Taxonomy from DB]
+        blast_mask[BLAST Mask]
+        blast_blocklist[Blocklist]
+        blastn[BLASTN]
+        blast_filter_bitscore[BLAST Bitscore]
+        blast_merge_hsp[BLAST HSP Merger]
+        blast_consensus[BLAST Consensus]
+        blast_stats[BLAST Stats]
+        blast_sample_compo[Composition]
+
+        blast_filter_taxonomy -->|main| blast_mask
+        blast_taxonomy_from_db -->|main| blast_mask
+        blast_mask -->|main| blast_blocklist
+        blast_blocklist -->|main| blastn
+        blastn -->|main| blast_filter_bitscore
+        blastn -->|main_alt| blast_merge_hsp
+        blast_merge_hsp -->|main_alt| blast_filter_bitscore
+        blast_filter_bitscore -->|main| blast_consensus
+        blast_consensus -->|main| blast_stats
+        blast_consensus -->|main| blast_sample_compo
+
+    end
+
+    input -->|illumina| cat_fastq_illumina
+    input -->|nanopore| cat_fastq_ont
+
+    fastp_metric -->|illumina| seqfu_rc
+    fastplong_metrics -->|nanopore| seqfu_rc
+
+    cutadapt -->|illumina| dada2_filterntrim
+    cutadapt -->|illumina_alt| vsearch_fastqfilter_reads
+    cutadapt -->|nanopore| fastplong_trim
+
+    fastplong_trim -->|nanopore| minimap_align_db
+
+    dada2_filtersize -->|illumina| blastn
+    vsearch_uchime_denovo -->|illumina_alt| blastn
+    vsearch_fastqjoin -->|illumina_alt| blastn
+    size_from_coverage -->|nanopore| blastn
