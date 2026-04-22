@@ -16,28 +16,24 @@ graph LR
     subgraph illumina_qc [Illumina QC]
         cat_fastq_illumina[cat FastQ]
         fastp_metric[FastP Metrics]
-
-        cat_fastq_illumina -->|illumina| fastp_metric
-        
-    end
-
-    subgraph cutadapt_wf [Primer Removal]
         seqfu_rc[SeqFu RC]
         cutadapt[Cutadapt]
 
-        seqfu_rc -->|illumina,nanopore| cutadapt
+        cat_fastq_illumina -->|illumina| fastp_metric
+        fastp_metric -->|illumina| seqfu_rc
+        seqfu_rc -->|illumina| cutadapt
 
     end
 
-    subgraph illumina_dada2 [Illumina Dada2 Clustering]
+    subgraph illumina_dada2 [Dada2 Clustering]
 
-        dada2_filterntrim[Dada2 FilterNTrim]
-        dada2_error[Dada2 Error]
-        dada2_denoising[Dada2 Denoising]
-        dada2_filtersize[Dada2 FilterSize]
-        dada2_rmchimera[Dada2 RmChimera]
-        seqtable_to_fasta[SeqTable To Fasta]
-        dada2_stats[Dada2 Stats]
+        dada2_filterntrim[FilterNTrim]
+        dada2_error[Error]
+        dada2_denoising[Denoising]
+        dada2_filtersize[FilterSize]
+        dada2_rmchimera[RmChimera]
+        seqtable_to_fasta[Fasta]
+        dada2_stats[Stats]
         
         dada2_filterntrim -->|illumina| dada2_error
         dada2_error -->|illumina| dada2_denoising
@@ -50,17 +46,17 @@ graph LR
 
     end
 
-    subgraph illumina_vsearch [Illumina Vsearch Clustering]
+    subgraph illumina_vsearch [Vsearch Clustering]
 
-        vsearch_fastqfilter_reads[Vsearch FastqFilter]
-        vsearch_fastqmerge[Vsearch FastqMerge]
-        vsearch_fastqmerge_join[Vsearch FastqMerge Join]
-        vsearch_fastqjoin[Vsearch FastqJoin]
-        vsearch_fastqfilter[Vsearch FastqFilter]
-        vsearch_derepfull[Vsearch Derep]
-        vsearch_cluster_size[Vsearch Cluster]
-        vsearch_uchime_denovo[Vsearch UchimeDenovo]
-        vsearch_stats[Vsearch Stats]
+        vsearch_fastqfilter_reads[FastqFilter]
+        vsearch_fastqmerge[FastqMerge]
+        vsearch_fastqmerge_join[FastqMerge+Join]
+        vsearch_fastqjoin[FastqJoin]
+        vsearch_fastqfilter[FastqFilter]
+        vsearch_derepfull[Derep]
+        vsearch_cluster_size[Cluster]
+        vsearch_uchime_denovo[UchimeDenovo]
+        vsearch_stats[Stats]
 
         vsearch_fastqfilter_reads -->|illumina| vsearch_fastqmerge
         vsearch_fastqmerge -->|illumina| vsearch_fastqfilter
@@ -80,17 +76,17 @@ graph LR
         cat_fastq_ont[cat FastQ]
         fastplong_metrics[FastPlong]
         nanoplot_adapter[Nanoplot]
-
-        cat_fastq_ont -->|nanopore| fastplong_metrics
-        fastplong_metrics -->|qc| nanoplot_adapter
-
-    end
-
-    subgraph nanopore_trim [Nanopore Trimming]
+        seqfu_rc_ont[SeqFu RC]
+        cutadapt_ont[Cutadapt]
         fastplong_trim[FastPlong]
         nanoplot_trim[Nanoplot]
 
-        fastplong_trim -->|qc| nanoplot_trim
+        cat_fastq_ont -->|nanopore| fastplong_metrics
+        fastplong_metrics -->|qc| nanoplot_adapter
+        fastplong_metrics -->|nanopore| seqfu_rc_ont
+        seqfu_rc_ont -->|nanopore| cutadapt_ont
+        cutadapt_ont -->|nanopore| fastplong_trim
+        fastplong_trim -->|nanopore| nanoplot_trim
 
     end
 
@@ -152,7 +148,7 @@ graph LR
 
     cutadapt -->|illumina| dada2_filterntrim
     cutadapt -->|illumina_alt| vsearch_fastqfilter_reads
-    cutadapt -->|nanopore| fastplong_trim
+    cutadapt_ont -->|nanopore| fastplong_trim
 
     fastplong_trim -->|nanopore| minimap_align_db
 
