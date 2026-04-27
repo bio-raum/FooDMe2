@@ -2447,6 +2447,10 @@ The default of 98 seems to work quite well for our data, but will occasionally f
 <dd>
 <p>Minimal consensus level between all BLAST results for a given query to be assigned to a taxonomic node.</p>
 </dd>
+<dt><code>--blast_task</code> [ default = 'megablast']</dt>
+<dd>
+<p>BLAST algorithm to use. Use 'blastn' for very short amplicons (&lt;~30 nt). Since 'megablast' word size is 28nt is will likely not return results for amplicons shorter than that. In this case prefer 'blastn' that has a word size of 11.</p>
+</dd>
 </dl>
 
 
