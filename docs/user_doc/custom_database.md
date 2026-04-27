@@ -25,6 +25,9 @@ wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/nucl_gb.accession
 gunzip -c nucl_gb.accession2taxid.gz | cut -f 1,3 | tail -n +2 > genbank2taxid
 ```
 
+!!! Note
+    The `genbank2taxid` file is included in the foodme2 standard databases. Check your refbase folder.
+
 If your database is using other kinds of sequence IDs, please create a file with the following format:
 
 ```TSV
@@ -44,6 +47,7 @@ makeblastdb \\
     -in my_db.fasta \\
     -parse_seqids \\
     -taxid_map genbank2taxid \\
+    -dbtype nucl
 
 mkdir my_custom_db
 

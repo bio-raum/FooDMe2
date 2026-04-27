@@ -6,6 +6,7 @@
 
 ### Features
 
+  - It is now possible to provide a complete method configuration as a JSON file with the `--params-file` argument
   - Environmental and synthetic taxa are now ignored from BLAST results
   - Environmental and synthetic taxa are now ignored for taxonomy consensus determination
 
