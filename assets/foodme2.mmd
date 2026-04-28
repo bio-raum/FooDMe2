@@ -7,7 +7,10 @@
 %%metro line: nanopore | Nanopore processing | #a718af
 %%metro line: nanopore_alt | Nanopore alt processing | #7f1185 | dotted
 %%metro line: qc | Quality Control | #2196F3 | dashed
-
+%%metro grid: nanopore_qc | 1,2,1,1
+%%metro grid: collect | 5,2,1,1
+%%metro grid: blast_taxonomy | 2,4,1,3
+%%metro grid: reporting | 1,4,1,1
 
 graph LR
 
@@ -25,8 +28,9 @@ graph LR
 
     end
 
-    subgraph illumina_dada2 [Dada2 Clustering]
-
+    subgraph illumina_dada2 [Dada2]
+        %%metro exit: right | illumina
+        %%metro direction: LR
         dada2_filterntrim[FilterNTrim]
         dada2_error[Error]
         dada2_denoising[Denoising]
@@ -46,8 +50,9 @@ graph LR
 
     end
 
-    subgraph illumina_vsearch [Vsearch Clustering]
-
+    subgraph illumina_vsearch [Vsearch]
+        %%metro exit: right | illumina
+        %%metro direction: LR
         vsearch_fastqfilter_reads[FastqFilter]
         vsearch_fastqmerge[FastqMerge]
         vsearch_fastqmerge_join[FastqMerge+Join]
@@ -61,11 +66,10 @@ graph LR
         vsearch_fastqfilter_reads -->|illumina| vsearch_fastqmerge
         vsearch_fastqmerge -->|illumina| vsearch_fastqfilter
         vsearch_fastqfilter -->|illumina| vsearch_derepfull
-        vsearch_fastqfilter -->|illumina| vsearch_stats
         vsearch_derepfull -->|illumina| vsearch_cluster_size
         vsearch_cluster_size -->|illumina_alt| vsearch_uchime_denovo
-        vsearch_uchime_denovo -->|illumina_alt| vsearch_stats
-
+        vsearch_uchime_denovo -->|qc| vsearch_stats
+        vsearch_fastqfilter -->|qc| vsearch_stats
         vsearch_fastqfilter_reads -->|illumina_alt| vsearch_fastqmerge_join
         vsearch_fastqmerge_join -->|illumina_alt| vsearch_fastqjoin
         vsearch_fastqjoin -->|illumina_alt| vsearch_fastqfilter 
@@ -73,6 +77,8 @@ graph LR
     end
 
     subgraph nanopore_qc [Nanopore QC]
+        %%metro entry: left | nanopore
+        %%metro direction: LR
         cat_fastq_ont[cat FastQ]
         fastplong_metrics[FastPlong]
         nanoplot_adapter[Nanoplot]
@@ -86,14 +92,16 @@ graph LR
         fastplong_metrics -->|nanopore| seqfu_rc_ont
         seqfu_rc_ont -->|nanopore| cutadapt_ont
         cutadapt_ont -->|nanopore| fastplong_trim
-        fastplong_trim -->|nanopore| nanoplot_trim
+        fastplong_trim -->|qc| nanoplot_trim
 
     end
 
-    subgraph nanopore_mapping [Nanopore Clustering]
-
-        minimap_align_db[Minimap2]
-        minimap_align_consensus[Minimap2]
+    subgraph nanopore_mapping [Mapping-based]
+        %%metro entry: left | nanopore
+        %%metro exit: right | nanopore
+        %%metro direction: LR
+        minimap_align_db[Index]
+        minimap_align_consensus[Align]
         samtools_stats_db[Samtools Stats]
         samtools_consensus[Samtools Consensus]
         filter_consensus[Filter Consensus]
@@ -115,7 +123,18 @@ graph LR
 
     end
 
+     subgraph collect [Collect]
+        %%metro entry: left | illumina, nanopore, nanopore_alt
+        %%metro exit: bottom | main
+        
+        otus
+    end
+
     subgraph blast_taxonomy [BLAST Taxonomy]
+        %%metro entry: right | main
+        %%metro exit: left | main
+        %%metro direction: RL
+
         blast_filter_taxonomy[Filter Taxonomy]
         blast_taxonomy_from_db[Taxonomy from DB]
         blast_mask[BLAST Mask]
@@ -135,24 +154,33 @@ graph LR
         blastn -->|main_alt| blast_merge_hsp
         blast_merge_hsp -->|main_alt| blast_filter_bitscore
         blast_filter_bitscore -->|main| blast_consensus
-        blast_consensus -->|main| blast_stats
+        blast_consensus -->|qc| blast_stats
         blast_consensus -->|main| blast_sample_compo
-
     end
+
+    subgraph reporting [Reports]
+        %%metro direction: RL
+        %%metro entry: right | main
+        
+        html[HTML]
+        xlsx[Xlsx]
+        json_file[JSON]
+
+        json_file -->|main| xlsx
+        json_file -->|main| html
+    end
+
+    %% Inter-section edges
 
     input -->|illumina| cat_fastq_illumina
     input -->|nanopore| cat_fastq_ont
 
-    fastp_metric -->|illumina| seqfu_rc
-    fastplong_metrics -->|nanopore| seqfu_rc
-
     cutadapt -->|illumina| dada2_filterntrim
     cutadapt -->|illumina_alt| vsearch_fastqfilter_reads
-    cutadapt_ont -->|nanopore| fastplong_trim
-
     fastplong_trim -->|nanopore| minimap_align_db
-
-    dada2_filtersize -->|illumina| blastn
-    vsearch_uchime_denovo -->|illumina_alt| blastn
-    vsearch_fastqjoin -->|illumina_alt| blastn
-    size_from_coverage -->|nanopore| blastn
+    size_from_coverage -->|nanopore| otus
+    vsearch_cluster_size -->|illumina| otus
+    vsearch_uchime_denovo -->|illumina| otus
+    seqtable_to_fasta -->|illumina| otus
+    otus -->|main| blastn
+    blast_sample_compo -->|main| json_file
