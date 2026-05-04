@@ -83,7 +83,7 @@ This method was developed with 2x250bp in mind, because the amplicons have a qui
 This allows merging R1 and R2 sequences relatively easily and working on full sequences for the BLAST search. If for any readon one decides to work with paired 150bp sequences,
 this has the dramatic effect of not allowing an overlap-based read merging, which in turns has several effects on downstream parameters choices.
 
-- First thing to check in such a case in wether primers should be cut on the 3' end of the reads. For this method it was not the case with 2x250bp it it won#t be either with shorter sequences, meaning we can igner the `cutadapt_trim_3p` and `cutadpat_trim_flex` parameters.
+- First thing to check in such a case in wether primers should be cut on the 3' end of the reads. For this method it was not the case with 2x250bp it it won't be either with shorter sequences, meaning we can igner the `cutadapt_trim_3p` and `cutadpat_trim_flex` parameters.
 
 - With 150bp sequences for ~400bp amplicons we do not expect read to overlap anymore, so we need to pass the `non_overlapping` argument. This leads to R1 aand R2 being concatenated with an "N" linker sequence.
 
@@ -98,7 +98,7 @@ nextflow run bio-raum/FooDMe2 \
     -r main \
     -profile myprofile \
     --input samples.tsv \
-    --primer_set COI_ILM_park_insects
+    --primer_set COI_ILM_park_insects \
     --non_overlapping \
     --amplicon_min_length 250 \
     --blast_qcov 94 \
