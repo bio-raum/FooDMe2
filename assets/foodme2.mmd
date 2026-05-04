@@ -3,30 +3,61 @@
 %%metro line: main | Main | #4CAF50
 %%metro line: main_alt | Main Alt | #38863b | dotted
 %%metro line: illumina | Illumina processing | #c8d32a
-%%metro line: illumina_alt | Illumina alt processing | #d3ca2a | dotted
+%%metro line: illumina_alt | Illumina alt processing | #a19b1d | dotted
 %%metro line: nanopore | Nanopore processing | #a718af
 %%metro line: nanopore_alt | Nanopore alt processing | #7f1185 | dotted
 %%metro line: qc | Quality Control | #2196F3 | dashed
 
+%%metro file: primers | Fasta
+%%metro file: input | TSV
+%%metro file: html | HTML
+%%metro file: xlsx | XLSX
+%%metro file: json_file | JSON
+
 
 graph LR
 
-    input[Input]
+    subgraph inputs [Inputs]
+        %%metro direction: LR
+        primers[Primers]
+        input[ ]
+        short_reads[Short reads]
+        long_reads[Nanopore reads]
 
-    subgraph illumina_qc [Illumina QC]
-        cat_fastq_illumina[cat FastQ]
-        fastp_metric[FastP Metrics]
-        seqfu_rc[SeqFu RC]
-        cutadapt[Cutadapt]
-
-        cat_fastq_illumina -->|illumina| fastp_metric
-        fastp_metric -->|illumina| seqfu_rc
-        seqfu_rc -->|illumina| cutadapt
+        input -->|main| short_reads
+        input -->|main| long_reads
 
     end
 
-    subgraph illumina_dada2 [Dada2 Clustering]
+    subgraph preprocessing [Preprocessing]
+    
+        cat_fastq[cat FastQ]
+        fastp_metric[FastP Metrics]
+        seqfu_rc[SeqFu RC]
+        cutadapt[Cutadapt]
+        fastplong_metrics[FastPlong]
+        nanoplot_adapter[Nanoplot]
+        fastplong_trim[FastPlong]
+        nanoplot_trim[Nanoplot]
+        _preprocessing_hub
 
+        cat_fastq -->|illumina| fastp_metric
+        fastp_metric -->|illumina| seqfu_rc
+        cat_fastq -->|nanopore| fastplong_metrics
+        fastplong_metrics -->|qc| nanoplot_adapter
+        fastplong_metrics -->|nanopore| seqfu_rc
+        seqfu_rc -->|illumina| cutadapt
+        seqfu_rc -->|nanopore| cutadapt
+        cutadapt -->|nanopore| fastplong_trim
+        fastplong_trim -->|qc| nanoplot_trim
+
+        cutadapt -->|illumina| _preprocessing_hub
+        fastplong_trim -->|nanopore| _preprocessing_hub
+
+    end
+
+    subgraph illumina_dada2 [Dada2]
+        %%metro direction: LR
         dada2_filterntrim[FilterNTrim]
         dada2_error[Error]
         dada2_denoising[Denoising]
@@ -46,8 +77,8 @@ graph LR
 
     end
 
-    subgraph illumina_vsearch [Vsearch Clustering]
-
+    subgraph illumina_vsearch [Vsearch]
+        %%metro direction: LR
         vsearch_fastqfilter_reads[FastqFilter]
         vsearch_fastqmerge[FastqMerge]
         vsearch_fastqmerge_join[FastqMerge+Join]
@@ -61,39 +92,20 @@ graph LR
         vsearch_fastqfilter_reads -->|illumina| vsearch_fastqmerge
         vsearch_fastqmerge -->|illumina| vsearch_fastqfilter
         vsearch_fastqfilter -->|illumina| vsearch_derepfull
-        vsearch_fastqfilter -->|illumina| vsearch_stats
         vsearch_derepfull -->|illumina| vsearch_cluster_size
         vsearch_cluster_size -->|illumina_alt| vsearch_uchime_denovo
-        vsearch_uchime_denovo -->|illumina_alt| vsearch_stats
-
+        vsearch_uchime_denovo -->|qc| vsearch_stats
+        vsearch_fastqfilter -->|qc| vsearch_stats
         vsearch_fastqfilter_reads -->|illumina_alt| vsearch_fastqmerge_join
         vsearch_fastqmerge_join -->|illumina_alt| vsearch_fastqjoin
         vsearch_fastqjoin -->|illumina_alt| vsearch_fastqfilter 
 
     end
 
-    subgraph nanopore_qc [Nanopore QC]
-        cat_fastq_ont[cat FastQ]
-        fastplong_metrics[FastPlong]
-        nanoplot_adapter[Nanoplot]
-        seqfu_rc_ont[SeqFu RC]
-        cutadapt_ont[Cutadapt]
-        fastplong_trim[FastPlong]
-        nanoplot_trim[Nanoplot]
-
-        cat_fastq_ont -->|nanopore| fastplong_metrics
-        fastplong_metrics -->|qc| nanoplot_adapter
-        fastplong_metrics -->|nanopore| seqfu_rc_ont
-        seqfu_rc_ont -->|nanopore| cutadapt_ont
-        cutadapt_ont -->|nanopore| fastplong_trim
-        fastplong_trim -->|nanopore| nanoplot_trim
-
-    end
-
-    subgraph nanopore_mapping [Nanopore Clustering]
-
-        minimap_align_db[Minimap2]
-        minimap_align_consensus[Minimap2]
+    subgraph nanopore_mapping [Mapping-based]
+        %%metro direction: LR
+        minimap_align_db[Index]
+        minimap_align_consensus[Align]
         samtools_stats_db[Samtools Stats]
         samtools_consensus[Samtools Consensus]
         filter_consensus[Filter Consensus]
@@ -115,7 +127,10 @@ graph LR
 
     end
 
+
     subgraph blast_taxonomy [BLAST Taxonomy]
+        %%metro direction: RL
+
         blast_filter_taxonomy[Filter Taxonomy]
         blast_taxonomy_from_db[Taxonomy from DB]
         blast_mask[BLAST Mask]
@@ -135,24 +150,32 @@ graph LR
         blastn -->|main_alt| blast_merge_hsp
         blast_merge_hsp -->|main_alt| blast_filter_bitscore
         blast_filter_bitscore -->|main| blast_consensus
-        blast_consensus -->|main| blast_stats
+        blast_consensus -->|qc| blast_stats
         blast_consensus -->|main| blast_sample_compo
-
     end
 
-    input -->|illumina| cat_fastq_illumina
-    input -->|nanopore| cat_fastq_ont
+    subgraph reporting [Reports]
+        %%metro direction: RL
+        
+        html[ ]
+        xlsx[ ]
+        json_file[ ]
 
-    fastp_metric -->|illumina| seqfu_rc
-    fastplong_metrics -->|nanopore| seqfu_rc
+        json_file -->|main| xlsx
+        json_file -->|main| html
+    end
 
-    cutadapt -->|illumina| dada2_filterntrim
-    cutadapt -->|illumina_alt| vsearch_fastqfilter_reads
-    cutadapt_ont -->|nanopore| fastplong_trim
+    %% Inter-section edges
 
+    primers -->|main| seqfu_rc
+    short_reads -->|illumina| cat_fastq
+    long_reads -->|nanopore| cat_fastq
+
+    _preprocessing_hub -->|illumina| dada2_filterntrim
+    _preprocessing_hub -->|illumina_alt| vsearch_fastqfilter_reads
     fastplong_trim -->|nanopore| minimap_align_db
-
-    dada2_filtersize -->|illumina| blastn
-    vsearch_uchime_denovo -->|illumina_alt| blastn
-    vsearch_fastqjoin -->|illumina_alt| blastn
     size_from_coverage -->|nanopore| blastn
+    vsearch_cluster_size -->|illumina_alt| blastn
+    vsearch_uchime_denovo -->|illumina_alt| blastn
+    seqtable_to_fasta -->|illumina| blastn
+    blast_sample_compo -->|main| json_file
