@@ -1078,6 +1078,56 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#modifying-standard-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modifying standard methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modifying standard methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-the-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the command line
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-a-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using a configuration file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adapting-an-illumina-method-for-another-sequencing-length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adapting an Illumina method for another sequencing length
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1753,6 +1803,56 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#modifying-standard-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modifying standard methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modifying standard methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-the-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the command line
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-a-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using a configuration file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adapting-an-illumina-method-for-another-sequencing-length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adapting an Illumina method for another sequencing length
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1786,6 +1886,11 @@ This is implemented with the <code>--primer_set</code> argument.</p>
 Likewise, if you find one of the method underperforming on your datasets, please contact us.</p>
 <p>Please note that these preconfigured methods may make big assumptions on the sequencing raw data.</p>
 <p><strong>You should always verify these methods with your own laboratory workflows before using them in a diagnostic setting!</strong></p>
+<div class="admonition warning illumina methods">
+<p class="admonition-title">Warning</p>
+<p>Please note that Illumina standard methods were developed with a specific sequencing length in mind, usually the optimal one for this specific barcode.
+Using different sequencing length (e.g. 2x150bp instead of 2x250bp) may require to reexamin some of the parameters, especialy those related to primer timming, read-overlap, amplicon length or BLAST filtering. See corresponding section below for an example of such method adaptation.</p>
+</div>
 <h2 id="implemented-methods">Implemented methods</h2>
 <h3 id="mammals-and-birds"><img alt="🐮" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f42e.svg" title=":cow:" /> <img alt="🦃" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f983.svg" title=":turkey:" /> Mammals and birds</h3>
 <ul>
@@ -1812,16 +1917,59 @@ Likewise, if you find one of the method underperforming on your datasets, please
 <p>As far as validation datasets (published or ringtrial data) are available to us, the methods are validated according to the guidelines of the german Bundesamt für Verbraucherschutz und Lebensmittelsicherheit (Federal Office for Consummer Protection and Food Safety), available <a href="https://www.bvl.bund.de/SharedDocs/Downloads/07_Untersuchungen/Sequenzdatenanalyse-Tierartendifferenzierung-DNAmetabarcoding.html?nn=11009496">here</a>.
 After succesful validation, a summary of the performance metrics will be published alongside the method on the pages linked above.</p>
 <p>When no proper validation dataset is available to us, we test the methods as far as possible on avialiable datasets that were generated in various laboratories and kindly provided to us.</p>
-<p>Some of the paramters are set in standardized manner, you may want to adapt them to your specific worklfows:</p>
+<p>Some of the parameters are set in standardized manner, you may want to adapt them to your specific worklfows:</p>
 <ul>
 <li><code>max_expected_errors</code> is set to 2.5% of the maximum amplicon length for Illumina. However since Illumina sequencing ofter uses 2x150bp sequencing, this parameter is capped to <code>6</code> for long amplicons. For IonTorrent and Oxford Nanopore methods, this parameter is set to 5% of the maximum amplicon size, to account for higher error rate with these technologies.</li>
 <li><code>min_amplicon_size</code> and <code>max_amplicon_size</code> are set based on <em>in silico</em> predicted amplicon size distribution calculated by our companion workflow <a href="https://github.com/bio-raum/BarBeQuE">BarBeQuE</a>. To set this range, we start with the Mean +/- 2 std.dev of the amplicon size. This range is in most cases then enlarged to account for phylogentic variability and avoid exclusion of entire groups of species.</li>
 </ul>
-<div class="admonition warning illumina methods">
-<p class="admonition-title">Warning</p>
-<p>The primer trimming and read merging strategies for Illumina methods assume 2 x 150 bp sequencing.
-If you use other sequencing lengths, you will likely need to adapt the methods to your data.</p>
-</div>
+<h2 id="modifying-standard-methods">Modifying standard methods</h2>
+<h3 id="using-the-command-line">Using the command line</h3>
+<p>Generally, any parameter set in the standard method can be changed by setting the paramameter through the command line. 
+For example to use the standard 16 Illumina mehtod with a stricter BLAST consensus one could use:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>-r<span class="w"> </span>main<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span>-profile<span class="w"> </span>myprofile<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span>--input<span class="w"> </span>samples.tsv<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span>--primer_set<span class="w"> </span>16S_ILM_ASU184_meat
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span>--blast_min_consensus<span class="w"> </span><span class="m">0</span>.8<span class="w">  </span><span class="c1"># (1)!</span>
+</span></code></pre></div>
+<ol>
+<li>This will set the <code>blast_min_consensus</code> parameter to 0.8 instead of the 0.51 from the standard method configuration.</li>
+</ol>
+<h3 id="using-a-configuration-file">Using a configuration file</h3>
+<p>Using a JSON or YAML file is also possible. Copy the standard method configuration in a JSON file and modify it according to the <a href="../../user_doc/custom_primers/#from-a-parameter-file">custom primer documentation section</a></p>
+<h3 id="adapting-an-illumina-method-for-another-sequencing-length">Adapting an Illumina method for another sequencing length</h3>
+<p>Adapting an Illumina standard method for another seuqencing length might require to modify several parameters and should be thoroughly validated before used in routine work. </p>
+<p>Here is a practical example for adapting the <a href="https://github.com/bio-raum/FooDMe2/blob/main/conf/primers/COI_ILM_park_insects.config">COI insects method</a> (developed for 2x250bp) to sequencing with 2x150bp sequencing.</p>
+<p>This method was developed with 2x250bp in mind, because the amplicons have a quite stable read length of 395bp to 405bp throughout the insects taxonomy.
+This allows merging R1 and R2 sequences relatively easily and working on full sequences for the BLAST search. If for any readon one decides to work with paired 150bp sequences,
+this has the dramatic effect of not allowing an overlap-based read merging, which in turns has several effects on downstream parameters choices.</p>
+<ul>
+<li>
+<p>First thing to check in such a case in wether primers should be cut on the 3' end of the reads. For this method it was not the case with 2x250bp it it won#t be either with shorter sequences, meaning we can igner the <code>cutadapt_trim_3p</code> and <code>cutadpat_trim_flex</code> parameters.</p>
+</li>
+<li>
+<p>With 150bp sequences for ~400bp amplicons we do not expect read to overlap anymore, so we need to pass the <code>non_overlapping</code> argument. This leads to R1 aand R2 being concatenated with an "N" linker sequence.</p>
+</li>
+<li>
+<p>Since we now do not merge reads based on overlap but just concatenate the R1 and R2 reads, the pseudo-reads length is going to be R1+R2+linker so about 250-300bp. To avoid these sequences to be filtered out, we need to adapt the <code>amplicon_min_length</code> paramters to reflect this.</p>
+</li>
+<li>
+<p>Another consequence of concatenating reads instead of merging, is that the linker sequence may be taken into account in the BLAST search. Therefore we need to lower both the <code>blast_qcov</code> and <code>blast_perc_id</code> parameters slightly.</p>
+</li>
+</ul>
+<p>So the adapted command:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>nextflow<span class="w"> </span>run<span class="w"> </span>bio-raum/FooDMe2<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span>-r<span class="w"> </span>main<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span>-profile<span class="w"> </span>myprofile<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span>--input<span class="w"> </span>samples.tsv<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span>--primer_set<span class="w"> </span>COI_ILM_park_insects
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span>--non_overlapping<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span>--amplicon_min_length<span class="w"> </span><span class="m">250</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span>--blast_qcov<span class="w"> </span><span class="m">94</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span>--blast_perc_id<span class="w"> </span><span class="m">98</span><span class="w"> </span>
+</span></code></pre></div>
+<p>In reality the BLAST-related parameters (including others such as <code>blast_bitscore_diff</code> and <code>blast_min_consensus</code>) should be completely reexamined and optimized for this method. The exercise is left to the reader.</p>
 
 
 
