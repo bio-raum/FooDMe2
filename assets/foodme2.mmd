@@ -7,7 +7,11 @@
 %%metro line: nanopore | Nanopore processing | #a718af
 %%metro line: nanopore_alt | Nanopore alt processing | #7f1185 | dotted
 %%metro line: qc | Quality Control | #2196F3 | dashed
-
+%%metro grid: illumina_dada2 | 0,2,1,1
+%%metro grid: illumina_vsearch | 1,2,1,1
+%%metro grid: nanopore_mapping | 2,2,1,1
+%%metro grid: blast_taxonomy | 0,3,2,1
+%%metro grid: reporting | 1,3,1,1
 %%metro file: primers | Fasta
 %%metro file: input | TSV
 %%metro file: html | HTML
@@ -30,7 +34,7 @@ graph LR
     end
 
     subgraph preprocessing [Preprocessing]
-    
+        %%metro direction: TB
         cat_fastq[cat FastQ]
         fastp_metric[FastP Metrics]
         seqfu_rc[SeqFu RC]
@@ -57,7 +61,7 @@ graph LR
     end
 
     subgraph illumina_dada2 [Dada2]
-        %%metro direction: LR
+        %%metro direction: TB
         dada2_filterntrim[FilterNTrim]
         dada2_error[Error]
         dada2_denoising[Denoising]
@@ -78,7 +82,6 @@ graph LR
     end
 
     subgraph illumina_vsearch [Vsearch]
-        %%metro direction: LR
         vsearch_fastqfilter_reads[FastqFilter]
         vsearch_fastqmerge[FastqMerge]
         vsearch_fastqmerge_join[FastqMerge+Join]
@@ -103,7 +106,6 @@ graph LR
     end
 
     subgraph nanopore_mapping [Mapping-based]
-        %%metro direction: LR
         minimap_align_db[Index]
         minimap_align_consensus[Align]
         samtools_stats_db[Samtools Stats]
@@ -129,8 +131,7 @@ graph LR
 
 
     subgraph blast_taxonomy [BLAST Taxonomy]
-        %%metro direction: RL
-
+        %%metro direction: LR
         blast_filter_taxonomy[Filter Taxonomy]
         blast_taxonomy_from_db[Taxonomy from DB]
         blast_mask[BLAST Mask]
@@ -155,8 +156,7 @@ graph LR
     end
 
     subgraph reporting [Reports]
-        %%metro direction: RL
-        
+        %%metro direction: LR
         html[ ]
         xlsx[ ]
         json_file[ ]
