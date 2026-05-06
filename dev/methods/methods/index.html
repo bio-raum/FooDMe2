@@ -1940,10 +1940,12 @@ For example to use the standard 16 Illumina mehtod with a stricter BLAST consens
 <p>Using a JSON or YAML file is also possible. Copy the standard method configuration in a JSON file and modify it according to the <a href="../../user_doc/custom_primers/#from-a-parameter-file">custom primer documentation section</a></p>
 <h3 id="adapting-an-illumina-method-for-another-sequencing-length">Adapting an Illumina method for another sequencing length</h3>
 <p>Adapting an Illumina standard method for another seuqencing length might require to modify several parameters and should be thoroughly validated before used in routine work. </p>
+<p><img alt="seqconfig" src="../../img/foodme2_sequencing_configs.png" /><br>
+<b>Figure 1</b>: Effect of sequencing length on amplicon coverage. A: Forward and reverse read overlap and can be merged, B: Forward and reverse read each fully cover the amplicon and will carry primer sites on both ends (3' and 5'), C: Forward and reverse read do not overlap and cannot be merged.</p>
 <p>Here is a practical example for adapting the <a href="https://github.com/bio-raum/FooDMe2/blob/main/conf/primers/COI_ILM_park_insects.config">COI insects method</a> (developed for 2x250bp) to sequencing with 2x150bp sequencing.</p>
 <p>This method was developed with 2x250bp in mind, because the amplicons have a quite stable read length of 395bp to 405bp throughout the insects taxonomy.
-This allows merging R1 and R2 sequences relatively easily and working on full sequences for the BLAST search. If for any readon one decides to work with paired 150bp sequences,
-this has the dramatic effect of not allowing an overlap-based read merging, which in turns has several effects on downstream parameters choices.</p>
+This allows merging R1 and R2 sequences relatively easily (Figure 1, A) and working on full sequences for the BLAST search. If for any readon one decides to work with paired 150bp sequences,
+this has the dramatic effect of not allowing an overlap-based read merging (Figure 1, C), which in turns has several effects on downstream parameters choices.</p>
 <ul>
 <li>
 <p>First thing to check in such a case in wether primers should be cut on the 3' end of the reads. For this method it was not the case with 2x250bp it it won't be either with shorter sequences, meaning we can igner the <code>cutadapt_trim_3p</code> and <code>cutadpat_trim_flex</code> parameters.</p>
