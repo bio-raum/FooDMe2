@@ -2,7 +2,7 @@
 
 ### Methods
 
-  - Improved trnlLong Method's resolution by reducing the `blast_bitscore_diff` paramter from 8 to 4
+  - Improved trnlLong Method's resolution by reducing the `blast_bitscore_diff` parameter from 8 to 4
 
 ### Features
 
@@ -18,6 +18,7 @@
 
   - fixed a bug leading to taxomies not being resolved by taxidtools for merged nodes after a taxonomy was pruned
   - fixed an issue where Nextflow could not stage files from NCBI ftp servers by moving downloads to a discrete process
+  - fixed the HSP_merger script to correctly handle missing accession information in the BLAST database
 
 ## 1.5.1
 

@@ -216,10 +216,10 @@ def main(xml, output, qcov_hsp, min_amplicon_size, max_amplicon_size):
                 "kappa": kappa,
                 "lambd": lambd,
                 "dbsize": dbsize,
-            "sseqid": safe_parse(descr, ns, "id", ""),
-            "sacc": safe_parse(descr, ns, "accession", ""),
-            "staxid": safe_parse(descr, ns, "taxid", ""),
-            "sscinames": safe_parse(descr, ns, "sciname", "")
+                "sseqid": str(safe_parse(descr, ns, "id", "")),
+                "sacc": str(safe_parse(descr, ns, "accession", "")),
+                "staxid": str(safe_parse(descr, ns, "taxid", "")),
+                "sscinames": safe_parse(descr, ns, "sciname", "")
             }
 
             hsps = hit.findall('.//ns:Hsp', ns)
