@@ -1438,7 +1438,7 @@
   <span class="md-ellipsis">
     
   
-    Troobleshooting
+    Troubleshooting
   
 
     
@@ -1728,7 +1728,7 @@
 <p>FooDMe was originally concieved as a workflow for paired-end Illumina short reads. As the portfolio of sequencing technologies broadens, it seemed only logical to consider supporting more technologies with a potential application in metabarcoding - namely IonTorrent short reads and Oxford Nanopore Technologies (ONT) long reads.</p>
 <p>We intend to have completed support for these technologies by release 2.0 (2026). In the meantime, we are already making the initial implementations available with the expressed disclaimer that they are still heavily under development.</p>
 <h2 id="illumina-short-reads-production">Illumina short-reads (production)</h2>
-<p>Illumina paired-end short-reads were the basis for the original implementation of FooDMe. Their high base accuracy and throughput make them a very good option for metabarcoding projects, assuming the target amplicons can be covered by overlapping paired-end reads (&lt; 550bp). Illumina reads are currently the most tested technology within FooDMe2 (and metabarcoding in general).</p>
+<p>Illumina paired-end short-reads were the basis for the original implementation of FooDMe. Their high base accuracy and throughput make them a very good option for metabarcoding projects, assuming the target amplicons can be covered by overlapping paired-end reads (&lt; 850bp, depending on sequencing chemistry). Illumina reads are currently the most tested technology within FooDMe2 (and metabarcoding in general).</p>
 <h2 id="iontorrent-short-reads-in-development">IonTorrent short-reads (in development)</h2>
 <p>IonTorrent is an alternative short-read technology that works in single-end layout, with longer individual read lengths than Illumina (up to 600 bp). The data is of high quality, but exhibits technology-specific homopolymer error profiles. Within FooDMe2, IonTorrent is processed with the Illumina tool chain and select modifications to account for homopolymer errors. The technology is limited to amplicons that fit within a single read (&lt; 550 bp).</p>
 <p>You can enable IonTorrent data processing with the <code>--iontorrent</code> command line flag.</p>
