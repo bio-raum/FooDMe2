@@ -1,7 +1,7 @@
 # Running the pipeline offline
 
 It is possible to run FooDMe2 offline on secured HPC or or disconnected systems.
-This will require preparing all required components in advance on a connected system before trasnfering them  on the offline system.
+This will require preparing all required components in advance on a connected system before transfering them to the offline system.
 
 See the [nf-core documentation for offline systems](https://nf-co.re/docs/usage/getting_started/offline).
 

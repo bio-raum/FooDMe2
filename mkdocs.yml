@@ -34,7 +34,7 @@ nav:
   - Help:
     - Migration: help/migration.md
     - Step-by-step guide: help/step-by-step_guide.md
-    - Troobleshooting: help/troubleshooting.md
+    - Troubleshooting: help/troubleshooting.md
   - Developer Guide: developer.md
   - About:
     - Software: about/software.md

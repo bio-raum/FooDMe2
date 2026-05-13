@@ -6,7 +6,7 @@ FooDMe2 supplies users with a range of (versioned) reference databases to analys
 
 The use of a curated database is typically meant to achieve two things - ensure that no incorrectly labelled reference sequences are present and to include data that may not yet be included in published databases.
 
-However, please be aware that manually created databases - for example including only a set of species that you are interested in - may bias your results. FooDMe2 will identify the best species match for a given OTU based on sequence similarity (within certain limits). If the actual species is not included in your database, you may end up with incorrect assignments. Make sure to run a comprehensive specificity analysis before using custom databases in routine diagnostic.
+However, please be aware that manually created databases - for example including only a set of species that you are interested in - may bias your results. FooDMe2 will identify the best species match for a given OTU based on sequence similarity (within certain limits). If the actual species is not included in your database, you may end up with incorrect assignments. Make sure to run a comprehensive specificity analysis before using custom databases in routine diagnostics.
 
 ## Requirements
 
