@@ -1,5 +1,9 @@
 # Common issues and errors
 
+## Startup failure
+
+FooDMe2 was developed to work with Nextflow versions 24 and 25. Trying to use FooDMe2 with much older or newer versions of Nextflow will likely fail with code validation errors due to changes in Nextflow conventions.
+
 ## `Too few reads - stopping sample SAMPLE after PCR primer removal!`
 
 This error suggests that no or too few reads survived the PCR primer removal. Several things could cause this:
