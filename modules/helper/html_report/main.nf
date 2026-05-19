@@ -8,7 +8,7 @@ process HELPER_HTML_REPORT {
     input:
     path(reports)
     path(krona)
-    path(template)
+    path(assets)
     path(pipeline_info)
 
     output:
@@ -18,13 +18,16 @@ process HELPER_HTML_REPORT {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: params.run_name
+    def mode="PE_OVER"  // need to check if ont is on and if single or paired end
     result = prefix + '.html'
 
     """
-    quarto render $template --to html \
-    --execute \
-    $args \
-    --output $result
+    cp -r ${assets}/* .
+    export REPORT_MODE=$mode
+    quarto render report.qmd --to html \
+        --execute \
+        $args --execute-daemon-restart \
+        --output $result
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

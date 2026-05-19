@@ -1,0 +1,215 @@
+---
+title: "FooDMe2"
+subtitle: "Taxonomic profiling of metabarcoding data"
+date: now
+date-format: YYYY-MM-DD, HH:mm
+title-block-banner: "#3F51B5"
+title-block-banner-color: white
+format:
+    html:
+        embed-resources: true
+        self-contained-math: true
+        toc: true
+        toc-expand: 2
+        toc-location: left
+        theme: lumen
+        other-links:
+            - text: Documentation
+              icon: lightbulb
+              href: https://bio-raum.github.io/FooDMe2/
+            - text: Online repository
+              icon: github
+              href: https://github.com/bio-raum/FooDMe2
+execute:
+    echo: false
+jupyter: python3
+include-in-header:
+    text: <script type="text/javascript" src="javascripts/update_tabs.js"></script>
+---
+
+Report generated automatically by bio-raum/FooDMe2. Please check out our [documentation](https://bio-raum.github.io/FooDMe2/latest/).
+
+```{python}
+#| label: imports
+import os
+
+import plotly.express as px
+from itables import show
+from IPython.display import Markdown, IFrame, display
+
+from components.utils import get_mode, collect_jsons, collect_krona, get_settings_file
+from components.tables import summary_table, version_table, settings_table
+from components.plots import trimming_plot, filter_plot, cluster_plot, taxonomy_plot
+
+
+DATA_PATH = "."
+
+
+# Collect env vars
+mode = get_mode() # Need ENV VAR `export REPORT_MODE=SINGLE|PE_OVER|PE_NON|ONT`
+debug = True if os.getenv("REPORT_DEBUG", default=False) in ["True", "TRUE", True] else False
+
+# collect files
+json_files = collect_jsons(DATA_PATH, debug=debug)
+```
+
+# Summary
+
+::: {.column-screen-inset-right}
+```{python}
+#| label: tbl-summary
+s = summary_table(json_files, mode)
+show(
+    s,
+    classes="display compact",
+    scrollY="600px",
+    scrollCollapse=True,
+    paging=False,
+    buttons=["copyHtml5", "csvHtml5", "excelHtml5"]
+)
+```
+:::
+
+# Taxonomic composition
+
+::: {.column-screen-inset-right}
+```{python}
+#| label: krona
+krona = collect_krona(DATA_PATH, debug=debug)
+IFrame(src=krona[0], width="100%", height="500px")
+```
+:::
+
+# Input quality checking
+
+Overview of input data quality before any processing.
+
+{{< include includes/_read_size.qmd >}}
+
+{{< include includes/_sequence_quality.qmd >}}
+
+# Reads pre-processing
+
+Removing low quality reads and removing primers.
+
+## Primer trimming
+
+Find and remove primer sequences.
+
+::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
+
+### Counts
+
+```{python}
+#| label: trimming_count
+fig = trimming_plot(json_files, mode, "count")
+fig.show()
+```
+
+### Percentages
+
+```{python}
+#| label: trimming_perc
+fig = trimming_plot(json_files, mode, "percent")
+fig.show()
+```
+
+:::
+
+## Filtered reads
+
+Filtering low quality reads.
+
+::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
+
+### Counts
+
+```{python}
+#| label: filter_count
+fig = filter_plot(json_files, mode, "count")
+fig.show()
+```
+
+### Percentages
+
+```{python}
+#| label: filter_perc
+fig = filter_plot(json_files, mode, "percent")
+fig.show()
+```
+
+:::
+
+# Clustering
+
+Clustering amplicon sequences.
+
+::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
+
+### Counts
+
+```{python}
+#| label: cluster_count
+fig = cluster_plot(json_files, mode, "count")
+fig.show()
+```
+
+### Percentages
+
+```{python}
+#| label: cluster_perc
+fig = cluster_plot(json_files, mode, "percent")
+fig.show()
+```
+
+:::
+
+# Taxonomic assignment
+
+Taxonomic assignment of cluster sequences.
+
+::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
+
+### Counts
+
+```{python}
+#| label: taxonomy_count
+fig = taxonomy_plot(json_files, mode, "count")
+fig.show()
+```
+
+### Percentages
+
+```{python}
+#| label: taxonomy_perc
+fig = taxonomy_plot(json_files, mode, "percent")
+fig.show()
+```
+
+:::
+
+# Software versions
+
+Collected at run time from the software output.
+
+```{python}
+#| label: soft-ver
+v = version_table(json_files)
+show(
+    v,
+    classes="display compact",
+    scrollY="600px",
+    scrollCollapse=True,
+    paging=False,
+    buttons=["copyHtml5", "csvHtml5"]
+)
+```
+
+# Pipeline Settings
+
+```{python}
+#| label: settings
+settings_file = get_settings_file(DATA_PATH)
+t = settings_table(settings_file)
+Markdown(t)
+```

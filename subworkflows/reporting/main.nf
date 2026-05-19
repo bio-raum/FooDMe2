@@ -7,11 +7,11 @@ include { HELPER_REPORTS_JSON }             from './../../modules/helper/reports
 workflow REPORTING {
 
     take:
-    ch_tax_json     // The filtered taxonomy JSON
-    ch_versions     // The versions used across the modules
-    ch_template     // Quarto template for custom HTML report
-    ch_reports      // all sample level reports
-    pipeline_info   // A JSON file with pipeline parameters
+    ch_tax_json       // The filtered taxonomy JSON
+    ch_versions       // The versions used across the modules
+    ch_report_assets  // Quarto assets for custom HTML report
+    ch_reports        // all sample level reports
+    pipeline_info     // A JSON file with pipeline parameters
 
     main:
 
@@ -49,7 +49,7 @@ workflow REPORTING {
         HELPER_HTML_REPORT(
             HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
             KRONA_HTML.out.html,
-            ch_template,
+            ch_report_assets,
             pipeline_info
         )
 
