@@ -1,0 +1,7 @@
+name: helper_read_length
+channels:
+  - conda-forge
+  - bioconda
+  
+dependencies:
+  - bioconda::coreutils=8.25

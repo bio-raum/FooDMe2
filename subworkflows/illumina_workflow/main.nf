@@ -1,9 +1,11 @@
 /*
 Import modules
 */
-include { FASTP as FASTP_METRICS }      from './../../modules/fastp'
-include { FASTP as FASTP_TRIM }         from './../../modules/fastp'
-include { CAT_FASTQ }                   from './../../modules/cat_fastq'
+include { FASTP as FASTP_METRICS }                   from './../../modules/fastp'
+include { FASTP as FASTP_TRIM }                      from './../../modules/fastp'
+include { CAT_FASTQ }                                from './../../modules/cat_fastq'
+include { HELPER_READ_LENGTH as READ_HIST_PRE }      from './../../modules/helper/read_length'
+include { HELPER_READ_LENGTH as READ_HIST_POST }     from './../../modules/helper/read_length'
 
 /*
 Import sub workflows
@@ -94,6 +96,12 @@ workflow ILLUMINA_WORKFLOW {
     }
 
     /*
+    Pre-trimming read-length
+    */
+    READ_HIST_PRE(FASTP_METRICS.out.reads, "pre")
+    ch_qc = ch_qc.mix(READ_HIST_PRE.out.hist)
+
+    /*
     Remove PCR primers using Cutadapt
     */
     CUTADAPT_WORKFLOW(
@@ -114,6 +122,11 @@ workflow ILLUMINA_WORKFLOW {
     ch_reads_full_trimmed   = FASTP_TRIM.out.reads
     ch_qc                   = ch_qc.mix(FASTP_TRIM.out.json)
 
+    /*
+    Post-trimming read-length
+    */
+    READ_HIST_POST(FASTP_METRICS.out.reads, "post")
+    ch_qc = ch_qc.mix(READ_HIST_POST.out.hist)
 
     /*
     Cluster reads and produce OTUs/ASVs
