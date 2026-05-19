@@ -16,7 +16,6 @@ process HELPER_READ_LENGTH {
     tuple val(meta), path('*.hist.txt'), emit: hist
 
     script:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
 
     r1 = reads.first()
