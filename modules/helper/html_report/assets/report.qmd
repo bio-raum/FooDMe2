@@ -120,6 +120,8 @@ fig.show()
 
 Filtering low quality reads.
 
+**TODO: Plot for ONT data is missing. Are we not filtering?**
+
 ::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
 
 ### Counts
@@ -206,6 +208,8 @@ show(
 ```
 
 # Pipeline Settings
+
+**TODO: replace Markdown table by an itable**
 
 ```{python}
 #| label: settings

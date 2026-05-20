@@ -40,6 +40,7 @@ def version_table(json_files: list) -> pd.DataFrame:
 
 
 def settings_table(settings_file: str) -> str:
+    # TODO: replace Markdown table by an itable
     if not settings_file:
         return ""
 
