@@ -19,6 +19,7 @@
   - fixed a bug leading to taxomies not being resolved by taxidtools for merged nodes after a taxonomy was pruned
   - fixed an issue where Nextflow could not stage files from NCBI ftp servers by moving downloads to a discrete process
   - fixed the HSP_merger script to correctly handle missing accession information in the BLAST database
+  - fixed Groovy strict syntax errors introduced by Nextflow 26
 
 ## 1.5.1
 
