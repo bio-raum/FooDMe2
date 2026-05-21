@@ -122,8 +122,12 @@ def placeholder_fig(text="Not implemented") -> Figure:
     return fig
 
 
-def bargraph(df, xdata, xlabel, groups="label", hover_label="%{customdata}: %{x}%<extra></extra>"):
-    """Sandard horizontal bargraph
+def bargraph(
+    df: pd.DataFrame, xdata: str, xlabel: str,
+    groups: str="label", hover_label="%{customdata}: %{x}%<extra></extra>"
+) -> Figure:
+    """
+    Sandard horizontal bargraph
     xdata: dataframe col for x axis
     xlabel: x axis label
     groups: dataframe column for color grouping
