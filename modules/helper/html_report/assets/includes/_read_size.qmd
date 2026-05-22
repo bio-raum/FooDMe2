@@ -1,2 +1,31 @@
+```{python}
+#| output: asis
+if Mode(mode) == Mode.PE_OVER:
+    print("## Insert size distribution")
+    print("")
+    print("Insert size estimation of sampled reads.")
+else:
+    print("## Read size distribution")
+    print("")
+    print("Read size distribution of sampled reads.")
+    if Mode(mode) == Mode.PE_NON:
+        print("Showing summary metrics for both R1 and R2.")
+```
 
-This is a placeholder
+::: {.panel-tabset .column-screen-inset-right}
+
+### Before trimming
+
+```{python}
+fig = insert_size_plot(json_files, mode, "before")
+fig.show()
+```
+
+### After trimming
+
+```{python}
+fig = insert_size_plot(json_files, mode, "after")
+fig.show()
+```
+
+:::

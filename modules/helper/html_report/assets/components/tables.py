@@ -1,6 +1,5 @@
 import json
 import pandas as pd
-from tabulate import tabulate
 
 from components.utils import Mode
 
@@ -40,15 +39,16 @@ def version_table(json_files: list) -> pd.DataFrame:
 
 
 def settings_table(settings_file: str) -> str:
-    # TODO: replace Markdown table by an itable
     if not settings_file:
-        return ""
+        return pd.DataFrame()
 
     with open(settings_file) as f:
         psettings = json.load(f)
 
-    psettings.pop('maxMultiqcEmailFileSize', None)
-    psettings.pop('primers', None)
-    psettings.pop('references', None)
+    for key in ("maxMultiqcEmailFileSize", "primers", "references"):
+        psettings.pop(key, None)
 
-    return tabulate([(k, v) for k,v in sorted(psettings.items())])
+    return pd.DataFrame(
+        sorted(psettings.items()),
+        columns=["Setting", "Value"],
+    )

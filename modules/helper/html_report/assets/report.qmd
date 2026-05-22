@@ -30,6 +30,7 @@ include-in-header:
 Report generated automatically by bio-raum/FooDMe2. Please check out our [documentation](https://bio-raum.github.io/FooDMe2/latest/).
 
 **TODO: Check that metrics are correctly parsed for ONT.**
+
 **TODO: Sanity check on all metrics, especially for single-end.**
 
 ```{python}
@@ -38,11 +39,28 @@ import os
 
 import plotly.express as px
 from itables import show
-from IPython.display import Markdown, IFrame, display
+from IPython.display import IFrame, display
 
-from components.utils import get_mode, collect_jsons, collect_krona, get_settings_file
-from components.tables import summary_table, version_table, settings_table
-from components.plots import trimming_plot, filter_plot, cluster_plot, taxonomy_plot
+from components.utils import (
+    get_mode,
+    collect_jsons,
+    collect_krona,
+    get_settings_file,
+    Mode,
+)
+from components.tables import (
+    summary_table,
+    version_table,
+    settings_table,
+)
+from components.plots import (
+    trimming_plot,
+    filter_plot,
+    cluster_plot,
+    taxonomy_plot,
+    read_quality_plot,
+    insert_size_plot,
+)
 
 
 DATA_PATH = "."
@@ -122,8 +140,6 @@ fig.show()
 ## Filtered reads
 
 Filtering low quality reads.
-
-**TODO: Plot for ONT data is missing. Are we not filtering?**
 
 ::: {.panel-tabset group="countgraphs" .column-screen-inset-right}
 
@@ -212,11 +228,16 @@ show(
 
 # Pipeline Settings
 
-**TODO: replace Markdown table by an itable**
-
 ```{python}
 #| label: settings
 settings_file = get_settings_file(DATA_PATH)
 t = settings_table(settings_file)
-Markdown(t)
+show(
+    t,
+    classes="display compact",
+    scrollY="600px",
+    scrollCollapse=True,
+    paging=False,
+    buttons=["copyHtml5", "csvHtml5"]
+)
 ```

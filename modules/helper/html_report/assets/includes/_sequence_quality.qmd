@@ -1,1 +1,57 @@
-This is a placeholder
+## Sequence Quality
+
+Average sequencing quality over each base of all reads.
+
+::: {.panel-tabset .column-screen-inset-right}
+
+```{python}
+#| output: asis
+if Mode(mode) not in [Mode.ONT, Mode.SINGLE]:
+    print("### Read1: Before trimming")
+else:
+    print("### Before trimming")
+```
+
+```{python}
+fig = read_quality_plot(json_files, mode, "r1", "before")
+fig.show()
+```
+
+```{python}
+#| output: asis
+if Mode(mode) not in [Mode.ONT, Mode.SINGLE]:
+    print("### Read1: After trimming")
+else:
+    print("### After trimming")
+```
+
+```{python}
+fig = read_quality_plot(json_files, mode, "r1", "after")
+fig.show()
+```
+
+```{python}
+#| output: asis
+if Mode(mode) not in [Mode.ONT, Mode.SINGLE]:
+    print("### Read2: Before trimming")
+```
+
+```{python}
+if Mode(mode) not in [Mode.ONT, Mode.SINGLE]:
+    fig = read_quality_plot(json_files, mode, "r2", "before")
+    fig.show()
+```
+
+```{python}
+#| output: asis
+if Mode(mode) not in [Mode.ONT, Mode.SINGLE]:
+    print("### Read2: After trimming")
+```
+
+```{python}
+if Mode(mode) not in [Mode.ONT, Mode.SINGLE]:
+    fig = read_quality_plot(json_files, mode, "r2", "after")
+    fig.show()
+```
+
+:::
