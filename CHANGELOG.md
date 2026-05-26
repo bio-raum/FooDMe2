@@ -20,6 +20,9 @@
   - fixed an issue where Nextflow could not stage files from NCBI ftp servers by moving downloads to a discrete process
   - fixed the HSP_merger script to correctly handle missing accession information in the BLAST database
   - fixed Groovy strict syntax errors introduced by Nextflow 26
+  - fixed read counting in report for single-end data
+  - added missing metrics in report for ONT
+  - added missing metrics in report for non-overlapping paired-end and single-end data
 
 ## 1.5.1
 
