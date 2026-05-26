@@ -8,8 +8,9 @@ process HELPER_HTML_REPORT {
     input:
     path(reports)
     path(krona)
-    path(template)
+    path(assets)
     path(pipeline_info)
+    val(meta)
 
     output:
     path('*.html')          , emit: html
@@ -18,13 +19,24 @@ process HELPER_HTML_REPORT {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: params.run_name
+    def ont = params.ont
+    def non_overlapping = params.non_overlapping
+
     result = prefix + '.html'
 
+    def mode =
+        ont ? "ONT" :
+        non_overlapping ? "PE_NON" :
+        meta.single_end ? "SINGLE" :
+        "PE_OVER"
+
     """
-    quarto render $template --to html \
-    --execute \
-    $args \
-    --output $result
+    cp -r ${assets}/* .
+    export REPORT_MODE=$mode
+    quarto render report.qmd --to html \
+        --execute \
+        $args --execute-daemon-restart \
+        --output $result
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

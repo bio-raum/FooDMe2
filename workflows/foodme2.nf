@@ -120,11 +120,9 @@ workflow FOODME2 {
     /*
     Set the Quarto template for the HTML report
     */
-    if (params.ont) {
-        ch_template = channel.fromPath("${baseDir}/assets/quarto/foodme2_ONT_template.qmd", checkIfExists: true).collect()
-    } else {
-        ch_template = channel.fromPath("${baseDir}/assets/quarto/foodme2_ILM_template.qmd", checkIfExists: true).collect()
-    }
+    ch_report_assets = channel.fromPath("${baseDir}/modules/helper/html_report/assets", checkIfExists: true).collect()
+
+
 
     /*
     Setting default channels
@@ -226,7 +224,7 @@ workflow FOODME2 {
     REPORTING(
         BLAST_TAXONOMY.out.tax_json,
         CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
-        ch_template, // Quarto template
+        ch_report_assets, // Quarto assets
         ch_reporting, // contains all the sample level reports from upstream
         pipeline_info
     )

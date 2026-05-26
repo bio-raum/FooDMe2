@@ -7,3 +7,4 @@ tests/results
 .nf-test
 .nf-test.log
 .vscode/settings.json
+**/__pycache__/*
