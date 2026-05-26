@@ -29,10 +29,6 @@ include-in-header:
 
 Report generated automatically by bio-raum/FooDMe2. Please check out our [documentation](https://bio-raum.github.io/FooDMe2/latest/).
 
-**TODO: Check that metrics are correctly parsed for ONT.**
-
-**TODO: Sanity check on all metrics, especially for single-end.**
-
 ```{python}
 #| label: imports
 import os

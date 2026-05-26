@@ -46,11 +46,14 @@ workflow REPORTING {
     a customizable Quarto template
     */
     if (!params.skip_report) {
+        ch_reports.first().map { meta, json -> meta }.set { ch_meta }
+
         HELPER_HTML_REPORT(
             HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
             KRONA_HTML.out.html,
             ch_report_assets,
-            pipeline_info
+            pipeline_info,
+            ch_meta
         )
 
         ch_html_report = ch_html_report.mix(HELPER_HTML_REPORT.out.html)

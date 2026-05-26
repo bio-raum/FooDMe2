@@ -10,6 +10,7 @@ process HELPER_HTML_REPORT {
     path(krona)
     path(assets)
     path(pipeline_info)
+    val(meta)
 
     output:
     path('*.html')          , emit: html
@@ -18,8 +19,16 @@ process HELPER_HTML_REPORT {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: params.run_name
-    def mode="PE_OVER"  // need to check if ont is on and if single or paired end
+    def ont = params.ont
+    def non_overlapping = params.non_overlapping
+
     result = prefix + '.html'
+
+    def mode =
+        ont ? "ONT" :
+        non_overlapping ? "PE_NON" :
+        meta.single_end ? "SINGLE" :
+        "PE_OVER"
 
     """
     cp -r ${assets}/* .

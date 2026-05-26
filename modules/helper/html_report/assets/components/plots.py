@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.express as px
 from plotly.graph_objects import Figure
 
-from components.utils import Mode, clean_and_complete_distribution
+from components.utils import Mode, clean_and_complete_distribution, get_nested
 
 
 Read = Literal["r1", "r2"]
@@ -16,16 +16,6 @@ Step = Literal["before", "after"]
 class View(Enum):
     COUNT = "count"
     PERC = "percent"
-
-
-def get_nested(data: dict, path: list, default=None):
-    for key in path:
-        if not isinstance(data, dict):
-            return default
-        data = data.get(key, default)
-        if data is default:
-            return default
-    return data
 
 
 def get_insert_length_dist(file_list: list, fastp_label: str) -> pd.DataFrame:

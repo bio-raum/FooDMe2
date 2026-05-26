@@ -32,6 +32,17 @@ def get_settings_file(path: str = ".") -> str:
     return files.pop(0)
 
 
+def get_nested(data: dict, path: list, default=None):
+    """Return value from nested dict"""
+    for key in path:
+        if not isinstance(data, dict):
+            return default
+        data = data.get(key, default)
+        if data is default:
+            return default
+    return data
+
+
 def clean_and_complete_distribution(df: pd.DataFrame) -> pd.DataFrame:
     """
     For each sample:
