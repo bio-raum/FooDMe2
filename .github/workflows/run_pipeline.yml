@@ -17,6 +17,9 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # setup-apptainer has not update for Node24
+
 jobs:
   test_apptainer:
     runs-on: ubuntu-24.04
@@ -68,9 +71,9 @@ jobs:
           version: 25.10.4
 
       - name: install conda
-        uses: conda-incubator/setup-miniconda@v3
+        uses: conda-incubator/setup-miniconda@v4
         with:
-          auto-activate-base: true
+          auto-activate: true
           activate-environment: ""
           channels: conda-forge,bioconda,defaults
           channel-priority: strict
