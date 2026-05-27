@@ -219,7 +219,7 @@ def placeholder_fig(text="Not implemented") -> Figure:
 
 def bargraph(
     df: pd.DataFrame, xdata: str, xlabel: str,
-    groups: str = "label", hover_label = "%{customdata}: %{x}%<extra></extra>"
+    groups: str="label", hover_label="%{customdata}: %{x}%<extra></extra>"
 ) -> Figure:
     """
     Sandard horizontal bargraph
@@ -288,10 +288,10 @@ def read_quality_plot(json_files: list, mode: str, read: str, step: str) -> Figu
     fig = px.line(
         df, x="position", y="qual", color="sample", hover_name="sample",
         labels={"position": "Read position", "qual": "Sequence quality"},
-        line_shape="spline", template="simple_white"
+        line_shape="spline", template="simple_white",
     )
     fig.update_traces(hovertemplate="#%{x}: %{y}")
-    fig.update_layout(hovermode="closest", yaxis_range=[0,40])
+    fig.update_layout(hovermode="closest", yaxis_range=[0, 40])
 
     return fig
 
