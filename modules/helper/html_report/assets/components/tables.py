@@ -86,7 +86,7 @@ def tooltips(df, cols, mode: Mode) -> pd.DataFrame:
         insert_ttip = "Insert size peak"
 
     ttips = pd.DataFrame(
-        {k: v for k,v in zip(
+        {k: v for k, v in zip(
             cols[1:],
             [
                 "The overall analysis status: pass: ok to use, warn: potential issues found, fail: most probably not usable",
@@ -116,7 +116,7 @@ def summary_row(jdata: dict, mode: Mode) -> list:
             mapping = ONT_MAPPING
         case _:
             raise ValueError(f"Invalid case {mode}")
-    
+
     data = {label: get_nested(jdata, path, 0) for label, path in mapping.items()}
 
     # Format values
@@ -161,7 +161,7 @@ def summary_table(json_files: list, mode: str) -> Styler:
 
         row = summary_row(jdata, Mode(mode))
         rows.append(row)
-    
+
     if Mode(mode) != Mode.PE_OVER:
         SUMMARY_HEADER[4] = "Mean read length (bp)"
     if Mode(mode) == Mode.ONT:

@@ -77,13 +77,13 @@ def get_read_size_dist(file_list: list, label: str) -> pd.DataFrame:
             (sample, pos["length"], pos["count"])
             for pos in sizes
         ])
-    
+
     df = pd.DataFrame(rows, columns=["sample", "size", "count"])
 
     return clean_and_complete_distribution(df)
 
 
-def get_qual(file_list: list, fastp_label: str, read_label:str) -> pd.DataFrame:
+def get_qual(file_list: list, fastp_label: str, read_label: str) -> pd.DataFrame:
     """
     parse Json into a PHRED trace Dataframe
     fastp_label and read_label point to the json list object to be extracted
@@ -161,7 +161,6 @@ def json_to_composition_df(file_list: list) -> pd.DataFrame:
     Returns a DataFrame grouped by "sample" and "rank" with summed "reads"
     and "proportion" converted to percentage.
     """
-    samples = []
     all_rows = []
 
     for json_file in file_list:
@@ -218,10 +217,7 @@ def placeholder_fig(text="Not implemented") -> Figure:
     return fig
 
 
-def bargraph(
-    df: pd.DataFrame, xdata: str, xlabel: str,
-    groups: str="label", hover_label="%{customdata}: %{x}%<extra></extra>"
-) -> Figure:
+def bargraph(df: pd.DataFrame, xdata: str, xlabel: str, groups: str="label", hover_label="%{customdata}: %{x}%<extra></extra>") -> Figure:
     """
     Sandard horizontal bargraph
     xdata: dataframe col for x axis
@@ -230,12 +226,12 @@ def bargraph(
     hover_label: custom hovertemplate text
     """
     fig = px.bar(
-        df, x=xdata, y= "sample", color=groups, custom_data=groups,
+        df, x=xdata, y="sample", color=groups, custom_data=groups,
         labels={xdata: xlabel, "sample": ""},
         orientation='h', template="simple_white"
     )
 
-    fig.update_layout(legend={'title_text':''}, hovermode="y unified")
+    fig.update_layout(legend={'title_text': ''}, hovermode="y unified")
     fig.update_yaxes(showspikes=False)
     fig.update_traces(hovertemplate=hover_label)
 
@@ -258,10 +254,12 @@ def insert_size_plot(json_files: list, mode: str, step: str) -> Figure:
         df = get_read_size_dist(json_files, "read_length_hist_pretrimming")
     elif step == "after":
         df = get_read_size_dist(json_files, "read_length_hist_postrimming")
-    
-    fig = px.line(df, x="size", y= "count", color="sample", hover_name="sample",
+
+    fig = px.line(
+        df, x="size", y="count", color="sample", hover_name="sample",
         labels={"size": "Insert size (bp)", "count": "Read count"},
-        line_shape="spline", template="simple_white")
+        line_shape="spline", template="simple_white"
+    )
     fig.update_traces(hovertemplate="%{x}bp: %{y} reads")
     fig.update_layout(hovermode="closest")
 
@@ -284,14 +282,15 @@ def read_quality_plot(json_files: list, mode: str, read: str, step: str) -> Figu
     elif read == "r2" and step == "after":
         df = get_qual(json_files, "fastp_trimmed", "read2_after_filtering")
 
-    fig = px.line(df, x="position", y= "qual", color="sample", hover_name="sample",
+    fig = px.line(
+        df, x="position", y="qual", color="sample", hover_name="sample",
         labels={"position": "Read position", "qual": "Sequence quality"},
-        line_shape="spline", template="simple_white")
+        line_shape="spline", template="simple_white",
+    )
     fig.update_traces(hovertemplate="#%{x}: %{y}")
-    fig.update_layout(hovermode="closest", yaxis_range=[0,40])
+    fig.update_layout(hovermode="closest", yaxis_range=[0, 40])
 
     return fig
-
 
 
 def trimming_plot(file_list: list, mode: Mode, view: str) -> Figure:
