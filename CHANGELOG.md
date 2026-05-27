@@ -1,5 +1,7 @@
 ## dev
 
+  - Added a Nextflow version check to prevent execution with non-verified versions of Nextflow
+  
 ### Methods
 
   - Improved trnlLong Method's resolution by reducing the `blast_bitscore_diff` parameter from 8 to 4
