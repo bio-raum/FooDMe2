@@ -73,8 +73,8 @@ workflow BUILD_REFERENCES {
 
     WGET_NCBI.out.download.branch { m, f ->
         taxid: m.id.contains("nucl_gb.accession2taxid")
-        taxdump: m.id.contains("new_taxdump.tar")
-        taxdb: m.id.contains("taxdb.tar")
+        taxdump: m.id.contains("new_taxdump")
+        taxdb: m.id.contains("taxdb")
         db: m.tool == "blast"
     }.set { ch_ncbi_by_type }
 
