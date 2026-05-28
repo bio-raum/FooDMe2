@@ -222,7 +222,7 @@ def bargraph(
     xdata: str,
     xlabel: str,
     groups: str = "label",
-    hover_label = "%{customdata}: %{x}%<extra></extra>",
+    hover_label: str = "%{customdata}: %{x}%<extra></extra>",
 ) -> Figure:
     """
     Sandard horizontal bargraph
