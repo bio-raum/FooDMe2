@@ -13,12 +13,12 @@ workflow DADA2_WORKFLOW {
 
     main:
 
-    ch_versions = Channel.from([])
-    ch_qc_files = Channel.from([])
-    ch_stat_reports = Channel.from([]) // holds the meta-key specific reports in the correct order for stats to be computed
-    ch_asvs = Channel.from([])
-    ch_seqtab = Channel.from([])
-    ch_filtered_reads = Channel.from([])
+    ch_versions = channel.from([])
+    ch_qc_files = channel.from([])
+    ch_stat_reports = channel.from([]) // holds the meta-key specific reports in the correct order for stats to be computed
+    ch_asvs = channel.from([])
+    ch_seqtab = channel.from([])
+    ch_filtered_reads = channel.from([])
 
     /*
     Filter reads; trimming is done by Cutadapt

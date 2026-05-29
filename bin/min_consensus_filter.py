@@ -30,8 +30,13 @@ def parse_headers(otus_fasta):
 def get_support(taxid, tax_list, taxonomy):
     support = 0
     for record in tax_list:
-        if (record["taxid"] == taxid) or (taxonomy.isDescendantOf(record["taxid"], taxid)):
-            support += record["freq"]
+        try:
+            if (record["taxid"] == taxid) or (taxonomy.isDescendantOf(record["taxid"], taxid)):
+                support += record["freq"]
+        except taxidTools.InvalidNodeError:
+            # If the Node is not in the taxonomy then nothing to do.
+            # Can happen for root node (0), or synthetic/Environmental Nodes that were filtered from the JSON
+            continue
     return support
 
 

@@ -3,7 +3,7 @@ process HELPER_FIND_CONSENSUS {
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
-    container 'gregdenay/taxidtools:3.1.0'
+    container 'gregdenay/taxidtools:3.2.1'
 
     input:
     tuple val(meta), path(report), path(otus)   // the pre-filtered blast report in custom JSON format and OTUS fasta

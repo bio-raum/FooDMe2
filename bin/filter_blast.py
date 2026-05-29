@@ -34,11 +34,12 @@ def main(report, output, bit_diff):
     if stat(report).st_size == 0:
         json_out = {}
     else:
-        df = pd.read_csv(report, sep="\t", names=header)
+        df = pd.read_csv(report, sep="\t", names=header, dtype={})
         if not df.empty:
             df[["query", "size"]] = df["query"].str.split(";size=", n=1, expand=True)
             df["delta_bitscore"] = df.groupby("query")["bitscore"].transform("max") - df["bitscore"]
             df["keep"] = df.apply(lambda x: x["delta_bitscore"] <= bit_diff, axis=1)
+            df["subject_taxid"] = df["subject_taxid"].apply(lambda x: "" if pd.isna(x) else str(int(x)))
         json_out = json.loads(df.to_json(orient="records"))
     with open(output, "w") as fo:
         json.dump(json_out, fo, indent=4)

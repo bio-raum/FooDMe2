@@ -445,3 +445,7 @@ it. Make sure to re-set any options you want to keep.
 `--blast_min_consensus` [ default = 0.51 ]
 
 :   Minimal consensus level between all BLAST results for a given query to be assigned to a taxonomic node.
+
+`--blast_task` [ default = 'megablast']
+
+:   BLAST algorithm to use. Use 'blastn' for very short amplicons (<~30 nt). Since 'megablast' word size is 28nt is will likely not return results for amplicons shorter than that. In this case prefer 'blastn' that has a word size of 11.

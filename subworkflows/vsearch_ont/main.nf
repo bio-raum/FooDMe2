@@ -20,10 +20,10 @@ workflow VSEARCH_ONT_WORKFLOW {
     /*
     Set default channels
     */
-    ch_versions = Channel.from([])
-    ch_qc_files = Channel.from([])
-    ch_reporting = Channel.from([])
-    ch_empty = Channel.from([]) // always empty, used to make the stats moduel work
+    ch_versions = channel.from([])
+    ch_qc_files = channel.from([])
+    ch_reporting = channel.from([])
+    ch_empty = channel.from([]) // always empty, used to make the stats moduel work
 
     ch_reporting = reads
     /*

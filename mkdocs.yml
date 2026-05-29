@@ -14,6 +14,7 @@ nav:
     - Requirements: user_doc/requirements.md
     - Installation: user_doc/installation.md
     - Usage: user_doc/usage.md
+    - Offline usage: user_doc/offline.md
     - Pipeline: user_doc/pipeline.md
     - Output: user_doc/output.md
     - Technologies: user_doc/technologies.md
@@ -33,7 +34,7 @@ nav:
   - Help:
     - Migration: help/migration.md
     - Step-by-step guide: help/step-by-step_guide.md
-    - Troobleshooting: help/troubleshooting.md
+    - Troubleshooting: help/troubleshooting.md
   - Developer Guide: developer.md
   - About:
     - Software: about/software.md

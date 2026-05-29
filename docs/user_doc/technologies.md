@@ -8,7 +8,7 @@ We intend to have completed support for these technologies by release 2.0 (2026)
 
 ## Illumina short-reads (production)
 
-Illumina paired-end short-reads were the basis for the original implementation of FooDMe. Their high base accuracy and throughput make them a very good option for metabarcoding projects, assuming the target amplicons can be covered by overlapping paired-end reads (< 550bp). Illumina reads are currently the most tested technology within FooDMe2 (and metabarcoding in general).
+Illumina paired-end short-reads were the basis for the original implementation of FooDMe. Their high base accuracy and throughput make them a very good option for metabarcoding projects, assuming the target amplicons can be covered by overlapping paired-end reads (< 850bp, depending on sequencing chemistry). Illumina reads are currently the most tested technology within FooDMe2 (and metabarcoding in general).
 
 ## IonTorrent short-reads (in development)
 

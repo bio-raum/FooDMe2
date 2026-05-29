@@ -4,4 +4,4 @@ channels:
   - bioconda
   
 dependencies:
-  - conda-forge::taxidtools=3.1.0
+  - conda-forge::taxidtools=3.2.1

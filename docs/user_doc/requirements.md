@@ -2,6 +2,10 @@
 
 Below are some general guidelines to ensure that your data can be successfully analyzed by FooDMe2. 
 
+## Nextflow
+
+FooDMe2 was developed in Nextflow and should work with Nextflow versions [24](https://github.com/nextflow-io/nextflow/releases/tag/v24.10.5) and [25](https://github.com/nextflow-io/nextflow/releases/tag/v25.10.5). FooDMe2 is **not** compatible with Nextflow release 26 or above at this time. 
+
 ## Computing
 
 FooDMe2 is a comparatively light-weight pipeline and runs on a wide range of hardware, including your "average" laptop (for limitations, see [Database](#database)). At the same time, it is also capable of taking advantage of high-performance compute clusters, or "the cloud". 

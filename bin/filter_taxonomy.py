@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 
 def main(nodes, lineage, merged, taxid, out):
-    tax = taxidTools.read_taxdump(nodes, lineage, merged)
+    tax = taxidTools.read_taxdump(nodes, lineage, merged, skip_synth=True, skip_env=True, skip_nodiv=True)
     tax.prune(taxid)
     tax.write(out)
 

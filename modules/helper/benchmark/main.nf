@@ -3,7 +3,7 @@ process HELPER_BENCHMARK {
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
-    container 'gregdenay/taxidtools:3.1.0'
+    container 'gregdenay/taxidtools:3.2.1'
 
     input:
     path(composition)                           // composition table aggregated over all samples (with collectFiles?)

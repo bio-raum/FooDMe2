@@ -24,18 +24,18 @@ workflow FOODME2 {
     /*
     Set default channels and values
     */
-    samplesheet = params.input ? Channel.fromPath(file(params.input, checkIfExists:true)) : Channel.value([])
-    reads       = params.reads ? Channel.fromFilePairs(params.reads, size: -1) : Channel.value([])
-    ch_truthtable = params.ground_truth ? Channel.fromPath(file(params.ground_truth, checkIfExists:true)) : Channel.value([])
+    samplesheet = params.input ? channel.fromPath(file(params.input, checkIfExists:true)) : channel.value([])
+    reads       = params.reads ? channel.fromFilePairs(params.reads, size: -1) : channel.value([])
+    ch_truthtable = params.ground_truth ? channel.fromPath(file(params.ground_truth, checkIfExists:true)) : channel.value([])
     database    = null
-    ch_blast_db = Channel.from([])
-    ch_reads    = Channel.from([])
-    ch_primers  = Channel.from([])
-    ch_tax_files = Channel.from([])
-    ch_taxdb   = Channel.from([])
-    ch_reporting = Channel.from([])
+    ch_blast_db = channel.from([])
+    ch_reads    = channel.from([])
+    ch_primers  = channel.from([])
+    ch_tax_files = channel.from([])
+    ch_taxdb   = channel.from([])
+    ch_reporting = channel.from([])
 
-    pipeline_info = Channel.fromPath(dumpParametersToJSON(params.outdir)).collect()
+    pipeline_info = channel.fromPath(dumpParametersToJSON(params.outdir)).collect()
 
     /*
     We make this conditional on input being specified so as to not create issues with
@@ -57,28 +57,28 @@ workflow FOODME2 {
         // If we have a pre-configured primer set, get options from config
         if (params.primer_set) {
             database                = params.database
-            ch_primers              = Channel.fromPath(file(params.fasta, checkIfExits: true)).collect()
+            ch_primers              = channel.fromPath(file(params.fasta, checkIfExits: true)).collect()
             blast_db                = set_blast_db(database)
-            fasta                   = params.references.databases[database].fasta ? Channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
+            fasta                   = params.references.databases[database].fasta ? channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
             version                 = params.references.databases[database].version
             // use a pre-configured primer but with a different database
             if (params.db) {
                 log.info "You chose a pre-configured primer set but are overriding the database - this may lead to problems!"
                 database    = params.db
                 blast_db    = set_blast_db(database)
-                fasta       = params.references.databases[database].fasta ? Channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
+                fasta       = params.references.databases[database].fasta ? channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
                 version     = params.references.databases[database].version
             }
         // If the users specifies a custom primer set as FASTA instead
         } else if ((params.input || params.reads) && params.primers_fa) {
-            ch_primers              = Channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
+            ch_primers              = channel.fromPath(file(params.primers_fa, checkIfExists: true)).collect()
 
             // If the user requests one of the installed databases
             if (params.db) {
                 database    = params.db
                 // Check if that database is configured
                 blast_db    = set_blast_db(database)
-                fasta       = params.references.databases[database].fasta ? Channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
+                fasta       = params.references.databases[database].fasta ? channel.from(file(params.references.databases[database].fasta, checkIfExists: true)) : null
                 version     = params.references.databases[database].version
             // Or allow users to provide their own database
             } else if (params.blast_db) {
@@ -87,8 +87,14 @@ workflow FOODME2 {
                 version     = 'NA'
                 fasta       = null
             }
+        } else {
+            database                = params.database
+            ch_primers              = channel.fromPath(file(params.fasta, checkIfExits: true)).collect()
+            blast_db                = set_blast_db(database)
+            fasta                   = null
+            version                 = "NA"
         }
-        Channel.fromPath(blast_db, checkIfExists: true).map { db ->
+        channel.fromPath(blast_db, checkIfExists: true).map { db ->
             [[id: database, version: version], db]
         }.set { ch_blast_db }
 
@@ -100,8 +106,8 @@ workflow FOODME2 {
             tax_nodes           = file(params.references.taxonomy.nodes, checkIfExists: true)          // ncbi taxnomy node file
             tax_rankedlineage   = file(params.references.taxonomy.rankedlineage, checkIfExists: true)  // ncbi rankedlineage file
             tax_merged          = file(params.references.taxonomy.merged, checkIfExists: true)         // ncbi merged file
-            ch_tax_files        = Channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
-            ch_taxdb            = Channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
+            ch_tax_files        = channel.of([ tax_nodes, tax_rankedlineage, tax_merged ])
+            ch_taxdb            = channel.fromPath(params.references.taxonomy.taxdb, checkIfExists: true)
         }
 
     }
@@ -109,23 +115,21 @@ workflow FOODME2 {
     /*
     Set a taxonomy block list to remove unwanted taxa
     */
-    ch_blocklist        = Channel.fromPath(params.blocklist, checkIfExists: true)
+    ch_blocklist        = channel.fromPath(params.blocklist, checkIfExists: true)
 
     /*
     Set the Quarto template for the HTML report
     */
-    if (params.ont) {
-        ch_template = Channel.fromPath("${baseDir}/assets/quarto/foodme2_ONT_template.qmd", checkIfExists: true).collect()
-    } else {
-        ch_template = Channel.fromPath("${baseDir}/assets/quarto/foodme2_ILM_template.qmd", checkIfExists: true).collect()
-    }
+    ch_report_assets = channel.fromPath("${baseDir}/modules/helper/html_report/assets", checkIfExists: true).collect()
+
+
 
     /*
     Setting default channels
     */
-    ch_versions          = Channel.from([]) // all version yml files
-    ch_otus              = Channel.from([]) // all the OTUs
-    ch_consensus         = Channel.from([]) // all consensus
+    ch_versions          = channel.from([]) // all version yml files
+    ch_otus              = channel.from([]) // all the OTUs
+    ch_consensus         = channel.from([]) // all consensus
 
     /*
     Validate the input samplesheet and
@@ -220,7 +224,7 @@ workflow FOODME2 {
     REPORTING(
         BLAST_TAXONOMY.out.tax_json,
         CUSTOM_DUMPSOFTWAREVERSIONS.out.yml,
-        ch_template, // Quarto template
+        ch_report_assets, // Quarto assets
         ch_reporting, // contains all the sample level reports from upstream
         pipeline_info
     )

@@ -41,5 +41,7 @@ def fastq_channel(LinkedHashMap row) {
         array = [ meta, [ file(row.fq1)] ]
     }
 
+    sleep(2000)
+
     return array
 }

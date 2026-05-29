@@ -1,9 +1,11 @@
 /*
 Import modules
 */
-include { FASTP as FASTP_METRICS }      from './../../modules/fastp'
-include { FASTP as FASTP_TRIM }         from './../../modules/fastp'
-include { CAT_FASTQ }                   from './../../modules/cat_fastq'
+include { FASTP as FASTP_METRICS }                   from './../../modules/fastp'
+include { FASTP as FASTP_TRIM }                      from './../../modules/fastp'
+include { CAT_FASTQ }                                from './../../modules/cat_fastq'
+include { HELPER_READ_LENGTH as READ_HIST_PRE }      from './../../modules/helper/read_length'
+include { HELPER_READ_LENGTH as READ_HIST_POST }     from './../../modules/helper/read_length'
 
 /*
 Import sub workflows
@@ -23,15 +25,33 @@ workflow ILLUMINA_WORKFLOW {
 
     main:
 
-    ch_versions     = Channel.from([])
-    ch_otus         = Channel.from([])
-    ch_qc           = Channel.from([])
+    ch_versions     = channel.from([])
+    ch_otus         = channel.from([])
+    ch_qc           = channel.from([])
+    
+    /* 
+    Merge reads by sample
+    */
+    reads.groupTuple().branch { meta, fastq ->
+        single: fastq.size() == 1
+            return [ meta, fastq.flatten()]
+        multi: fastq.size() > 1
+            return [ meta, fastq.flatten()]
+    }.set { ch_reads_illumina }
+
+    /*
+    Concatenate samples with multiple PE files
+    */
+    CAT_FASTQ(
+        ch_reads_illumina.multi
+    )
+    ch_illumina_merged = ch_reads_illumina.single.mix(CAT_FASTQ.out.reads)
 
     /*
     Trim illumina reads
     */
     FASTP_METRICS(
-        reads
+        ch_illumina_merged
     )
     ch_versions     = ch_versions.mix(FASTP_METRICS.out.versions)
     ch_qc           = ch_qc.mix(FASTP_METRICS.out.json)
@@ -76,18 +96,16 @@ workflow ILLUMINA_WORKFLOW {
     }
 
     /*
-    Concatenate samples with multiple PE files
+    Pre-trimming read-length
     */
-    CAT_FASTQ(
-        ch_reads_illumina.multi
-    )
-    ch_illumina_trimmed = ch_reads_illumina.single.mix(CAT_FASTQ.out.reads)
+    READ_HIST_PRE(FASTP_METRICS.out.reads, "pre")
+    ch_qc = ch_qc.mix(READ_HIST_PRE.out.hist)
 
     /*
     Remove PCR primers using Cutadapt
     */
     CUTADAPT_WORKFLOW(
-        ch_illumina_trimmed,
+        FASTP_METRICS.out.reads,
         ch_primers
     )
     ch_versions         = ch_versions.mix(CUTADAPT_WORKFLOW.out.versions)
@@ -103,6 +121,12 @@ workflow ILLUMINA_WORKFLOW {
     ch_versions             = ch_versions.mix(FASTP_TRIM.out.versions)
     ch_reads_full_trimmed   = FASTP_TRIM.out.reads
     ch_qc                   = ch_qc.mix(FASTP_TRIM.out.json)
+
+    /*
+    Post-trimming read-length
+    */
+    READ_HIST_POST(FASTP_METRICS.out.reads, "post")
+    ch_qc = ch_qc.mix(READ_HIST_POST.out.hist)
 
     /*
     Cluster reads and produce OTUs/ASVs

@@ -1,3 +1,31 @@
+## 1.6.0
+
+  - Added a Nextflow version check to prevent execution with non-verified versions of Nextflow
+  
+### Methods
+
+  - Improved trnlLong Method's resolution by reducing the `blast_bitscore_diff` parameter from 8 to 4
+
+### Features
+
+  - It is now possible to provide a complete method configuration as a JSON file with the `--params-file` argument
+  - Environmental and synthetic taxa are now ignored from BLAST results
+  - Environmental and synthetic taxa are now ignored for taxonomy consensus determination
+
+### Documentation
+
+  - Added a section on how to provide complete method configuration via JSON files. This can be used to share method that are not yet implemented as standards.
+
+### Bugfix
+
+  - fixed a bug leading to taxomies not being resolved by taxidtools for merged nodes after a taxonomy was pruned
+  - fixed an issue where Nextflow could not stage files from NCBI ftp servers by moving downloads to a discrete process
+  - fixed the HSP_merger script to correctly handle missing accession information in the BLAST database
+  - fixed Groovy strict syntax errors introduced by Nextflow 26
+  - fixed read counting in report for single-end data
+  - added missing metrics in report for ONT
+  - added missing metrics in report for non-overlapping paired-end and single-end data
+
 ## 1.5.1
 
 ### Methods

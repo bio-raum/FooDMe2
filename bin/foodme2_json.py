@@ -17,14 +17,13 @@ parser.add_argument("--sample", "-s")
 args = parser.parse_args()
 
 # JSON keys we want to remove since they are too large and unnecessary
-unwanted_keys = [
+UNWANTED_KEYS = [
     "content_curves",
     "kmer_count",
-    # "quality_curves",
 ]
 
 
-def dict_cleaner(data):
+def dict_cleaner(data, unwanted_keys=UNWANTED_KEYS):
     if not isinstance(data, dict):
         return data if not isinstance(data, list) else list(map(dict_cleaner, data))
     return {a: dict_cleaner(b) for a, b in data.items() if a not in unwanted_keys}
@@ -46,29 +45,15 @@ def parse_json(lines, return_adress=None):
     return data
 
 
-def parse_csv(lines):
-    header = lines.pop(0).strip().split(",")
+def parse_flat(lines, sep="\t", no_header=False):
+    if no_header:
+        header = [f"col{i}" for i in range(len(lines[0].strip().split(sep)))]
+    else:
+        header = lines.pop(0).strip().split(sep)
     data = []
     for line in lines:
         this_data = {}
-        elements = line.strip().split(",")
-        for idx, h in enumerate(header):
-            entry = elements[idx]
-            if re.match(r"^[0-9]*$", entry):
-                entry = int(entry)
-            elif re.match(r"^[0-9]*\.[0-9]*$", entry):
-                entry = float(entry)
-            this_data[h] = entry
-        data.append(this_data)
-    return data
-
-
-def parse_tabular(lines):
-    header = lines.pop(0).strip().split("\t")
-    data = []
-    for line in lines:
-        this_data = {}
-        elements = line.strip().split("\t")
+        elements = line.strip().split(sep)
         for idx, h in enumerate(header):
             if idx < len(elements):
                 entry = elements[idx]
@@ -130,7 +115,6 @@ def parse_yaml(lines):
 
 
 def main(sample, yaml_file, run_name, output):
-
     # Mapping each JSON section to (json_key, file regex, parsing_function, kwargs)
     parser_mapper = {
         "composition": ("composition", ".composition.json", parse_json, {"return_adress": [sample]}),
@@ -147,6 +131,8 @@ def main(sample, yaml_file, run_name, output):
         "nanoplot": ("nanoplot", ".nanoplot.adaptertrim.tsv", parse_nanoplot, None),
         "nanoplot_trimmed": ("nanoplot_trimmed", ".nanoplot.trim.tsv", parse_nanoplot, None),
         "versions": ("versions", "versions.yml", parse_yaml, None),
+        "read_length_hist_pretrimming": ("read_length_hist_pretrimming", ".pre.hist.txt", parse_flat, {"sep": " "}),
+        "read_length_hist_posttrimming": ("read_length_hist_postrimming", ".post.hist.txt", parse_flat, {"sep": " "}),
     }
 
     files = [os.path.abspath(f) for f in glob.glob("*/*")]

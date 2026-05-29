@@ -45,6 +45,14 @@ def inner_gaps(hsps):
     return inner_gaps
 
 
+def safe_parse(hit, ns, key, val):
+    """Safely parse XML text, returning empty string if key is missing"""
+    record = hit.find(f".//ns:{key}", ns)
+    if record is not None:
+        return record.text
+    return val
+
+
 def parse_hsp(e, sinfo):
     """Parses XML into a python dict"""
     return {
@@ -201,16 +209,17 @@ def main(xml, output, qcov_hsp, min_amplicon_size, max_amplicon_size):
 
         # within each query, iterating over subjects
         for hit in blast_output.findall('.//ns:Hit', ns):
+            descr = hit.find('.//ns:HitDescr', ns)
             sinfo = {
                 "qseqid": qseqid,
                 "qsize": qsize,
                 "kappa": kappa,
                 "lambd": lambd,
                 "dbsize": dbsize,
-                "sseqid": hit.find('.//ns:id', ns).text,
-                "sacc": hit.find('.//ns:accession', ns).text,
-                "staxid": hit.find('.//ns:taxid', ns).text,
-                "sscinames": hit.find('.//ns:sciname', ns).text,
+                "sseqid": str(safe_parse(descr, ns, "id", "")),
+                "sacc": str(safe_parse(descr, ns, "accession", "")),
+                "staxid": str(safe_parse(descr, ns, "taxid", "")),
+                "sscinames": safe_parse(descr, ns, "sciname", "")
             }
 
             hsps = hit.findall('.//ns:Hsp', ns)

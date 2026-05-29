@@ -20,9 +20,9 @@ workflow BLAST_TAXONOMY {
 
     main:
 
-    ch_versions = Channel.from([])
-    ch_qc_files = Channel.from([])
-    ch_tax_json = Channel.from([])
+    ch_versions = channel.from([])
+    ch_qc_files = channel.from([])
+    ch_tax_json = channel.from([])
 
     /*
     Take the NCBI taxonomy and create a
