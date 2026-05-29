@@ -79,7 +79,7 @@ def tooltips(df, cols, mode: Mode) -> pd.DataFrame:
     if mode == Mode.ONT:
         qual_ttip = "Fraction of input reads >= Q20"
     else:
-        qual_ttip = "Fraction of input reads >= Q20"
+        qual_ttip = "Fraction of input reads >= Q30"
     if mode != Mode.PE_OVER:
         insert_ttip = "The mean of read lengths"
     else:
@@ -165,7 +165,7 @@ def summary_table(json_files: list, mode: str) -> Styler:
     if Mode(mode) != Mode.PE_OVER:
         SUMMARY_HEADER[4] = "Mean read length (bp)"
     if Mode(mode) == Mode.ONT:
-        SUMMARY_HEADER[3] = "Reads Q320 (%)"
+        SUMMARY_HEADER[3] = "Reads Q20 (%)"
 
     df = pd.DataFrame(rows, columns=SUMMARY_HEADER)
     styler = df.style.map(
