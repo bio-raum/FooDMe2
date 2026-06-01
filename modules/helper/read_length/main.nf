@@ -1,7 +1,7 @@
 process HELPER_READ_LENGTH {
     tag 'Read length histogram'
 
-    label 'long_serial'
+    label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

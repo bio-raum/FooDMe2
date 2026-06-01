@@ -22,7 +22,7 @@ nextflow_process {
         then {
             assert process.success
             with(process.out.fasta) {
-                assert path(get(0)).md5 == "e864edaf3c2c1f258b03102c1393c52d"
+                assert path(get(0)).md5 == "27d31728ee585f07c8af97904f4b23c0"
             }
         }
 

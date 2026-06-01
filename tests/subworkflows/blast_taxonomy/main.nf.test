@@ -32,7 +32,7 @@ nextflow_workflow {
             }
             with(workflow.out.consensus) {
                 with(get(0)) {
-                    assert path(get(1)).md5 == "2ddbc13176a7e86713e93f268fbde2d7"
+                    assert path(get(1)).md5 == "3b57f8719f3c9242520220bfea837b1a"
                 }
             }
         }
