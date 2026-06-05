@@ -34,7 +34,9 @@ def get_support(taxid, tax_list, taxonomy):
             if (record["taxid"] == taxid) or (taxonomy.isDescendantOf(record["taxid"], taxid)):
                 support += record["freq"]
         except taxidTools.InvalidNodeError:
-            pass
+            # If the Node is not in the taxonomy then nothing to do.
+            # Can happen for root node (0), or synthetic/Environmental Nodes that were filtered from the JSON
+            continue
     return support
 
 
