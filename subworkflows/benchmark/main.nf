@@ -10,7 +10,7 @@ workflow BENCHMARK {
 
     main:
     // Benchmark
-    ch_compo_agg = ch_compo.map { m, t -> t }.collectFile(name: 'composition.tsv', keepHeader: true)
+    ch_compo_agg = ch_compo.map { _m,t -> t }.collectFile(name: 'composition.tsv', keepHeader: true)
 
     HELPER_BENCHMARK(
         ch_compo_agg,

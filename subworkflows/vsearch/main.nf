@@ -36,9 +36,8 @@ workflow VSEARCH_WORKFLOW {
     ch_reporting = VSEARCH_FASTQFILTER_READS.out.reads // need this over the raw reads because it has already been unpacked
     /*
     Find paired-end files
-    TODO: Deal with unpaired files
     */
-    VSEARCH_FASTQFILTER_READS.out.reads.branch { m, r ->
+    VSEARCH_FASTQFILTER_READS.out.reads.branch { m,_r ->
         paired: !m.single_end
         unpaired: m.single_end
     }.set { ch_trimmed_reads }
@@ -77,9 +76,9 @@ workflow VSEARCH_WORKFLOW {
         }.set { ch_all_reads }
 
         // Rejoin the merged reads with the meta hash
-        ch_trimmed_reads.paired.map { m,r -> 
+        ch_trimmed_reads.paired.map { m,_r -> 
             [ m.sample_id, m]
-        }.join(ch_all_reads).map { key,m,f ->
+        }.join(ch_all_reads).map { _key,m,f ->
             [ m,f ]
         }.set { ch_merged_reads }
 

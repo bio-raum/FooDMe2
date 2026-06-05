@@ -97,7 +97,7 @@ workflow ONT_WORKFLOW {
     Plot read quality after trimming
     */
     NANOPLOT_TRIM(
-        FASTPLONG_TRIM.out.reads.filter { m, r ->
+        FASTPLONG_TRIM.out.reads.filter { _m,r ->
             file(r).size() > 0
         }
     )
@@ -111,9 +111,9 @@ workflow ONT_WORKFLOW {
     ch_qc = ch_qc.mix(GUNZIP_NANOPLOT_TRIM.out.gunzip)
 
     // Warn if a sample has only a few reads left after filtering.
-    FASTPLONG_TRIM.out.reads.filter { m, r ->
+    FASTPLONG_TRIM.out.reads.filter { _m,r ->
         file(r).size() == 0 || r.countFastq() < 100
-    }.subscribe { m, r ->
+    }.subscribe { m,_r ->
         log.warn "${m.sample_id} - only few or no reads left after filtering."
     }
 

@@ -26,7 +26,7 @@ workflow REPORTING {
 
     // Excel report
     HELPER_REPORT_XLSX(
-        HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect()
+        HELPER_REPORTS_JSON.out.json.map {_m,j -> j}.collect()
     )
 
     ch_xlsx = ch_xlsx.mix(HELPER_REPORT_XLSX.out.xlsx)
@@ -47,7 +47,7 @@ workflow REPORTING {
     */
     if (!params.skip_report) {
         HELPER_HTML_REPORT(
-            HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
+            HELPER_REPORTS_JSON.out.json.map {_m,j -> j}.collect(),
             KRONA_HTML.out.html,
             ch_template,
             pipeline_info

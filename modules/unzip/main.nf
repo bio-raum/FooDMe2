@@ -16,7 +16,6 @@ process UNZIP {
 
     script:
     unzipped = zipped.getBaseName()
-    prefix = meta.id
 
     """
     unzip -c -qq $zipped > $unzipped

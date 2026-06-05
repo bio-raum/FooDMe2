@@ -20,7 +20,6 @@ process VSEARCH_UCHIME3_DENOVO {
     def prefix = task.ext.prefix ?: meta.sample_id
 
     nonchimera = prefix + '.uchime_denovo.fasta'
-    derep_uc = prefix + '.uchime_denovo.uc'
 
     """
     vsearch --uchime3_denovo $fa \

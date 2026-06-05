@@ -45,7 +45,6 @@ process FASTP {
     } else {
         r2 = reads[1]
         r1_trim = r1.getBaseName() + suffix
-        r2_trim = r2.getBaseName() + suffix
         """
         fastp --in1 ${r1} --in2 ${r2} \
         $trimmed \
