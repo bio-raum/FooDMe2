@@ -19,7 +19,7 @@ process CAT_FASTQ {
 
     script:
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    def readList = reads instanceof List ? reads.collect { it -> it.toString() } : [reads.toString()]
+    def readList = reads instanceof List ? reads.collect { read -> read.toString() } : [reads.toString()]
     if (meta.single_end) {
         if (readList.size >= 1) {
             """
