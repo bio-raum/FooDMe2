@@ -1,3 +1,13 @@
+## dev
+
+### Methods
+
+- Added the `-A` option to `fast_options` for all Illumina methods to prevent aggressive adapter detection
+
+### Bugfix
+
+- Addee the `-A -Q -L` options to `FASTP_METRICS` to prevent any trimming at this point of the workflow. Trimming is performed after primer detection with cutadapt.
+
 ## 1.6.0
 
   - Added a Nextflow version check to prevent execution with non-verified versions of Nextflow
