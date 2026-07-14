@@ -125,7 +125,7 @@ workflow ILLUMINA_WORKFLOW {
     /*
     Post-trimming read-length
     */
-    READ_HIST_POST(FASTP_METRICS.out.reads, "post")
+    READ_HIST_POST(FASTP_TRIM.out.reads, "post")
     ch_qc = ch_qc.mix(READ_HIST_POST.out.hist)
 
     /*

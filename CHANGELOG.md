@@ -1,3 +1,9 @@
+## dev
+
+### Bugfix
+
+  - Reporting read length after trimming in the Illumina Workflow now uses the correct read files.
+
 ## 1.6.0
 
   - Added a Nextflow version check to prevent execution with non-verified versions of Nextflow
