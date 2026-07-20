@@ -23,18 +23,26 @@ process HELPER_READ_LENGTH {
 
     if (meta.single_end) {
         """
-        zcat ${r1} | \
-        awk 'NR%4 == 2 {lengths[length(\$0)]++} END {for (l in lengths) {print l, lengths[l]}}' | \
-        sort -n > ${hist}
-        sed -i '1i length count' ${hist}
+        if [ ! -s ${r1} ]; then
+            echo 'length count' > ${hist}
+        else
+            zcat ${r1} | \
+            awk 'NR%4 == 2 {lengths[length(\$0)]++} END {for (l in lengths) {print l, lengths[l]}}' | \
+            sort -n > ${hist}
+            sed -i '1i length count' ${hist}
+        fi
         """
     } else {
         r2 = reads[1]
         """
-        zcat ${r1} ${r2} | \
-        awk 'NR%4 == 2 {lengths[length(\$0)]++} END {for (l in lengths) {print l, lengths[l]}}' | \
-        sort -n > ${hist}
-        sed -i '1i length count' ${hist}
+        if [ ! -s ${r1} ]; then
+            echo 'length count' > ${hist}
+        else
+            zcat ${r1} ${r2} | \
+            awk 'NR%4 == 2 {lengths[length(\$0)]++} END {for (l in lengths) {print l, lengths[l]}}' | \
+            sort -n > ${hist}
+            sed -i '1i length count' ${hist}
+        fi
         """
     }
 }
