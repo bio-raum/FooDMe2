@@ -26,7 +26,7 @@ workflow REPORTING {
 
     // Excel report
     HELPER_REPORT_XLSX(
-        HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect()
+        HELPER_REPORTS_JSON.out.json.map {_m,j -> j}.collect()
     )
 
     ch_xlsx = ch_xlsx.mix(HELPER_REPORT_XLSX.out.xlsx)
@@ -46,10 +46,10 @@ workflow REPORTING {
     a customizable Quarto template
     */
     if (!params.skip_report) {
-        ch_reports.first().map { meta, json -> meta }.set { ch_meta }
+        ch_reports.first().map { meta,_json -> meta }.set { ch_meta }
 
         HELPER_HTML_REPORT(
-            HELPER_REPORTS_JSON.out.json.map {m,j -> j}.collect(),
+            HELPER_REPORTS_JSON.out.json.map {_m,j -> j}.collect(),
             KRONA_HTML.out.html,
             ch_report_assets,
             pipeline_info,

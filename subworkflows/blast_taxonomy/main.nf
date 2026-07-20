@@ -116,7 +116,7 @@ workflow BLAST_TAXONOMY {
     ch_versions = ch_versions.mix(HELPER_BLAST_STATS.out.versions)
 
     // Assignement MULTIQC
-    HELPER_FIND_CONSENSUS.out.json.map { meta, json ->
+    HELPER_FIND_CONSENSUS.out.json.map { _meta,json ->
         json
     }.set { ch_json_nometa }
     

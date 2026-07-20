@@ -13,7 +13,7 @@ workflow INPUT_CHECK {
         .set { reads }
 
     emit:
-    reads // channel: [ val(meta), [ reads ] ]
+    reads = reads // channel: [ val(meta), [ reads ] ]
 }
 
 // Function to get list of [ meta, [ fastq_1, fastq_2 ] ]

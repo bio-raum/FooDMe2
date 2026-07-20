@@ -23,7 +23,7 @@ process VSEARCH_FASTQFILTER_READS {
     suffix = '.filtered.fastq'
 
     if (meta.single_end) {
-        r1_trim = r1.getBaseName() + suffix
+        
         """
         vsearch --fastq_filter ${r1} \
         --threads ${task.cpus} \

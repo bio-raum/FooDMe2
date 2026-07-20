@@ -72,12 +72,12 @@ workflow ILLUMINA_WORKFLOW {
     */
     if (!(params.cutadapt_trim_3p || params.cutadapt_trim_flex)) {
 
-        FASTP_METRICS.out.json.branch { m, j ->
+        FASTP_METRICS.out.json.branch { m,_j ->
             single_end: m.single_end
             paired: !m.single_end
         }.set { reads_by_configuration }
 
-        reads_by_configuration.single_end.subscribe { m, j ->
+        reads_by_configuration.single_end.subscribe { m,_j ->
             log.warn "${m.sample_id} - single-end data typically requires trimming of 3-prime primer sites. Should you perhaps use --cutadapt_trim_3p?"
         }
 
@@ -90,7 +90,7 @@ workflow ILLUMINA_WORKFLOW {
             tuple(new_meta, j)
         }.set { ch_pe_json_with_insert_size }
 
-        ch_pe_json_with_insert_size.filter { m, j -> m.insert_size < (m.mean_read_length + 20) }.subscribe { m, j ->
+        ch_pe_json_with_insert_size.filter { m,_j -> m.insert_size < (m.mean_read_length + 20) }.subscribe { m,_j ->
             log.warn "${m.sample_id} - the mean insert size seems to be close to or lower than the mean read length. Should you perhaps use --cutadapt_trim_3p?"
         }
     }
@@ -125,7 +125,7 @@ workflow ILLUMINA_WORKFLOW {
     /*
     Post-trimming read-length
     */
-    READ_HIST_POST(FASTP_METRICS.out.reads, "post")
+    READ_HIST_POST(FASTP_TRIM.out.reads, "post")
     ch_qc = ch_qc.mix(READ_HIST_POST.out.hist)
 
     /*

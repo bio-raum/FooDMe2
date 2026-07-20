@@ -71,7 +71,7 @@ workflow BUILD_REFERENCES {
         ch_ncbi_files
     )
 
-    WGET_NCBI.out.download.branch { m, f ->
+    WGET_NCBI.out.download.branch { m,_f ->
         taxid: m.id.contains("nucl_gb.accession2taxid")
         taxdump: m.id.contains("new_taxdump")
         taxdb: m.id.contains("taxdb")
@@ -86,7 +86,7 @@ workflow BUILD_REFERENCES {
     )
     ch_files = ch_files.mix(WGET_MIDORI.out.download)    
 
-    ch_files.branch { m, r ->
+    ch_files.branch { _m, r ->
         midori: r.toString().contains('MIDORI')
         ncbi_its: r.toString().contains('ITS_eukaryote')
         refseq: r.toString().contains('mitochondrion')
@@ -96,7 +96,7 @@ workflow BUILD_REFERENCES {
     Decompress and format taxonomy id mappings
     */
     HELPER_FORMAT_GENBANK_TAXIDS(
-        ch_ncbi_by_type.taxid.map { m, f ->
+        ch_ncbi_by_type.taxid.map { _m,f ->
             def meta = [:]
             meta.id = f.getBaseName()
             tuple(meta, f)
@@ -125,7 +125,7 @@ workflow BUILD_REFERENCES {
     )
 
     ch_refseq_with_taxids = GUNZIP_REFSEQ.out.gunzip.combine(
-        HELPER_FORMAT_GENBANK_TAXIDS.out.tab.map { m, t -> t }
+        HELPER_FORMAT_GENBANK_TAXIDS.out.tab.map { _m,t -> t }
     )
     ch_blast_files = ch_blast_files.mix(ch_refseq_with_taxids)
 
