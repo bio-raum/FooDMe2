@@ -2078,7 +2078,7 @@
 </span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Libary2-S02_R1_001.fastq.gz
 </span></code></pre></div>
 <p>data can be loaded like so (note the single-quotes around the search pattern!):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>nextflow run bio-raum/FooDMe2 -profile singularity --reads &#39;/path/to/reads/*_R{1,2}_001.fastq.gz&#39;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>nextflow run bio-raum/FooDMe2 -profile singularity --reads '/path/to/reads/*_R{1,2}_001.fastq.gz'
 </span></code></pre></div>
 <p>which will be interpreted as two samples, Library1-S01 and Library2-S02, in paired-end configuration. It avoids having to create a samplesheet, but requires a well-constructed wildcard pattern to correctly match all the data as well as provides essentially no options to specifically name your samples or group reads across lanes. Read more about the underlying logic and options <a href="https://www.nextflow.io/docs/latest/reference/channel.html#fromfilepairs">here</a>.</p>
 <p>Here are a few examples for common file naming patterns:</p>
@@ -2091,7 +2091,7 @@
 </span></code></pre></div>
 <p>Where SX is the sample number and LYYY the lane number.
 These names can be parsed with the following pattern:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>&#39;/path/to/reads/*_R{1,2}_001.fastq.gz&#39;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>'/path/to/reads/*_R{1,2}_001.fastq.gz'
 </span></code></pre></div>
 <p>resulting in sample names being parsed as <code>SampleName_SX_LYYY</code>. However, as mentioned, there is no way to parse common sample names across lanes so you would need to merge multi-lane reads before using this input approach.</p>
 </div>
@@ -2101,12 +2101,12 @@ These names can be parsed with the following pattern:</p>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>SampleName_2.fastq.gz
 </span></code></pre></div>
 <p>Which can be parsed with:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>&#39;/path/to/reads/*_{1,2}.fastq.gz&#39;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>'/path/to/reads/*_{1,2}.fastq.gz'
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
 <p>Collecting single-end data is also possible and fairly straightforward:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>&#39;/path/to/reads/*.fastq.gz&#39;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>'/path/to/reads/*.fastq.gz'
 </span></code></pre></div>
 </div>
 </div>
