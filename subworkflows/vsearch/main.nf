@@ -5,6 +5,7 @@ include { VSEARCH_FASTQMERGE }          from './../../modules/vsearch/fastqmerge
 include { VSEARCH_FASTQMERGE as VSEARCH_FASTQMERGE_FOR_JOIN } from './../../modules/vsearch/fastqmerge'
 include { VSEARCH_FASTQJOIN }           from './../../modules/vsearch/fastqjoin'
 include { VSEARCH_DEREPFULL }           from './../../modules/vsearch/derep'
+include { VSEARCH_DEREPFULL as VSEARCH_DEREP_SIZES}           from './../../modules/vsearch/derep'
 include { VSEARCH_SORTBYSIZE }          from './../../modules/vsearch/sortbysize'
 include { VSEARCH_FASTQFILTER }         from './../../modules/vsearch/fastqfilter'
 include { VSEARCH_FASTQFILTER_READS }   from './../../modules/vsearch/fastqfilter_reads'
@@ -12,7 +13,8 @@ include { VSEARCH_CLUSTER_SIZE  }       from './../../modules/vsearch/cluster_si
 include { VSEARCH_CLUSTER_UNOISE }      from './../../modules/vsearch/unoise'
 include { VSEARCH_UCHIME_DENOVO }       from './../../modules/vsearch/uchime/denovo'
 include { HELPER_VSEARCH_STATS }        from './../../modules/helper/vsearch_stats'
-
+include { VSEARCH_USEARCH_GLOBAL }      from './../../modules/vsearch/usearch_global'
+include { HELPER_VSEARCH_UPDATE_SIZE }  from './../../modules/helper/vsearch_update_size'
 workflow VSEARCH_WORKFLOW {
     take:
     reads
@@ -126,6 +128,20 @@ workflow VSEARCH_WORKFLOW {
     )
     ch_versions = ch_versions.mix(VSEARCH_CLUSTER_SIZE.out.versions)
 
+    if (params.iontorrent) {
+        // Remap orphan reads to final OTU set
+        VSEARCH_USEARCH_GLOBAL(
+            VSEARCH_CLUSTER_SIZE.out.fasta.join(ch_merged_reads)
+        )
+        HELPER_VSEARCH_UPDATE_SIZE(
+            VSEARCH_CLUSTER_SIZE.out.fasta.join(VSEARCH_USEARCH_GLOBAL.out.txt)
+        )
+        ch_otus = HELPER_VSEARCH_UPDATE_SIZE.out.fasta
+       
+    } else {
+        ch_otus = VSEARCH_CLUSTER_SIZE.out.fasta
+    }
+
     /*
     Detect chimeras denovo and remove from OTU set
     If we do not want to detect chimeria, we short-circuit this step
@@ -134,7 +150,7 @@ workflow VSEARCH_WORKFLOW {
     */
     if (params.remove_chimera) {
         VSEARCH_UCHIME_DENOVO(
-            VSEARCH_CLUSTER_SIZE.out.fasta
+            ch_otus
         )
         ch_versions = ch_versions.mix(VSEARCH_UCHIME_DENOVO.out.versions)
         ch_reporting = ch_reporting.join(VSEARCH_UCHIME_DENOVO.out.fasta)

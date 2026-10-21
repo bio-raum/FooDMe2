@@ -1,3 +1,18 @@
+## 1.7.0
+
+### Methods
+
+  - We are changing the processing of IonTorrent data for all built-in primer sets
+    - Cutadapt now only requires the 5' primer to be present and will allow missing 3' primer sites (--cutadapt_trim_flex)
+    - Cutadapt will cut the reads down to the maximum expected amplicon length on its forward pass, after removing the primer site
+    - Quality trimming after the primer removal uses a new set of parameters better geared towards Torrent data
+
+  Further adjustment may be introduced in later releases as we monitor the effects of this set of changes. 
+
+### Documentation
+
+- Update the technology section to clarify potential limits with IonTorrent data and FooDMe2
+
 ## 1.6.1
 
 ### Methods

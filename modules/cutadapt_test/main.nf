@@ -24,6 +24,7 @@ process CUTADAPT {
 
     script:
     def args = task.ext.args ?: ''
+    def args2 = task.ext.args2 ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
     def trimmed  = meta.single_end ? "-o ${prefix}.primertrim.fastq.gz" : "-o ${prefix}_1.primertrim.fastq.gz -p ${prefix}_2.primertrim.fastq.gz"
     def options_5p = ''
@@ -31,7 +32,7 @@ process CUTADAPT {
     def read_config = "--interleaved"
     if (meta.single_end) {
         options_5p = "-g ^file:${primers}"
-        options_3p = "-a file\$:${primers_rc}"
+        options_3p = "-a file:${primers_rc}"
         read_config = ""
     } else {
         options_5p = "-g file:${primers} -G file:${primers}"
@@ -79,6 +80,7 @@ process CUTADAPT {
             --json=${prefix}_forward.json \\
         | cutadapt $read_config \\
             $args \\
+            $args2 \\
             --cores $task.cpus \\
             $trimmed \\
             $options_3p \\
@@ -96,6 +98,7 @@ process CUTADAPT {
             cutadapt: \$(cutadapt --version)
         END_VERSIONS
         """
+
     } else if (params.cutadapt_ont) {
         """
         cutadapt $read_config \\
