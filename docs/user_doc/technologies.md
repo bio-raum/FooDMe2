@@ -12,11 +12,11 @@ Illumina paired-end short-reads were the basis for the original implementation o
 
 ## IonTorrent short-reads (in development)
 
-IonTorrent is an alternative short-read technology that works in single-end layout, with support for slightly longer individual read lengths than Illumina (up to 600 bp). The data is of moderate quality (we have seen a fraction of Q30 bases of 50-60% in test data available to us), and exhibits technology-specific homopolymer error profiles as well as dips in per-base quality at the beginning and the end of reads. Within FooDMe2, IonTorrent is processed with the Illumina tool chain and select modifications to account for homopolymer and other Torrent-specific errors. Clustering is performed with Vsearch, as Dada2 struggles with IonTorrent specific errors. 
+IonTorrent is an alternative short-read technology that works in single-end layout, with support for slightly longer individual read lengths than Illumina (up to 600 bp). The data is of moderate quality (we have seen a fraction of Q30 bases of 30-60% in test data available to us), and exhibits technology-specific homopolymer error profiles as well as dips in per-base quality at the beginning, in the middle and at the end of reads. 
 
-The technology is limited to amplicons that fit within a single read (< 550 bp).
+This combination of inherent quality limitations make Torrent reads largely unsuitable for use with Dada2. For the built-in primer sets, FooDMe2 uses the alternative processing chain based on Vsearch instead. This is combined with additional backmapping of the raw read data onto the final set of OTUs to guage the true abundance of reads per OTU which may get skewed as a substantial fraction of reads are typically lost along the processing chain.
 
-Outside of the pre-configured primer sets, you can enable IonTorrent data processing with the `--iontorrent` command line flag. Consider combining this with `--vsearch` and `--cutadapt_flex` to enable single-end trimming that will try to also remove 3' primer sites but does not fail if none are found. Finally, you will most likely need to adjust read trimming parameters. Our pre-configured primer sets use the following fastP trimming options (`--fastp_options`) for IonTorrent data:
+Outside of the pre-configured primer sets, you can enable IonTorrent data processing with the `--iontorrent` command line flag. Consider combining this with `--vsearch` as well as `--cutadapt_flex`. The latter enables single-end trimming that will also try to remove 3' primer sites -  but does not fail if none are found. This seems to be a common issue with longer amplicons on the platform. Finally, you will most likely need to adjust read trimming parameters. Our pre-configured primer sets use the following fastP trimming options (`--fastp_options`) for IonTorrent data:
 
 `"--cut_tail --cut_tail_window_size 15 --cut_tail_mean_quality 15 --disable_adapter_trimming --trim_poly_g --poly_g_min_len 10"`
 
