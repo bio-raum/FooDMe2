@@ -2668,8 +2668,9 @@
 <ul>
 <li>We are changing the processing of IonTorrent data for all built-in primer sets<ul>
 <li>Cutadapt now only requires the 5' primer to be present and will allow missing 3' primer sites (--cutadapt_trim_flex)</li>
-<li>Cutadapt will cut the reads down to the maximum expected amplicon length on its forward pass, after removing the primer site</li>
 <li>Quality trimming after the primer removal uses a new set of parameters better geared towards Torrent data</li>
+<li>OTU clustering is now based on Vsearch instead of Dada2 for the built-in primer sets</li>
+<li>The Vsearch tool chain no includes a torrent-specific step at the end to derive the final cluster sizes by mapping the original reads back to the final OTUs</li>
 </ul>
 </li>
 </ul>
