@@ -6,7 +6,8 @@
     - Cutadapt now only requires the 5' primer to be present and will allow missing 3' primer sites (--cutadapt_trim_flex)
     - Quality trimming after the primer removal uses a new set of parameters better geared towards Torrent data
     - OTU clustering is now based on Vsearch instead of Dada2 for the built-in primer sets
-    - The Vsearch tool chain no includes a torrent-specific step at the end to derive the final cluster sizes by mapping the original reads back to the final OTUs
+    - The Vsearch tool chain now includes a torrent-specific step at the end to derive the final cluster sizes by mapping the original reads back to the final OTUs
+    - Lowered expected error for Torrent primer sets to be capped at 10.0 for the longest amplicons
 
   Further adjustment may be introduced in later releases as we monitor the effects of this set of changes. 
 
