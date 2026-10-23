@@ -68,7 +68,6 @@ def main():
     args = parse_arguments()
     update_otu_headers(args.table, args.input, args.output)
 
+
 if __name__ == "__main__":
     main()
-
-    
