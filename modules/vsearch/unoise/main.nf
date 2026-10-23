@@ -9,7 +9,7 @@ process VSEARCH_CLUSTER_UNOISE {
         'quay.io/biocontainers/vsearch:2.27.0--h6a68c12_0' }"
 
     input:
-    tuple val(meta), path(fa)
+    tuple val(meta), path(fa), val(total_reads)
 
     output:
     tuple val(meta), path(cluster), emit: fasta
@@ -23,9 +23,15 @@ process VSEARCH_CLUSTER_UNOISE {
     uc = prefix + '.denoised.uc'
 
     """
-    vsearch --cluster_unoise $fa \
-    --threads ${task.cpus} \
-    --uc $uc \
+    DYNAMIC_MINSIZE=\$(awk "BEGIN {print int(${total_reads} * 0.00005)}")
+    if [ \$DYNAMIC_MINSIZE -lt 4 ]; then
+        DYNAMIC_MINSIZE=4
+    fi
+
+    vsearch --cluster_unoise $fa \\
+    --threads ${task.cpus} \\
+    --minsize \$DYNAMIC_MINSIZE \\
+    --uc $uc \\
     --centroids $cluster $args
 
     cat <<-END_VERSIONS > versions.yml

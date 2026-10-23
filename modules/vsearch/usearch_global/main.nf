@@ -18,15 +18,14 @@ process VSEARCH_USEARCH_GLOBAL {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    tabbed = prefix + '.usearch_global.tsv'
 
     """
     vsearch --usearch_global $fastq \
+    $args \
     -threads ${task.cpus} \
     -db $db \
-    --id 0.97 \
     --sizeout \
-    --otutabout  ${prefix}.usearch_global.txt $args
+    --otutabout  ${prefix}.usearch_global.txt 
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
