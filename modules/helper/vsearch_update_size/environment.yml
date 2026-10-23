@@ -1,0 +1,7 @@
+name: helper_vsearch_size
+channels:
+  - conda-forge
+  - bioconda
+  
+dependencies:
+  - bioconda::multiqc=1.27

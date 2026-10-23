@@ -22,8 +22,8 @@ process HELPER_SEQTABLE_TO_FASTA {
 
     seqtab = readRDS("${rds}")
 
-    if (is.null(seqtab)) {
-        asfasta <- ""
+    if (is.null(seqtab) || length(seqtab) == 0 || NROW(seqtab) == 0) {
+        asfasta <- character(0)
     } else {
         asv <- data.frame(seqtab)
         colnames(asv) <- c("count")

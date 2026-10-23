@@ -12,19 +12,20 @@ process VSEARCH_USEARCH_GLOBAL {
     tuple val(meta), path(db), path(fastq)
 
     output:
-    tuple val(meta), path('*.tsv'), emit: tab
+    tuple val(meta), path('*.txt'), emit: txt
     path("versions.yml"), emit: versions
 
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
-    tabbed = prefix + '.usearch_global.tsv'
 
     """
     vsearch --usearch_global $fastq \
+    $args \
     -threads ${task.cpus} \
     -db $db \
-    -otutabout $tabbed $args
+    --sizeout \
+    --otutabout  ${prefix}.usearch_global.txt 
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

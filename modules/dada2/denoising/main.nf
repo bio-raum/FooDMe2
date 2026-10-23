@@ -52,8 +52,25 @@ process DADA2_DENOISING {
 
             #make table
             seqtab <- makeSequenceTable(dadaFs)
-            write.table(seqtab, sep="\t", file="${meta.sample_id}.seqtab.tsv", col.names = FALSE, quote=FALSE)
             saveRDS(seqtab, "${meta.sample_id}.seqtab.rds")
+
+            # --- Print OTus and counts per row as tsv for manual inspection ---
+            # This is what we used before, just printing amplicon sizes:
+            # write.table(seqtab, sep="\t", file="${meta.sample_id}.seqtab.tsv", col.names = FALSE, quote=FALSE)
+
+            sequence_counts <- colSums(seqtab)
+    
+            # Creates the tabular format seq<->count
+            output_table <- data.frame(
+                Sequence = names(sequence_counts),
+                Count = as.numeric(sequence_counts)
+            )
+
+            # Exporting to tsv
+            write.table(output_table, sep="\t", file="${meta.sample_id}.seqtab.tsv", 
+                row.names = FALSE, col.names = FALSE, quote = FALSE)
+            # ---------------------------------------------------------------
+
 
             #dummy file to fulfill output rules
             saveRDS("dummy", "dummy_${meta.sample_id}.mergers.rds")

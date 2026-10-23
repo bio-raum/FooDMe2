@@ -1,3 +1,20 @@
+## 1.7.0
+
+### Methods
+
+  - We are changing the processing of IonTorrent data for all built-in primer sets
+    - Quality trimming after the primer removal uses a new set of parameters better geared towards Torrent data
+    - OTU clustering is now based on Vsearch instead of Dada2 for the built-in primer sets
+    - Using Vsearch cluster_unoise to cluster reads into ASVs rather than OTUs
+    - The Vsearch tool chain now includes a torrent-specific step at the end to derive the final cluster sizes by mapping the original reads back to the final OTUs
+    - Lowered expected error for Torrent primer sets to be capped at 10.0 for the longest amplicons
+
+  Further adjustment may be introduced in later releases as we monitor the effects of this set of changes. 
+
+### Documentation
+
+- Update the technology section to clarify potential limits with IonTorrent data and FooDMe2
+
 ## 1.6.1
 
 ### Methods
