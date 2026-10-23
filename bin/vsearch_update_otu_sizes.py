@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-import sys
-import os
 import argparse
+import os
+import sys
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -24,6 +25,7 @@ def parse_arguments():
     )
     return parser.parse_args()
 
+
 def update_otu_headers(otu_table_path, fasta_in_path, fasta_out_path):
     if not os.path.exists(otu_table_path):
         print(f"Error: Die OTU-Tabelle '{otu_table_path}' wurde nicht gefunden.", file=sys.stderr)
@@ -31,8 +33,7 @@ def update_otu_headers(otu_table_path, fasta_in_path, fasta_out_path):
     if not os.path.exists(fasta_in_path):
         print(f"Error: Die Eingabe-FASTA '{fasta_in_path}' wurde nicht gefunden.", file=sys.stderr)
         sys.exit(1)
-    
-    # 1. Counts aus der VSEARCH OTU-Tabelle einlesen
+
     counts = {}
     with open(otu_table_path, "r") as f:
         for line in f:
@@ -43,8 +44,7 @@ def update_otu_headers(otu_table_path, fasta_in_path, fasta_out_path):
                 otu_id = parts[0]
                 count = parts[1]
                 counts[otu_id] = count
-    
-    # 2. Original-OTUs einlesen und Header mit den echten Counts neu schreiben
+
     otu_count = 0
     with open(fasta_in_path, "r") as infile, open(fasta_out_path, "w") as outfile:
         for line in infile:
@@ -60,8 +60,9 @@ def update_otu_headers(otu_table_path, fasta_in_path, fasta_out_path):
                 outfile.write(f">{raw_id};size={true_size}\n")
             else:
                 outfile.write(line)
-    
+
     print(f"SUCCESS: '{fasta_out_path}' mit {otu_count} OTUs wurde erfolgreich erstellt!")
+
 
 def main():
     args = parse_arguments()
@@ -69,3 +70,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    
