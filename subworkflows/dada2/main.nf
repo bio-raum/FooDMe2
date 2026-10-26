@@ -21,6 +21,31 @@ workflow DADA2_WORKFLOW {
     ch_filtered_reads = channel.from([])
 
     /*
+    Check quality binning in the reads and warn
+    if unexpected result is found
+    */
+    reads.branch { _m,r ->
+        def is_binned = isBinnedFastq(r[0])
+        binned: is_binned
+        unbinned: !is_binned
+    }.set { ch_illumina_binning }
+
+    // Check if read binning matches the command line flag, but only for Illumina
+    if (params.binned_qual) {
+        ch_illumina_binning.unbinned.subscribe { m, _r ->
+            if (m.platform == "ILLUMINA") {
+                log.warn "Expected binned qualities - but ${m.sample_id} contains unbinned qualities!\n"
+            }
+        }
+    } else {
+        ch_illumina_binning.binned.subscribe { m, _r ->
+            if (m.platform == "ILLUMINA") {
+                log.warn "Expected unbinned qualities - but ${m.sample_id} seems to contain binned qualities!\n"
+            }
+        }
+    }
+
+    /*
     Filter reads; trimming is done by Cutadapt
     */
     DADA2_FILTNTRIM(
@@ -99,4 +124,44 @@ workflow DADA2_WORKFLOW {
     qc = ch_qc_files
     stats = HELPER_DADA_STATS.out.json
 
+}
+
+def isBinnedFastq(reads) {
+    if (!reads.exists()) {
+        throw new IllegalArgumentException("No such file: ${reads.toString()}")
+    }
+
+    int lineCounter = 0
+    int readsAnalyzed = 0
+    // atomic storage of quality characters (unique)
+    Set<Character> uniqueQualityChars = []
+
+    try {
+        reads.withInputStream { inputStream ->
+            new java.util.zip.GZIPInputStream(inputStream).eachLine { line ->
+                lineCounter = lineCounter + 1
+                
+                // The 4th line contains the encoded quality
+                if (lineCounter % 4 == 0) {
+                    readsAnalyzed = readsAnalyzed + 1
+                    
+                    // collect the unique quality characters
+                    line.each { ch ->
+                        uniqueQualityChars.add(ch)
+                    }
+                    
+                    // Around 100 reads should give a sufficent sampling
+                    if (readsAnalyzed >= 100) {
+                        throw new RuntimeException("Scan beendet")
+                    }
+                }
+            }
+        }
+    } catch (RuntimeException e) {
+        // abort stream if something goes wrong
+    }
+
+    // Unbinned data (e.g. MiSeq) typically shows > 25 quality characters across 100 Reads
+    // Novaseq etc will show less than 10
+    return uniqueQualityChars.size() <= 10
 }
