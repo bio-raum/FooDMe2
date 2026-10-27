@@ -2047,6 +2047,8 @@
 <p>where <code>myprofile</code> can either be a site-specific config file or one of the built-in <a href="../installation/#software-provisioning">profiles</a>. This test requires an active internet connection to download the test data. </p>
 <h2 id="command-line-option">Command-line option</h2>
 <h3 id="basic-options">Basic options</h3>
+<p><code>--binned_qual</code> [ default = false ]
+Assume base qualities are binned. This is the default for most modern Illumina platforms (NovSeq, NextSeq 1000/2000, MiSeq i100, iSeq). Without this option enabled, data from these platforms may underform in  Dada2 OTU clustering. </p>
 <dl>
 <dt><code>--input samples.tsv</code> [default = null]</dt>
 <dd>
