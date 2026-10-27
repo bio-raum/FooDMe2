@@ -34,13 +34,13 @@ workflow DADA2_WORKFLOW {
     if (params.binned_qual) {
         ch_illumina_binning.unbinned.subscribe { m, _r ->
             if (m.platform == "ILLUMINA") {
-                log.warn "Expected binned qualities - but ${m.sample_id} contains unbinned qualities!\n"
+                log.warn "Expected binned qualities - but ${m.sample_id} use unbinned qualities!\n"
             }
         }
     } else {
         ch_illumina_binning.binned.subscribe { m, _r ->
             if (m.platform == "ILLUMINA") {
-                log.warn "Expected unbinned qualities - but ${m.sample_id} seems to contain binned qualities!\n"
+                log.warn "Expected unbinned qualities - but ${m.sample_id} seems to use binned qualities!\n"
             }
         }
     }

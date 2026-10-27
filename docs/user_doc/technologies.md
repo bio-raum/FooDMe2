@@ -10,6 +10,8 @@ We intend to have completed support for these technologies by release 2.0 (2026)
 
 Illumina paired-end short-reads were the basis for the original implementation of FooDMe. Their high base accuracy and throughput make them a very good option for metabarcoding projects, assuming the target amplicons can be covered by overlapping paired-end reads (< 850bp, depending on sequencing chemistry). Illumina reads are currently the most tested technology within FooDMe2 (and metabarcoding in general).
 
+Please note that newer Illumina data may use binned qualities (NovaSeq, MiSeq i100, etc). To enable support for binned qualities, please use `--binned_qual`.
+
 ## IonTorrent short-reads (in development)
 
 IonTorrent is an alternative short-read technology that works in single-end layout, with support for slightly longer individual read lengths than Illumina (up to 600 bp). The data is of moderate quality (we have seen a fraction of Q30 bases of 30-60% in test data available to us), and exhibits technology-specific homopolymer error profiles as well as dips in per-base quality at the beginning, in the middle and at the end of reads. 
