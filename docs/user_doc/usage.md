@@ -80,6 +80,9 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
 ### Basic options
 
+`--binned_qual` [ default = false ]
+Assume base qualities are binned. This is the default for most modern Illumina platforms (NovSeq, NextSeq 1000/2000, MiSeq i100, iSeq). Without this option enabled, data from these platforms may underform in Dada2 OTU clustering due to how the error is modelled.
+
 `--input samples.tsv` [default = null]
 
 :   This pipeline expects a TSV-formatted sample sheet (tabulation-delimited text file) to properly pull various meta data through the processes. The required format looks as follows:

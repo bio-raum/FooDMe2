@@ -1,0 +1,7 @@
+name: helper_download_midori
+channels:
+  - conda-forge
+  - bioconda
+  
+dependencies:
+  - bioconda::aminoextract=0.3.1

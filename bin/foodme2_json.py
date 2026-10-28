@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-from datetime import datetime
-from pathlib import Path
-import os
+import argparse
 import glob
 import json
+import os
 import re
-import argparse
+from datetime import datetime
+from pathlib import Path
 
 parser = argparse.ArgumentParser(description="Script options")
 parser.add_argument("--output", "-o")

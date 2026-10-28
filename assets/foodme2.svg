@@ -1,267 +1,3212 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="2448" height="1702" viewBox="0 0 2448 1702">
-<defs>
-</defs>
-<style>@media (prefers-color-scheme: dark) {
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1685"
+   height="946"
+   viewBox="0 0 1685 946"
+   version="1.1"
+   id="svg204"
+   sodipodi:docname="foodme2.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview204"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.61257928"
+     inkscape:cx="1333.7049"
+     inkscape:cy="547.68421"
+     inkscape:window-width="2560"
+     inkscape:window-height="1368"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg204" />
+  <defs
+     id="defs1" />
+  <metadata
+     id="diagram-manifest"
+     data-schema-version="1.0"><![CDATA[{"groups":[{"color":"#4CAF50","id":"main","label":"Main"},{"color":"#6ed371","id":"main_alt","label":"MainAlt"},{"color":"#c8d32a","id":"illumina","label":"Illumina processing"},{"color":"#d3922a","id":"torrent","label":"Torrent processing"},{"color":"#d33b2a","id":"nanopore","label":"Nanopore processing"},{"color":"#2196F3","id":"qc","label":"Quality Control"}],"height":946,"match":{"flags":"i","target":"fqProcessName","type":"regex"},"nodes":[{"groups":["illumina","nanopore","torrent"],"h":20.0,"id":"input","label":"input","patterns":[],"r":6.0,"region":"inputs","rx":6.0,"w":12.0,"x":80.0,"y":132.0},{"groups":["illumina","nanopore","torrent"],"h":20.0,"id":"reads","label":"Reads","patterns":[],"r":6.0,"region":"inputs","rx":6.0,"w":12.0,"x":140.0,"y":132.0},{"groups":["illumina","nanopore","torrent"],"h":20.0,"id":"cat_fastq","label":"Cat FastQs","patterns":[],"r":6.0,"region":"preprocessing","rx":6.0,"w":12.0,"x":298.0,"y":132.0},{"groups":["illumina","torrent"],"h":16.0,"id":"fastp_metric","label":"FastP Metrics","patterns":[],"r":6.0,"region":"preprocessing","rx":6.0,"w":12.0,"x":403.0,"y":130.0},{"groups":["illumina","torrent"],"h":16.0,"id":"fastp_trim","label":"FastP Trimming","patterns":[],"r":6.0,"region":"preprocessing","rx":6.0,"w":12.0,"x":595.0,"y":130.0},{"groups":["nanopore"],"h":12.0,"id":"fastplong_metrics","label":"FastPlong Metrics","patterns":[],"r":6.0,"region":"preprocessing","rx":6.0,"w":12.0,"x":403.0,"y":186.6},{"groups":["nanopore"],"h":12.0,"id":"fastplong_trim","label":"FastPlong Trim","patterns":[],"r":6.0,"region":"preprocessing","rx":6.0,"w":12.0,"x":595.0,"y":186.6},{"groups":["illumina","nanopore","torrent"],"h":20.0,"id":"cutadapt","label":"Cutadapt","patterns":[],"r":6.0,"region":"preprocessing","rx":6.0,"w":12.0,"x":499.0,"y":132.0},{"groups":["illumina"],"h":12.0,"id":"dada2_filterntrim","label":"FilterNTrim","patterns":[],"r":6.0,"region":"illumina_dada2","rx":6.0,"w":12.0,"x":784.5,"y":128.0},{"groups":["illumina"],"h":12.0,"id":"dada2_error","label":"Error","patterns":[],"r":6.0,"region":"illumina_dada2","rx":6.0,"w":12.0,"x":844.5,"y":128.0},{"groups":["illumina"],"h":12.0,"id":"dada2_denoising","label":"Denoising","patterns":[],"r":6.0,"region":"illumina_dada2","rx":6.0,"w":12.0,"x":904.5,"y":128.0},{"groups":["illumina"],"h":12.0,"id":"dada2_filtersize","label":"FilterSize","patterns":[],"r":6.0,"region":"illumina_dada2","rx":6.0,"w":12.0,"x":964.5,"y":128.0},{"groups":["illumina"],"h":12.0,"id":"dada2_rmchimera","label":"RmChimera","patterns":[],"r":6.0,"region":"illumina_dada2","rx":6.0,"w":12.0,"x":1024.5,"y":128.0},{"groups":["illumina"],"h":12.0,"id":"seqtable_to_fasta","label":"Seqtable","patterns":[],"r":6.0,"region":"illumina_dada2","rx":6.0,"w":12.0,"x":1084.5,"y":128.0},{"groups":["torrent"],"h":12.0,"id":"vsearch_fastq_filter_reads","label":"Filter qual","patterns":[],"r":6.0,"region":"torrent_vsearch","rx":6.0,"w":12.0,"x":784.5,"y":297.1},{"groups":["torrent"],"h":12.0,"id":"vsearch_fastq_filter","label":"Filter length","patterns":[],"r":6.0,"region":"torrent_vsearch","rx":6.0,"w":12.0,"x":844.5,"y":297.1},{"groups":["torrent"],"h":12.0,"id":"vsearch_derep_full","label":"Dereplicate","patterns":[],"r":6.0,"region":"torrent_vsearch","rx":6.0,"w":12.0,"x":904.5,"y":297.1},{"groups":["torrent"],"h":12.0,"id":"vsearch_cluster_unoise","label":"Cluster Unoise","patterns":[],"r":6.0,"region":"torrent_vsearch","rx":6.0,"w":12.0,"x":964.5,"y":297.1},{"groups":["torrent"],"h":12.0,"id":"vsearch_usearch_global","label":"Usearch","patterns":[],"r":6.0,"region":"torrent_vsearch","rx":6.0,"w":12.0,"x":1024.5,"y":297.1},{"groups":["torrent"],"h":12.0,"id":"vsearch_uchime_denovo","label":"Uchime Denovo","patterns":[],"r":6.0,"region":"torrent_vsearch","rx":6.0,"w":12.0,"x":1084.5,"y":297.1},{"groups":["nanopore"],"h":12.0,"id":"minimap_align_db","label":"Index","patterns":[],"r":6.0,"region":"nanopore_mapping","rx":6.0,"w":12.0,"x":781.0,"y":474.2},{"groups":["nanopore"],"h":12.0,"id":"minimap_align_consensus","label":"Align","patterns":[],"r":6.0,"region":"nanopore_mapping","rx":6.0,"w":12.0,"x":1021.0,"y":474.2},{"groups":["nanopore"],"h":12.0,"id":"samtools_consensus","label":"Consensus","patterns":[],"r":6.0,"region":"nanopore_mapping","rx":6.0,"w":12.0,"x":841.0,"y":474.2},{"groups":["nanopore"],"h":12.0,"id":"filter_consensus","label":"Filter","patterns":[],"r":6.0,"region":"nanopore_mapping","rx":6.0,"w":12.0,"x":901.0,"y":474.2},{"groups":["nanopore"],"h":12.0,"id":"cdhit_est","label":"CD-HIT","patterns":[],"r":6.0,"region":"nanopore_mapping","rx":6.0,"w":12.0,"x":961.0,"y":474.2},{"groups":["nanopore"],"h":12.0,"id":"samtools_filter","label":"Filter","patterns":[],"r":6.0,"region":"nanopore_mapping","rx":6.0,"w":12.0,"x":1081.0,"y":474.2},{"groups":["nanopore"],"h":12.0,"id":"samtools_coverage","label":"Coverage","patterns":[],"r":6.0,"region":"nanopore_mapping","rx":6.0,"w":12.0,"x":1141.0,"y":474.2},{"groups":["nanopore"],"h":12.0,"id":"size_from_coverage","label":"Cluster Size","patterns":[],"r":6.0,"region":"nanopore_mapping","rx":6.0,"w":12.0,"x":1201.0,"y":474.2},{"groups":["illumina","main","main_alt","nanopore","torrent"],"h":12.0,"id":"blastn","label":"BLASTN","patterns":[],"r":6.0,"region":"blast_taxonomy","rx":6.0,"w":28.0,"x":1507.0,"y":170.6},{"groups":["main","main_alt"],"h":12.0,"id":"blast_filter_bitscore","label":"Filter by Bitscore","patterns":[],"r":6.0,"region":"blast_taxonomy","rx":6.0,"w":16.0,"x":1513.0,"y":373.0},{"groups":["main_alt"],"h":12.0,"id":"blast_merge_hsp","label":"Merge HSPs","patterns":[],"r":6.0,"region":"blast_taxonomy","rx":6.0,"w":12.0,"x":1571.0,"y":271.8},{"groups":["main"],"h":12.0,"id":"blast_consensus","label":"Calculate Consensus","patterns":[],"r":6.0,"region":"blast_taxonomy","rx":6.0,"w":12.0,"x":1515.0,"y":423.6},{"groups":["main"],"h":12.0,"id":"blast_sample_compo","label":"Summarize Composition","patterns":[],"r":6.0,"region":"blast_taxonomy","rx":6.0,"w":12.0,"x":1515.0,"y":474.2},{"groups":["main"],"h":12.0,"id":"html","label":"html","patterns":[],"r":6.0,"region":"reporting","rx":6.0,"w":12.0,"x":1389.0,"y":674.8},{"groups":["main"],"h":12.0,"id":"xlsx","label":"xlsx","patterns":[],"r":6.0,"region":"reporting","rx":6.0,"w":12.0,"x":1389.0,"y":624.2},{"groups":["main"],"h":12.0,"id":"json_file","label":"json_file","patterns":[],"r":6.0,"region":"reporting","rx":6.0,"w":12.0,"x":1485.0,"y":624.2}],"regions":[{"id":"inputs","label":"Inputs"},{"id":"preprocessing","label":"Preprocessing"},{"id":"illumina_dada2","label":"Illumina - Dada2"},{"id":"torrent_vsearch","label":"IonTorrent - Vsearch"},{"id":"nanopore_mapping","label":"ONT - Mapping"},{"id":"blast_taxonomy","label":"BLAST Taxonomy"},{"id":"reporting","label":"Reports"}],"title":"FooDMe2","version":"1.0","width":1685}]]></metadata>
+  <style
+     id="style1">.nf-metro-title { fill: var(--nfm-map-title-color, #111111); }
+.nf-metro-station-label { fill: var(--nfm-map-label-color, #333333); }
+.nf-metro-section-box { fill: var(--nfm-map-section-fill, #ededed); stroke: var(--nfm-map-section-stroke, #e6e6e6); }
+.nf-metro-section-label { fill: var(--nfm-map-section-label-color, #666666); }
+.nf-metro-group-label { fill: var(--nfm-map-section-label-color, #666666); }
+.nf-metro-group-underline { stroke: var(--nfm-map-section-label-color, #666666); }
+.nf-metro-legend-bg { fill: var(--nfm-map-legend-bg, rgba(255, 255, 255, 0.8)); }
+.nf-metro-legend-text { fill: var(--nfm-map-legend-text-color, #333333); }
+.nf-metro-marker-stroke { stroke: var(--nfm-map-marker-stroke, #333333); }
+.nf-metro-label-halo { fill: var(--nfm-map-bg, #ffffff); stroke: var(--nfm-map-bg, #ffffff); }</style>
+  <style
+     id="style2">@media (prefers-color-scheme: dark) {
     .nf-metro-section-label { fill: #d0d0d0; }
     .nf-metro-section-num-circle { fill: #777777; }
     .nf-metro-title { fill: #ffffff; }
 }
 </style>
-<text x="60.0" y="30.0" font-size="26.0" fill="#111111" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" class="nf-metro-title">FooDMe2</text>
-<rect x="629.0" y="85.0" width="240.0" height="162.23303379776746" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" />
-<circle cx="640.0" cy="70.0" r="11" fill="#333333" class="nf-metro-section-num-circle" />
-<text x="640.0" y="70.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">1</text>
-<text x="656.0" y="70.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label">Inputs</text>
-<rect x="1254.5" y="85.0" width="470.5" height="612.0" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" />
-<circle cx="1265.5" cy="70.0" r="11" fill="#333333" class="nf-metro-section-num-circle" />
-<text x="1265.5" y="70.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">2</text>
-<text x="1281.5" y="70.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label">Preprocessing</text>
-<rect x="591.0" y="747.0" width="286.0" height="441.0" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" />
-<circle cx="602.0" cy="732.0" r="11" fill="#333333" class="nf-metro-section-num-circle" />
-<text x="602.0" y="732.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">3</text>
-<text x="618.0" y="732.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label">Dada2</text>
-<rect x="927.0" y="747.0" width="798.0" height="150.0" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" />
-<circle cx="938.0" cy="732.0" r="11" fill="#333333" class="nf-metro-section-num-circle" />
-<text x="938.0" y="732.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">4</text>
-<text x="954.0" y="732.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label">Vsearch</text>
-<rect x="1771.4" y="747.0" width="603.5999999999999" height="110.0" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" />
-<circle cx="1782.4" cy="732.0" r="11" fill="#333333" class="nf-metro-section-num-circle" />
-<text x="1782.4" y="732.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">5</text>
-<text x="1798.4" y="732.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label">Mapping-based</text>
-<rect x="30.0" y="1226.0" width="847.0" height="230.0" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" />
-<circle cx="41.0" cy="1211.0" r="11" fill="#333333" class="nf-metro-section-num-circle" />
-<text x="41.0" y="1211.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">6</text>
-<text x="57.0" y="1211.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label">BLAST Taxonomy</text>
-<rect x="1521.0" y="1226.0" width="204.0" height="122.23303379776745" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" />
-<circle cx="1532.0" cy="1211.0" r="11" fill="#333333" class="nf-metro-section-num-circle" />
-<text x="1532.0" y="1211.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">7</text>
-<text x="1548.0" y="1211.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label">Reports</text>
-<path d="M106.0,1424.0 L325.0,1424.0 Q335.0,1424.0,338.5112344158839,1414.6367082243096 L361.4887655841161,1353.3632917756904 Q365.0,1344.0,375.0,1344.0 L392.0,1344.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M877.0,1390.0 L872.0,1390.0 Q862.0,1390.0,856.0,1382.0 L838.0,1358.0 Q832.0,1350.0,822.0,1350.0 L106.0,1350.0" stroke="#c8d32a" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M877.0,1387.0 L106.0,1387.0" stroke="#a19b1d" stroke-width="4.0" stroke-linecap="round" />
-<path d="M877.0,1387.0 L106.0,1387.0" stroke="#a19b1d" stroke-width="4.0" stroke-linecap="round" />
-<path d="M106.0,1387.0 L325.0,1387.0 Q335.0,1387.0,341.0,1379.0 L359.0,1355.0 Q365.0,1347.0,375.0,1347.0 L392.0,1347.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M877.0,1384.0 L872.0,1384.0 Q862.0,1384.0,856.0,1392.0 L838.0,1416.0 Q832.0,1424.0,822.0,1424.0 L106.0,1424.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M392.0,1356.0 L409.0,1356.0 Q419.0,1356.0,423.86444788620463,1347.2628868175811 L444.13555211379537,1310.8536300813025 Q449.0,1302.1165168988837,459.0,1302.1165168988837 L636.0,1302.1165168988837" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M392.0,1353.0 L409.0,1353.0 Q419.0,1353.0,428.07529242784784,1348.8001110313428 L439.92470757215216,1343.3164058675409 Q449.0,1339.1165168988837,459.0,1339.1165168988837 L496.0,1339.1165168988837" stroke="#38863b" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M106.0,1350.0 L392.0,1350.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M496.0,1339.1165168988837 L533.0,1339.1165168988837 Q543.0,1339.1165168988837,549.0,1331.1165168988837 L567.0,1307.1165168988837 Q573.0,1299.1165168988837,583.0,1299.1165168988837 L636.0,1299.1165168988837" stroke="#38863b" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M106.0,1316.0 L126.0,1316.0 Q136.0,1316.0,145.0752924278478,1311.8001110313428 L156.9247075721522,1306.3164058675409 Q166.0,1302.1165168988837,176.0,1302.1165168988837 L211.0,1302.1165168988837" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1571.0,1305.1165168988837 L1571.0,1305.1165168988837 Q1581.0,1305.1165168988837,1588.5423741105224,1311.682534929389 L1603.4576258894776,1324.667015767262 Q1611.0,1331.2330337977673,1621.0,1331.2330337977673 L1667.0,1331.2330337977673" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1571.0,1305.1165168988837 L1571.0,1305.1165168988837 Q1581.0,1305.1165168988837,1588.5423741105224,1298.5504988683783 L1603.4576258894776,1285.5660180305053 Q1611.0,1279.0,1621.0,1279.0 L1667.0,1279.0" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M211.0,1302.1165168988837 L271.0,1302.1165168988837" stroke="#4CAF50" stroke-width="4.0" stroke-linecap="round" />
-<path d="M271.0,1302.1165168988837 L325.0,1302.1165168988837 Q335.0,1302.1165168988837,339.86444788620463,1310.8536300813025 L360.13555211379537,1347.2628868175811 Q365.0,1356.0,375.0,1356.0 L392.0,1356.0" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M636.0,1302.1165168988837 L696.0,1302.1165168988837" stroke="#4CAF50" stroke-width="4.0" stroke-linecap="round" />
-<path d="M696.0,1302.1165168988837 L823.5,1302.1165168988837" stroke="#4CAF50" stroke-width="4.0" stroke-linecap="round" />
-<path d="M823.5,1302.1165168988837 L877.0,1302.1165168988837" stroke="#4CAF50" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1725.0,1302.1165168988837 L1571.0,1305.1165168988837" stroke="#4CAF50" stroke-width="4.0" stroke-linecap="round" />
-<path d="M877.0,1302.1165168988837 L1725.0,1302.1165168988837" stroke="#4CAF50" stroke-width="4.0" stroke-linecap="round" />
-<path d="M696.0,1287.1165168988837 L753.5,1287.1165168988837 Q763.5,1287.1165168988837,769.5,1295.1165168988837 L787.5,1319.1165168988837 Q793.5,1327.1165168988837,803.5,1327.1165168988837 L823.5,1327.1165168988837" stroke="#2196F3" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M106.0,1276.0 L126.0,1276.0 Q136.0,1276.0,143.5423741105224,1282.5660180305053 L158.4576258894776,1295.5504988683783 Q166.0,1302.1165168988837,176.0,1302.1165168988837 L211.0,1302.1165168988837" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M877.0,1119.0 L877.0,1390.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M713.0,1103.0 L713.0,1109.0 Q713.0,1119.0,723.0,1119.0 L877.0,1119.0" stroke="#c8d32a" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M770.0,1027.0 L770.0,1053.0 Q770.0,1063.0,761.0557280900008,1067.4721359549997 L718.9442719099992,1088.5278640450003 Q710.0,1093.0,710.0,1103.0 L710.0,1103.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M710.0,942.0 L710.0,942.0 Q710.0,952.0,718.9442719099992,956.4721359549995 L761.0557280900008,977.5278640450005 Q770.0,982.0,770.0,992.0 L770.0,1027.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M713.0,942.0 L713.0,1103.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M707.0,942.0 L707.0,942.0 Q707.0,952.0,716.7014250014533,954.4253562503633 L817.2985749985467,979.5746437496367 Q827.0,982.0,827.0,992.0 L827.0,1027.0" stroke="#2196F3" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M713.0,902.0 L713.0,942.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M713.0,902.0 L713.0,1103.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M713.0,862.0 L713.0,902.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M2375.0,845.0 L1773.0,845.0 Q1763.0,845.0,1763.0,835.0 L1763.0,266.0 Q1763.0,256.0,1753.0,256.0 L899.0,256.0 Q889.0,256.0,889.0,266.0 L889.0,1374.0 Q889.0,1384.0,879.0,1384.0 L877.0,1384.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M877.0,828.0 L719.0,828.0 Q713.0,828.0,713.0,822.0 L713.0,822.0" stroke="#c8d32a" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1562.0,825.0 L1502.0,825.0" stroke="#a19b1d" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1502.0,825.0 L1482.0,825.0 Q1472.0,825.0,1466.0,817.0 L1448.0,793.0 Q1442.0,785.0,1432.0,785.0 L1392.5,785.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1127.0,825.0 L1171.0,825.0 Q1181.0,825.0,1189.3205029433784,819.4529980377478 L1202.6794970566216,810.5470019622522 Q1211.0,805.0,1221.0,805.0 L1725.0,805.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M713.0,822.0 L713.0,862.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1127.0,822.0 L1083.0,822.0 Q1073.0,822.0,1067.0,830.0 L1049.0,854.0 Q1043.0,862.0,1033.0,862.0 L977.0,862.0" stroke="#2196F3" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1725.0,805.0 L910.5,805.0 Q900.5,805.0,900.5,815.0 L900.5,1374.0 Q900.5,1387.0,887.5,1387.0 L877.0,1387.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1725.0,805.0 L910.5,805.0 Q900.5,805.0,900.5,815.0 L900.5,1374.0 Q900.5,1387.0,887.5,1387.0 L877.0,1387.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1671.5,788.0 L1562.0,788.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1562.0,788.0 L1392.5,788.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1392.5,788.0 L1283.0,788.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1283.0,788.0 L1223.0,788.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1223.0,785.0 L1201.5,785.0 Q1191.5,785.0,1185.5,793.0 L1167.5,817.0 Q1161.5,825.0,1151.5,825.0 L1127.0,825.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1671.5,785.0 L1632.0,785.0 Q1622.0,785.0,1616.0,793.0 L1598.0,817.0 Q1592.0,825.0,1582.0,825.0 L1562.0,825.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M2325.0,785.0 L2229.0,785.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<path d="M2229.0,785.0 L2169.0,785.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<path d="M2169.0,785.0 L2109.0,785.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<path d="M2109.0,785.0 L2049.0,785.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<path d="M2049.0,785.0 L1953.0,785.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1953.0,785.0 L1893.0,785.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1893.0,785.0 L1833.0,785.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1725.0,785.0 L1671.5,785.0" stroke="#a19b1d" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1833.0,785.0 L2079.0,785.0 Q2089.0,785.0,2093.4721359549994,793.9442719099992 L2114.5278640450006,836.0557280900008 Q2119.0,845.0,2129.0,845.0 L2375.0,845.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1223.0,785.0 L1244.5,785.0 Q1254.5,785.0,1262.8205029433784,790.5470019622522 L1276.1794970566216,799.4529980377478 Q1284.5,805.0,1294.5,805.0 L1725.0,805.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1392.5,782.0 L1353.0,782.0 Q1343.0,782.0,1339.488765584116,791.3632917756904 L1316.511234415884,852.6367082243096 Q1313.0,862.0,1303.0,862.0 L977.0,862.0" stroke="#2196F3" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M2325.0,782.0 L2312.5,782.0 Q2302.5,782.0,2296.5,790.0 L2278.5,814.0 Q2272.5,822.0,2262.5,822.0 L2229.0,822.0" stroke="#2196F3" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M2049.0,782.0 L2036.5,782.0 Q2026.5,782.0,2020.5,790.0 L2002.5,814.0 Q1996.5,822.0,1986.5,822.0 L1953.0,822.0" stroke="#2196F3" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M2375.0,765.0 L2370.0,765.0 Q2360.0,765.0,2352.9289321881347,772.0710678118654 L2347.0710678118653,777.9289321881346 Q2340.0,785.0,2330.0,785.0 L2325.0,785.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1254.5,634.0 L1244.5,634.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1244.5,634.0 L1241.5,634.0 Q1231.5,634.0,1231.5,644.0 L1231.5,818.0 Q1231.5,828.0,1221.5,828.0 L877.0,828.0" stroke="#c8d32a" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1254.5,631.0 L1244.5,631.0" stroke="#a19b1d" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1244.5,631.0 L1244.5,631.0 Q1254.5,631.0,1254.5,641.0 L1254.5,702.0 Q1254.5,712.0,1264.5,712.0 L1728.0,712.0 Q1738.0,712.0,1738.0,722.0 L1738.0,775.0 Q1738.0,785.0,1728.0,785.0 L1725.0,785.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1254.5,628.0 L1244.5,628.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1244.5,628.0 L1244.5,628.0 Q1254.5,628.0,1254.5,638.0 L1254.5,702.0 Q1254.5,712.0,1264.5,712.0 L2378.0,712.0 Q2388.0,712.0,2388.0,722.0 L2388.0,755.0 Q2388.0,765.0,2378.0,765.0 L2375.0,765.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1561.0,612.0 L1561.0,618.0 Q1561.0,634.0,1545.0,634.0 L1254.5,634.0" stroke="#c8d32a" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1558.0,612.0 L1558.0,618.0 Q1558.0,631.0,1545.0,631.0 L1254.5,631.0" stroke="#a19b1d" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1615.0,450.5 L1615.0,450.5 Q1615.0,460.5,1623.944271909999,464.9721359549996 L1666.055728090001,486.0278640450004 Q1675.0,490.5,1675.0,500.5 L1675.0,612.0" stroke="#2196F3" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1618.0,450.5 L1618.0,450.5 Q1618.0,460.5,1608.9713948117608,464.7993358039235 L1564.0286051882392,486.2006641960765 Q1555.0,490.5,1555.0,500.5 L1555.0,612.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1618.0,450.5 L1618.0,618.0 Q1618.0,631.0,1605.0,631.0 L1254.5,631.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1555.0,374.5 L1555.0,374.5 Q1555.0,384.5,1564.0286051882392,388.7993358039235 L1608.9713948117608,410.2006641960765 Q1618.0,414.5,1618.0,424.5 L1618.0,450.5" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1561.0,374.5 L1561.0,612.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1441.0,334.5 L1441.0,334.5 Q1441.0,344.5,1450.8639392383213,346.14398987305356 L1551.1360607616787,362.85601012694644 Q1561.0,364.5,1561.0,374.5 L1561.0,374.5" stroke="#c8d32a" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1435.0,334.5 L1435.0,334.5 Q1435.0,344.5,1444.8639392383213,346.14398987305356 L1545.1360607616787,362.85601012694644 Q1555.0,364.5,1555.0,374.5 L1555.0,374.5" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M687.0,212.23303379776746 L814.0,212.23303379776746 Q824.0,212.23303379776746,827.2857828309867,202.78826640054731 L850.7142171690133,135.44476739722015 Q854.0,126.0,864.0,126.0 L869.0,126.0" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1555.0,200.0 L1555.0,284.5 Q1555.0,294.5,1545.3292546273735,297.0449329927964 L1450.6707453726265,321.9550670072036 Q1441.0,324.5,1441.0,334.5 L1441.0,334.5" stroke="#c8d32a" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1555.0,200.0 L1555.0,200.0 Q1555.0,210.0,1564.7014250014533,212.42535625036334 L1665.2985749985467,237.57464374963666 Q1675.0,240.0,1675.0,250.0 L1675.0,334.5" stroke="#2196F3" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1558.0,200.0 L1558.0,200.0 Q1558.0,210.0,1548.2847966121687,212.36956180191007 L1444.7152033878313,237.63043819808993 Q1435.0,240.0,1435.0,250.0 L1435.0,334.5" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M775.5,178.23303379776746 L814.0,178.23303379776746 Q824.0,178.23303379776746,828.7729280418996,169.44559060268233 L849.2270719581004,131.78744319508513 Q854.0,123.0,864.0,123.0 L869.0,123.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1498.0,160.0 L1498.0,160.0 Q1498.0,170.0,1507.4359998213288,173.3108771302908 L1545.5640001786712,186.6891228697092 Q1555.0,190.0,1555.0,200.0 L1555.0,200.0" stroke="#c8d32a" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1495.0,160.0 L1495.0,160.0 Q1495.0,170.0,1504.5312426714454,173.0257913242684 L1548.4687573285546,186.9742086757316 Q1558.0,190.0,1558.0,200.0 L1558.0,200.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1435.0,160.0 L1435.0,284.5 Q1435.0,294.5,1437.8734788556635,304.07826285221154 L1441.1265211443365,314.92173714778846 Q1444.0,324.5,1444.0,334.5 L1444.0,334.5" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M687.0,146.11651689888373 L687.0,146.11651689888373 Q697.0,146.11651689888373,704.5423741105224,139.55049886837836 L719.4576258894776,126.56601803050538 Q727.0,120.0,737.0,120.0 L798.0,120.0" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M687.0,146.11651689888373 L687.0,146.11651689888373 Q697.0,146.11651689888373,704.5423741105224,152.6825349293891 L719.4576258894776,165.6670157672621 Q727.0,172.23303379776746,737.0,172.23303379776746 L775.5,172.23303379776746" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M1254.5,126.0 L1425.0,126.0 Q1435.0,126.0,1435.0,136.0 L1435.0,160.0" stroke="#4CAF50" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M869.0,126.0 L1254.5,126.0" stroke="#4CAF50" stroke-width="4.0" stroke-linecap="round" />
-<path d="M798.0,123.0 L869.0,120.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1254.5,123.0 L1485.0,123.0 Q1495.0,123.0,1495.0,133.0 L1495.0,160.0" stroke="#a718af" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M869.0,123.0 L1254.5,123.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<path d="M1254.5,120.0 L1485.0,120.0 Q1498.0,120.0,1498.0,133.0 L1498.0,160.0" stroke="#c8d32a" stroke-width="4.0" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-<path d="M869.0,120.0 L1254.5,120.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<rect x="681.0" y="206.23303379776746" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<path d="M649.0,196.23303379776746 L667.0,196.23303379776746 L675.0,204.23303379776746 L675.0,226.23303379776746 Q675.0,228.23303379776746,673.0,228.23303379776746 L649.0,228.23303379776746 Q647.0,228.23303379776746,647.0,226.23303379776746 L647.0,198.23303379776746 Q647.0,196.23303379776746,649.0,196.23303379776746 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
-<path d="M667.0,196.23303379776746 L667.0,204.23303379776746 L675.0,204.23303379776746 Z" fill="#333333" opacity="0.15" stroke="none" />
-<path d="M667.0,196.23303379776746 L667.0,204.23303379776746 L675.0,204.23303379776746" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
-<text x="661.0" y="213.43303379776745" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">Fasta</text>
-<rect x="681.0" y="140.11651689888373" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<path d="M649.0,130.11651689888373 L667.0,130.11651689888373 L675.0,138.11651689888373 L675.0,160.11651689888373 Q675.0,162.11651689888373,673.0,162.11651689888373 L649.0,162.11651689888373 Q647.0,162.11651689888373,647.0,160.11651689888373 L647.0,132.11651689888373 Q647.0,130.11651689888373,649.0,130.11651689888373 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
-<path d="M667.0,130.11651689888373 L667.0,138.11651689888373 L675.0,138.11651689888373 Z" fill="#333333" opacity="0.15" stroke="none" />
-<path d="M667.0,130.11651689888373 L667.0,138.11651689888373 L675.0,138.11651689888373" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
-<text x="661.0" y="147.31651689888372" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">TSV</text>
-<rect x="792.0" y="114.0" width="12.0" height="15.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="769.5" y="166.23303379776746" width="12.0" height="18.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1489.0" y="154.0" width="15.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1552.0" y="194.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1429.0" y="328.5" width="21.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1552.0" y="368.5" width="18.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1558.0" y="194.0" width="15.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1681.0" y="328.5" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1618.0" y="444.5" width="15.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1681.0" y="606.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="707.0" y="816.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="707.0" y="856.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="707.0" y="896.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="701.0" y="936.0" width="18.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="767.0" y="1021.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="704.0" y="1097.0" width="15.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="821.0" y="1021.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1665.5" y="779.0" width="12.0" height="15.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1556.0" y="782.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1556.0" y="819.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1496.0" y="819.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1386.5" y="776.0" width="12.0" height="18.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1277.0" y="782.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1217.0" y="779.0" width="12.0" height="15.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1121.0" y="816.0" width="12.0" height="15.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="971.0" y="856.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="2319.0" y="776.0" width="12.0" height="15.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="2043.0" y="776.0" width="12.0" height="15.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="2223.0" y="816.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="2223.0" y="779.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="2163.0" y="779.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="2103.0" y="779.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1947.0" y="816.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1947.0" y="779.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1887.0" y="779.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1827.0" y="779.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="100.0" y="1270.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="100.0" y="1310.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="205.0" y="1296.1165168988837" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="265.0" y="1296.1165168988837" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="386.0" y="1338.0" width="12.0" height="24.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="630.0" y="1293.1165168988837" width="12.0" height="15.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="490.0" y="1333.1165168988837" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="690.0" y="1281.1165168988837" width="12.0" height="27.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="817.5" y="1321.1165168988837" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="817.5" y="1296.1165168988837" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<rect x="1661.0" y="1273.0" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<path d="M1681.0,1263.0 L1699.0,1263.0 L1707.0,1271.0 L1707.0,1293.0 Q1707.0,1295.0,1705.0,1295.0 L1681.0,1295.0 Q1679.0,1295.0,1679.0,1293.0 L1679.0,1265.0 Q1679.0,1263.0,1681.0,1263.0 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
-<path d="M1699.0,1263.0 L1699.0,1271.0 L1707.0,1271.0 Z" fill="#333333" opacity="0.15" stroke="none" />
-<path d="M1699.0,1263.0 L1699.0,1271.0 L1707.0,1271.0" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
-<text x="1693.0" y="1280.2" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">HTML</text>
-<rect x="1661.0" y="1325.2330337977673" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<path d="M1681.0,1315.2330337977673 L1699.0,1315.2330337977673 L1707.0,1323.2330337977673 L1707.0,1345.2330337977673 Q1707.0,1347.2330337977673,1705.0,1347.2330337977673 L1681.0,1347.2330337977673 Q1679.0,1347.2330337977673,1679.0,1345.2330337977673 L1679.0,1317.2330337977673 Q1679.0,1315.2330337977673,1681.0,1315.2330337977673 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
-<path d="M1699.0,1315.2330337977673 L1699.0,1323.2330337977673 L1707.0,1323.2330337977673 Z" fill="#333333" opacity="0.15" stroke="none" />
-<path d="M1699.0,1315.2330337977673 L1699.0,1323.2330337977673 L1707.0,1323.2330337977673" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
-<text x="1693.0" y="1332.4330337977674" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">XLSX</text>
-<rect x="1565.0" y="1299.1165168988837" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" />
-<path d="M1585.0,1289.1165168988837 L1603.0,1289.1165168988837 L1611.0,1297.1165168988837 L1611.0,1319.1165168988837 Q1611.0,1321.1165168988837,1609.0,1321.1165168988837 L1585.0,1321.1165168988837 Q1583.0,1321.1165168988837,1583.0,1319.1165168988837 L1583.0,1291.1165168988837 Q1583.0,1289.1165168988837,1585.0,1289.1165168988837 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
-<path d="M1603.0,1289.1165168988837 L1603.0,1297.1165168988837 L1611.0,1297.1165168988837 Z" fill="#333333" opacity="0.15" stroke="none" />
-<path d="M1603.0,1289.1165168988837 L1603.0,1297.1165168988837 L1611.0,1297.1165168988837" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
-<text x="1597.0" y="1306.3165168988837" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">JSON</text>
-<text x="106.0" y="1262.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Filter Taxonomy</text>
-<text x="106.0" y="1302.6" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Taxonomy from DB</text>
-<text x="1482.5" y="160.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">cat FastQ</text>
-<text x="696.0" y="822.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">FilterNTrim</text>
-<text x="1671.5" y="799.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">FastqFilter</text>
-<text x="2325.0" y="768.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Index</text>
-<text x="687.0" y="188.03303379776747" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Primers</text>
-<text x="798.0" y="106.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Short reads</text>
-<text x="211.0" y="1313.1165168988837" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">BLAST Mask</text>
-<text x="783.6" y="189.23303379776746" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">Nanopore reads</text>
-<text x="1544.0" y="200.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">FastP Metrics</text>
-<text x="1567.5" y="200.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="start" dominant-baseline="central">FastPlong</text>
-<text x="696.0" y="862.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">Error</text>
-<text x="1562.0" y="774.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">FastqMerge</text>
-<text x="1552.4" y="812.8" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">FastqMerge+Join</text>
-<text x="2229.0" y="794.2" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">Samtools Consensus</text>
-<text x="2229.0" y="833.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">Samtools Stats</text>
-<text x="1421.0" y="334.5" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">SeqFu RC</text>
-<text x="271.0" y="1288.1165168988837" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Blocklist</text>
-<text x="696.0" y="902.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">Denoising</text>
-<text x="1502.0" y="836.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">FastqJoin</text>
-<text x="2169.0" y="771.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Filter Consensus</text>
-<text x="1664.0" y="334.5" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">Nanoplot</text>
-<text x="392.0" y="1367.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">BLASTN</text>
-<text x="1542.5" y="374.5" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">Cutadapt</text>
-<text x="693.0" y="942.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">FilterSize</text>
-<text x="1392.5" y="768.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">FastqFilter</text>
-<text x="2109.0" y="796.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">CD-HIT</text>
-<text x="496.0" y="1325.1165168988837" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">BLAST HSP Merger</text>
-<text x="1283.0" y="799.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">Derep</text>
-<text x="1602.5" y="450.5" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">FastPlong</text>
-<text x="759.0" y="1027.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">RmChimera</text>
-<text x="816.0" y="1027.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">Stats</text>
-<text x="2049.0" y="768.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Align</text>
-<text x="636.0" y="1313.1165168988837" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">BLAST Bitscore</text>
-<text x="694.5" y="1103.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">Fasta</text>
-<text x="1223.0" y="771.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Cluster</text>
-<text x="1953.0" y="794.2" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">Samtools Filter</text>
-<text x="1953.0" y="833.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">Samtools Stats</text>
-<text x="1664.0" y="612.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="end" dominant-baseline="central">Nanoplot</text>
-<text x="696.0" y="1273.1165168988837" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">BLAST Consensus</text>
-<text x="1127.0" y="836.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">UchimeDenovo</text>
-<text x="1893.0" y="771.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto">Samtools Coverage</text>
-<text x="823.5" y="1306.5165168988838" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">Composition</text>
-<text x="823.5" y="1338.1165168988837" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">BLAST Stats</text>
-<text x="1829.4" y="796.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">Cluster Size</text>
-<text x="977.0" y="873.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging">Stats</text>
-<rect x="30.0" y="1486.0" width="262.4" height="192.0" rx="6" ry="6" fill="rgba(255, 255, 255, 0.8)" />
-<path d="M42.0,1510.0 L66.0,1510.0" stroke="#4CAF50" stroke-width="4.0" stroke-linecap="round" />
-<text x="78.0" y="1510.0" font-size="16.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" dy="0.3em">Main</text>
-<path d="M42.0,1534.0 L66.0,1534.0" stroke="#38863b" stroke-width="4.0" stroke-linecap="round" />
-<text x="78.0" y="1534.0" font-size="16.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" dy="0.3em">Main Alt</text>
-<path d="M42.0,1558.0 L66.0,1558.0" stroke="#c8d32a" stroke-width="4.0" stroke-linecap="round" />
-<text x="78.0" y="1558.0" font-size="16.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" dy="0.3em">Illumina processing</text>
-<path d="M42.0,1582.0 L66.0,1582.0" stroke="#a19b1d" stroke-width="4.0" stroke-linecap="round" />
-<text x="78.0" y="1582.0" font-size="16.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" dy="0.3em">Illumina alt processing</text>
-<path d="M42.0,1606.0 L66.0,1606.0" stroke="#a718af" stroke-width="4.0" stroke-linecap="round" />
-<text x="78.0" y="1606.0" font-size="16.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" dy="0.3em">Nanopore processing</text>
-<path d="M42.0,1630.0 L66.0,1630.0" stroke="#7f1185" stroke-width="4.0" stroke-linecap="round" />
-<text x="78.0" y="1630.0" font-size="16.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" dy="0.3em">Nanopore alt processing</text>
-<path d="M42.0,1654.0 L66.0,1654.0" stroke="#2196F3" stroke-width="4.0" stroke-linecap="round" />
-<text x="78.0" y="1654.0" font-size="16.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" dy="0.3em">Quality Control</text>
-<text x="2418.0" y="1694.0" font-size="8" fill="rgba(150, 150, 150, 0.6)" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="end">created with nf-metro v0.6.1</text>
+  <rect
+     x="22.0"
+     y="70.0"
+     width="176.0"
+     height="100.0"
+     rx="8"
+     ry="8"
+     fill="#ededed"
+     stroke="#e6e6e6"
+     stroke-width="1.0"
+     class="nf-metro-section-box"
+     data-section-id="inputs"
+     data-section-lines="illumina,nanopore,torrent"
+     id="rect2" />
+  <circle
+     cx="33.0"
+     cy="55.0"
+     r="11"
+     fill="#333333"
+     class="nf-metro-section-num-circle"
+     data-section-id="inputs"
+     id="circle2" />
+  <text
+     x="33.0"
+     y="55.0"
+     font-size="12"
+     fill="#ffffff"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dy="0.3em"
+     data-section-id="inputs"
+     id="text2">1</text>
+  <text
+     x="49.0"
+     y="55.0"
+     font-size="17.0"
+     fill="#666666"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     dy="0.3em"
+     class="nf-metro-section-label"
+     data-section-id="inputs"
+     id="text3">Inputs</text>
+  <rect
+     x="248.0"
+     y="70.0"
+     width="433.0"
+     height="150.6"
+     rx="8"
+     ry="8"
+     fill="#ededed"
+     stroke="#e6e6e6"
+     stroke-width="1.0"
+     class="nf-metro-section-box"
+     data-section-id="preprocessing"
+     data-section-lines="illumina,nanopore,torrent"
+     id="rect3" />
+  <circle
+     cx="259.0"
+     cy="55.0"
+     r="11"
+     fill="#333333"
+     class="nf-metro-section-num-circle"
+     data-section-id="preprocessing"
+     id="circle3" />
+  <text
+     x="259.0"
+     y="55.0"
+     font-size="12"
+     fill="#ffffff"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dy="0.3em"
+     data-section-id="preprocessing"
+     id="text4">2</text>
+  <text
+     x="275.0"
+     y="55.0"
+     font-size="17.0"
+     fill="#666666"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     dy="0.3em"
+     class="nf-metro-section-label"
+     data-section-id="preprocessing"
+     id="text5">Preprocessing</text>
+  <rect
+     x="731.0"
+     y="70.0"
+     width="403.5"
+     height="100.0"
+     rx="8"
+     ry="8"
+     fill="#ededed"
+     stroke="#e6e6e6"
+     stroke-width="1.0"
+     class="nf-metro-section-box"
+     data-section-id="illumina_dada2"
+     data-section-lines="illumina"
+     id="rect5" />
+  <circle
+     cx="742.0"
+     cy="55.0"
+     r="11"
+     fill="#333333"
+     class="nf-metro-section-num-circle"
+     data-section-id="illumina_dada2"
+     id="circle5" />
+  <text
+     x="742.0"
+     y="55.0"
+     font-size="12"
+     fill="#ffffff"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dy="0.3em"
+     data-section-id="illumina_dada2"
+     id="text6">3</text>
+  <text
+     x="758.0"
+     y="55.0"
+     font-size="17.0"
+     fill="#666666"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     dy="0.3em"
+     class="nf-metro-section-label"
+     data-section-id="illumina_dada2"
+     id="text7">Illumina - Dada2</text>
+  <rect
+     x="731.0"
+     y="247.09999999999997"
+     width="423.1999999999998"
+     height="100.0"
+     rx="8"
+     ry="8"
+     fill="#ededed"
+     stroke="#e6e6e6"
+     stroke-width="1.0"
+     class="nf-metro-section-box"
+     data-section-id="torrent_vsearch"
+     data-section-lines="torrent"
+     id="rect7" />
+  <circle
+     cx="742.0"
+     cy="232.09999999999997"
+     r="11"
+     fill="#333333"
+     class="nf-metro-section-num-circle"
+     data-section-id="torrent_vsearch"
+     id="circle7" />
+  <text
+     x="742.0"
+     y="232.09999999999997"
+     font-size="12"
+     fill="#ffffff"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dy="0.3em"
+     data-section-id="torrent_vsearch"
+     id="text8">4</text>
+  <text
+     x="758.0"
+     y="232.09999999999997"
+     font-size="17.0"
+     fill="#666666"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     dy="0.3em"
+     class="nf-metro-section-label"
+     data-section-id="torrent_vsearch"
+     id="text9">IonTorrent - Vsearch</text>
+  <rect
+     x="731.0"
+     y="424.19999999999993"
+     width="528.0"
+     height="100.0"
+     rx="8"
+     ry="8"
+     fill="#ededed"
+     stroke="#e6e6e6"
+     stroke-width="1.0"
+     class="nf-metro-section-box"
+     data-section-id="nanopore_mapping"
+     data-section-lines="nanopore"
+     id="rect9" />
+  <circle
+     cx="742.0"
+     cy="409.19999999999993"
+     r="11"
+     fill="#333333"
+     class="nf-metro-section-num-circle"
+     data-section-id="nanopore_mapping"
+     id="circle9" />
+  <text
+     x="742.0"
+     y="409.19999999999993"
+     font-size="12"
+     fill="#ffffff"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dy="0.3em"
+     data-section-id="nanopore_mapping"
+     id="text10">5</text>
+  <text
+     x="758.0"
+     y="409.19999999999993"
+     font-size="17.0"
+     fill="#666666"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     dy="0.3em"
+     class="nf-metro-section-label"
+     data-section-id="nanopore_mapping"
+     id="text11">ONT - Mapping</text>
+  <rect
+     x="1309.0"
+     y="70.0"
+     width="316.0"
+     height="454.19999999999993"
+     rx="8"
+     ry="8"
+     fill="#ededed"
+     stroke="#e6e6e6"
+     stroke-width="1.0"
+     class="nf-metro-section-box"
+     data-section-id="blast_taxonomy"
+     data-section-lines="illumina,main,main_alt,nanopore,torrent"
+     id="rect11" />
+  <circle
+     cx="1320.0"
+     cy="55.0"
+     r="11"
+     fill="#333333"
+     class="nf-metro-section-num-circle"
+     data-section-id="blast_taxonomy"
+     id="circle11" />
+  <text
+     x="1320.0"
+     y="55.0"
+     font-size="12"
+     fill="#ffffff"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dy="0.3em"
+     data-section-id="blast_taxonomy"
+     id="text12">6</text>
+  <text
+     x="1336.0"
+     y="55.0"
+     font-size="17.0"
+     fill="#666666"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     dy="0.3em"
+     class="nf-metro-section-label"
+     data-section-id="blast_taxonomy"
+     id="text13">BLAST Taxonomy</text>
+  <rect
+     x="1331.0"
+     y="574.1999999999999"
+     width="242.0"
+     height="150.6"
+     rx="8"
+     ry="8"
+     fill="#ededed"
+     stroke="#e6e6e6"
+     stroke-width="1.0"
+     class="nf-metro-section-box"
+     data-section-id="reporting"
+     data-section-lines="main"
+     id="rect13" />
+  <circle
+     cx="1342.0"
+     cy="559.1999999999999"
+     r="11"
+     fill="#333333"
+     class="nf-metro-section-num-circle"
+     data-section-id="reporting"
+     id="circle13" />
+  <text
+     x="1342.0"
+     y="559.1999999999999"
+     font-size="12"
+     fill="#ffffff"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dy="0.3em"
+     data-section-id="reporting"
+     id="text14">7</text>
+  <text
+     x="1358.0"
+     y="559.1999999999999"
+     font-size="17.0"
+     fill="#666666"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     dy="0.3em"
+     class="nf-metro-section-label"
+     data-section-id="reporting"
+     id="text15">Reports</text>
+  <path
+     d="M80.0,136.0 L140.0,136.0"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path15" />
+  <path
+     d="M298.0,136.0 L333.0,136.0 Q343.0,136.0,348.0998877017092,144.6018105902162 L367.9001122982908,177.9981894097838 Q373.0,186.6,383.0,186.6 L403.0,186.6"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path16" />
+  <path
+     d="M403.0,186.6 L423.0,186.6 Q433.0,186.6,438.0998877017092,177.9981894097838 L457.9001122982908,144.6018105902162 Q463.0,136.0,473.0,136.0 L499.0,136.0"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path17" />
+  <path
+     d="M499.0,136.0 L519.5,136.0 Q529.5,136.0,534.5998877017092,144.6018105902162 L554.4001122982908,177.9981894097838 Q559.5,186.6,569.5,186.6 L595.0,186.6"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path18" />
+  <path
+     d="M781.0,474.1999999999999 L841.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path19" />
+  <path
+     d="M841.0,474.1999999999999 L901.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path20" />
+  <path
+     d="M901.0,474.1999999999999 L961.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path21" />
+  <path
+     d="M961.0,474.1999999999999 L1021.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path22" />
+  <path
+     d="M1021.0,474.1999999999999 L1081.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path23" />
+  <path
+     d="M1081.0,474.1999999999999 L1141.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path24" />
+  <path
+     d="M1141.0,474.1999999999999 L1201.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path25" />
+  <path
+     d="M140.0,136.0 L198.0,136.0"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path26" />
+  <path
+     d="M248.0,136.0 L298.0,136.0"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path27" />
+  <path
+     d="M595.0,186.6 L620.5,186.6 Q630.5,186.6,635.5998877017092,177.9981894097838 L655.4001122982908,144.6018105902162 Q660.5,136.0,670.5,136.0 L681.0,136.0"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path28" />
+  <path
+     d="M731.0,474.1999999999999 L781.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path29" />
+  <path
+     d="M1201.0,474.1999999999999 L1259.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path30" />
+  <path
+     d="M1309.0,136.0 L1489.0,136.0 Q1499.0,136.0,1499.0,146.0 L1499.0,170.6"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path31" />
+  <path
+     d="M198.0,136.0 L248.0,136.0"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path32" />
+  <path
+     d="M681.0,136.0 L691.0,136.0"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path33" />
+  <path
+     d="M691.0,136.0 L696.0,136.0 Q706.0,136.0,706.0,146.0 L706.0,460.1999999999999 Q706.0,474.1999999999999,720.0,474.1999999999999 L731.0,474.1999999999999"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path34" />
+  <path
+     d="M1259.0,474.1999999999999 L1272.0,474.1999999999999 Q1286.0,474.1999999999999,1286.0,460.1999999999999 L1286.0,146.0 Q1286.0,136.0,1296.0,136.0 L1309.0,136.0"
+     stroke="#d33b2a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-nanopore"
+     data-line-id="nanopore"
+     id="path35" />
+  <path
+     d="M80.0,132.0 L140.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path36" />
+  <path
+     d="M298.0,132.0 L403.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path37" />
+  <path
+     d="M403.0,132.0 L499.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path38" />
+  <path
+     d="M499.0,132.0 L595.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path39" />
+  <path
+     d="M784.5,297.0999999999999 L844.5,297.0999999999999"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path40" />
+  <path
+     d="M844.5,297.0999999999999 L904.5,297.0999999999999"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path41" />
+  <path
+     d="M904.5,297.0999999999999 L964.5,297.0999999999999"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path42" />
+  <path
+     d="M964.5,297.0999999999999 L1024.5,297.0999999999999"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path43" />
+  <path
+     d="M1024.5,297.0999999999999 L1084.5,297.0999999999999"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path44" />
+  <path
+     d="M140.0,132.0 L198.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path45" />
+  <path
+     d="M248.0,132.0 L298.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path46" />
+  <path
+     d="M595.0,132.0 L681.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path47" />
+  <path
+     d="M731.0,297.0999999999999 L784.5,297.0999999999999"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path48" />
+  <path
+     d="M1084.5,297.0999999999999 L1154.1999999999998,297.0999999999999"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path49" />
+  <path
+     d="M1309.0,132.0 L1489.0,132.0 Q1503.0,132.0,1503.0,146.0 L1503.0,170.6"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path50" />
+  <path
+     d="M198.0,132.0 L248.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path51" />
+  <path
+     d="M681.0,132.0 L691.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path52" />
+  <path
+     d="M691.0,132.0 L696.0,132.0 Q710.0,132.0,710.0,146.0 L710.0,287.0999999999999 Q710.0,297.0999999999999,720.0,297.0999999999999 L731.0,297.0999999999999"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path53" />
+  <path
+     d="M1154.1999999999998,297.0999999999999 L1272.0,297.0999999999999 Q1282.0,297.0999999999999,1282.0,287.0999999999999 L1282.0,146.0 Q1282.0,132.0,1296.0,132.0 L1309.0,132.0"
+     stroke="#d3922a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-torrent"
+     data-line-id="torrent"
+     id="path54" />
+  <path
+     d="M80.0,127.99999999999999 L140.0,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path55" />
+  <path
+     d="M298.0,127.99999999999999 L403.0,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path56" />
+  <path
+     d="M403.0,127.99999999999999 L499.0,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path57" />
+  <path
+     d="M499.0,127.99999999999999 L595.0,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path58" />
+  <path
+     d="M784.5,127.99999999999999 L844.5,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path59" />
+  <path
+     d="M844.5,127.99999999999999 L904.5,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path60" />
+  <path
+     d="M904.5,127.99999999999999 L964.5,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path61" />
+  <path
+     d="M964.5,127.99999999999999 L1024.5,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path62" />
+  <path
+     d="M1024.5,127.99999999999999 L1084.5,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path63" />
+  <path
+     d="M140.0,127.99999999999999 L198.0,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path64" />
+  <path
+     d="M248.0,127.99999999999999 L298.0,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path65" />
+  <path
+     d="M595.0,127.99999999999999 L681.0,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path66" />
+  <path
+     d="M731.0,127.99999999999999 L784.5,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path67" />
+  <path
+     d="M1084.5,127.99999999999999 L1134.5,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path68" />
+  <path
+     d="M1309.0,127.99999999999999 L1489.0,127.99999999999999 Q1507.0,127.99999999999999,1507.0,146.0 L1507.0,170.6"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path69" />
+  <path
+     d="M198.0,128.0 L248.0,128.0"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path70" />
+  <path
+     d="M681.0,128.0 L691.0,128.0"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path71" />
+  <path
+     d="M691.0,127.99999999999999 L731.0,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path72" />
+  <path
+     d="M1134.5,127.99999999999999 L1309.0,127.99999999999999"
+     stroke="#c8d32a"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-illumina"
+     data-line-id="illumina"
+     id="path73" />
+  <path
+     d="M1511.0,170.6 L1511.0,170.6 Q1511.0,180.6,1519.944271909999,185.07213595499957 L1562.055728090001,206.12786404500042 Q1571.0,210.6,1571.0,220.6 L1571.0,271.79999999999995"
+     stroke="#6ed371"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-main_alt"
+     data-line-id="main_alt"
+     stroke-dasharray="8,4"
+     id="path74" />
+  <path
+     d="M1571.0,271.79999999999995 L1571.0,322.99999999999994 Q1571.0,332.99999999999994,1562.055728090001,337.47213595499954 L1519.944271909999,358.52786404500034 Q1511.0,362.99999999999994,1511.0,372.99999999999994 L1511.0,372.99999999999994"
+     stroke="#6ed371"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-main_alt"
+     data-line-id="main_alt"
+     stroke-dasharray="8,4"
+     id="path75" />
+  <path
+     d="M1515.0,372.99999999999994 L1515.0,423.59999999999997"
+     stroke="#4CAF50"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-main"
+     data-line-id="main"
+     id="path76" />
+  <path
+     d="M1515.0,423.59999999999997 L1515.0,474.2"
+     stroke="#4CAF50"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-main"
+     data-line-id="main"
+     id="path77" />
+  <path
+     d="M1485.0,624.1999999999999 L1389.0,624.1999999999999"
+     stroke="#4CAF50"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-main"
+     data-line-id="main"
+     id="path78" />
+  <path
+     d="M1485.0,624.1999999999999 L1457.0,624.1999999999999 Q1447.0,624.1999999999999,1441.9001122982909,632.8018105902161 L1422.0998877017091,666.1981894097838 Q1417.0,674.8,1407.0,674.8 L1389.0,674.8"
+     stroke="#4CAF50"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-main"
+     data-line-id="main"
+     id="path79" />
+  <path
+     d="M1515.0,474.2 L1515.0,524.1999999999999"
+     stroke="#4CAF50"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-main"
+     data-line-id="main"
+     id="path80" />
+  <path
+     d="M1515.0,574.1999999999999 L1515.0,614.1999999999999 Q1515.0,624.1999999999999,1505.0,624.1999999999999 L1485.0,624.1999999999999"
+     stroke="#4CAF50"
+     stroke-width="3.0"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     class="metro-line-main"
+     data-line-id="main"
+     id="path81" />
+  <path
+     d="M1515.0,524.1999999999999 L1515.0,574.1999999999999"
+     stroke="#4CAF50"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-main"
+     data-line-id="main"
+     id="path82" />
+  <path
+     d="M1515.0,170.6 L1515.0,271.79999999999995"
+     stroke="#4CAF50"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-main"
+     data-line-id="main"
+     id="path83" />
+  <path
+     d="M1515.0,271.79999999999995 L1515.0,372.99999999999994"
+     stroke="#4CAF50"
+     stroke-width="3.0"
+     stroke-linecap="round"
+     class="metro-line-main"
+     data-line-id="main"
+     id="path84" />
+  <g
+     class="nf-metro-station-group"
+     data-node-id="input"
+     data-node-cx="80.0"
+     data-node-cy="132.0"
+     data-node-r="6.0"
+     data-node-groups="illumina,nanopore,torrent"
+     data-node-region="inputs"
+     data-node-w="12.0"
+     data-node-h="20.0"
+     data-node-rx="6.0"
+     id="g88">
+    <rect
+       x="74.0"
+       y="122.0"
+       width="12.0"
+       height="20.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="input"
+       data-station-lines="illumina,nanopore,torrent"
+       data-station-label="input"
+       data-section-id="inputs"
+       data-section-name="Inputs"
+       id="rect84" />
+    <g
+       data-station-id="input"
+       id="g87">
+      <path
+         d="M42.0,116.0 L60.0,116.0 L68.0,124.0 L68.0,146.0 Q68.0,148.0,66.0,148.0 L42.0,148.0 Q40.0,148.0,40.0,146.0 L40.0,118.0 Q40.0,116.0,42.0,116.0 Z"
+         fill="#ffffff"
+         stroke="#333333"
+         stroke-width="1.5"
+         stroke-linejoin="round"
+         id="path85" />
+      <path
+         d="M60.0,116.0 L60.0,124.0 L68.0,124.0 Z"
+         fill="#333333"
+         opacity="0.15"
+         stroke="none"
+         id="path86" />
+      <path
+         d="M60.0,116.0 L60.0,124.0 L68.0,124.0"
+         fill="none"
+         stroke="#333333"
+         stroke-width="0.8999999999999999"
+         id="path87" />
+      <text
+         x="54.0"
+         y="133.2"
+         font-size="7.5"
+         fill="#000000"
+         font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+         font-weight="bold"
+         text-anchor="middle"
+         dy="0.3em"
+         id="text87">TSV</text>
+    </g>
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="reads"
+     data-node-cx="140.0"
+     data-node-cy="132.0"
+     data-node-r="6.0"
+     data-node-groups="illumina,nanopore,torrent"
+     data-node-region="inputs"
+     data-node-w="12.0"
+     data-node-h="20.0"
+     data-node-rx="6.0"
+     id="g95">
+    <rect
+       x="134.0"
+       y="122.0"
+       width="12.0"
+       height="20.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="reads"
+       data-station-lines="illumina,nanopore,torrent"
+       data-station-label="Reads"
+       data-section-id="inputs"
+       data-section-name="Inputs"
+       id="rect88" />
+    <g
+       data-station-id="reads"
+       id="g94">
+      <path
+         d="M158.2,111.8 L176.2,111.8 L184.2,119.8 L184.2,141.8 Q184.2,143.8,182.2,143.8 L158.2,143.8 Q156.2,143.8,156.2,141.8 L156.2,113.8 Q156.2,111.8,158.2,111.8 Z"
+         fill="#ffffff"
+         stroke="#333333"
+         stroke-width="1.5"
+         stroke-linejoin="round"
+         id="path88" />
+      <path
+         d="M176.2,111.8 L176.2,119.8 L184.2,119.8 Z"
+         fill="#333333"
+         opacity="0.15"
+         stroke="none"
+         id="path89" />
+      <path
+         d="M176.2,111.8 L176.2,119.8 L184.2,119.8"
+         fill="none"
+         stroke="#333333"
+         stroke-width="0.8999999999999999"
+         id="path90" />
+      <path
+         d="M154.0,116.0 L172.0,116.0 L180.0,124.0 L180.0,146.0 Q180.0,148.0,178.0,148.0 L154.0,148.0 Q152.0,148.0,152.0,146.0 L152.0,118.0 Q152.0,116.0,154.0,116.0 Z"
+         fill="#ffffff"
+         stroke="#333333"
+         stroke-width="1.5"
+         stroke-linejoin="round"
+         id="path91" />
+      <path
+         d="M172.0,116.0 L172.0,124.0 L180.0,124.0 Z"
+         fill="#333333"
+         opacity="0.15"
+         stroke="none"
+         id="path92" />
+      <path
+         d="M172.0,116.0 L172.0,124.0 L180.0,124.0"
+         fill="none"
+         stroke="#333333"
+         stroke-width="0.8999999999999999"
+         id="path93" />
+      <rect
+         x="152.0"
+         y="130.72"
+         width="28.0"
+         height="12.16"
+         fill="#222222"
+         stroke="none"
+         id="rect93" />
+      <text
+         x="166.0"
+         y="136.8"
+         font-size="7.5"
+         fill="#ffffff"
+         font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+         font-weight="bold"
+         text-anchor="middle"
+         dy="0.3em"
+         id="text93">FASTQ</text>
+      <text
+         x="166.0"
+         y="152.0"
+         font-size="8.4"
+         fill="#333333"
+         font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+         font-weight="bold"
+         text-anchor="middle"
+         dominant-baseline="hanging"
+         class="nf-metro-station-label"
+         id="text94">Reads</text>
+    </g>
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="cat_fastq"
+     data-node-cx="298.0"
+     data-node-cy="132.0"
+     data-node-r="6.0"
+     data-node-groups="illumina,nanopore,torrent"
+     data-node-region="preprocessing"
+     data-node-w="12.0"
+     data-node-h="20.0"
+     data-node-rx="6.0"
+     id="g96">
+    <rect
+       x="292.0"
+       y="122.0"
+       width="12.0"
+       height="20.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="cat_fastq"
+       data-station-lines="illumina,nanopore,torrent"
+       data-station-label="Cat FastQs"
+       data-section-id="preprocessing"
+       data-section-name="Preprocessing"
+       id="rect95" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="fastp_metric"
+     data-node-cx="403.0"
+     data-node-cy="130.0"
+     data-node-r="6.0"
+     data-node-groups="illumina,torrent"
+     data-node-region="preprocessing"
+     data-node-w="12.0"
+     data-node-h="16.0"
+     data-node-rx="6.0"
+     id="g97">
+    <rect
+       x="397.0"
+       y="122.0"
+       width="12.0"
+       height="16.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="fastp_metric"
+       data-station-lines="illumina,torrent"
+       data-station-label="FastP Metrics"
+       data-section-id="preprocessing"
+       data-section-name="Preprocessing"
+       id="rect96" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="fastp_trim"
+     data-node-cx="595.0"
+     data-node-cy="130.0"
+     data-node-r="6.0"
+     data-node-groups="illumina,torrent"
+     data-node-region="preprocessing"
+     data-node-w="12.0"
+     data-node-h="16.0"
+     data-node-rx="6.0"
+     id="g98">
+    <rect
+       x="589.0"
+       y="122.0"
+       width="12.0"
+       height="16.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="fastp_trim"
+       data-station-lines="illumina,torrent"
+       data-station-label="FastP Trimming"
+       data-section-id="preprocessing"
+       data-section-name="Preprocessing"
+       id="rect97" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="fastplong_metrics"
+     data-node-cx="403.0"
+     data-node-cy="186.6"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="preprocessing"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g99">
+    <rect
+       x="397.0"
+       y="180.6"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="fastplong_metrics"
+       data-station-lines="nanopore"
+       data-station-label="FastPlong Metrics"
+       data-section-id="preprocessing"
+       data-section-name="Preprocessing"
+       id="rect98" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="fastplong_trim"
+     data-node-cx="595.0"
+     data-node-cy="186.6"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="preprocessing"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g100">
+    <rect
+       x="589.0"
+       y="180.6"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="fastplong_trim"
+       data-station-lines="nanopore"
+       data-station-label="FastPlong Trim"
+       data-section-id="preprocessing"
+       data-section-name="Preprocessing"
+       id="rect99" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="cutadapt"
+     data-node-cx="499.0"
+     data-node-cy="132.0"
+     data-node-r="6.0"
+     data-node-groups="illumina,nanopore,torrent"
+     data-node-region="preprocessing"
+     data-node-w="12.0"
+     data-node-h="20.0"
+     data-node-rx="6.0"
+     id="g101">
+    <rect
+       x="493.0"
+       y="122.0"
+       width="12.0"
+       height="20.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="cutadapt"
+       data-station-lines="illumina,nanopore,torrent"
+       data-station-label="Cutadapt"
+       data-section-id="preprocessing"
+       data-section-name="Preprocessing"
+       id="rect100" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="dada2_filterntrim"
+     data-node-cx="784.5"
+     data-node-cy="128.0"
+     data-node-r="6.0"
+     data-node-groups="illumina"
+     data-node-region="illumina_dada2"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g102">
+    <rect
+       x="778.5"
+       y="121.99999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="dada2_filterntrim"
+       data-station-lines="illumina"
+       data-station-label="FilterNTrim"
+       data-section-id="illumina_dada2"
+       data-section-name="Illumina - Dada2"
+       id="rect101" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="dada2_error"
+     data-node-cx="844.5"
+     data-node-cy="128.0"
+     data-node-r="6.0"
+     data-node-groups="illumina"
+     data-node-region="illumina_dada2"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g103">
+    <rect
+       x="838.5"
+       y="121.99999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="dada2_error"
+       data-station-lines="illumina"
+       data-station-label="Error"
+       data-section-id="illumina_dada2"
+       data-section-name="Illumina - Dada2"
+       id="rect102" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="dada2_denoising"
+     data-node-cx="904.5"
+     data-node-cy="128.0"
+     data-node-r="6.0"
+     data-node-groups="illumina"
+     data-node-region="illumina_dada2"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g104">
+    <rect
+       x="898.5"
+       y="121.99999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="dada2_denoising"
+       data-station-lines="illumina"
+       data-station-label="Denoising"
+       data-section-id="illumina_dada2"
+       data-section-name="Illumina - Dada2"
+       id="rect103" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="dada2_filtersize"
+     data-node-cx="964.5"
+     data-node-cy="128.0"
+     data-node-r="6.0"
+     data-node-groups="illumina"
+     data-node-region="illumina_dada2"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g105">
+    <rect
+       x="958.5"
+       y="121.99999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="dada2_filtersize"
+       data-station-lines="illumina"
+       data-station-label="FilterSize"
+       data-section-id="illumina_dada2"
+       data-section-name="Illumina - Dada2"
+       id="rect104" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="dada2_rmchimera"
+     data-node-cx="1024.5"
+     data-node-cy="128.0"
+     data-node-r="6.0"
+     data-node-groups="illumina"
+     data-node-region="illumina_dada2"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g106">
+    <rect
+       x="1018.5"
+       y="121.99999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="dada2_rmchimera"
+       data-station-lines="illumina"
+       data-station-label="RmChimera"
+       data-section-id="illumina_dada2"
+       data-section-name="Illumina - Dada2"
+       id="rect105" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="seqtable_to_fasta"
+     data-node-cx="1084.5"
+     data-node-cy="128.0"
+     data-node-r="6.0"
+     data-node-groups="illumina"
+     data-node-region="illumina_dada2"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g107">
+    <rect
+       x="1078.5"
+       y="121.99999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="seqtable_to_fasta"
+       data-station-lines="illumina"
+       data-station-label="Seqtable"
+       data-section-id="illumina_dada2"
+       data-section-name="Illumina - Dada2"
+       id="rect106" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="vsearch_fastq_filter_reads"
+     data-node-cx="784.5"
+     data-node-cy="297.1"
+     data-node-r="6.0"
+     data-node-groups="torrent"
+     data-node-region="torrent_vsearch"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g108">
+    <rect
+       x="778.5"
+       y="291.0999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="vsearch_fastq_filter_reads"
+       data-station-lines="torrent"
+       data-station-label="Filter qual"
+       data-section-id="torrent_vsearch"
+       data-section-name="IonTorrent - Vsearch"
+       id="rect107" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="vsearch_fastq_filter"
+     data-node-cx="844.5"
+     data-node-cy="297.1"
+     data-node-r="6.0"
+     data-node-groups="torrent"
+     data-node-region="torrent_vsearch"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g109">
+    <rect
+       x="838.5"
+       y="291.0999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="vsearch_fastq_filter"
+       data-station-lines="torrent"
+       data-station-label="Filter length"
+       data-section-id="torrent_vsearch"
+       data-section-name="IonTorrent - Vsearch"
+       id="rect108" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="vsearch_derep_full"
+     data-node-cx="904.5"
+     data-node-cy="297.1"
+     data-node-r="6.0"
+     data-node-groups="torrent"
+     data-node-region="torrent_vsearch"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g110">
+    <rect
+       x="898.5"
+       y="291.0999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="vsearch_derep_full"
+       data-station-lines="torrent"
+       data-station-label="Dereplicate"
+       data-section-id="torrent_vsearch"
+       data-section-name="IonTorrent - Vsearch"
+       id="rect109" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="vsearch_cluster_unoise"
+     data-node-cx="964.5"
+     data-node-cy="297.1"
+     data-node-r="6.0"
+     data-node-groups="torrent"
+     data-node-region="torrent_vsearch"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g111">
+    <rect
+       x="958.5"
+       y="291.0999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="vsearch_cluster_unoise"
+       data-station-lines="torrent"
+       data-station-label="Cluster Unoise"
+       data-section-id="torrent_vsearch"
+       data-section-name="IonTorrent - Vsearch"
+       id="rect110" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="vsearch_usearch_global"
+     data-node-cx="1024.5"
+     data-node-cy="297.1"
+     data-node-r="6.0"
+     data-node-groups="torrent"
+     data-node-region="torrent_vsearch"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g112">
+    <rect
+       x="1018.5"
+       y="291.0999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="vsearch_usearch_global"
+       data-station-lines="torrent"
+       data-station-label="Usearch"
+       data-section-id="torrent_vsearch"
+       data-section-name="IonTorrent - Vsearch"
+       id="rect111" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="vsearch_uchime_denovo"
+     data-node-cx="1084.5"
+     data-node-cy="297.1"
+     data-node-r="6.0"
+     data-node-groups="torrent"
+     data-node-region="torrent_vsearch"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g113">
+    <rect
+       x="1078.5"
+       y="291.0999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="vsearch_uchime_denovo"
+       data-station-lines="torrent"
+       data-station-label="Uchime Denovo"
+       data-section-id="torrent_vsearch"
+       data-section-name="IonTorrent - Vsearch"
+       id="rect112" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="minimap_align_db"
+     data-node-cx="781.0"
+     data-node-cy="474.2"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="nanopore_mapping"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g114">
+    <rect
+       x="775.0"
+       y="468.1999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="minimap_align_db"
+       data-station-lines="nanopore"
+       data-station-label="Index"
+       data-section-id="nanopore_mapping"
+       data-section-name="ONT - Mapping"
+       id="rect113" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="minimap_align_consensus"
+     data-node-cx="1021.0"
+     data-node-cy="474.2"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="nanopore_mapping"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g115">
+    <rect
+       x="1015.0"
+       y="468.1999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="minimap_align_consensus"
+       data-station-lines="nanopore"
+       data-station-label="Align"
+       data-section-id="nanopore_mapping"
+       data-section-name="ONT - Mapping"
+       id="rect114" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="samtools_consensus"
+     data-node-cx="841.0"
+     data-node-cy="474.2"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="nanopore_mapping"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g116">
+    <rect
+       x="835.0"
+       y="468.1999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="samtools_consensus"
+       data-station-lines="nanopore"
+       data-station-label="Consensus"
+       data-section-id="nanopore_mapping"
+       data-section-name="ONT - Mapping"
+       id="rect115" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="filter_consensus"
+     data-node-cx="901.0"
+     data-node-cy="474.2"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="nanopore_mapping"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g117">
+    <rect
+       x="895.0"
+       y="468.1999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="filter_consensus"
+       data-station-lines="nanopore"
+       data-station-label="Filter"
+       data-section-id="nanopore_mapping"
+       data-section-name="ONT - Mapping"
+       id="rect116" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="cdhit_est"
+     data-node-cx="961.0"
+     data-node-cy="474.2"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="nanopore_mapping"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g118">
+    <rect
+       x="955.0"
+       y="468.1999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="cdhit_est"
+       data-station-lines="nanopore"
+       data-station-label="CD-HIT"
+       data-section-id="nanopore_mapping"
+       data-section-name="ONT - Mapping"
+       id="rect117" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="samtools_filter"
+     data-node-cx="1081.0"
+     data-node-cy="474.2"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="nanopore_mapping"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g119">
+    <rect
+       x="1075.0"
+       y="468.1999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="samtools_filter"
+       data-station-lines="nanopore"
+       data-station-label="Filter"
+       data-section-id="nanopore_mapping"
+       data-section-name="ONT - Mapping"
+       id="rect118" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="samtools_coverage"
+     data-node-cx="1141.0"
+     data-node-cy="474.2"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="nanopore_mapping"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g120">
+    <rect
+       x="1135.0"
+       y="468.1999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="samtools_coverage"
+       data-station-lines="nanopore"
+       data-station-label="Coverage"
+       data-section-id="nanopore_mapping"
+       data-section-name="ONT - Mapping"
+       id="rect119" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="size_from_coverage"
+     data-node-cx="1201.0"
+     data-node-cy="474.2"
+     data-node-r="6.0"
+     data-node-groups="nanopore"
+     data-node-region="nanopore_mapping"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g121">
+    <rect
+       x="1195.0"
+       y="468.1999999999999"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="size_from_coverage"
+       data-station-lines="nanopore"
+       data-station-label="Cluster Size"
+       data-section-id="nanopore_mapping"
+       data-section-name="ONT - Mapping"
+       id="rect120" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="blastn"
+     data-node-cx="1507.0"
+     data-node-cy="170.6"
+     data-node-r="6.0"
+     data-node-groups="illumina,main,main_alt,nanopore,torrent"
+     data-node-region="blast_taxonomy"
+     data-node-w="28.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g122">
+    <rect
+       x="1493.0"
+       y="164.6"
+       width="28.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="blastn"
+       data-station-lines="illumina,main,main_alt,nanopore,torrent"
+       data-station-label="BLASTN"
+       data-section-id="blast_taxonomy"
+       data-section-name="BLAST Taxonomy"
+       id="rect121" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="blast_filter_bitscore"
+     data-node-cx="1513.0"
+     data-node-cy="373.0"
+     data-node-r="6.0"
+     data-node-groups="main,main_alt"
+     data-node-region="blast_taxonomy"
+     data-node-w="16.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g123">
+    <rect
+       x="1505.0"
+       y="366.99999999999994"
+       width="16.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="blast_filter_bitscore"
+       data-station-lines="main,main_alt"
+       data-station-label="Filter by Bitscore"
+       data-section-id="blast_taxonomy"
+       data-section-name="BLAST Taxonomy"
+       id="rect122" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="blast_merge_hsp"
+     data-node-cx="1571.0"
+     data-node-cy="271.8"
+     data-node-r="6.0"
+     data-node-groups="main_alt"
+     data-node-region="blast_taxonomy"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g124">
+    <rect
+       x="1565.0"
+       y="265.79999999999995"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="blast_merge_hsp"
+       data-station-lines="main_alt"
+       data-station-label="Merge HSPs"
+       data-section-id="blast_taxonomy"
+       data-section-name="BLAST Taxonomy"
+       id="rect123" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="blast_consensus"
+     data-node-cx="1515.0"
+     data-node-cy="423.6"
+     data-node-r="6.0"
+     data-node-groups="main"
+     data-node-region="blast_taxonomy"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g125">
+    <rect
+       x="1509.0"
+       y="417.59999999999997"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="blast_consensus"
+       data-station-lines="main"
+       data-station-label="Calculate Consensus"
+       data-section-id="blast_taxonomy"
+       data-section-name="BLAST Taxonomy"
+       id="rect124" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="blast_sample_compo"
+     data-node-cx="1515.0"
+     data-node-cy="474.2"
+     data-node-r="6.0"
+     data-node-groups="main"
+     data-node-region="blast_taxonomy"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g126">
+    <rect
+       x="1509.0"
+       y="468.2"
+       width="12.0"
+       height="12.0"
+       rx="6.0"
+       ry="6.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="blast_sample_compo"
+       data-station-lines="main"
+       data-station-label="Summarize Composition"
+       data-section-id="blast_taxonomy"
+       data-section-name="BLAST Taxonomy"
+       id="rect125" />
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="html"
+     data-node-cx="1389.0"
+     data-node-cy="674.8"
+     data-node-r="6.0"
+     data-node-groups="main"
+     data-node-region="reporting"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g129">
+    <rect
+       x="1383.0"
+       y="668.8"
+       width="12.0"
+       height="12.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="html"
+       data-station-lines="main"
+       data-station-label="html"
+       data-section-id="reporting"
+       data-section-name="Reports"
+       id="rect126" />
+    <g
+       data-station-id="html"
+       id="g128">
+      <path
+         d="M1351.0,658.8 L1369.0,658.8 L1377.0,666.8 L1377.0,688.8 Q1377.0,690.8,1375.0,690.8 L1351.0,690.8 Q1349.0,690.8,1349.0,688.8 L1349.0,660.8 Q1349.0,658.8,1351.0,658.8 Z"
+         fill="#ffffff"
+         stroke="#333333"
+         stroke-width="1.5"
+         stroke-linejoin="round"
+         id="path126" />
+      <path
+         d="M1369.0,658.8 L1369.0,666.8 L1377.0,666.8 Z"
+         fill="#333333"
+         opacity="0.15"
+         stroke="none"
+         id="path127" />
+      <path
+         d="M1369.0,658.8 L1369.0,666.8 L1377.0,666.8"
+         fill="none"
+         stroke="#333333"
+         stroke-width="0.8999999999999999"
+         id="path128" />
+      <rect
+         x="1349.0"
+         y="673.52"
+         width="28.0"
+         height="12.16"
+         fill="#222222"
+         stroke="none"
+         id="rect128" />
+      <text
+         x="1363.0"
+         y="679.5999999999999"
+         font-size="7.5"
+         fill="#ffffff"
+         font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+         font-weight="bold"
+         text-anchor="middle"
+         dy="0.3em"
+         id="text128">HTML</text>
+    </g>
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="xlsx"
+     data-node-cx="1389.0"
+     data-node-cy="624.2"
+     data-node-r="6.0"
+     data-node-groups="main"
+     data-node-region="reporting"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g132">
+    <rect
+       x="1383.0"
+       y="618.1999999999999"
+       width="12.0"
+       height="12.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="xlsx"
+       data-station-lines="main"
+       data-station-label="xlsx"
+       data-section-id="reporting"
+       data-section-name="Reports"
+       id="rect129" />
+    <g
+       data-station-id="xlsx"
+       id="g131">
+      <path
+         d="M1351.0,608.1999999999999 L1369.0,608.1999999999999 L1377.0,616.1999999999999 L1377.0,638.1999999999999 Q1377.0,640.1999999999999,1375.0,640.1999999999999 L1351.0,640.1999999999999 Q1349.0,640.1999999999999,1349.0,638.1999999999999 L1349.0,610.1999999999999 Q1349.0,608.1999999999999,1351.0,608.1999999999999 Z"
+         fill="#ffffff"
+         stroke="#333333"
+         stroke-width="1.5"
+         stroke-linejoin="round"
+         id="path129" />
+      <path
+         d="M1369.0,608.1999999999999 L1369.0,616.1999999999999 L1377.0,616.1999999999999 Z"
+         fill="#333333"
+         opacity="0.15"
+         stroke="none"
+         id="path130" />
+      <path
+         d="M1369.0,608.1999999999999 L1369.0,616.1999999999999 L1377.0,616.1999999999999"
+         fill="none"
+         stroke="#333333"
+         stroke-width="0.8999999999999999"
+         id="path131" />
+      <rect
+         x="1349.0"
+         y="622.92"
+         width="28.0"
+         height="12.16"
+         fill="#222222"
+         stroke="none"
+         id="rect131" />
+      <text
+         x="1363.0"
+         y="629.0"
+         font-size="7.5"
+         fill="#ffffff"
+         font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+         font-weight="bold"
+         text-anchor="middle"
+         dy="0.3em"
+         id="text131">XLSX</text>
+    </g>
+  </g>
+  <g
+     class="nf-metro-station-group"
+     data-node-id="json_file"
+     data-node-cx="1485.0"
+     data-node-cy="624.2"
+     data-node-r="6.0"
+     data-node-groups="main"
+     data-node-region="reporting"
+     data-node-w="12.0"
+     data-node-h="12.0"
+     data-node-rx="6.0"
+     id="g136">
+    <rect
+       x="1479.0"
+       y="618.1999999999999"
+       width="12.0"
+       height="12.0"
+       fill="#ffffff"
+       stroke="#333333"
+       stroke-width="2.0"
+       class="nf-metro-station"
+       data-station-id="json_file"
+       data-station-lines="main"
+       data-station-label="json_file"
+       data-section-id="reporting"
+       data-section-name="Reports"
+       id="rect132" />
+    <g
+       data-station-id="json_file"
+       id="g135">
+      <path
+         d="M1447.0,608.1999999999999 L1465.0,608.1999999999999 L1473.0,616.1999999999999 L1473.0,638.1999999999999 Q1473.0,640.1999999999999,1471.0,640.1999999999999 L1447.0,640.1999999999999 Q1445.0,640.1999999999999,1445.0,638.1999999999999 L1445.0,610.1999999999999 Q1445.0,608.1999999999999,1447.0,608.1999999999999 Z"
+         fill="#ffffff"
+         stroke="#333333"
+         stroke-width="1.5"
+         stroke-linejoin="round"
+         id="path132" />
+      <path
+         d="M1465.0,608.1999999999999 L1465.0,616.1999999999999 L1473.0,616.1999999999999 Z"
+         fill="#333333"
+         opacity="0.15"
+         stroke="none"
+         id="path133" />
+      <path
+         d="M1465.0,608.1999999999999 L1465.0,616.1999999999999 L1473.0,616.1999999999999"
+         fill="none"
+         stroke="#333333"
+         stroke-width="0.8999999999999999"
+         id="path134" />
+      <rect
+         x="1445.0"
+         y="622.92"
+         width="28.0"
+         height="12.16"
+         fill="#222222"
+         stroke="none"
+         id="rect134" />
+      <text
+         x="1459.0"
+         y="629.0"
+         font-size="7.5"
+         fill="#ffffff"
+         font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+         font-weight="bold"
+         text-anchor="middle"
+         dy="0.3em"
+         id="text134">JSON</text>
+      <text
+         x="1459.0"
+         y="644.1999999999999"
+         font-size="8.4"
+         fill="#333333"
+         font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+         font-weight="bold"
+         text-anchor="middle"
+         dominant-baseline="hanging"
+         class="nf-metro-station-label"
+         id="text135">Summary</text>
+    </g>
+  </g>
+  <text
+     x="1488.0"
+     y="170.6"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="end"
+     dominant-baseline="central"
+     id="text136">BLASTN</text>
+  <text
+     x="1488.0"
+     y="170.6"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="end"
+     dominant-baseline="central"
+     data-station-id="blastn"
+     class="nf-metro-station-label"
+     id="text137">BLASTN</text>
+  <text
+     x="298.0"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text138">Cat FastQs</text>
+  <text
+     x="298.0"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="cat_fastq"
+     class="nf-metro-station-label"
+     id="text139">Cat FastQs</text>
+  <text
+     x="784.5"
+     y="139.0"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text140">FilterNTrim</text>
+  <text
+     x="784.5"
+     y="139.0"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="dada2_filterntrim"
+     class="nf-metro-station-label"
+     id="text141">FilterNTrim</text>
+  <text
+     x="784.5"
+     y="308.0999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text142">Filter qual</text>
+  <text
+     x="784.5"
+     y="308.0999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="vsearch_fastq_filter_reads"
+     class="nf-metro-station-label"
+     id="text143">Filter qual</text>
+  <text
+     x="781.0"
+     y="485.1999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text144">Index</text>
+  <text
+     x="781.0"
+     y="485.1999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="minimap_align_db"
+     class="nf-metro-station-label"
+     id="text145">Index</text>
+  <text
+     x="1560.0"
+     y="271.79999999999995"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="end"
+     dominant-baseline="central"
+     id="text146">Merge HSPs</text>
+  <text
+     x="1560.0"
+     y="271.79999999999995"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="end"
+     dominant-baseline="central"
+     data-station-id="blast_merge_hsp"
+     class="nf-metro-station-label"
+     id="text147">Merge HSPs</text>
+  <text
+     x="403.0"
+     y="143.0"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text148">FastP Metrics</text>
+  <text
+     x="403.0"
+     y="143.0"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="fastp_metric"
+     class="nf-metro-station-label"
+     id="text149">FastP Metrics</text>
+  <text
+     x="844.5"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text150">Error</text>
+  <text
+     x="844.5"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="dada2_error"
+     class="nf-metro-station-label"
+     id="text151">Error</text>
+  <text
+     x="403.0"
+     y="197.6"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text152">FastPlong Metrics</text>
+  <text
+     x="403.0"
+     y="197.6"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="fastplong_metrics"
+     class="nf-metro-station-label"
+     id="text153">FastPlong Metrics</text>
+  <text
+     x="844.5"
+     y="283.0999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text154">Filter length</text>
+  <text
+     x="844.5"
+     y="283.0999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="vsearch_fastq_filter"
+     class="nf-metro-station-label"
+     id="text155">Filter length</text>
+  <text
+     x="841.0"
+     y="460.1999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text156">Consensus</text>
+  <text
+     x="841.0"
+     y="460.1999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="samtools_consensus"
+     class="nf-metro-station-label"
+     id="text157">Consensus</text>
+  <text
+     x="1500.0"
+     y="372.99999999999994"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="end"
+     dominant-baseline="central"
+     id="text158">Filter by Bitscore</text>
+  <text
+     x="1500.0"
+     y="372.99999999999994"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="end"
+     dominant-baseline="central"
+     data-station-id="blast_filter_bitscore"
+     class="nf-metro-station-label"
+     id="text159">Filter by Bitscore</text>
+  <text
+     x="499.0"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text160">Cutadapt</text>
+  <text
+     x="499.0"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="cutadapt"
+     class="nf-metro-station-label"
+     id="text161">Cutadapt</text>
+  <text
+     x="904.5"
+     y="139.0"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text162">Denoising</text>
+  <text
+     x="904.5"
+     y="139.0"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="dada2_denoising"
+     class="nf-metro-station-label"
+     id="text163">Denoising</text>
+  <text
+     x="904.5"
+     y="308.0999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text164">Dereplicate</text>
+  <text
+     x="904.5"
+     y="308.0999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="vsearch_derep_full"
+     class="nf-metro-station-label"
+     id="text165">Dereplicate</text>
+  <text
+     x="901.0"
+     y="485.1999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text166">Filter</text>
+  <text
+     x="901.0"
+     y="485.1999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="filter_consensus"
+     class="nf-metro-station-label"
+     id="text167">Filter</text>
+  <text
+     x="1504.0"
+     y="423.59999999999997"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="end"
+     dominant-baseline="central"
+     id="text168">Calculate Consensus</text>
+  <text
+     x="1504.0"
+     y="423.59999999999997"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="end"
+     dominant-baseline="central"
+     data-station-id="blast_consensus"
+     class="nf-metro-station-label"
+     id="text169">Calculate Consensus</text>
+  <text
+     x="595.0"
+     y="143.0"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text170">FastP Trimming</text>
+  <text
+     x="595.0"
+     y="143.0"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="fastp_trim"
+     class="nf-metro-station-label"
+     id="text171">FastP Trimming</text>
+  <text
+     x="964.5"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text172">FilterSize</text>
+  <text
+     x="964.5"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="dada2_filtersize"
+     class="nf-metro-station-label"
+     id="text173">FilterSize</text>
+  <text
+     x="595.0"
+     y="197.6"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text174">FastPlong Trim</text>
+  <text
+     x="595.0"
+     y="197.6"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="fastplong_trim"
+     class="nf-metro-station-label"
+     id="text175">FastPlong Trim</text>
+  <text
+     x="968.1"
+     y="283.0999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text176">Cluster Unoise</text>
+  <text
+     x="968.1"
+     y="283.0999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="vsearch_cluster_unoise"
+     class="nf-metro-station-label"
+     id="text177">Cluster Unoise</text>
+  <text
+     x="961.0"
+     y="460.1999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text178">CD-HIT</text>
+  <text
+     x="961.0"
+     y="460.1999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="cdhit_est"
+     class="nf-metro-station-label"
+     id="text179">CD-HIT</text>
+  <text
+     x="1504.0"
+     y="474.2"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="end"
+     dominant-baseline="central"
+     id="text180">Summarize Composition</text>
+  <text
+     x="1504.0"
+     y="474.2"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="end"
+     dominant-baseline="central"
+     data-station-id="blast_sample_compo"
+     class="nf-metro-station-label"
+     id="text181">Summarize Composition</text>
+  <text
+     x="1024.5"
+     y="139.0"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text182">RmChimera</text>
+  <text
+     x="1024.5"
+     y="139.0"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="dada2_rmchimera"
+     class="nf-metro-station-label"
+     id="text183">RmChimera</text>
+  <text
+     x="1024.5"
+     y="308.0999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text184">Usearch</text>
+  <text
+     x="1024.5"
+     y="308.0999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="vsearch_usearch_global"
+     class="nf-metro-station-label"
+     id="text185">Usearch</text>
+  <text
+     x="1021.0"
+     y="485.1999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text186">Align</text>
+  <text
+     x="1021.0"
+     y="485.1999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="minimap_align_consensus"
+     class="nf-metro-station-label"
+     id="text187">Align</text>
+  <text
+     x="1084.5"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text188">Seqtable</text>
+  <text
+     x="1084.5"
+     y="113.99999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="seqtable_to_fasta"
+     class="nf-metro-station-label"
+     id="text189">Seqtable</text>
+  <text
+     x="1091.6999999999998"
+     y="283.0999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text190">Uchime Denovo</text>
+  <text
+     x="1091.6999999999998"
+     y="283.0999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="vsearch_uchime_denovo"
+     class="nf-metro-station-label"
+     id="text191">Uchime Denovo</text>
+  <text
+     x="1081.0"
+     y="460.1999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text192">Filter</text>
+  <text
+     x="1081.0"
+     y="460.1999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="samtools_filter"
+     class="nf-metro-station-label"
+     id="text193">Filter</text>
+  <text
+     x="1141.0"
+     y="485.1999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     id="text194">Coverage</text>
+  <text
+     x="1141.0"
+     y="485.1999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="hanging"
+     data-station-id="samtools_coverage"
+     class="nf-metro-station-label"
+     id="text195">Coverage</text>
+  <text
+     x="1201.0"
+     y="460.1999999999999"
+     font-size="14.0"
+     fill="#ffffff"
+     stroke="#ffffff"
+     stroke-width="3.0"
+     stroke-linejoin="round"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     aria-hidden="true"
+     class="nf-metro-label-halo"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     id="text196">Cluster Size</text>
+  <text
+     x="1201.0"
+     y="460.1999999999999"
+     font-size="14.0"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     font-weight="bold"
+     text-anchor="middle"
+     dominant-baseline="auto"
+     data-station-id="size_from_coverage"
+     class="nf-metro-station-label"
+     id="text197">Cluster Size</text>
+  <image
+     x="32.367558"
+     y="592.46387"
+     width="136.8"
+     height="136.8"
+     xlink:href="data:image/png;base64,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"
+     id="image197" />
+  <path
+     d="m 181.16756,600.86385 h 24"
+     stroke="#4caf50"
+     stroke-width="3"
+     stroke-linecap="round"
+     id="path197" />
+  <text
+     x="217.16756"
+     y="600.86383"
+     font-size="16px"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     dy="4.8000002"
+     class="nf-metro-legend-text"
+     id="text198">Main</text>
+  <path
+     d="m 181.16756,624.86385 h 24"
+     stroke="#6ed371"
+     stroke-width="3"
+     stroke-linecap="round"
+     stroke-dasharray="8, 4"
+     id="path198" />
+  <text
+     x="217.16756"
+     y="624.86383"
+     font-size="16px"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     dy="4.8000002"
+     class="nf-metro-legend-text"
+     id="text199">MainAlt</text>
+  <path
+     d="m 181.16756,648.86385 h 24"
+     stroke="#c8d32a"
+     stroke-width="3"
+     stroke-linecap="round"
+     id="path199" />
+  <text
+     x="217.16756"
+     y="648.86383"
+     font-size="16px"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     dy="4.8000002"
+     class="nf-metro-legend-text"
+     id="text200">Illumina processing</text>
+  <path
+     d="m 181.16756,672.86385 h 24"
+     stroke="#d3922a"
+     stroke-width="3"
+     stroke-linecap="round"
+     id="path200" />
+  <text
+     x="217.16756"
+     y="672.86383"
+     font-size="16px"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     dy="4.8000002"
+     class="nf-metro-legend-text"
+     id="text201">Torrent processing</text>
+  <path
+     d="m 181.16756,696.86385 h 24"
+     stroke="#d33b2a"
+     stroke-width="3"
+     stroke-linecap="round"
+     id="path201" />
+  <text
+     x="217.16756"
+     y="696.86383"
+     font-size="16px"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     dy="4.8000002"
+     class="nf-metro-legend-text"
+     id="text202">Nanopore processing</text>
+  <path
+     d="m 181.16756,720.86385 h 24"
+     stroke="#2196f3"
+     stroke-width="3"
+     stroke-linecap="round"
+     stroke-dasharray="8, 4"
+     id="path202" />
+  <text
+     x="217.16756"
+     y="720.86383"
+     font-size="16px"
+     fill="#333333"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     dy="4.8000002"
+     class="nf-metro-legend-text"
+     id="text203">Quality Control</text>
+  <text
+     x="1655.0"
+     y="938.0"
+     font-size="8"
+     fill="rgba(150, 150, 150, 0.6)"
+     font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+     text-anchor="end"
+     id="text204">created with nf-metro v2.1.0</text>
 </svg>

@@ -14,7 +14,7 @@ applications in the analyis of food and feed products authenticity, or similar m
 
 It is designed to be easily installed and used, and work on a wide range of hardware configurations.
 
-![schema](docs/img/pipeline_dag.png)
+![schema](docs/img/foodme2_1.7.0_schema.png)
 
 *The full documentation is available from the [homepage](https://bio-raum.github.io/FooDMe2)*
 

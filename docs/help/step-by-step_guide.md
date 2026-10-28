@@ -62,7 +62,7 @@ are not an option in your settings or you are experiencing troubles getting them
 
 !!! Warning
 
-    Conda environments, though usually easy to deploy are not guaranteed to reproducibly install all dependencies in the same versions.
+    Conda environments, though usually easy to deploy, are not guaranteed to reproducibly install all dependencies in the same versions.
     For this reason we recommend that FooDMe2 be run with a container-based manager such as Apptainer/Singularity or Docker.
 
     For a discussion on conda reproducibility, see [PMID29953862](https://pubmed.ncbi.nlm.nih.gov/29953862/).

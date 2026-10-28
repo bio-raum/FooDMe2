@@ -20,6 +20,10 @@ If you see this warning, it means that there is a good chance that your reads co
 
 This warning is similar to the previous one. The pipeline has detected single-end data, which makes it very likely that individual reads contain PCR primer sites at both ends. If your results look very noisy or fragmented, try re-running the analysis with the trimming option `--cutadapt_trim_3p` enabled. 
 
+## `Expected binned qualities - but SampleA uses unbinned qualities!`
+
+This error suggests that the pipeline assumed binned qualities (`--binned_qual`) in the read data (i.e. from Illumina platforms such as the NovaSeq or MiSeq i100), but found too many quality scores in the actual reads, suggesting that continuous qualities were used. If this is in fact the case, please run without the `--binned_qual` flag, or, if you have a mix of data with different quality encodings (binned and unbinned), split them into different FooDMe2 runs. If you are sure that the warning is incorrect, you can ignore it. The underlying check is based on a fairly simplistic logic and may fail occassionally (short amplicons of high quality, for example). 
+
 ## `The required reference directory was not found on your system, exiting!`
 
 Make sure that you provided the path to the **base directory** where references are installed. This is the exact same path you provided when running `--build_references`. For example if the folder structure is:
