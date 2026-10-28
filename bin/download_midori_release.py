@@ -12,13 +12,14 @@ midori = {
     "267": "https://zenodo.org/records/23071879/files/MIDORI2_GB267_BLAST.zip?download=1"
 }
 
+
 def download_file(url, output_dir, proxy=None):
     """Download a single file from URL to the specified directory"""
     try:
         # Extract filename from URL
         parsed_url = urlparse(url)
         filename = os.path.basename(parsed_url.path)
-        
+
         # Create full output path
         output_path = os.path.join(output_dir, filename)
 
@@ -87,8 +88,8 @@ def main():
     if url:
         downloaded_file = download_file(url, args.outdir, proxy)
         if downloaded_file:
-            print(f"Download successful!")
-            
+            print("Download successful!")
+
             # Unzip the downloaded file
             if unzip_file(downloaded_file, args.outdir):
                 print("Unzipping completed successfully!")
