@@ -21,15 +21,15 @@ def download_file(url, output_dir, proxy=None):
         
         # Create full output path
         output_path = os.path.join(output_dir, filename)
-        
+
         print(f"Downloading {filename}...")
-        
+
         # Setup proxy if provided
         if proxy:
             proxy_handler = urllib.request.ProxyHandler({'https': proxy})
             opener = urllib.request.build_opener(proxy_handler)
             urllib.request.install_opener(opener)
-        
+
         urllib.request.urlretrieve(url, output_path)
         print(f"Downloaded {filename}")
         return output_path  # Return the path to the downloaded file
@@ -37,11 +37,12 @@ def download_file(url, output_dir, proxy=None):
         print(f"Error downloading {url}: {e}")
         return None
 
+
 def unzip_file(file_path, extract_to):
     """Unzip a downloaded file to the specified directory"""
     try:
         print(f"Extracting {os.path.basename(file_path)}...")
-        
+
         if file_path.endswith('.zip'):
             with zipfile.ZipFile(file_path, 'r') as zip_ref:
                 zip_ref.extractall(extract_to)
@@ -51,36 +52,37 @@ def unzip_file(file_path, extract_to):
         else:
             print(f"Unsupported file format: {file_path}")
             return False
-            
+
         print(f"Extraction complete for {os.path.basename(file_path)}")
         return True
     except Exception as e:
         print(f"Error extracting {file_path}: {e}")
         return False
 
+
 def main():
     parser = argparse.ArgumentParser(description='Download MIDORI database files')
     parser.add_argument('--version', required=True, help='Database version to download')
     parser.add_argument('--outdir', required=True, help='Output directory for downloaded files')
-    
+
     args = parser.parse_args()
-    
+
     # Check if the version exists in our dictionary
     if args.version not in midori:
         print(f"Error: Version '{args.version}' not found in database")
         return
-    
+
     # Get proxy from environment variable
     proxy = os.environ.get('HTTPS_PROXY')
-    
+
     # Create output directory if it doesn't exist
     os.makedirs(args.outdir, exist_ok=True)
-    
+
     # Get URLs for the specified version
     url = midori[args.version]
-    
+
     print(f"Downloading file for version {args.version} to {args.outdir}")
-    
+
     # Download each file
     if url:
         downloaded_file = download_file(url, args.outdir, proxy)
@@ -92,6 +94,7 @@ def main():
                 print("Unzipping completed successfully!")
             else:
                 print("Failed to unzip the downloaded file")
+
 
 if __name__ == "__main__":
     main()
