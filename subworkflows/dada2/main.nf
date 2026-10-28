@@ -22,24 +22,23 @@ workflow DADA2_WORKFLOW {
 
     /*
     Check quality binning in the reads and warn
-    if unexpected result is found
+    if unexpected result is found - we only do this
+    for Illumina data
     */
-    reads.branch { _m,r ->
-        def is_binned = isBinnedFastq(r[0])
-        binned: is_binned
-        unbinned: !is_binned
-    }.set { ch_illumina_binning }
+    if (!params.pacbio && !params.iontorrent && !params.ont) {
+        reads.branch { _m,r ->
+            def is_binned = isBinnedFastq(r[0])
+            binned: is_binned
+            unbinned: !is_binned
+        }.set { ch_illumina_binning }
 
-    // Check if read binning matches the command line flag, but only for Illumina
-    if (params.binned_qual) {
-        ch_illumina_binning.unbinned.subscribe { m, _r ->
-            if (m.platform == "ILLUMINA") {
+        // Check if read binning matches the command line flag, but only for Illumina
+        if (params.binned_qual) {
+            ch_illumina_binning.unbinned.subscribe { m, _r ->
                 log.warn "Expected binned qualities - but ${m.sample_id} use unbinned qualities!\n"
             }
-        }
-    } else {
-        ch_illumina_binning.binned.subscribe { m, _r ->
-            if (m.platform == "ILLUMINA") {
+        } else {
+            ch_illumina_binning.binned.subscribe { m, _r ->
                 log.warn "Expected unbinned qualities - but ${m.sample_id} seems to use binned qualities!\n"
             }
         }

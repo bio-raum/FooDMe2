@@ -4,7 +4,7 @@
 
 FooDMe was originally concieved as a workflow for paired-end Illumina short reads. As the portfolio of sequencing technologies broadens, it seemed only logical to consider supporting more technologies with a potential application in metabarcoding - namely IonTorrent short reads and Oxford Nanopore Technologies (ONT) long reads.
 
-We intend to have completed support for these technologies by release 2.0 (2026). In the meantime, we are already making the initial implementations available with the expressed disclaimer that they are still heavily under development.
+We intend to have completed support for these technologies by release 2.0 (2026/2027). In the meantime, we are already making the initial implementations available with the expressed disclaimer that they are still heavily under development.
 
 ## Illumina short-reads (production)
 
@@ -28,7 +28,7 @@ Nanopore is a low-throughout long-read technology with a comparatively higher er
 
 Because of the higher error rate, FooDMe2 does not implement a clustering-based processing chain for Nanopore reads. Instead, all reads are mapped against a gene-specific target database using ONT-specific mapping parameters. The resulting alignments are then used to reconstruct "pseudo-OTUS" by "flipping" the mapped locus using any robustly observable sequence variants. These OTUs are subsequently filtered and clustered to generate a non-redundant set, equivalent to what is produced by the short-read worfklows. 
 
-Initial tests suggests that this approach can deliver very comparable results to Illumina and IonTorrent worfklows. However, typical sequencing experiments with Nanopore will yield less data, which may reduce the detection limit and overall resolving power of the data set (ymmv).
+Initial tests suggests that this approach can deliver very comparable results to Illumina and IonTorrent worfklows. However, an obvious drawback of this approach is that the true targets must be present in the underlying database - so please do your own testing to see if your chosen database is suitable for your expected targets. Another limitation is that the typical sequencing experiments with Nanopore will yield less data, which may reduce the detection limit and overall resolving power of the data set (ymmv).
 
 Finally, please note that support for ONT data is **highly experimental** within FooDMe2 and we welcome your feedback on how to improve it. 
 

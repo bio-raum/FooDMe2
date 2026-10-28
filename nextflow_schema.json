@@ -98,10 +98,6 @@
         "primers_fa": {
           "type": "string",
           "description": "Your amplicon primers in FASTA format"
-        },
-        "primers_txt": {
-          "type": "string",
-          "hidden": true
         }
       }
     },

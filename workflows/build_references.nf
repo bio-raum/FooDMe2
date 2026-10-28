@@ -8,10 +8,11 @@ include { HELPER_FORMAT_MIDORI }            from './../modules/helper/format_mid
 include { BLAST_MAKEBLASTDB }               from './../modules/blast/makeblastdb'
 include { UNTAR as UNTAR_TAXONOMY }         from './../modules/untar'
 include { UNTAR as UNTAR_NCBI }             from './../modules/untar'
-include { WGET as WGET_MIDORI }             from './../modules/wget'
 include { HELPER_FORMAT_GENBANK_TAXIDS }    from './../modules/helper/format_genbank_taxids'
 include { WGET as WGET_NCBI }               from './../modules/wget'
 include { HELPER_INSTALL_GENBANK }          from './../modules/helper/install_genbank'
+include { HELPER_DOWNLOAD_MIDORI_RELEASE }  from './../modules/helper/download_midori_release'
+
 
 workflow BUILD_REFERENCES {
 
@@ -26,6 +27,15 @@ workflow BUILD_REFERENCES {
     taxdb   = channel.from(params.references.taxonomy.taxdb_url)
     taxdump = channel.from(params.references.taxonomy.taxdump_url)
     taxid   = channel.from(params.references.taxonomy.taxid_url)
+
+    // The reference version maps to a specific Midori release
+    midori_release_map = [ "1.4": "267" ]
+    if (params.reference_version in midori_release_map) {
+        midori_release = midori_release_map[params.reference_version]
+    } else { 
+        log.warn "We have no mapping for this FooDMe2 release (${params.reference_version}) to a specific Midori version :/"
+        System.exit(1)
+    }
 
     ch_ncbi_files = channel.from([])
     database_files = []
@@ -80,14 +90,25 @@ workflow BUILD_REFERENCES {
 
     ch_files = ch_files.mix(ch_ncbi_by_type.db)
 
-    // We download Midori with wget since the service is not guaranteed to have a valid SSL cert
-    WGET_MIDORI(
-        channel.fromList(midori_files)
+    // Download Midori data for the specified release
+    // from Zenodo
+    HELPER_DOWNLOAD_MIDORI_RELEASE(
+        [ ["id": "Midori"], midori_release ]
     )
-    ch_files = ch_files.mix(WGET_MIDORI.out.download)    
 
+    // flatMap the Zenodo files to database names
+    HELPER_DOWNLOAD_MIDORI_RELEASE.out.zips.flatMap{ m, zips -> 
+        zips.collect { z -> [ m, z]}
+    }.map { _m, z ->
+        /*
+        We grab the database name from the file name. Note that lrna was renamed to lrRNA, 
+        so we need to fix that to maintain backwards compatibility with resources.config
+        */
+        def id = z.getBaseName().split("_")[4].toLowerCase().replace("rr", "r")
+        [ [ "id": id], z ]
+    }.set { ch_midori_files }
+        
     ch_files.branch { _m, r ->
-        midori: r.toString().contains('MIDORI')
         ncbi_its: r.toString().contains('ITS_eukaryote')
         refseq: r.toString().contains('mitochondrion')
     }.set { ch_branched_files }
@@ -133,7 +154,7 @@ workflow BUILD_REFERENCES {
     MIDORI Blast databases are zipped, so we unzip them
     */
     UNZIP_MIDORI(
-        ch_branched_files.midori
+        ch_midori_files
     )
 
     /*
