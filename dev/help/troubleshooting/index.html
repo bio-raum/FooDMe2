@@ -1444,6 +1444,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#expected-binned-qualities-but-samplea-uses-unbinned-qualities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected binned qualities - but SampleA uses unbinned qualities!
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-required-reference-directory-was-not-found-on-your-system-exiting" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1742,6 +1753,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#expected-binned-qualities-but-samplea-uses-unbinned-qualities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected binned qualities - but SampleA uses unbinned qualities!
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-required-reference-directory-was-not-found-on-your-system-exiting" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1825,6 +1847,8 @@
 <p>If you see this warning, it means that there is a good chance that your reads contain PCR primer sites at both ends. This is because the insert size, i.e. the size of the sequenced fragment is smaller or roughly the same size as the individual paired-end reads. If your results look very noisy or fragmented, try re-running the analysis with the trimming option <code>--cutadapt_trim_3p</code> enabled. </p>
 <h2 id="xy-read-sets-are-classified-as-single-end-this-typically-requires-cutadapt_trim_3p"><code>XY read sets are classified as single-end - this typically requires --cutadapt_trim_3p.</code></h2>
 <p>This warning is similar to the previous one. The pipeline has detected single-end data, which makes it very likely that individual reads contain PCR primer sites at both ends. If your results look very noisy or fragmented, try re-running the analysis with the trimming option <code>--cutadapt_trim_3p</code> enabled. </p>
+<h2 id="expected-binned-qualities-but-samplea-uses-unbinned-qualities"><code>Expected binned qualities - but SampleA uses unbinned qualities!</code></h2>
+<p>This error suggests that the pipeline assumed binned qualities (<code>--binned_qual</code>) in the read data (i.e. from Illumina platforms such as the NovaSeq or MiSeq i100), but found too many quality scores in the actual reads, suggesting that continuous qualities were used. If this is in fact the case, please run without the <code>--binned_qual</code> flag, or, if you have a mix of data with different quality encodings (binned and unbinned), split them into different FooDMe2 runs. If you are sure that the warning is incorrect, you can ignore it. The underlying check is based on a fairly simplistic logic and may fail occassionally (short amplicons of high quality, for example). </p>
 <h2 id="the-required-reference-directory-was-not-found-on-your-system-exiting"><code>The required reference directory was not found on your system, exiting!</code></h2>
 <p>Make sure that you provided the path to the <strong>base directory</strong> where references are installed. This is the exact same path you provided when running <code>--build_references</code>. For example if the folder structure is:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/home/user/reference_base/foodme/1.0/...
