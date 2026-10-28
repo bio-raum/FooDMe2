@@ -26,16 +26,7 @@ workflow BUILD_REFERENCES {
     */
     taxdb   = channel.from(params.references.taxonomy.taxdb_url)
     taxdump = channel.from(params.references.taxonomy.taxdump_url)
-    taxid   = channel.from(params.references.taxonomy.taxid_url)
-
-    // The reference version maps to a specific Midori release
-    midori_release_map = [ "1.4": "267" ]
-    if (params.reference_version in midori_release_map) {
-        midori_release = midori_release_map[params.reference_version]
-    } else { 
-        log.warn "We have no mapping for this FooDMe2 release (${params.reference_version}) to a specific Midori version :/"
-        System.exit(1)
-    }
+    taxid   = channel.from(params.references.taxonomy.taxid_url)    
 
     ch_ncbi_files = channel.from([])
     database_files = []
@@ -93,7 +84,7 @@ workflow BUILD_REFERENCES {
     // Download Midori data for the specified release
     // from Zenodo
     HELPER_DOWNLOAD_MIDORI_RELEASE(
-        [ ["id": "Midori"], midori_release ]
+        [ ["id": "Midori"], params.midori_archive_url ]
     )
 
     // flatMap the Zenodo files to database names

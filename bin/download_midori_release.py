@@ -7,12 +7,6 @@ from urllib.parse import urlparse
 import zipfile
 import tarfile
 
-# Global dictionary mapping version numbers to lists of URLs
-midori = {
-    "267": "https://zenodo.org/records/23071879/files/MIDORI2_GB267_BLAST.zip?download=1"
-}
-
-
 def download_file(url, output_dir, proxy=None):
     """Download a single file from URL to the specified directory"""
     try:
@@ -63,15 +57,10 @@ def unzip_file(file_path, extract_to):
 
 def main():
     parser = argparse.ArgumentParser(description='Download MIDORI database files')
-    parser.add_argument('--version', required=True, help='Database version to download')
+    parser.add_argument('--url', required=True, help='Database archive to download')
     parser.add_argument('--outdir', required=True, help='Output directory for downloaded files')
 
     args = parser.parse_args()
-
-    # Check if the version exists in our dictionary
-    if args.version not in midori:
-        print(f"Error: Version '{args.version}' not found in database")
-        return
 
     # Get proxy from environment variable
     proxy = os.environ.get('HTTPS_PROXY')
@@ -80,9 +69,8 @@ def main():
     os.makedirs(args.outdir, exist_ok=True)
 
     # Get URLs for the specified version
-    url = midori[args.version]
-
-    print(f"Downloading file for version {args.version} to {args.outdir}")
+    url = args.url
+    print(f"Downloading file {args.url} to {args.outdir}")
 
     # Download each file
     if url:
