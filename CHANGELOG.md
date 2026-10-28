@@ -1,3 +1,8 @@
+## 1.7.1
+
+  - Fixing an issue with Midori databases no longer installing after move to Zenodo
+  - Updating documentation
+
 ## 1.7.0
 
 ### Methods
