@@ -18,11 +18,11 @@ def check_binning(fastq_path, output_path):
         # Open with gzip if it ends with .gz, otherwise normal open
         open_func = gzip.open if fastq_path.endswith('.gz') else open
         mode = 'rt' if fastq_path.endswith('.gz') else 'r' # read text mode
-        
+
         with open_func(fastq_path, mode, errors='ignore') as f:
             for line in f:
                 line_counter += 1
-                
+
                 # Check every 4th line (Quality score lines)
                 if line_counter % 4 == 0:
                     reads_analyzed += 1
@@ -47,9 +47,10 @@ def check_binning(fastq_path, output_path):
     with open(output_path, 'w') as f:
         f.write(f"{is_binned}\n")
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.stderr.write("Usage: check_illumina_binning.py <input_fastq> <output_status_txt>\n")
         sys.exit(1)
-        
+
     check_binning(sys.argv[1], sys.argv[2])
