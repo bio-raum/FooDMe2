@@ -6,7 +6,7 @@ include { DADA2_FILTERSIZE }            from './../../modules/dada2/filtersize'
 include { DADA2_RMCHIMERA }             from './../../modules/dada2/rmchimera'
 include { HELPER_SEQTABLE_TO_FASTA }    from './../../modules/helper/seqtable_to_fasta'
 include { HELPER_DADA_STATS }           from './../../modules/helper/dada_stats'
-
+include { HELPER_CHECK_BINNING }        from './../../modules/helper/check_binning'
 workflow DADA2_WORKFLOW {
     take:
     reads
@@ -26,16 +26,21 @@ workflow DADA2_WORKFLOW {
     for Illumina data
     */
     if (!params.pacbio && !params.iontorrent && !params.ont) {
-        reads.branch { _m,r ->
-            def is_binned = isBinnedFastq(r[0])
-            binned: is_binned
-            unbinned: !is_binned
-        }.set { ch_illumina_binning }
+
+        HELPER_CHECK_BINNING(reads)
+
+        HELPER_CHECK_BINNING.out.binned_status.join(reads).branch { m, status_file, fastq ->
+            def is_binned_value = status_file.text.trim()
+            binned: is_binned_value == "true"
+                [ m, fastq]
+            unbinned: is_binned_value == "false"
+                [ m, fastq]
+        }.set { ch_illumina_binning}
 
         // Check if read binning matches the command line flag, but only for Illumina
         if (params.binned_qual) {
             ch_illumina_binning.unbinned.subscribe { m, _r ->
-                log.warn "Expected binned qualities - but ${m.sample_id} use unbinned qualities!\n"
+                log.warn "Expected binned qualities - but ${m.sample_id} seems to use unbinned qualities!\n"
             }
         } else {
             ch_illumina_binning.binned.subscribe { m, _r ->
@@ -125,42 +130,5 @@ workflow DADA2_WORKFLOW {
 
 }
 
-def isBinnedFastq(reads) {
-    if (!reads.exists()) {
-        throw new IllegalArgumentException("No such file: ${reads.toString()}")
-    }
 
-    int lineCounter = 0
-    int readsAnalyzed = 0
-    // atomic storage of quality characters (unique)
-    Set<Character> uniqueQualityChars = []
 
-    try {
-        reads.withInputStream { inputStream ->
-            new java.util.zip.GZIPInputStream(inputStream).eachLine { line ->
-                lineCounter = lineCounter + 1
-                
-                // The 4th line contains the encoded quality
-                if (lineCounter % 4 == 0) {
-                    readsAnalyzed = readsAnalyzed + 1
-                    
-                    // collect the unique quality characters
-                    line.each { ch ->
-                        uniqueQualityChars.add(ch)
-                    }
-                    
-                    // Around 100 reads should give a sufficent sampling
-                    if (readsAnalyzed >= 100) {
-                        throw new RuntimeException("Scan beendet")
-                    }
-                }
-            }
-        }
-    } catch (RuntimeException e) {
-        // abort stream if something goes wrong
-    }
-
-    // Unbinned data (e.g. MiSeq) typically shows > 25 quality characters across 100 Reads
-    // Novaseq etc will show less than 10
-    return uniqueQualityChars.size() <= 10
-}
