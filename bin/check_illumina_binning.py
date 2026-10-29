@@ -3,6 +3,7 @@ import sys
 import gzip
 import os
 
+
 def check_binning(fastq_path, output_path):
     # Handle empty/missing files safely
     if not os.path.exists(fastq_path) or os.path.getsize(fastq_path) == 0:
@@ -23,17 +24,17 @@ def check_binning(fastq_path, output_path):
             for line in f:
                 line_counter += 1
 
-                # Check every 4th line (Quality score lines)
+                #  Check every 4th line (Quality score lines)
                 if line_counter % 4 == 0:
                     reads_analyzed += 1
                     # Strip newline and add characters to our unique set
                     unique_chars.update(line.strip())
-                    
+
                     # Stop early once we hit 100 reads
                     if reads_analyzed >= 100:
                         break
     except Exception as e:
-        # If the container cuts the stream or the file is corrupted, 
+        # If the container cuts the stream or the file is corrupted,
         # log it to stderr but don't crash the script execution
         sys.stderr.write(f"Warning encountered: {str(e)}\n")
 

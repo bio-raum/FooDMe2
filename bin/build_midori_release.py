@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 import zipfile
 import tarfile
 
+
 def download_file(url, output_dir, proxy=None):
     """Download a single file from URL to the specified directory"""
     try:
