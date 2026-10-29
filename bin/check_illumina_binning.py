@@ -19,7 +19,7 @@ def check_binning(fastq_path, output_path):
         # Open with gzip if it ends with .gz, otherwise normal open
         open_func = gzip.open if fastq_path.endswith('.gz') else open
         # read text mode
-        mode = 'rt' if fastq_path.endswith('.gz') else 'r' 
+        mode = 'rt' if fastq_path.endswith('.gz') else 'r'
 
         with open_func(fastq_path, mode, errors='ignore') as f:
             for line in f:
