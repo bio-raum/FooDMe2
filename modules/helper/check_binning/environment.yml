@@ -1,0 +1,7 @@
+name: helper_check_binning
+channels:
+  - conda-forge
+  - bioconda
+  
+dependencies:
+  - bioconda::multiqc=1.27

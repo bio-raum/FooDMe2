@@ -1,5 +1,5 @@
 process HELPER_DOWNLOAD_MIDORI_RELEASE {
-    tag "${meta.id}"
+    tag "${url}"
     label 'short_serial'
 
     conda "${moduleDir}/environment.yml"
@@ -8,7 +8,7 @@ process HELPER_DOWNLOAD_MIDORI_RELEASE {
         'quay.io/biocontainers/aminoextract:0.3.1--pyhdfd78af_0' }"
 
     input:
-    tuple val(meta), val(version)
+    tuple val(meta), val(url)
 
     output:
     tuple val(meta), path("download/BLAST/uniq/fasta/*.zip")  , emit: zips
@@ -16,7 +16,7 @@ process HELPER_DOWNLOAD_MIDORI_RELEASE {
 
     script:
     """
-    download_midori_release.py --version $version \
+    download_midori_release.py --url $url \
     --outdir download/
 
     cat <<-END_VERSIONS > versions.yml

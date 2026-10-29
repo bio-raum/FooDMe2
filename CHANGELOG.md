@@ -1,3 +1,8 @@
+## 1.7.2
+
+  - Found and corrected an issue with the installation of references
+  - Changed the detection of binned read qualities to a more robust mechanism
+  
 ## 1.7.1
 
   - Fixing an issue with Midori databases no longer installing after move to Zenodo

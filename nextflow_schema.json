@@ -172,7 +172,7 @@
         },
         "blocklist": {
           "type": "string",
-          "default": "/home/marc/git/bio-raum/FooDMe2/assets/blocklist.txt",
+          "default": "/home/mhoeppner/git/bio-raum/FooDMe2/assets/blocklist.txt",
           "description": "A list of taxonomy IDs that are to be masked from the analysis"
         }
       }
@@ -375,7 +375,7 @@
     },
     "logo": {
       "type": "string",
-      "default": "/home/marc/git/bio-raum/FooDMe2/assets/pipelinelogo.png",
+      "default": "/home/mhoeppner/git/bio-raum/FooDMe2/assets/pipelinelogo.png",
       "hidden": true
     },
     "skip_report": {
@@ -407,6 +407,12 @@
     "custom_config_base": {
       "type": "string",
       "default": "https://raw.githubusercontent.com/bio-raum/nf-configs/main",
+      "hidden": true
+    },
+    "midori_archive_url": {
+      "type": "string",
+      "default": "https://zenodo.org/records/23071879/files/MIDORI2_GB267_BLAST.zip?download=1",
+      "description": "URL of a Midori datadump on Zenodo - do not use unless instructed to.",
       "hidden": true
     }
   }
