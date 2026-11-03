@@ -1,3 +1,13 @@
+## 1.8.0
+
+### Bugfix
+
+  - Updating Dada2 to version 1.38.0 throughout to fix missing support for binned quality scores when modelling errors
+
+### Documentation
+
+  - Updated documentation to clarify use of binned quality scores
+
 ## 1.7.2
 
   - Found and corrected an issue with the installation of references
