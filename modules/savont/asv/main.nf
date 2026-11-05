@@ -25,14 +25,15 @@ process SAVONT_ASV {
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
  
     """
-    savont asv $args \
-    -t ${task.cpus} \
-    $reads \
-
-    cp savont-out/final_asvs.fasta ${prefix}_final_asvs.fasta
-    cp savont-out/feature-table.tsv ${prefix}_feature_table.tsv
-    cp savont-out/*.log ${prefix}_savont.log
-   
+    if savont asv $args -t ${task.cpus} $reads ; then
+        sed -E 's/>final_asv_([0-9]+)_depth_([0-9]+).*/>asv_\\1;size=\\2/' savont-out/final_asvs.fasta > ${prefix}_final_asvs.fasta
+        cp savont-out/feature-table.tsv ${prefix}_feature_table.tsv
+        cp savont-out/*.log ${prefix}_savont.log
+    else
+        touch ${prefix}_feature_table.tsv
+        touch ${prefix}_savont.log
+        touch ${prefix}_final_asvs.fasta
+    fi
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         savont: \$( fastqc --version | sed '/FastQC v/!d; s/.*v//' )

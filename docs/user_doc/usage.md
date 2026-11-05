@@ -87,7 +87,10 @@ where `myprofile` can either be a site-specific config file or one of the built-
     For a NextSeq 2000, this option would be set as follows:
 
     ```bash
-    nextflow run bio-raum/FooDMe2 -r 1.7.5 -profile my_profile --input samples.tsv --binned_qual "12,24,40"` [other options here]
+    nextflow run bio-raum/FooDMe2 -r 1.7.5 \\
+    -profile my_profile \\
+    --input samples.tsv \\
+    --binned_qual "12,24,40"` [other options here]
     ```
 
     A list of bins by instrument and chemistry (please double-check!):

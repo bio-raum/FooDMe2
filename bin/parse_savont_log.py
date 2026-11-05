@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import re
 import json
 import argparse
@@ -41,13 +43,35 @@ def parse_savont_log(file_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extracts read counts from Savont-Logfile.")
     parser.add_argument("--log", required=True, help="Path to savont log file")
+    parser.add_argument("--sample", required=True, help="Sample name to use")
+    parser.add_argument("--output", help="Path to output JSON file")
     
     args = parser.parse_args()
     
+    results = {
+        "chimeras": 0,
+        "filtered": 0,
+        "filtered_qual": 0,
+        "no_merged": 0,
+        "passing": 0
+    }
+
     # Run parser
     read_counts = parse_savont_log(args.log)
-    
-    # JSON-result
-    print(json.dumps(read_counts, indent=4))
-    
- 
+
+    if "Valid reads" in read_counts:
+        total_reads = read_counts["Removed due to length filtering"] + read_counts["Valid reads"]
+        reads_after_filter = read_counts["Total reads after initial filters"]
+        reads_qual_filter = read_counts["Valid reads"] - reads_after_filter    
+        reads_invalid_length = read_counts["Removed due to length filtering"]
+
+        results["passing"] = reads_after_filter
+        results["filtered"] = total_reads - reads_after_filter
+        results["filtered_qual"] = reads_qual_filter
+
+    # Write to file if --output is specified, otherwise print to stdout
+    if args.output:
+        with open(args.output, "w") as f:
+            json.dump({args.sample: results}, f, indent=4)
+    else:
+        print(json.dumps({args.sample: results}, indent=4))
