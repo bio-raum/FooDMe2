@@ -30,11 +30,16 @@ jobs:
           cat CONTRIBUTING.md > docs/about/contributing.md
           cat CHANGELOG.md > docs/about/changelog.md
           cat LICENSE > docs/about/license.md
-        
       - name: Install Dependencies
         run: |
           pip install mkdocs-material
           pip install mike
+          pip install "nf-metro>=2.0.0"
+          pip install "nf-metro[validate]"
+      - name: Render pipeline diagram
+        run: |
+          nf-metro validate assets/foodme2.mmd
+          nf-metro render assets/metro_map.mmd -o docs/img/pipeline_dag.png
       - name: Build Docs Website
         run: |
           git fetch origin gh-pages --depth=1
