@@ -39,7 +39,7 @@ jobs:
       - name: Render pipeline diagram
         run: |
           nf-metro validate assets/foodme2.mmd
-          nf-metro render assets/metro_map.mmd -o docs/img/pipeline_dag.png
+          nf-metro render assets/foodme2.mmd -o docs/img/pipeline_dag.png
       - name: Build Docs Website
         run: |
           git fetch origin gh-pages --depth=1
