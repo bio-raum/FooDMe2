@@ -19,8 +19,9 @@ process HELPER_ONT_CLUSTER_REPORT {
     def prefix = task.ext.prefix ?: meta.sample_id
 
     """
-    parse_savont_log.py \
-    --log $report \
+    parse_savont_log.py \\
+    --sample ${meta.sample_id} \\
+    --log $report \\
     --output ${prefix}.ont_cluster_stats.json
 
     cat <<-END_VERSIONS > versions.yml

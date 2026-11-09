@@ -3,6 +3,7 @@ Sub workflows
 */
 include { CUTADAPT_WORKFLOW }               from './../cutadapt'
 include { ONT_MAPPING }                     from './../ont_mapping'
+include { ONT_CLUSTERING }                  from './../ont_clustering'
 
 /*
 Modules
@@ -117,14 +118,24 @@ workflow ONT_WORKFLOW {
         log.warn "${m.sample_id} - only few or no reads left after filtering."
     }
 
-    // Create pseudo OTUS via mapping and consensus building
-    ONT_MAPPING(
-        FASTPLONG_TRIM.out.reads,
-        db
-    )
-    ch_otus = ONT_MAPPING.out.otu
-    ch_qc = ch_qc.mix(ONT_MAPPING.out.qc)
-    ch_versions = ONT_MAPPING.out.versions
+    if (params.ont_clustering) {
+        // Create pseudo OTUS via mapping and consensus building
+        ONT_CLUSTERING(
+            FASTPLONG_TRIM.out.reads
+        )
+        ch_otus = ONT_CLUSTERING.out.otu
+        ch_qc = ch_qc.mix(ONT_CLUSTERING.out.qc)
+        ch_versions = ch_versions.mix(ONT_CLUSTERING.out.versions)
+    } else {
+        // Create pseudo OTUS via mapping and consensus building
+        ONT_MAPPING(
+            FASTPLONG_TRIM.out.reads,
+            db
+        )
+        ch_otus = ONT_MAPPING.out.otu
+        ch_qc = ch_qc.mix(ONT_MAPPING.out.qc)
+        ch_versions = ONT_MAPPING.out.versions
+    }
 
     emit:
     versions = ch_versions

@@ -128,6 +128,7 @@ def main(sample, yaml_file, run_name, output):
         "clustering_dada": ("clustering", ".dada_stats.json", parse_json, {"return_adress": [sample]}),
         "clustering_vsearch": ("clustering", ".vsearch_stats.json", parse_json, {"return_adress": [sample]}),
         "clustering_ont": ("clustering", ".ont_mapping_stats.json", parse_json, {"return_adress": [sample]}),
+        "clustering_ont_cluster": ("clustering", ".ont_cluster_stats.json", parse_json, {"return_adress": [sample]}),
         "nanoplot": ("nanoplot", ".nanoplot.adaptertrim.tsv", parse_nanoplot, None),
         "nanoplot_trimmed": ("nanoplot_trimmed", ".nanoplot.trim.tsv", parse_nanoplot, None),
         "versions": ("versions", "versions.yml", parse_yaml, None),
@@ -154,6 +155,8 @@ def main(sample, yaml_file, run_name, output):
     # Iterating over Path objects
     for file_path in map(Path, files):
 
+        print(file_path)
+        
         with open(file_path, "r") as f:
             lines = [line.rstrip() for line in f]
 
@@ -161,6 +164,7 @@ def main(sample, yaml_file, run_name, output):
         matched_keys = set()
 
         for k, (json_key, suffix, func, kwargs) in parser_mapper.items():
+            
             if k in matched_keys:
                 continue
             if file_path.name.endswith(suffix):
