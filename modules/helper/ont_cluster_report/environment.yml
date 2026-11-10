@@ -1,0 +1,7 @@
+name: ont_cluster_report
+channels:
+  - conda-forge
+  - bioconda
+  
+dependencies:
+  - bioconda::bioinfokit=2.1.3

@@ -33,6 +33,7 @@ process MINIMAP2_ALIGN {
     $reference \\
     $reads \\
     | samtools sort -@ ${task.cpus} - | samtools view -h -b -F 256 -o $bam -
+    
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         minimap2: \$(minimap2 --version 2>&1)

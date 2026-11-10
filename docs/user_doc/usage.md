@@ -81,7 +81,31 @@ where `myprofile` can either be a site-specific config file or one of the built-
 ### Basic options
 
 `--binned_qual` [ default = false ]
-Assume base qualities are binned. This is the default for most modern Illumina platforms (NovSeq, NextSeq 1000/2000, MiSeq i100, iSeq). Without this option enabled, data from these platforms may underform in Dada2 OTU clustering due to how the error is modelled.
+
+:   Base qualitites are binned (e.g. NexSeq 2000, MiSeq i100, etc) - with these bins (comma-separated list).
+
+    For a NextSeq 2000, this option would be set as follows:
+
+    ```bash
+    nextflow run bio-raum/FooDMe2 -r 1.7.5 \\
+    -profile my_profile \\
+    --input samples.tsv \\
+    --binned_qual "12,24,40"` [other options here]
+    ```
+
+    A list of bins by instrument and chemistry (please double-check!):
+
+    | Instrument | Protocol |Bins |
+    | ---------- | ---- | ------ |
+    | NextSeq 1000/2000 | XLEAP SBS (RTA4) | 12,24,40 |
+    | NextSeq 1000/2000 | Standard SBS (RTA3) | 12,34 |
+    | NextSeq 1000/2000 | Standard SBS (600 cycles) | 9,20,34 |
+    | MiSeq i100 | XLEAP SBS (RTA4) | 12,24,38 |
+    | NovaSeq 6000 | Standard SBS | 12,25,37 |
+
+    !!! tip Performance
+
+        Please be aware that running with binned qualities is going to create a (potentially significant) performance cost on the error modelling. 
 
 `--input samples.tsv` [default = null]
 

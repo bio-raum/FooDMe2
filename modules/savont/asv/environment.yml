@@ -1,0 +1,7 @@
+name: savont_asv
+channels:
+  - conda-forge
+  - bioconda
+  
+dependencies:
+  - bioconda::savont=0.8.0

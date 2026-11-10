@@ -122,8 +122,6 @@ workflow FOODME2 {
     */
     ch_report_assets = channel.fromPath("${baseDir}/modules/helper/html_report/assets", checkIfExists: true).collect()
 
-
-
     /*
     Setting default channels
     */
