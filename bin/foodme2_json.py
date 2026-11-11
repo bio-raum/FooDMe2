@@ -156,7 +156,7 @@ def main(sample, yaml_file, run_name, output):
     for file_path in map(Path, files):
 
         print(file_path)
-        
+
         with open(file_path, "r") as f:
             lines = [line.rstrip() for line in f]
 
@@ -164,7 +164,7 @@ def main(sample, yaml_file, run_name, output):
         matched_keys = set()
 
         for k, (json_key, suffix, func, kwargs) in parser_mapper.items():
-            
+
             if k in matched_keys:
                 continue
             if file_path.name.endswith(suffix):

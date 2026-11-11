@@ -3,6 +3,8 @@
 ### Bugfix
 
   - Updating Dada2 to version 1.38.0 throughout to fix missing support for binned quality scores when modelling errors
+  - The --binned_qual option now requires the actual binning schema (see documentation)
+  - Experimental support for ont read clustering using savont (undocumented)
 
 ### Documentation
 
