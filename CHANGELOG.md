@@ -1,3 +1,9 @@
+## dev
+
+### Bugfix
+
+  - Long overdue fix of the HTML report for ONT data
+
 ## 1.8.0
 
 ### Bugfix
