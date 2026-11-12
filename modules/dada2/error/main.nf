@@ -27,7 +27,6 @@ process DADA2_ERROR {
     def args = task.ext.args ?: ""
     def seed = task.ext.seed ?: '100'
     // if we have determined binning, use that - else use the default model or the Pacbio model, if data is pacbio
-    println "DEBUG binning: value='${binning}', class=${binning?.getClass()}"
 
     def is_pacbio = params.pacbio.toString().toBoolean()
     def has_binning = binning != null && !(binning in [false, "false", "FALSE", ""])
