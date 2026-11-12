@@ -1,5 +1,5 @@
 process DADA2_ERROR {
-    tag "$meta.sample_id"
+    tag "${meta.sample_id} ($binning)"
     label 'medium_parallel'
 
     conda "${moduleDir}/environment.yml"
@@ -8,7 +8,7 @@ process DADA2_ERROR {
         'quay.io/biocontainers/bioconductor-dada2:1.38.0--r45ha27e39d_0' }"
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(reads), val(binning)
 
     output:
     tuple val(meta), path('*.err.rds')                  , emit: errormodel
@@ -26,6 +26,18 @@ process DADA2_ERROR {
     script:
     def args = task.ext.args ?: ""
     def seed = task.ext.seed ?: '100'
+    // if we have determined binning, use that - else use the default model or the Pacbio model, if data is pacbio
+    println "DEBUG binning: value='${binning}', class=${binning?.getClass()}"
+
+    def is_pacbio = params.pacbio.toString().toBoolean()
+    def has_binning = binning != null && !(binning in [false, "false", "FALSE", ""])
+
+    // Just in case the binning schema arrives as a List
+    def bin_str = (binning instanceof Collection) ? binning.join(',') : binning.toString()
+
+    def error_function = is_pacbio
+        ? "PacBioErrfun"
+        : (has_binning ? "makeBinnedQualErrfun(c(${bin_str}))" : "loessErrfun")
     
     if (meta.single_end) {
         """
@@ -54,7 +66,7 @@ process DADA2_ERROR {
 
         run_module <- function(fnFs) {
             # Run the module as intended
-            errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
+            errF <- learnErrors(fnFs, 'errorEstimationFunction = $error_function, $args', multithread = $task.cpus, verbose = TRUE)
 
             saveRDS(errF, "${meta.sample_id}.err.rds")
 
@@ -76,7 +88,7 @@ process DADA2_ERROR {
             )
         }
         sink(file = NULL)
-        write.table('learnErrors\t$args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
+        write.table('learnErrors\terrorEstimationFunction = $error_function, $args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
         writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
         """
     } else {
@@ -107,10 +119,10 @@ process DADA2_ERROR {
         run_module <- function(fnFs, fnRs) {
             # Run the module as intended
             print("Forward reads ...")
-            errF <- learnErrors(fnFs, $args, multithread = $task.cpus, verbose = TRUE)
+            errF <- learnErrors(fnFs, 'errorEstimationFunction = $error_function, $args', multithread = $task.cpus, verbose = TRUE)
             saveRDS(errF, "${meta.sample_id}_1.err.rds")
             print("Reverse reads ...")
-            errR <- learnErrors(fnRs, $args, multithread = $task.cpus, verbose = TRUE)
+            errR <- learnErrors(fnRs, 'errorEstimationFunction = $error_function, $args', multithread = $task.cpus, verbose = TRUE)
             saveRDS(errR, "${meta.sample_id}_2.err.rds")
 
             output_func(errF, "${meta.sample_id}_1")
@@ -134,7 +146,7 @@ process DADA2_ERROR {
             )
         }
         sink(file = NULL)
-        write.table('learnErrors\t$args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
+        write.table('learnErrors\terrorEstimationFunction = $error_function, $args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
         writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
         """
     }
