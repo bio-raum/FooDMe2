@@ -1,7 +1,13 @@
 ## 1.8.1
 
+### Features
+
   - Updated how --binned_qual works to add auto-detection if no actual binning schema is provided
-  
+
+### Bugfix
+
+  - Long overdue fix of the HTML report for ONT data
+
 ## 1.8.0
 
 ### Bugfix
