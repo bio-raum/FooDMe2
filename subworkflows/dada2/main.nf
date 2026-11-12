@@ -49,7 +49,7 @@ workflow DADA2_WORKFLOW {
         } else {
             reads_with_binning = reads.map { m, r -> [ m, r, "false"]}
         }
-    // Reads are treated as unbinned
+    // Reads are not Illumina, so no binning is assumed
     } else {
         reads_with_binning = reads.map { m, r -> [ m, r , "false"]}
     }

@@ -1,3 +1,7 @@
+## 1.8.1
+
+  - Updated how --binned_qual works to add auto-detection if no actual binning schema is provided
+  
 ## 1.8.0
 
 ### Bugfix
