@@ -82,9 +82,24 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
 `--binned_qual` [ default = false ]
 
-:   Base qualitites are binned (e.g. NexSeq 2000, MiSeq i100, etc) - with these bins (comma-separated list).
+:   Base qualitites are binned (e.g. NexSeq 2000, MiSeq i100, etc). This option has two different modes. 
 
-    For a NextSeq 2000, this option would be set as follows:
+    1) Automatically determine binning, i.e. do not specify the actual binning schema
+
+    For example:
+
+    ```bash
+    nextflow run bio-raum/FooDMe2 -r 1.7.5 \\
+    -profile my_profile \\
+    --input samples.tsv \\
+    --binned_qual [other options here]
+    ```
+    
+    Please understand that this mode cannot be guaranteed to always detect the true binning as it can only go by what quality bins it sees in the first 10.000 reads.
+
+    2) Specify the actual binning use (if the automatic detection does not correctly find the real binning)
+
+    For example, assuming the basecaller used phred scores 12, 24 and 40 for binning
 
     ```bash
     nextflow run bio-raum/FooDMe2 -r 1.7.5 \\
@@ -93,15 +108,7 @@ where `myprofile` can either be a site-specific config file or one of the built-
     --binned_qual "12,24,40"` [other options here]
     ```
 
-    A list of bins by instrument and chemistry (please double-check!):
-
-    | Instrument | Protocol |Bins |
-    | ---------- | ---- | ------ |
-    | NextSeq 1000/2000 | XLEAP SBS (RTA4) | 12,24,40 |
-    | NextSeq 1000/2000 | Standard SBS (RTA3) | 12,34 |
-    | NextSeq 1000/2000 | Standard SBS (600 cycles) | 9,20,34 |
-    | MiSeq i100 | XLEAP SBS (RTA4) | 12,24,38 |
-    | NovaSeq 6000 | Standard SBS | 12,25,37 |
+    Binning schemas may change over time as the basecaller is updated, please check which binning was actually used with the manufacturer and/or software settings in your sequencer. 
 
     !!! tip Performance
 
