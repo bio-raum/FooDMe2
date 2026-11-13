@@ -5,6 +5,7 @@ include { INPUT_CHECK }                 from './../modules/input_check'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 include { UNZIP }                       from './../modules/unzip'
 include { STAGE as STAGE_SAMPLESHEET }  from './../modules/helper/stage'
+include { MD5SUM }                      from './../modules/md5sum'
 
 /*
 Import sub workflows
@@ -153,6 +154,11 @@ workflow FOODME2 {
             tuple(meta,r)
         }.set { ch_reads }
     }
+
+    // Compute MD5sums of all input files
+    MD5SUM(
+        ch_reads.groupTuple().map { m, fastqs -> [m, fastqs.flatten()]}
+    )
 
     // Check if we have single-end data that likely requires 3prime trimming.
     if (!params.cutadapt_trim_3p & !params.cutadapt_ont) {
