@@ -23,9 +23,10 @@ process MD5SUM {
     def prefix = task.ext.prefix ?: "${meta.sample_id}"
 
     """
-    find -L * -maxdepth 0 -type f \\
-        ! -name '*.md5' \\
-        -exec sh -c 'md5sum ${args} "\$1" > "\$1.md5"' _ "{}" \\;
+    find -L * -type f \\
+            ! -name '*.md5' \\
+            -exec md5sum ${args} "{}" + \\
+            > ${prefix}.md5
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

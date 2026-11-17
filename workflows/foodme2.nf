@@ -159,6 +159,8 @@ workflow FOODME2 {
     MD5SUM(
         ch_reads.groupTuple().map { m, fastqs -> [m, fastqs.flatten()]}
     )
+    ch_versions = ch_versions.mix(MD5SUM.out.versions)
+    ch_reporting = ch_reporting.mix(MD5SUM.out.checksum)
 
     // Check if we have single-end data that likely requires 3prime trimming.
     if (!params.cutadapt_trim_3p & !params.cutadapt_ont) {
