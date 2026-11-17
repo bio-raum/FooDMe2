@@ -29,7 +29,17 @@ def load_tax_lookup(tax_lookup_file):
                         this_data = {}
                         for idx, h in enumerate(header):
                             this_data[h] = parts[idx]
-                        tax_lookup[this_data["tax_id"]] = this_data
+                        
+                        # we have already seen this tax id, adding translations
+                        if this_data["tax_id"] in tax_lookup:
+                            existing_entry = tax_lookup[this_data["tax_id"]]
+                            translations = existing_entry["translation"]
+                            if isinstance(translations, list):
+                                tax_lookup[this_data["tax_id"]]["translation"].append(this_data["translation"])
+                            else:
+                                tax_lookup[this_data["tax_id"]]["translation"] = [ existing_entry["translation"], this_data["translation"] ]
+                        else:
+                            tax_lookup[this_data["tax_id"]] = this_data
         except Exception as e:
             print(f"Warning: Could not load tax lookup file {tax_lookup_file}: {e}")
     return tax_lookup
@@ -72,8 +82,13 @@ def main(json_in, sample, output_tsv, output_json, tax_lookup_file=None):
         taxid = entry["taxid"]
         if taxid in tax_lookup:
             entry["common_english"] = tax_lookup[taxid]["common_name"]
-            # For now, we'll use the same value as English (since we don't have a German translation source)
-            entry["common_translated"] = tax_lookup[taxid]["translation"]
+            # Check if the translations are a string, or a list - then make it a string
+            if isinstance( tax_lookup[taxid]["translation"], list):
+                taxa = tax_lookup[taxid]["translation"]
+                clean_list = [x for x in taxa if len(x) > 0]
+                entry["common_translated"] = "|".join(list(set(clean_list)))
+            else:
+                entry["common_translated"] = tax_lookup[taxid]["translation"]
         else:
             entry["common_english"] = "missing"
             entry["common_translated"] = "missing"
