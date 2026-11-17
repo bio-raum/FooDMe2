@@ -35,6 +35,7 @@ workflow FOODME2 {
     ch_tax_files = channel.from([])
     ch_taxdb   = channel.from([])
     ch_reporting = channel.from([])
+    common_names = params.common_names ? file(params.common_names, checkIfExists: true) : false
 
     pipeline_info = channel.fromPath(dumpParametersToJSON(params.outdir)).collect()
 
@@ -213,7 +214,8 @@ workflow FOODME2 {
         ch_blast_db.collect(),
         ch_tax_files.collect(),
         ch_taxdb.collect(),
-        ch_blocklist.collect()
+        ch_blocklist.collect(),
+        common_names
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)

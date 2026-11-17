@@ -114,6 +114,18 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
         Please be aware that running with binned qualities is going to create a (potentially significant) performance cost on the error modelling. 
 
+`--common_names` [ default = null]
+
+:   An optional lookup table to annotate results with common species names (in your language of choice). The table requires the following TSV format to work:
+
+    | tax_id | scientific_name | common_name | translation |
+    | ------ | --------------- | ----------- | ----------- |
+    | 1234   | Equus unicornis | Unicorn | Einhorn |
+
+    We do not provide official dictionaries for this command line option. If you wish to create your own list, you can look, for example, at [GBIF](https://www.gbif.org/) and combine the information from the venacular lookup table with e.g. a LLM (large-language model) to provide additional translations. 
+
+    For the German language, we include a proof-of-principle produced in this manner with this code base under assets/translations_DE.tsv
+
 `--input samples.tsv` [default = null]
 
 :   This pipeline expects a TSV-formatted sample sheet (tabulation-delimited text file) to properly pull various meta data through the processes. The required format looks as follows:

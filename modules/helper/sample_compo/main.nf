@@ -9,6 +9,8 @@ process HELPER_SAMPLE_COMPO {
 
     input:
     tuple val(meta), path(json) // The json with consensus
+    val(common_names)
+
     output:
     tuple val(meta), path('*.composition.tsv') , emit: tsv
     tuple val(meta), path('*.composition.json'), emit: json
@@ -16,9 +18,14 @@ process HELPER_SAMPLE_COMPO {
 
     script:
     def prefix = task.ext.prefix ?: meta.sample_id
+    def options = common_names ? "--tax_lookup ${common_names}" : ""
 
     """
-    sample_compo.py --json $json --sample_id ${prefix} --output_tsv ${prefix}.composition.tsv --output_json ${prefix}.composition.json
+    sample_compo_optimized.py --json $json \
+    --sample_id ${prefix} \
+    --output_tsv ${prefix}.composition.tsv \
+    --output_json ${prefix}.composition.json \
+    $options
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
