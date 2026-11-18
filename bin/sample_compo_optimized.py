@@ -15,6 +15,7 @@ parser.add_argument("--output_json")
 parser.add_argument("--tax_lookup", help="Path to tabular file with taxid and common english name columns")
 args = parser.parse_args()
 
+MISSING_ENTRY = "not_available"
 
 def load_tax_lookup(tax_lookup_file):
     """Load taxid to common english name mapping from file"""
@@ -30,10 +31,11 @@ def load_tax_lookup(tax_lookup_file):
                         for idx, h in enumerate(header):
                             this_data[h] = parts[idx]
                         
-                        # we have already seen this tax id, adding translations
-                        if this_data["tax_id"] in tax_lookup:
+                        # we have already seen this tax id, only adding new translations
+                        # but translations are optional, so check we have a translation column
+                        if ("translation" in header) and (this_data["tax_id"] in tax_lookup):
                             existing_entry = tax_lookup[this_data["tax_id"]]
-                            translations = existing_entry["translation"]
+                            translations = existing_entry.get("translation", "")
                             if isinstance(translations, list):
                                 tax_lookup[this_data["tax_id"]]["translation"].append(this_data["translation"])
                             else:
@@ -81,17 +83,18 @@ def main(json_in, sample, output_tsv, output_json, tax_lookup_file=None):
     for entry in d:
         taxid = entry["taxid"]
         if taxid in tax_lookup:
-            entry["common_english"] = tax_lookup[taxid]["common_name"]
+            entry["common_english"] = tax_lookup[taxid].get("common_name", MISSING_ENTRY)
             # Check if the translations are a string, or a list - then make it a string
-            if isinstance( tax_lookup[taxid]["translation"], list):
+            translations = tax_lookup[taxid].get("translations", MISSING_ENTRY)
+            if isinstance(translations, list):
                 taxa = tax_lookup[taxid]["translation"]
                 clean_list = [x for x in taxa if len(x) > 0]
                 entry["common_translated"] = "|".join(list(set(clean_list)))
             else:
-                entry["common_translated"] = tax_lookup[taxid]["translation"]
+                entry["common_translated"] = translations
         else:
-            entry["common_english"] = "missing"
-            entry["common_translated"] = "missing"
+            entry["common_english"] = MISSING_ENTRY
+            entry["common_translated"] = MISSING_ENTRY
 
     if d:
         df = pd.DataFrame.from_records(d)
@@ -106,7 +109,7 @@ def main(json_in, sample, output_tsv, output_json, tax_lookup_file=None):
         aggd.setdefault(entry["sample"], []).append({k: v for k, v in entry.items() if k != "sample"})
 
     with open(output_json, "w",  encoding="utf-8") as fo:
-        json.dump(aggd, fo, indent=4,  sort_keys=True, )
+        json.dump(aggd, fo,indent=4,  sort_keys=True, )
 
 
 if __name__ == '__main__':

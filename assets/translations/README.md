@@ -16,10 +16,13 @@ TSV file with the following format:
 
 The translation can by in any language, as long as it is compatible with UTF-8 encoding. 
 
-## Using LLMs
+## The hard way
 
-One way to produce translations is via LLMs - some of which have fairly extensive translation capabilities. We have written a small script (translate.py) that accepts dump files from the NCBI taxonomy
-and uses a local (or remote) Ollama instance to generate translations. Note that this script needs to be updated to your local setting.
+You can obviously start putting together a list of relevant taxa and manually curate your list over time. Depending on your use case, this may be a quick or a very slow process. 
+
+## Using LLMs (translate.py)
+
+One way to produce translations is via LLMs - some of which have fairly extensive translation capabilities. We have written a small script (translate.py) that accepts dump files from the NCBI taxonomy and uses a local (or remote) Ollama instance to generate translations. Note that this script needs to be adapted to your local setting.
 
 ```Python
 import os
@@ -41,16 +44,23 @@ SEP = "\t"
 Specifically, the NODES_FILE and NAMES_FILE need to point to the locally available dump files (part of the local FooDMe2 references) and the MODEL_NAME needs 
 to match whatever model you want to use. Also, please check the LLM prompt to switch the translation from German to your language of choice. 
 
+```python
+prompt = (
+    "Translate each English biological common name in this JSON object into its standard German common name. "
+    "Return ONLY a valid JSON object using the exact same numeric keys.\n\n"
+    f"{json.dumps(numbered, ensure_ascii=False)}"
+)
+```
+
 Please note that this takes a long time (1.5-2 hours at 130 tokens/s) so isn't exactly suited for your Claude subscription perhaps. We ran this on a local Ollama instance.
 
-## GBIF
+## GBIF (check_gbif.py)
 
 The Global Biodiversity Information Facility [GBIF](https://www.gbif.org/) is a global database of biodiversity information. It contains a wealth of information on species, habitats, 
 and ecosystems. GBIF provides a wide range of data formats, including CSV, JSON, and XML, which can be used to analyze and visualize biodiversity data.
 
 It also happens to come with a database of venacular species names as part of its backbone [data dump](https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c). We have thus
-create a second script that takes the output from the LLM translations, the NCBI dump files and the the GBIF backbone data (backbone.zip) to add all the translations from GBIF to our translation
-table. From this you can then easily produce the format mentioned above as a lookup file. However, you will need to adjust which language you want to translate to, similar as for the LLM script. 
+created a second script that takes the output from the LLM translations, the NCBI dump files and the the GBIF backbone data (backbone.zip) to add all the translations from GBIF to our translation table. This is under the assumption that GBIF has much fewer but higher-quality translations. From this you can then easily produce the format mentioned above as a lookup file. However, you will need to adjust which language you want to translate to, similar as for the LLM script. 
 
 The code section of relevance is this bit:
 
