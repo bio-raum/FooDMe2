@@ -1,74 +1,67 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 import argparse
 import json
 import pandas as pd
 
 
-parser = argparse.ArgumentParser(description="Script options")
-parser.add_argument("--json", help="Path to blast report as json with delta-bitscore values")
-parser.add_argument("--sample_id", help="sample name")
-parser.add_argument("--output_tsv")
-parser.add_argument("--output_json")
-parser.add_argument("--tax_lookup", help="Path to tabular file with taxid and common english name columns")
-args = parser.parse_args()
-
-MISSING_ENTRY = "not_available"
-
 def load_tax_lookup(tax_lookup_file):
     """Load taxid to common english name mapping from file"""
+    if not tax_lookup_file:
+        return {}
+
     tax_lookup = {}
-    if tax_lookup_file:
-        try:
-            with open(tax_lookup_file, 'r', encoding="utf-8") as f:
-                header = f.readline().rstrip('\r\n').split("\t")
-                for line in f:
-                    if line.strip():
-                        parts = line.rstrip('\r\n').split('\t')
-                        this_data = {}
-                        for idx, h in enumerate(header):
-                            this_data[h] = parts[idx]
-                        
-                        # we have already seen this tax id, only adding new translations
-                        # but translations are optional, so check we have a translation column
-                        if ("translation" in header) and (this_data["tax_id"] in tax_lookup):
-                            existing_entry = tax_lookup[this_data["tax_id"]]
-                            translations = existing_entry.get("translation", "")
-                            if isinstance(translations, list):
-                                tax_lookup[this_data["tax_id"]]["translation"].append(this_data["translation"])
-                            else:
-                                tax_lookup[this_data["tax_id"]]["translation"] = [ existing_entry["translation"], this_data["translation"] ]
-                        else:
-                            tax_lookup[this_data["tax_id"]] = this_data
-        except Exception as e:
-            print(f"Warning: Could not load tax lookup file {tax_lookup_file}: {e}")
+    try:
+        with open(tax_lookup_file, 'r', encoding="utf-8") as f:
+            header = f.readline().rstrip('\r\n').split("\t")
+            for line in f:
+                if not line.strip():
+                    continue
+
+                parts = line.rstrip('\r\n').split('\t')
+                this_data = dict(zip(header, parts))
+
+                tax_id = this_data["tax_id"]
+                # Handle existing entries with translations
+                if ("translation" in header) and (tax_id in tax_lookup):
+                    existing_entry = tax_lookup[tax_id]
+                    existing_translation = existing_entry.get("translation", "")
+                    new_translation = this_data["translation"]
+
+                    if isinstance(existing_translation, list):
+                        existing_translation.append(new_translation)
+                    else:
+                        existing_translation = [existing_translation, new_translation]
+                    this_data["translation"] = existing_translation
+
+                tax_lookup[tax_id] = this_data
+    except Exception as e:
+        print(f"Warning: Could not load tax lookup file {tax_lookup_file}: {e}")
+
     return tax_lookup
 
 
-def main(json_in, sample, output_tsv, output_json, tax_lookup_file=None):
-    # Load tax lookup dictionary
-    tax_lookup = load_tax_lookup(tax_lookup_file)
-
-    with open(json_in, "r", encoding="utf-8") as fi:
-        j = json.load(fi)
-
+def process_clusters(clusters):
+    """Process clusters to aggregate data by taxid"""
     size, cluster_names, rank, name = {}, {}, {}, {}
     total = 0
 
-    # merging results over taxid called
-    # iterate over cluster
-    for cluster in j:
-        size.setdefault(cluster["taxid"], []).append(cluster["size"])
-        rank.setdefault(cluster["taxid"], cluster["rank"])
-        name.setdefault(cluster["taxid"], cluster["name"])
-        cluster_names.setdefault(cluster["taxid"], []).append(
-            # appending hit freq for this specific taxid to the sequence ID
+    for cluster in clusters:
+        tax_id = cluster["taxid"]
+        size.setdefault(tax_id, []).append(cluster["size"])
+        rank.setdefault(tax_id, cluster["rank"])
+        name.setdefault(tax_id, cluster["name"])
+        cluster_names.setdefault(tax_id, []).append(
             f"{cluster['query']}[{round(cluster['support'], 2)}]"
         )
         total += int(cluster["size"])
 
+    return size, cluster_names, rank, name, total
+
+
+def create_results_data(size, cluster_names, rank, name, total, sample):
+    """Create the results data structure"""
     d = [{
         "sample": sample,
         "name": name[id],
@@ -79,16 +72,21 @@ def main(json_in, sample, output_tsv, output_json, tax_lookup_file=None):
         "cluster_ids": "; ".join(cluster_names[id]),
     } for id in size.keys()]
 
-    # Add common english name and translation if available
-    for entry in d:
+    return d
+
+
+def add_taxonomic_info(results, tax_lookup):
+    """Add common english name and translation info to results"""
+    MISSING_ENTRY = "not_available"
+    for entry in results:
         taxid = entry["taxid"]
         if taxid in tax_lookup:
+            print(taxid)
             entry["common_english"] = tax_lookup[taxid].get("common_name", MISSING_ENTRY)
-            # Check if the translations are a string, or a list - then make it a string
-            translations = tax_lookup[taxid].get("translations", MISSING_ENTRY)
+
+            translations = tax_lookup[taxid].get("translation", MISSING_ENTRY)
             if isinstance(translations, list):
-                taxa = tax_lookup[taxid]["translation"]
-                clean_list = [x for x in taxa if len(x) > 0]
+                clean_list = [x for x in translations if len(x) > 0]
                 entry["common_translated"] = "|".join(list(set(clean_list)))
             else:
                 entry["common_translated"] = translations
@@ -96,21 +94,52 @@ def main(json_in, sample, output_tsv, output_json, tax_lookup_file=None):
             entry["common_english"] = MISSING_ENTRY
             entry["common_translated"] = MISSING_ENTRY
 
+
+def main():
+    parser = argparse.ArgumentParser(description="Script options")
+    parser.add_argument("--json", help="Path to blast report as json with delta-bitscore values")
+    parser.add_argument("--sample_id", help="sample name")
+    parser.add_argument("--output_tsv")
+    parser.add_argument("--output_json")
+    parser.add_argument("--tax_lookup", help="Path to tabular file with taxid and common english name columns")
+
+    args = parser.parse_args()
+
+    # Load tax lookup dictionary
+    tax_lookup = load_tax_lookup(args.tax_lookup)
+
+    with open(args.json, "r", encoding="utf-8") as fi:
+        j = json.load(fi)
+
+    # Process clusters
+    size, cluster_names, rank, name, total = process_clusters(j)
+
+    # Create results data
+    d = create_results_data(size, cluster_names, rank, name, total, args.sample_id)
+
+    # Add taxonomic information
+    add_taxonomic_info(d, tax_lookup)
+
+    # Create and sort DataFrame
     if d:
         df = pd.DataFrame.from_records(d)
         df = df.sort_values("proportion", ascending=False)
     else:
         df = pd.DataFrame(columns=["sample", "name", "taxid", "reads", "rank", "proportion", "cluster_ids"])
 
-    df.to_csv(output_tsv, sep="\t", index=False, encoding="utf-8-sig")
+    df.to_csv(args.output_tsv, sep="\t", index=False, encoding="utf-8-sig")
 
+    # Aggregate data for JSON output
     aggd = {}
     for entry in d:
-        aggd.setdefault(entry["sample"], []).append({k: v for k, v in entry.items() if k != "sample"})
+        sample_name = entry["sample"]
+        if sample_name not in aggd:
+            aggd[sample_name] = []
+        aggd[sample_name].append({k: v for k, v in entry.items() if k != "sample"})
 
-    with open(output_json, "w",  encoding="utf-8") as fo:
-        json.dump(aggd, fo,indent=4,  sort_keys=True, )
+    with open(args.output_json, "w", encoding="utf-8") as fo:
+        json.dump(aggd, fo, indent=4, sort_keys=True)
 
 
 if __name__ == '__main__':
-    main(args.json, args.sample_id, args.output_tsv, args.output_json, args.tax_lookup)
+    main()
