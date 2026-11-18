@@ -72,7 +72,7 @@ def get_read_size_dist(file_list: list, label: str) -> pd.DataFrame:
         sample = jdata["sample"]
 
         try:
-            sizes = jdata[label]["histogram"]
+            sizes = jdata[label]
         except KeyError:
             sizes = []
 
