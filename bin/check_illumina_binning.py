@@ -4,6 +4,13 @@ import gzip
 import os
 
 
+def phred_tanslate(chars):
+    phred = []
+    for c in chars:
+        phred.append(ord(c) - 33)  # "!" is PHRED 0, DEC representation is 33
+    return ",".join([str(v) for v in sorted(phred)])
+
+
 def check_binning(fastq_path, output_path):
     # Handle empty/missing files safely
     if not os.path.exists(fastq_path) or os.path.getsize(fastq_path) == 0:
@@ -31,9 +38,10 @@ def check_binning(fastq_path, output_path):
                     # Strip newline and add characters to our unique set
                     unique_chars.update(line.strip())
 
-                    # Stop early once we hit 100 reads
-                    if reads_analyzed >= 100:
+                    # Sample 10000 reads max
+                    if reads_analyzed == 10000:
                         break
+
     except Exception as e:
         # If the container cuts the stream or the file is corrupted,
         # log it to stderr but don't crash the script execution
@@ -44,7 +52,7 @@ def check_binning(fastq_path, output_path):
         is_binned = "false"
     else:
         # NovaSeq/Binned data typically shows <= 10 unique quality chars
-        is_binned = "true" if len(unique_chars) <= 10 else "false"
+        is_binned = phred_tanslate(unique_chars) if len(unique_chars) <= 10 else "false"
 
     with open(output_path, 'w') as f:
         f.write(f"{is_binned}\n")

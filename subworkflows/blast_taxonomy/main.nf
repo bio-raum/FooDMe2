@@ -17,6 +17,7 @@ workflow BLAST_TAXONOMY {
     taxdump     // [ nodes, rankedlineage, merged ]
     taxdb       // [ taxdb folder ]
     block_list  // [ blocklist ]
+    common_names // A translation between taxid and translated name
 
     main:
 
@@ -129,7 +130,8 @@ workflow BLAST_TAXONOMY {
     Sample composition
     */
     HELPER_SAMPLE_COMPO(
-        HELPER_FIND_CONSENSUS.out.json
+        HELPER_FIND_CONSENSUS.out.json,
+        common_names
     )
     ch_versions = ch_versions.mix(HELPER_BLAST_STATS.out.versions)
 

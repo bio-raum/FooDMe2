@@ -9,11 +9,11 @@ process HELPER_ONT_CLUSTER_REPORT {
         'quay.io/biocontainers/bioinfokit:2.1.3--pyh7cba7a3_0' }"
 
     input:
-    tuple val(meta), path(report)
+    tuple val(meta), path(report) //
 
     output:
-    tuple val(meta), path('*.json')       , emit: json
-    path 'versions.yml'                     , emit: versions
+    tuple val(meta), path('*.json') , emit: json
+    path 'versions.yml'             , emit: versions
 
     script:
     def prefix = task.ext.prefix ?: meta.sample_id

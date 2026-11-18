@@ -172,7 +172,7 @@
         },
         "blocklist": {
           "type": "string",
-          "default": "/home/mhoeppner/git/bio-raum/FooDMe2/assets/blocklist.txt",
+          "default": "/home/marc/git/bio-raum/FooDMe2/assets/blocklist.txt",
           "description": "A list of taxonomy IDs that are to be masked from the analysis"
         }
       }
@@ -414,6 +414,9 @@
       "default": "https://zenodo.org/records/23071879/files/MIDORI2_GB267_BLAST.zip?download=1",
       "description": "URL of a Midori datadump on Zenodo - do not use unless instructed to.",
       "hidden": true
+    },
+    "common_names": {
+      "type": "string"
     }
   }
 }
