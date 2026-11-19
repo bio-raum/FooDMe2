@@ -7,6 +7,8 @@
 ### Bugfix
 
   - Long overdue fix of the HTML report for ONT data
+  - Fixed an issue with missing container image directives for docker/podman users
+  - Fixed an issue where HTML reports could not be generated for IonTorrent data
 
 ## 1.8.0
 
