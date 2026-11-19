@@ -3,6 +3,7 @@
 ### Features
 
   - Updated how --binned_qual works to add auto-detection if no actual binning schema is provided
+  - Added a new option --common_names to add translated species names to reports
 
 ### Bugfix
 
