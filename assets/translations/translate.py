@@ -23,6 +23,7 @@ with open(NODES_FILE, "r", encoding="utf-8") as f:
 
 is_euk_cache = {EUKARYOTA_TAX_ID: True, "1": False, "0": False}
 
+
 def is_eukaryote(tax_id):
     path = []
     curr = tax_id
@@ -37,6 +38,7 @@ def is_eukaryote(tax_id):
     for node in path:
         is_euk_cache[node] = result
     return result
+
 
 print("Reading names.dmp...", flush=True)
 entries = set()
@@ -59,9 +61,11 @@ if os.path.exists(OUTPUT_FILE):
                 already_done.add((saved_id, saved_eng))
                 cached_translations[saved_eng] = saved_ger
 
+
 def sort_key(pair):
     tid, name = pair
     return (int(tid), name)
+
 
 remaining_entries = sorted(entries - already_done, key=sort_key)
 name_to_taxids = {}
@@ -69,6 +73,7 @@ for tax_id, eng in remaining_entries:
     name_to_taxids.setdefault(eng, []).append(tax_id)
 
 print(f"Found {len(entries)} eukaryote entries ({len(name_to_taxids)} unique names remaining).", flush=True)
+
 
 def translate_batch(batch):
     numbered = {str(idx): name for idx, name in enumerate(batch, 1)}
@@ -108,7 +113,7 @@ with open(OUTPUT_FILE, "a", encoding="utf-8") as out:
 
     pending_names = sorted(name_to_taxids.keys())
     for i in range(0, len(pending_names), BATCH_SIZE):
-        batch = pending_names[i : i + BATCH_SIZE]
+        batch = pending_names[i: i + BATCH_SIZE]
         translations = translate_batch(batch)
 
         if len(translations) != len(batch):

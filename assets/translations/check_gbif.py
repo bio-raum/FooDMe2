@@ -10,6 +10,7 @@ SEP = "\t"
 
 csv.field_size_limit(sys.maxsize)
 
+
 def load_ncbi_scientific_names(names_path):
     """Map NCBI tax_id to its primary scientific name."""
     sci_names = {}
