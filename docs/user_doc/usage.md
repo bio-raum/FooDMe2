@@ -124,7 +124,7 @@ where `myprofile` can either be a site-specific config file or one of the built-
 
     We do not provide official dictionaries for this command line option. If you wish to create your own list, you can look, for example, at [GBIF](https://www.gbif.org/) and combine the information from the venacular lookup table with e.g. a LLM (large-language model) to provide additional translations. 
 
-    For the German language, we include a proof-of-principle produced in this manner with this code base under assets/translations_DE.tsv
+    For the English and  German languages, we include a proof-of-principle produced in this manner with this code base under `assets/translations_EN.tsv` and `assets/translations_DE.tsv`.
 
 `--input samples.tsv` [default = null]
 
