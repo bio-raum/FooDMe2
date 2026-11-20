@@ -1,3 +1,16 @@
+## 1.8.1
+
+### Features
+
+  - Updated how `--binned_qual` works to add auto-detection if no actual binning schema is provided
+  - Added a new option `--common_names` to add translated species names to reports
+
+### Bugfix
+
+  - Long overdue fix of the HTML report for ONT data
+  - Fixed an issue with missing container image directives for docker/podman users
+  - Fixed an issue where HTML reports could not be generated for IonTorrent data
+
 ## 1.8.0
 
 ### Bugfix

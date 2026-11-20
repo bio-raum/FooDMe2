@@ -95,6 +95,17 @@ def parse_nanoplot(lines):
     return data
 
 
+def parse_md5(lines):
+    data = {}
+    for line in lines:
+
+        elements = re.split(r'\s+', line.strip())
+        if (len(elements) == 2):
+            data[elements[-1]] = elements[0]
+
+    return data
+
+
 def parse_yaml(lines):
     data = {}
     key = ""
@@ -134,6 +145,7 @@ def main(sample, yaml_file, run_name, output):
         "versions": ("versions", "versions.yml", parse_yaml, None),
         "read_length_hist_pretrimming": ("read_length_hist_pretrimming", ".pre.hist.txt", parse_flat, {"sep": " "}),
         "read_length_hist_posttrimming": ("read_length_hist_postrimming", ".post.hist.txt", parse_flat, {"sep": " "}),
+        "md5sums": ("md5sums", ".md5", parse_md5, None),
     }
 
     files = [os.path.abspath(f) for f in glob.glob("*/*")]
@@ -154,8 +166,6 @@ def main(sample, yaml_file, run_name, output):
 
     # Iterating over Path objects
     for file_path in map(Path, files):
-
-        print(file_path)
 
         with open(file_path, "r") as f:
             lines = [line.rstrip() for line in f]

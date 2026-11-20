@@ -19,6 +19,7 @@ nextflow_workflow {
                 input[2] = channel.of( [ file("${projectDir}/tests/refs/foodme2/1.4/new_taxdump/nodes.dmp"), file("${projectDir}/tests/refs/foodme2/1.4/new_taxdump/rankedlineage.dmp"), file("${projectDir}/tests/refs/foodme2/1.4/new_taxdump/merged.dmp")])
                 input[3] = file("${projectDir}/tests/refs/foodme2/1.4/taxdb")
                 input[4] = channel.of(file("${projectDir}/assets/blocklist.txt"))
+                input[5] = channel.of(false)
                 """
             }
         }
@@ -27,7 +28,7 @@ nextflow_workflow {
             assert workflow.success
             with(workflow.out.composition_json) {
                 with(get(0)) {
-                    assert path(get(1)).md5 == "66551b1b36eb2b9417bf4ac4b5d87909"
+                    assert path(get(1)).md5 == "1a1c3371b4098fabeac55b54e9dd71c5"
                  }
             }
             with(workflow.out.consensus) {

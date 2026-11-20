@@ -35,7 +35,10 @@ def get_insert_length_dist(file_list: list, fastp_label: str) -> pd.DataFrame:
         try:
             size = jdata[fastp_label]["insert_size"]["histogram"]
         except KeyError:
-            size = []
+            try:
+                size = jdata[fastp_label]["histogram"]
+            except KeyError:
+                size = []
 
         samples.append({
             "sample": sample,

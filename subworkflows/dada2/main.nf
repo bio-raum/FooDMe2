@@ -27,33 +27,39 @@ workflow DADA2_WORKFLOW {
     */
     if (!params.pacbio && !params.iontorrent && !params.ont) {
 
-        HELPER_CHECK_BINNING(reads)
-
-        HELPER_CHECK_BINNING.out.binned_status.join(reads).branch { m, status_file, fastq ->
-            def is_binned_value = status_file.text.trim()
-            binned: is_binned_value == "true"
-                [ m, fastq]
-            unbinned: is_binned_value == "false"
-                [ m, fastq]
-        }.set { ch_illumina_binning}
-
-        // Check if read binning matches the command line flag, but only for Illumina
+        // we only auto-detect binning if the user requests it, else assume data is unbinned
         if (params.binned_qual) {
-            ch_illumina_binning.unbinned.subscribe { m, _r ->
+
+            // If binned_qual is a boolean, auto-detect binning
+            if (params.binned_qual instanceof Boolean) {
+                HELPER_CHECK_BINNING(reads)
+
+                HELPER_CHECK_BINNING.out.binned_status.join(reads).map { m, status_file, fastq ->
+                    def is_binned_value = status_file.text.trim()
+                    [ m, fastq, is_binned_value ]
+                }.set { reads_with_binning }
+            // else use the user-provided binning
+            } else {
+                reads_with_binning = reads.map { m, fastq -> [ m, fastq, params.binned_qual ]}
+            }
+            // Check if any reads came back as unbinned and report these mismatches
+            reads_with_binning.filter { _m, _fastq, status -> status == "false" }.subscribe { m, _fastq, _status ->
                 log.warn "Expected binned qualities - but ${m.sample_id} seems to use unbinned qualities!\n"
             }
         } else {
-            ch_illumina_binning.binned.subscribe { m, _r ->
-                log.warn "Expected unbinned qualities - but ${m.sample_id} seems to use binned qualities!\n"
-            }
+            reads_with_binning = reads.map { m, r -> [ m, r, "false"]}
         }
+    // Reads are not Illumina, so no binning is assumed
+    } else {
+        reads_with_binning = reads.map { m, r -> [ m, r , "false"]}
     }
 
     /*
     Filter reads; trimming is done by Cutadapt
+    We remove the binning information here since we don't need it yet
     */
     DADA2_FILTNTRIM(
-        reads
+        reads_with_binning.map { m, fastq, _binning -> [ m, fastq]}
     )
     ch_filtered_reads = ch_filtered_reads.mix(DADA2_FILTNTRIM.out.filtered_reads)
     ch_versions = ch_versions.mix(DADA2_FILTNTRIM.out.versions)
@@ -62,9 +68,11 @@ workflow DADA2_WORKFLOW {
     
     /*
     DADA2 Error model calculation
+    we join [ meta, filtered ] with [ meta, fastq, binning ] and map that to [ meta, filtered, binning ]
+    to get the binning information back
     */
     DADA2_ERROR(
-        ch_filtered_reads
+        ch_filtered_reads.join(reads_with_binning).map { m, filtered, _fastq, binning -> [ m, filtered, binning] }
     )
     ch_versions = ch_versions.mix(DADA2_ERROR.out.versions)
 
