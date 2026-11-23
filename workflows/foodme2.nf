@@ -5,6 +5,7 @@ include { INPUT_CHECK }                 from './../modules/input_check'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './../modules/custom/dumpsoftwareversions'
 include { UNZIP }                       from './../modules/unzip'
 include { STAGE as STAGE_SAMPLESHEET }  from './../modules/helper/stage'
+include { MD5SUM }                      from './../modules/md5sum'
 
 /*
 Import sub workflows
@@ -34,6 +35,7 @@ workflow FOODME2 {
     ch_tax_files = channel.from([])
     ch_taxdb   = channel.from([])
     ch_reporting = channel.from([])
+    common_names = params.common_names ? file(params.common_names, checkIfExists: true) : false
 
     pipeline_info = channel.fromPath(dumpParametersToJSON(params.outdir)).collect()
 
@@ -154,6 +156,13 @@ workflow FOODME2 {
         }.set { ch_reads }
     }
 
+    // Compute MD5sums of all input files
+    MD5SUM(
+        ch_reads.groupTuple().map { m, fastqs -> [m, fastqs.flatten()]}
+    )
+    ch_versions = ch_versions.mix(MD5SUM.out.versions)
+    ch_reporting = ch_reporting.mix(MD5SUM.out.checksum)
+
     // Check if we have single-end data that likely requires 3prime trimming.
     if (!params.cutadapt_trim_3p & !params.cutadapt_ont) {
         ch_reads.filter { m,_r -> m.single_end }.count().filter { c -> c > 0 }.map { c ->
@@ -205,7 +214,8 @@ workflow FOODME2 {
         ch_blast_db.collect(),
         ch_tax_files.collect(),
         ch_taxdb.collect(),
-        ch_blocklist.collect()
+        ch_blocklist.collect(),
+        common_names
     )
     ch_versions    = ch_versions.mix(BLAST_TAXONOMY.out.versions)
     ch_consensus   = ch_consensus.mix(BLAST_TAXONOMY.out.consensus)

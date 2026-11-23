@@ -34,8 +34,8 @@ SINGLE_MAPPING = {
 
 ONT_MAPPING = {
     "read_length": ["fastplong_trimmed", "summary", "after_filtering", "read_mean_length"],
-    "reads_total": ["fastp_long", "summary", "before_filtering", "total_reads"],
-    "qual": ["fastp_long", "summary", "before_filtering", "q20_rate"],
+    "reads_total": ["fastplong", "summary", "before_filtering", "total_reads"],
+    "qual": ["fastplong", "summary", "before_filtering", "q20_rate"],
     "reads_passing": ["fastplong_trimmed", "summary", "after_filtering", "total_reads"],
     "reads_after_clustering": ["clustering", "passing"],
     "chimeras": ["clustering", "chimeras"],

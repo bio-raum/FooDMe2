@@ -99,6 +99,9 @@ class WorkflowPipeline {
                 log.warn "The options --cutadapt_ont and --cutadapt_trim_3p are mutually exclusive!"
                 System.exit(1)
             }
+            if (params.binned_qual && (params.ont || params.iontorrent || params.pacbio)) {
+                log.warn "Binned base qualities are currently only supported for Illumina data! Ignoring option..."
+            }
         } else {
             log.info "Missing mandatory argument: --input, --reads or --build_references\nExiting."
             System.exit(1)
