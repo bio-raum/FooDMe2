@@ -4,30 +4,28 @@ process DADA2_ERROR {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bioconductor-dada2:1.38.0--r45ha27e39d_0' :
-        'quay.io/biocontainers/bioconductor-dada2:1.38.0--r45ha27e39d_0' }"
+        'quay.io/biocontainers/dada2-rs:0.5.0--hfa8f182_0' :
+        'quay.io/biocontainers/dada2-rs:0.5.0--hfa8f182_0' }"
 
     input:
     tuple val(meta), path(reads), val(binning)
 
     output:
-    tuple val(meta), path('*.err.rds')                  , emit: errormodel
-    tuple val(meta), path('*.err.pdf')                  , emit: pdf, optional: true
-    tuple val(meta), path('*.err.svg')                  , emit: svg, optional: true
-    tuple val(meta), path('*.err.log')                  , emit: log, optional: true
-    tuple val(meta), path('*.error_rates.tsv')          , emit: err_rates, optional: true
-    tuple val(meta), path('*.observed_transitions.tsv') , emit: trans, optional: true
-    path 'versions.yml'                                 , emit: versions
-    path '*.args.txt'                                   , emit: args
+    tuple val(meta), path('*.error.json')   , emit: errormodel
+    path 'versions.yml'                     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ""
-    def seed = task.ext.seed ?: '100'
-    // if we have determined binning, use that - else use the default model or the Pacbio model, if data is pacbio
+    def args        = task.ext.args ?: ""
+    def outJSON     = "\"${meta.sample_id}.error.json\""
+    def outJSONR1   = "\"${meta.sample_id}_1.error.json\""
+    def outJSONR1   = "\"${meta.sample_id}_2.error.json\""
 
+    def seed = task.ext.seed ?: '100'
+
+    // if we have determined binning, use that - else use the default model or the Pacbio model, if data is pacbio
     def is_pacbio = params.pacbio.toString().toBoolean()
     def has_binning = binning != null && !(binning in [false, "false", "FALSE", ""])
 
@@ -35,118 +33,61 @@ process DADA2_ERROR {
     def bin_str = (binning instanceof Collection) ? binning.join(',') : binning.toString()
 
     def error_function = is_pacbio
-        ? "PacBioErrfun"
-        : (has_binning ? "makeBinnedQualErrfun(c(${bin_str}))" : "loessErrfun")
+        ? "pacbio"
+        : (has_binning ? "binned-qual --binned-quals ${bin_str}" : "loess")
     
     if (meta.single_end) {
         """
-        #!/usr/bin/env Rscript
+        dada2-rs learn-errors *.filt.fastq.gz \
+            --output $outJSON \
+            --seed $seed \
+            $args \
+            --errfun $error_function \
+            --threads $task.cpus
 
-        suppressPackageStartupMessages(library(dada2))
-        set.seed($seed) # Initialize random number generator for reproducibility
+        # On error, generate empty json
+        rc=$?
+        if [ "$rc" -ne 0 ]; then
+            touch $outJSON
+        fi
 
-        generate_empty <- function(e) {
-            # On error or empty input generate empty output files
-            print(e)
-            saveRDS(c(), "${meta.sample_id}.err.rds")
-        }
-
-        output_func <- function(error, name) {
-            pErr <- plotErrors(error, nominalQ = TRUE)
-            pdf(paste(name, ".err.pdf"))
-            print(pErr)
-            dev.off()
-            svg(paste(name, ".err.svg"))
-            print(pErr)
-            dev.off()
-            write.table(error[["err_out"]], sep="\t", file=paste(name, ".error_rates.tsv"), col.names=NA, quote=FALSE)
-            write.table(error[["trans"]], sep="\t", file=paste(name, ".observed_transitions.tsv"), col.names = NA, quote=FALSE)
-        }
-
-        run_module <- function(fnFs) {
-            # Run the module as intended
-            errF <- learnErrors(fnFs, 'errorEstimationFunction = $error_function, $args', multithread = $task.cpus, verbose = TRUE)
-
-            saveRDS(errF, "${meta.sample_id}.err.rds")
-
-            output_func(errF, "${meta.sample_id}")
-        }
-        
-        sink(file = "${meta.sample_id}.err.log")
-
-        fnFs <- sort(list.files(".", pattern = ".fastq.gz", full.names = TRUE))
-
-        # Check if file is empty
-        n_lines <- as.integer(system(sprintf('gunzip -c %s | wc -l', fnFs), intern= TRUE))
-        if (n_lines < 4 ) {
-            generate_empty("WARNING: Detected empty input")
-        } else {
-            tryCatch(
-                expr = run_module(fnFs),
-                error = function(e) generate_empty(e)
-            )
-        }
-        sink(file = NULL)
-        write.table('learnErrors\terrorEstimationFunction = $error_function, $args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
-        writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            dada2-rs: \$(dada2-rs -v 2>&1 | sed 's/^.*dada2-rs: //; s/ .*\$//')
+        END_VERSIONS
         """
     } else {
         """
-        #!/usr/bin/env Rscript
-        suppressPackageStartupMessages(library(dada2))
-        set.seed($seed) # Initialize random number generator for reproducibility
+        dada2-rs learn-errors *_1.filt.fastq.gz \
+            --output $outJSONR1 \
+            --seed $seed \
+            $args \
+            --errfun $error_function \
+            --threads $task.cpus
 
-        generate_empty <- function(e) {
-            # On error or empty input generate empty output files
-            print(e)
-            saveRDS(c(), "${meta.sample_id}_1.err.rds")
-            saveRDS(c(), "${meta.sample_id}_2.err.rds")
-        }
+        # On error, generate empty json
+        rc=$?
+        if [ "$rc" -ne 0 ]; then
+            touch $outJSONR1
+        fi
 
-        output_func <- function(error, name) {
-            pErr <- plotErrors(error, nominalQ = TRUE)
-            pdf(paste(name, ".err.pdf"))
-            print(pErr)
-            dev.off()
-            svg(paste(name, ".err.svg"))
-            print(pErr)
-            dev.off()
-            write.table(error[["err_out"]], sep="\t", file=paste(name, ".error_rates.tsv"), col.names = NA, quote=FALSE)
-            write.table(error[["trans"]], sep="\t", file=paste(name, ".observed_transitions.tsv"), col.names = NA, quote=FALSE)
-        }
-        
-        run_module <- function(fnFs, fnRs) {
-            # Run the module as intended
-            print("Forward reads ...")
-            errF <- learnErrors(fnFs, 'errorEstimationFunction = $error_function, $args', multithread = $task.cpus, verbose = TRUE)
-            saveRDS(errF, "${meta.sample_id}_1.err.rds")
-            print("Reverse reads ...")
-            errR <- learnErrors(fnRs, 'errorEstimationFunction = $error_function, $args', multithread = $task.cpus, verbose = TRUE)
-            saveRDS(errR, "${meta.sample_id}_2.err.rds")
+        dada2-rs learn-errors *_2.filt.fastq.gz \
+            --output $outJSONR2 \
+            --seed $seed \
+            $args \
+            --errfun $error_function \
+            --threads $task.cpus
 
-            output_func(errF, "${meta.sample_id}_1")
-            output_func(errR, "${meta.sample_id}_2")
-        }
+        # On error, generate empty json
+        rc=$?
+        if [ "$rc" -ne 0 ]; then
+            touch $outJSONR2
+        fi
 
-        sink(file = "${meta.sample_id}.err.log")
-
-        fnFs <- sort(list.files(".", pattern = "_1.filt.fastq.gz", full.names = TRUE))
-        fnRs <- sort(list.files(".", pattern = "_2.filt.fastq.gz", full.names = TRUE))
-        
-        # Check if file is empty
-        n_lines <- as.integer(system(sprintf('gunzip -c %s | wc -l', fnFs), intern= TRUE))
-        # fastq has at least 4 lines, save empty arrray if empty input
-        if (n_lines < 4 ) {
-            generate_empty("WARNING: Detected empty input")
-        } else {
-            tryCatch(
-                expr = run_module(fnFs, fnRs),
-                error = function(e) generate_empty(e)
-            )
-        }
-        sink(file = NULL)
-        write.table('learnErrors\terrorEstimationFunction = $error_function, $args', file = "learnErrors.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
-        writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            dada2-rs: \$(dada2-rs -v 2>&1 | sed 's/^.*dada2-rs: //; s/ .*\$//')
+        END_VERSIONS
         """
     }
 }

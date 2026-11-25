@@ -11,9 +11,9 @@ process DADA2_FILTNTRIM {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path('*.filt.fastq.gz'), emit: filtered_reads
-    tuple val(meta), path('*.filt.fastq.gz'), path('*.filter_stats.tsv'), path('*.args.txt'), emit: reads_logs_args
-    path 'versions.yml'                     , emit: versions
+    tuple val(meta), path('*.filt.fastq.gz')    , emit: filtered_reads
+    tuple val(meta), path('*.filter_stats.json'), emit: json
+    path 'versions.yml'                         , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,14 +21,15 @@ process DADA2_FILTNTRIM {
     script:
     def args        = task.ext.args ?: ''
     def in_and_out  = meta.single_end ? "--fwd \"${reads}\" --filt \"${meta.sample_id}.filt.fastq.gz\"" : "--fwd \"${reads[0]}\" --filt \"${meta.sample_id}_1.filt.fastq.gz\" --rev \"${reads[1]}\" --filt-rev \"${meta.sample_id}_2.filt.fastq.gz\""
-    def outJSON     = "\"${meta.sample_id}.filt.json\""
+    def outJSON     = "\"${meta.sample_id}.filter_stats.json\""
     def outfiles    = meta.single_end ? "\"${meta.sample_id}.filt.fastq.gz\"" : "\"${meta.sample_id}_1.filt.fastq.gz\" \"${meta.sample_id}_2.filt.fastq.gz\""
 
     """
     dada2-rs filter-and-trim $in_and_out \
         --compress --output $outJSON \  
         $args \
-        --threads $task.cpus
+        --threads $task.cpus \
+        --verbose
 
     # If no reads passed the filter, write  empty GZ file(s)
     for file in $outfiles; do
@@ -40,7 +41,6 @@ process DADA2_FILTNTRIM {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         dada2-rs: \$(dada2-rs -v 2>&1 | sed 's/^.*dada2-rs: //; s/ .*\$//')
-        db: ${meta2.id}:${meta2.version}
     END_VERSIONS
     """
 }

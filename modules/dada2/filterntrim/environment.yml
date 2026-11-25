@@ -1,4 +1,4 @@
-name: dada2rs_filterntrim
+name: dada2-rs_filterntrim
 channels:
   - conda-forge
   - bioconda
