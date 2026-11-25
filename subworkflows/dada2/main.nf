@@ -63,8 +63,8 @@ workflow DADA2_WORKFLOW {
     )
     ch_filtered_reads = ch_filtered_reads.mix(DADA2_FILTNTRIM.out.filtered_reads)
     ch_versions = ch_versions.mix(DADA2_FILTNTRIM.out.versions)
-    
-    ch_stat_reports = reads.join(DADA2_FILTNTRIM.out.filtered_reads)
+
+    ch_stat_reports = reads.join(DADA2_FILTNTRIM.out.json)
     
     /*
     DADA2 Error model calculation
@@ -80,7 +80,17 @@ workflow DADA2_WORKFLOW {
     ch_reads_with_errors = ch_filtered_reads.join(DADA2_ERROR.out.errormodel)
 
     /*
-    DADA2 denoise and merge reads
+    DADA2 denoise 
+    */
+    DADA2_DENOISING(
+        ch_reads_with_errors
+    )
+    ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
+
+    ch_stat_reports = ch_stat_reports.join(DADA2_DENOISING.out.denoised)
+
+    /*
+    DADA2 merge reads or concatenate #TODO
     */
     if (params.non_overlapping) {
         DADA2_DENOISING_FOR_JOIN(

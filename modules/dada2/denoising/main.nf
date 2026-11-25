@@ -4,150 +4,77 @@ process DADA2_DENOISING {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bioconductor-dada2:1.38.0--r45ha27e39d_0' :
-        'quay.io/biocontainers/bioconductor-dada2:1.38.0--r45ha27e39d_0' }"
+        'quay.io/biocontainers/dada2-rs:0.5.0--hfa8f182_0' :
+        'quay.io/biocontainers/dada2-rs:0.5.0--hfa8f182_0' }"
 
     input:
     tuple val(meta), path('filtered/*'), path(errormodel)
 
     output:
-    tuple val(meta), path('*.dada.rds')     , emit: denoised
-    tuple val(meta), path('*.seqtab.rds')   , emit: seqtab
-    tuple val(meta), path('*.mergers.rds')  , emit: mergers
-    tuple val(meta), path('*.seqtab.tsv')   , emit: seqtabtxt, optional: true
-    tuple val(meta), path('*.mergers.tsv')  , emit: mergerstxt, optional: true
-    tuple val(meta), path('*.log')          , emit: log, optional: true
+    tuple val(meta), path('*.dada.json')    , emit: denoised
     path 'versions.yml'                     , emit: versions
-    path '*.args.txt'                       , emit: args
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
-    def args2 = task.ext.args2 ?: ''
+    def args        = task.ext.args ?: ''
+    def outJSON     = "\"${meta.sample_id}.dada.json\""
+    def outJSONR1   = "\"${meta.sample_id}_1.dada.json\""
+    def outJSONR1   = "\"${meta.sample_id}_2.dada.json\""
 
     if (meta.single_end) {
         """
-        #!/usr/bin/env Rscript
-        suppressPackageStartupMessages(library(dada2))
+        dada2-rs dada *.filt.fastq.gz --error-model *.error.json \
+            --output $outJSON \
+            --inherit-err-params \
+            $args \
+            --threads $task.cpus \
+            --verbose
 
-        generate_empty <- function(e) {
-            # On error or empty input generate empty output files
-            print(e)
-            saveRDS(c(), "${meta.sample_id}.dada.rds")
-            saveRDS(c(), "${meta.sample_id}.seqtab.rds")
-            saveRDS("dummy", "dummy_${meta.sample_id}.mergers.rds")
-        }
+        # On error, generate empty json
+        rc=$?
+        if [ "$rc" -ne 0 ]; then
+            touch $outJSON
+        fi
 
-        run_module <- function(errF) {
-            # Run the module as intended
-            filtFs <- sort(list.files("./filtered/", pattern = ".fastq*", full.names = TRUE))
-
-            #denoising
-            dadaFs <- dada(filtFs, err = errF, $args, multithread = $task.cpus)
-            saveRDS(dadaFs, "${meta.sample_id}.dada.rds")
-
-            sink(file = NULL)
-
-            #make table
-            seqtab <- makeSequenceTable(dadaFs)
-            saveRDS(seqtab, "${meta.sample_id}.seqtab.rds")
-
-            # --- Print OTus and counts per row as tsv for manual inspection ---
-            # This is what we used before, just printing amplicon sizes:
-            # write.table(seqtab, sep="\t", file="${meta.sample_id}.seqtab.tsv", col.names = FALSE, quote=FALSE)
-
-            sequence_counts <- colSums(seqtab)
-    
-            # Creates the tabular format seq<->count
-            output_table <- data.frame(
-                Sequence = names(sequence_counts),
-                Count = as.numeric(sequence_counts)
-            )
-
-            # Exporting to tsv
-            write.table(output_table, sep="\t", file="${meta.sample_id}.seqtab.tsv", 
-                row.names = FALSE, col.names = FALSE, quote = FALSE)
-            # ---------------------------------------------------------------
-
-
-            #dummy file to fulfill output rules
-            saveRDS("dummy", "dummy_${meta.sample_id}.mergers.rds")
-        }
-       
-        sink(file = "${meta.sample_id}.dada.log")
-
-        errF = readRDS("${errormodel}")
-
-        if (is.null(errF)) {
-            generate_empty("WARNING: Detected empty input")
-        } else {
-            tryCatch(
-                expr = run_module(errF),
-                error = function(e) generate_empty(e)
-            )
-        }
-        sink(file = NULL)
-        write.table('dada\t$args', file = "dada.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
-        writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            dada2-rs: \$(dada2-rs -v 2>&1 | sed 's/^.*dada2-rs: //; s/ .*\$//')
+        END_VERSIONS
         """
     } else {
         """
-        #!/usr/bin/env Rscript
-        suppressPackageStartupMessages(library(dada2))
+        dada2-rs dada *_1.filt.fastq.gz --error-model *_1.error.json \
+            --output $outJSONR1 \
+            --inherit-err-params \
+            $args \
+            --threads $task.cpus \
+            --verbose
 
-        generate_empty <- function(e) {
-            # On error or empty input generate empty output files
-            print(e)
-            saveRDS(c(), "${meta.sample_id}_2.dada.rds")
-            saveRDS(c(), "${meta.sample_id}_1.dada.rds")
-            saveRDS(c(), "${meta.sample_id}.mergers.rds")
-            saveRDS(c(), "${meta.sample_id}.seqtab.rds")
-        }
+        # On error, generate empty json
+        rc=$?
+        if [ "$rc" -ne 0 ]; then
+            touch $outJSONR1
+        fi
 
-        run_module <- function(errF, errR) {
-            # Run the module as intended
-            filtFs <- sort(list.files("./filtered/", pattern = "_1.filt.fastq.gz", full.names = TRUE))
-            filtRs <- sort(list.files("./filtered/", pattern = "_2.filt.fastq.gz", full.names = TRUE))
+        dada2-rs dada *_2.filt.fastq.gz --error-model *_2.error.json \
+            --output $outJSONR2 \
+            --inherit-err-params \
+            $args \
+            --threads $task.cpus \
+            --verbose
 
-            #denoising
-            print("Forward reads...")
-            dadaFs <- dada(filtFs, err = errF, $args, multithread = $task.cpus)
-            saveRDS(dadaFs, "${meta.sample_id}_1.dada.rds")
+        # On error, generate empty json
+        rc=$?
+        if [ "$rc" -ne 0 ]; then
+            touch $outJSONR2
+        fi
 
-            print("Reverse reads...")
-            dadaRs <- dada(filtRs, err = errR, $args, multithread = $task.cpus)
-            saveRDS(dadaRs, "${meta.sample_id}_2.dada.rds")
-
-            sink(file = NULL)
-
-            #make table
-            mergers <- mergePairs(dadaFs, filtFs, dadaRs, filtRs, $args2, verbose=TRUE)
-            write.table(mergers, sep="\t", file="${meta.sample_id}.mergers.tsv", col.names = NA, quote=FALSE)
-            saveRDS(mergers, "${meta.sample_id}.mergers.rds")
-            seqtab <- makeSequenceTable(mergers)
-            write.table(t(seqtab), sep="\t", file="${meta.sample_id}.seqtab.tsv", col.names = FALSE, quote=FALSE)
-            saveRDS(seqtab, "${meta.sample_id}.seqtab.rds")
-        }
-
-        sink(file = "${meta.sample_id}.dada.log")
-
-        errF = readRDS("${errormodel[0]}")
-        errR = readRDS("${errormodel[1]}")
-
-        if (is.null(errF) || is.null(errR)) {
-            generate_empty("WARNING: Detected empty input")
-        } else {
-            tryCatch(
-                expr = run_module(errF, errR),
-                error = function(e) generate_empty(e)
-            )
-        }
-        sink(file = NULL)
-        write.table('dada\t$args', file = "dada.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
-        write.table('mergePairs\t$args2', file = "mergePairs.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
-        writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            dada2-rs: \$(dada2-rs -v 2>&1 | sed 's/^.*dada2-rs: //; s/ .*\$//')
+        END_VERSIONS
         """
     }
 }

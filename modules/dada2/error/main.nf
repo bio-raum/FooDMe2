@@ -58,6 +58,7 @@ process DADA2_ERROR {
         """
     } else {
         """
+        # Read 1
         dada2-rs learn-errors *_1.filt.fastq.gz \
             --output $outJSONR1 \
             --seed $seed \
@@ -71,6 +72,7 @@ process DADA2_ERROR {
             touch $outJSONR1
         fi
 
+        # Read 2
         dada2-rs learn-errors *_2.filt.fastq.gz \
             --output $outJSONR2 \
             --seed $seed \
