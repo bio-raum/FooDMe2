@@ -1,7 +1,7 @@
 include { DADA2_FILTNTRIM }             from './../../modules/dada2/filterntrim'
 include { DADA2_ERROR }                 from './../../modules/dada2/error'
 include { DADA2_DENOISING }             from './../../modules/dada2/denoising'
-include { DADA2_DENOISING_FOR_JOIN }    from './../../modules/dada2/denoising_for_join'
+include { DADA2_MERGE_PAIRS }           from './../../modules/dada2/mergepairs'
 include { DADA2_FILTERSIZE }            from './../../modules/dada2/filtersize'
 include { DADA2_RMCHIMERA }             from './../../modules/dada2/rmchimera'
 include { HELPER_SEQTABLE_TO_FASTA }    from './../../modules/helper/seqtable_to_fasta'
@@ -88,25 +88,17 @@ workflow DADA2_WORKFLOW {
     ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
 
     ch_stat_reports = ch_stat_reports.join(DADA2_DENOISING.out.denoised)
+    ch_reads_with_denoising = ch_filtered_readsjoin(DADA2_DENOISING.out.denoised)
 
     /*
-    DADA2 merge reads or concatenate #TODO
+    DADA2 merge reads or concatenate
     */
-    if (params.non_overlapping) {
-        DADA2_DENOISING_FOR_JOIN(
-            ch_reads_with_errors
-        )
-        ch_versions = ch_versions.mix(DADA2_DENOISING_FOR_JOIN.out.versions)
-        ch_stat_reports = ch_stat_reports.join(DADA2_DENOISING_FOR_JOIN.out.mergers)
-        ch_seqtab = ch_seqtab.mix(DADA2_DENOISING_FOR_JOIN.out.seqtab)
-    } else {
-        DADA2_DENOISING(
-            ch_reads_with_errors
-        )
-        ch_versions = ch_versions.mix(DADA2_DENOISING.out.versions)
-        ch_stat_reports = ch_stat_reports.join(DADA2_DENOISING.out.mergers)
-        ch_seqtab = ch_seqtab.mix(DADA2_DENOISING.out.seqtab)
-    }
+    DADA2_MERGE_PAIRS(
+        ch_reads_with_denoising
+    )
+    ch_versions = ch_versions.mix(DADA2_MERGE_PAIRS.out.versions)
+    ch_stat_reports = ch_stat_reports.join(DADA2_MERGE_PAIRS.out.mergers)
+
     /*
     Filter by merged read size
     */
