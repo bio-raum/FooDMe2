@@ -40,8 +40,7 @@ process DADA2_ERROR {
         """
         dada2-rs learn-errors *.filt.fastq.gz \
             --output $outJSON \
-            --seed $seed \
-            $args \
+            --seed $seed $args \
             --errfun $error_function \
             --threads $task.cpus
 
@@ -61,8 +60,7 @@ process DADA2_ERROR {
         # Read 1
         dada2-rs learn-errors *_1.filt.fastq.gz \
             --output $outJSONR1 \
-            --seed $seed \
-            $args \
+            --seed $seed $args \
             --errfun $error_function \
             --threads $task.cpus
 
@@ -75,8 +73,7 @@ process DADA2_ERROR {
         # Read 2
         dada2-rs learn-errors *_2.filt.fastq.gz \
             --output $outJSONR2 \
-            --seed $seed \
-            $args \
+            --seed $seed $args \
             --errfun $error_function \
             --threads $task.cpus
 

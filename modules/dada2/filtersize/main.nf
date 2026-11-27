@@ -4,36 +4,36 @@ process DADA2_FILTERSIZE {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bioconductor-dada2:1.38.0--r45ha27e39d_0' :
-        'quay.io/biocontainers/bioconductor-dada2:1.38.0--r45ha27e39d_0' }"
+        'quay.io/biocontainers/dada2-rs:0.5.0--hfa8f182_0' :
+        'quay.io/biocontainers/dada2-rs:0.5.0--hfa8f182_0' }"
 
     input:
     tuple val(meta), path(seqtab)
 
     output:
-    tuple val(meta), path('*.ASVtable.filt.rds') , emit: filtered
-    tuple val(meta), path('*.ASVtable.filt.tsv') , emit: filteredtxt, optional: true
+    tuple val(meta), path('*.ASVtable.json')     , emit: seqtable
     path 'versions.yml'                          , emit: versions
-    path '*.args.txt'                            , emit: args
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def minLen = params.amplicon_min_length
-    def maxLen = params.amplicon_max_length
+    def args    = task.ext.args ?: ''
+    def outJSON = "\"${meta.sample_id}.ASVtable.json\""
     """
-    #!/usr/bin/env Rscript
-    suppressPackageStartupMessages(library(dada2))
+    dada2-rs make-sequence-table *.merged.json $args \
+        --order-by "abundance" \
+        --output $outJSON
+    
+    # On error, generate empty json
+    rc=$?
+    if [ "$rc" -ne 0 ]; then
+        touch $outJSON
+    fi
 
-    seqtab = readRDS("${seqtab}")
-
-    # filter
-    seqtab.filt <- seqtab[,nchar(colnames(seqtab)) %in% seq($minLen,$maxLen)]
-    write.table(seqtab.filt, sep="\t", file="${meta.sample_id}.ASVtable.filt.tsv", col.names = FALSE, quote=FALSE)
-    saveRDS(seqtab.filt,"${meta.sample_id}.ASVtable.filt.rds")
-
-    write.table('removeBimeraDenovo\t$args', file = "removeBimeraDenovo.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
-    writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        dada2-rs: \$(dada2-rs -v 2>&1 | sed 's/^.*dada2-rs: //; s/ .*\$//')
+    END_VERSIONS
     """
 }

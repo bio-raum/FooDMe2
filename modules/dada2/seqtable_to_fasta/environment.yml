@@ -1,0 +1,7 @@
+name: dada2-rs_seqtable_to_fasta
+channels:
+  - conda-forge
+  - bioconda
+  
+dependencies:
+  - bioconda::dada2-rs=0.5.0

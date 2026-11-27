@@ -1,7 +1,0 @@
-name: helper_seqtable_to_fasta
-channels:
-  - conda-forge
-  - bioconda
-  
-dependencies:
-  - bioconda::bioconductor-dada2=1.30.0

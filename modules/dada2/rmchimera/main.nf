@@ -4,38 +4,45 @@ process DADA2_RMCHIMERA {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bioconductor-dada2:1.38.0--r45ha27e39d_0' :
-        'quay.io/biocontainers/bioconductor-dada2:1.38.0--r45ha27e39d_0' }"
+        'quay.io/biocontainers/dada2-rs:0.5.0--hfa8f182_0' :
+        'quay.io/biocontainers/dada2-rs:0.5.0--hfa8f182_0' }"
 
     input:
     tuple val(meta), path(seqtab)
 
     output:
-    tuple val(meta), path('*.ASVtable.rds') , emit: rds
-    tuple val(meta), path('*.ASVtable.tsv') , emit: asvtsv, optional: true
-    path 'versions.yml'                     , emit: versions
-    path '*.args.txt'                       , emit: args
+    tuple val(meta), path('*.ASVtable.nochim.json') , emit: asvs
+    path 'versions.yml'                             , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: 'method="consensus", minSampleFraction = 0.9, ignoreNNegatives = 1, minFoldParentOverAbundance = 2, minParentAbundance = 8, allowOneOff = FALSE, minOneOffParentDistance = 4, maxShift = 16'
-    """
-    #!/usr/bin/env Rscript
-    suppressPackageStartupMessages(library(dada2))
+    def args = task.ext.args ?: : ''
+    def outJSON = "\"${meta.sample_id}.ASVtable.nochim.json\""
 
-    seqtab = readRDS("${seqtab}")
+    if (params.remove_chimera) {
+        """
+        dada2-rs remove-bimera-denovo *.ASVtable.json $args \
+            --output $outJSON
+            --threads $task.cpus \
+            --verbose
+        
+        # On error, generate empty json
+        rc=$?
+        if [ "$rc" -ne 0 ]; then
+            touch $outJSON
+        fi
 
-    if (is.null(seqtab) || length(seqtab) == 0) {
-        saveRDS(c(),"${meta.sample_id}.ASVtable.rds")
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            dada2-rs: \$(dada2-rs -v 2>&1 | sed 's/^.*dada2-rs: //; s/ .*\$//')
+        END_VERSIONS
+        """
     } else {
-        #remove chimera
-        seqtab.nochim <- removeBimeraDenovo(seqtab, $args, multithread=$task.cpus, verbose=TRUE)
-        write.table(seqtab.nochim, sep="\t", file="${meta.sample_id}.ASVtable.tsv", col.names = FALSE, quote=FALSE)
-        saveRDS(seqtab.nochim,"${meta.sample_id}.ASVtable.rds")
+        """
+        # skipping filtering, just copy file
+        cp *.ASVtable.json $outJSON
+        """
     }
-    write.table('removeBimeraDenovo\t$args', file = "removeBimeraDenovo.args.txt", row.names = FALSE, col.names = FALSE, quote = FALSE, na = '')
-    writeLines(c("\\"${task.process}\\":", paste0("    R: ", paste0(R.Version()[c("major","minor")], collapse = ".")),paste0("    dada2: ", packageVersion("dada2")) ), "versions.yml")
-    """
 }

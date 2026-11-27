@@ -26,8 +26,7 @@ process DADA2_FILTNTRIM {
 
     """
     dada2-rs filter-and-trim $in_and_out \
-        --compress --output $outJSON \  
-        $args \
+        --compress --output $outJSON $args \
         --threads $task.cpus \
         --verbose
 

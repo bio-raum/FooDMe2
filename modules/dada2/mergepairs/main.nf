@@ -28,13 +28,12 @@ process DADA2_MERGE_PAIRS {
         """
     } else {
         """
-        dada2-rs merge-pairs \
+        dada2-rs merge-pairs $args \
             --fwd-dada *_1.dada.json \
             --rev-dada *_2.dada.json \
             --fwd-fastq *_1.filt.fastq.gz \
             --rev-fastq *_2.filt.fastq.gz \
-            --output $outJSON \
-            $args \
+            --output $outJSON $args\
             --threads $task.cpus \
             --verbose
 

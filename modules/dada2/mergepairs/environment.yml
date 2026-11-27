@@ -1,4 +1,4 @@
-name: dada2_denoising_for_join
+name: dada2-rs_mergepairs
 channels:
   - conda-forge
   - bioconda

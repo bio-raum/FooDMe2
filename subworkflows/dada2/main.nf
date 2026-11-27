@@ -4,7 +4,7 @@ include { DADA2_DENOISING }             from './../../modules/dada2/denoising'
 include { DADA2_MERGE_PAIRS }           from './../../modules/dada2/mergepairs'
 include { DADA2_FILTERSIZE }            from './../../modules/dada2/filtersize'
 include { DADA2_RMCHIMERA }             from './../../modules/dada2/rmchimera'
-include { HELPER_SEQTABLE_TO_FASTA }    from './../../modules/helper/seqtable_to_fasta'
+include { DADA2_SEQTABLE_TO_FASTA }     from './../../modules/dada2/seqtable_to_fasta'
 include { HELPER_DADA_STATS }           from './../../modules/helper/dada_stats'
 include { HELPER_CHECK_BINNING }        from './../../modules/helper/check_binning'
 workflow DADA2_WORKFLOW {
@@ -100,30 +100,26 @@ workflow DADA2_WORKFLOW {
     ch_stat_reports = ch_stat_reports.join(DADA2_MERGE_PAIRS.out.mergers)
 
     /*
-    Filter by merged read size
+    Make seqtable and filter by merged read size
     */
     DADA2_FILTERSIZE(
-        ch_seqtab
+        DADA2_MERGE_PAIRS.out.mergers
     )
     ch_versions = ch_versions.mix(DADA2_FILTERSIZE.out.versions)
-    ch_stat_reports = ch_stat_reports.join(DADA2_FILTERSIZE.out.filtered)
+    ch_stat_reports = ch_stat_reports.join(DADA2_FILTERSIZE.out.seqtable)
 
-    // Remove chimera
-    if (params.remove_chimera) {
-        DADA2_RMCHIMERA(
-            DADA2_FILTERSIZE.out.filtered
-        )
-        ch_versions = ch_versions.mix(DADA2_RMCHIMERA.out.versions)
-        ch_asvs = ch_asvs.mix(DADA2_RMCHIMERA.out.rds)
-    } else {
-        ch_asvs = ch_asvs.mix(DADA2_FILTERSIZE.out.filtered)
-    }
+    DADA2_RMCHIMERA(
+        DADA2_FILTERSIZE.out.seqtable
+    )
+    ch_versions = ch_versions.mix(DADA2_RMCHIMERA.out.versions)
+    ch_asvs = ch_asvs.mix(DADA2_RMCHIMERA.out.asvs)
+    ch_stat_reports = ch_stat_reports.join(ch_asvs)
+
     // Convert Dada2 Seq table to FASTA file
-    HELPER_SEQTABLE_TO_FASTA(
+    DADA2_SEQTABLE_TO_FASTA(
         ch_asvs
     )
     ch_versions = ch_versions.mix(HELPER_SEQTABLE_TO_FASTA.out.versions)
-    ch_stat_reports = ch_stat_reports.join(ch_asvs)
 
     // Denoising stats
     HELPER_DADA_STATS(

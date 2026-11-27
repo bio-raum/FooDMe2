@@ -27,8 +27,7 @@ process DADA2_DENOISING {
         """
         dada2-rs dada *.filt.fastq.gz --error-model *.error.json \
             --output $outJSON \
-            --inherit-err-params \
-            $args \
+            --inherit-err-params $args \
             --threads $task.cpus \
             --verbose
 
@@ -47,8 +46,7 @@ process DADA2_DENOISING {
         """
         dada2-rs dada *_1.filt.fastq.gz --error-model *_1.error.json \
             --output $outJSONR1 \
-            --inherit-err-params \
-            $args \
+            --inherit-err-params $args \
             --threads $task.cpus \
             --verbose
 
@@ -60,8 +58,7 @@ process DADA2_DENOISING {
 
         dada2-rs dada *_2.filt.fastq.gz --error-model *_2.error.json \
             --output $outJSONR2 \
-            --inherit-err-params \
-            $args \
+            --inherit-err-params $args\
             --threads $task.cpus \
             --verbose
 
